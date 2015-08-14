@@ -27,7 +27,6 @@ var {
 } = React;
 
 var	currentCallId,
-	uaDisplayName,
 	uaInstance,
 	number = '',
 	settings_p2p = false,
@@ -54,7 +53,7 @@ RCTDeviceEventEmitter.addListener(
   'CallFailed',
   (callId, code, reason) => {
     console.log('Call failed. Code '+code+' Reason '+reason);
-    uaInstance.setModalText('Call failed', 'idle');
+    uaInstance.setModalText('Call failed');
     uaInstance.openModal();
   }
 );
@@ -90,7 +89,6 @@ var UserAgent = React.createClass({
 
   componentDidMount: function() {
     uaInstance = this;
-    uaDisplayName = this.props.uaDisplayName;
     this._thisNumber.focus();
   },
 
@@ -301,7 +299,7 @@ var UserAgent = React.createClass({
 
     return <View style={styles.useragent}>   
         <View style={{backgroundColor:'#007AFF', height:64, justifyContent: 'flex-end'}}>
-          <Text style={{color: '#FFFFFF', alignSelf: 'center', marginBottom: 10}}>Logged in as {uaDisplayName}</Text>   
+          <Text style={{color: '#FFFFFF', alignSelf: 'center', marginBottom: 10}}>Logged in as {this.props.uaDisplayName}</Text>   
         </View>  
         {videoPanel}
         {callingText}      

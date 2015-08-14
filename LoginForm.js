@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var Button = require('react-native-button');
 var Modal = require('react-native-modal');
+var Button = require('react-native-button');
 var KeyboardEvents = require('react-native-keyboardevents');
 var KeyboardEventEmitter = KeyboardEvents.Emitter;
 
@@ -118,10 +118,6 @@ var LoginForm = React.createClass({
     this._thisPassword.setNativeProps({text: text});
   },
 
-  inputFocus: function(e) {
-
-  },
-
   setModalText: function(text) {
     this.setState(React.addons.update(
         this.state, 
@@ -152,14 +148,14 @@ var LoginForm = React.createClass({
               placeholder="User password" value={passwordValue}
               secureTextEntry="true" ref={component => this._thisPassword = component} />
             <Button style={styles.loginbutton} onPress={this.buttonClicked}>Login</Button>
-          </View>  
-          <Modal backdropType="blur" 
+          </View>            
+        </View>
+        <Modal backdropType="blur" 
                   isVisible={this.state.isModalOpen} 
                   onClose={() => this.closeModal()} 
                   onPressBackdrop={() => this.closeModal()}>
             <Text>{this.state.modalText}</Text>
-          </Modal>
-        </View>
+        </Modal>
       </View>
     );
   }

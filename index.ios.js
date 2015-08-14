@@ -5,6 +5,7 @@
 'use strict';
 
 var React = require('react-native');
+var Modal = require('react-native-modal');
 var KeyboardEvents = require('react-native-keyboardevents');
 var KeyboardEventEmitter = KeyboardEvents.Emitter;
 var TimerMixin = require('react-timer-mixin');
@@ -26,6 +27,7 @@ var {
 } = React;
 
 var _this,  
+    formInstance,
     uaDisplayName;
 
 RCTDeviceEventEmitter.addListener(
@@ -38,9 +40,9 @@ RCTDeviceEventEmitter.addListener(
 
 RCTDeviceEventEmitter.addListener(
   'LoginSuccessful',
-  (displayName) => {
-    uaDisplayName = displayName;
-    console.log('Login successful');
+  (obj) => {
+    uaDisplayName = obj.displayName;
+    console.log('Login successful '+uaDisplayName);
     _this.setState({
       page: 'useragent'
     });
@@ -52,13 +54,14 @@ RCTDeviceEventEmitter.addListener(
   (code) => {
     console.log('Login failed');
     formInstance.setModalText('Login failed');
-    formInstance.openModal();
+    formInstance.showModal();
   }
 );
 
 
 var VoximplantDemo = React.createClass({
-  mixins: [TimerMixin],
+
+  mixins: [TimerMixin, Modal.Mixin],
 
   getInitialState: function() {
     VoxImplant.SDK.closeConnection();
@@ -87,7 +90,8 @@ var VoximplantDemo = React.createClass({
 
   render: function() {
     var ui = <Loader />;
-    if (this.state.page == "login") ui = <LoginForm login={this._login}/>;
+    console.log('uaDisplayName: '+uaDisplayName);
+    if (this.state.page == "login") ui = <LoginForm login={this._login} ref={(component) => formInstance = component}/>;
     else if (this.state.page == "useragent") ui = <UserAgent uaDisplayName={uaDisplayName} />;
     return (ui);
   }
