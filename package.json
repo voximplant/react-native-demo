@@ -1,0 +1,30 @@
+{
+  "name": "react-native-voximplantdemo",
+  "version": "0.0.1",
+  "description": "Demo React Native app that uses react-native-voximplant and Voximplant for audio/video calls",
+  "scripts": {
+    "start": "node_modules/react-native/packager/packager.sh"
+  },
+  "dependencies": {
+    "react-native": "^0.8.0",
+    "react-native-voximplant": "^0.0.2",
+    "react-native-button": "^1.2.0",
+	"react-native-keyboardevents": "^0.4.5",
+	"react-native-modal": "^0.3.8",
+	"react-native-vector-icons": "^0.6.8",
+	"react-timer-mixin": "^0.13.2"
+  },
+  "keywords": [
+    "react-native",
+    "voximplant",
+    "demo",
+    "application",
+    "react-native-voximplant"
+  ],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/voximplant/react-native-demo.git"
+  },
+  "author": "Zingaya Inc. <info@voximplant.com> (http://voximplant.com)",
+  "license": "MIT"
+}
