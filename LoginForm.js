@@ -45,10 +45,10 @@ var animations = {
 };
 
 var formInstance,
-    usernameValue ='alexey',
-    appnameValue = 'myapp',
-    accnameValue = 'aylarov',
-    passwordValue = 'testpass';
+    usernameValue ='',
+    appnameValue = '',
+    accnameValue = '',
+    passwordValue = '';
 
 var LoginForm = React.createClass({
 
