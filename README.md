@@ -11,13 +11,13 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
 2. Create new application using `react-native init VoximplantDemo`
 3. Execute:
 
-```sh
-cd VoximplantDemo
-git clone https://github.com/voximplant/react-native-demo.git temp
-mv temp/.git .
-rm -rf temp
-git reset --hard HEAD
-```
+	```sh
+	cd VoximplantDemo
+	git clone https://github.com/voximplant/react-native-demo.git temp
+	mv temp/.git .
+	rm -rf temp
+	git reset --hard HEAD
+	```
 
 4. Run `npm install` , all required components will be installed automatically
 5. Read the instructions for installed react native modules (they will be placed into node_modules folder) , some of them will require additional steps. `react-native-voximplant` example:
