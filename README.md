@@ -3,7 +3,7 @@
 User agent demo application that uses `react-native-voximplant` and [VoxImplant cloud platform](http://voximplant.com) for making/receiving audio/video calls.
 
 ## In Action
-[![VoxImplant SDK demo](http://static.voximplant.com/react-native-demo.gif)](http://www.youtube.com/watch?v=gC2iDVl4RRM)
+[![VoxImplant SDK demo](https://habrastorage.org/files/185/1b5/dd6/1851b5dd689e4a688c2f6e68fcf38d81.gif)](http://www.youtube.com/watch?v=gC2iDVl4RRM)
 
 ## Getting started
 
