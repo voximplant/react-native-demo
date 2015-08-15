@@ -3,14 +3,15 @@
 User agent demo application that uses `react-native-voximplant` and [VoxImplant cloud platform](http://voximplant.com) for making/receiving audio/video calls.
 
 ## In Action
-[![VoxImplant SDK demo](http://static.voximplant.com/react-native-voximplant.gif)](http://www.youtube.com/watch?v=k4FJS1Dg5Mw)
+[![VoxImplant SDK demo](http://static.voximplant.com/react-native-demo.gif)](http://www.youtube.com/watch?v=gC2iDVl4RRM)
 
 ## Getting started
 
 1. Install React Native as described at [https://facebook.github.io/react-native/docs/getting-started.html#content](https://facebook.github.io/react-native/docs/getting-started.html#content)
 2. Create new application using `react-native init MyApplication`
-3. Run `npm install react-native-voximplantdemo` , all required components will be installed automatically
-4. Read the instructions for installed react native modules , some of them will require additional steps. `react-native-voximplant` example:
+3. Make `git clone https://github.com/voximplant/react-native-demo.git`
+3. Run `npm install` , all required components will be installed automatically
+4. Read the instructions for installed react native modules (they will be placed into node_modules folder) , some of them will require additional steps. `react-native-voximplant` example:
 
     1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
     2. Go to `node_modules` ➜ `react-native-voximplant` and add `VoxImplant.xcodeproj`
