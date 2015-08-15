@@ -9,14 +9,16 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
 
 1. Install React Native as described at [https://facebook.github.io/react-native/docs/getting-started.html#content](https://facebook.github.io/react-native/docs/getting-started.html#content)
 2. Create new application using `react-native init VoximplantDemo`
-3. Execute 
-	```sh
-	cd VoximplantDemo
-	git clone https://github.com/voximplant/react-native-demo.git temp
-	mv temp/.git .
-	rm -rf temp
-	git reset --hard HEAD
-	```
+3. Execute:
+
+```sh
+cd VoximplantDemo
+git clone https://github.com/voximplant/react-native-demo.git temp
+mv temp/.git .
+rm -rf temp
+git reset --hard HEAD
+```
+
 4. Run `npm install` , all required components will be installed automatically
 5. Read the instructions for installed react native modules (they will be placed into node_modules folder) , some of them will require additional steps. `react-native-voximplant` example:
 
