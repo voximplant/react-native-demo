@@ -132,7 +132,6 @@ var LoginForm = React.createClass({
     return (
       <View style={[styles.container, {marginBottom: this.state.keyboardSpace}]}>        
         <View style={styles.formcontainer}>
-          <Image style={styles.appheader} source={require('image!AppHeader')}></Image>
           <View style={styles.loginform}>
             <TextInput style={styles.forminput} onChangeText={this.updateAccText}
               placeholder="Account name" value={accnameValue}
