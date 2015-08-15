@@ -28,5 +28,6 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
     4. Click `VoxImplant.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains both `$(SRCROOT)/../react-native/React` and `$(SRCROOT)/../../React` - mark both as `recursive`.
 
 6. Right click on you project in XCode and select **Add files to "_NameOfYourProject_"** and add `Custom.ttf` from the project folder
-7. Edit `Info.plist` and add a property called **Fonts provided by application** (if you haven't added one already) and type in the file you just added.
+7. Edit `Info.plist` and add a property called **Fonts provided by application** (if you haven't added one already) and type in the file you just added:
+[![FontEmbedding](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)
 8. Run your project (`Cmd+R`)
