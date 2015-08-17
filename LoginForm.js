@@ -177,7 +177,7 @@ var styles = StyleSheet.create({
 	},
 	forminput: {
     flex:1 ,
-		borderRadius: 2,
+		borderRadius: 4,
 		padding: 5,
 		marginBottom: 10,
 		height: 40, 
@@ -188,7 +188,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#23a9e2',
     color: '#FFFFFF',
     paddingVertical: 10,
-    borderRadius: 2
+    borderRadius: 4
   }
 });
 

@@ -273,7 +273,7 @@ var UserAgent = React.createClass({
 
     } else if (this.state.status == 'connected_keypad') {
 
-      callingText = <Text style={styles.callingLabel}>Connected</Text>;      
+      //callingText = <Text style={styles.callingLabel}>Connected</Text>;      
 
       button = <View style={{flexDirection: 'row', alignSelf: 'center', alignItems: 'center'}}>                
                 <Button onPress={this.cancelCall}>
