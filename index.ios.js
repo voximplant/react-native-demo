@@ -54,7 +54,7 @@ RCTDeviceEventEmitter.addListener(
   (code) => {
     console.log('Login failed');
     formInstance.setModalText('Login failed');
-    formInstance.showModal();
+    formInstance.openModal();
   }
 );
 

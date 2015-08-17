@@ -44,8 +44,7 @@ var animations = {
   }
 };
 
-var formInstance,
-    usernameValue ='',
+var usernameValue ='',
     appnameValue = '',
     accnameValue = '',
     passwordValue = '';
@@ -63,7 +62,6 @@ var LoginForm = React.createClass({
   },
 
   componentDidMount: function() {
-    formInstance = this;
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardDidShowEvent, this.updateKeyboardSpace);
     KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
     this._thisAccname.focus();
