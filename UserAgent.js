@@ -53,7 +53,7 @@ RCTDeviceEventEmitter.addListener(
   'CallFailed',
   (callId, code, reason) => {
     console.log('Call failed. Code '+code+' Reason '+reason);
-    uaInstance.setModalText('Call failed');
+    uaInstance.setModalText('Call failed', 'idle');
     uaInstance.openModal();
   }
 );
@@ -320,7 +320,7 @@ var UserAgent = React.createClass({
 
 var styles = StyleSheet.create({
   forminput: {
-    borderRadius: 2,
+    borderRadius: 4,
     padding: 5,
     marginBottom: 10,
     height: 40, 
