@@ -132,17 +132,17 @@ var LoginForm = React.createClass({
         <View style={styles.formcontainer}>
           <View style={styles.loginform}>
             <TextInput style={styles.forminput} onChangeText={this.updateAccText}
-              placeholder="Account name" value={accnameValue}
+              placeholder="Account name" initialValue={accnameValue}
               autoFocus={false} ref={component => this._thisAccname = component}
               onFocus={this.inputFocus} />
             <TextInput style={styles.forminput} onChangeText={this.updateAppText}
-              placeholder="Application name" value={appnameValue} 
+              placeholder="Application name" initialValue={appnameValue} 
               ref={component => this._thisAppname = component} />
             <TextInput style={styles.forminput} onChangeText={this.updateUserText}
-              placeholder="User name" value={usernameValue} 
+              placeholder="User name" initialValue={usernameValue} 
               ref={component => this._thisUsername = component}/>
             <TextInput style={styles.forminput} onChangeText={this.updatePasswordText}
-              placeholder="User password" value={passwordValue}
+              placeholder="User password" initialValue={passwordValue}
               secureTextEntry="true" ref={component => this._thisPassword = component} />
             <Button style={styles.loginbutton} onPress={this.buttonClicked}>Login</Button>
           </View>            

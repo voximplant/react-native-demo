@@ -229,7 +229,7 @@ var UserAgent = React.createClass({
     if (this.state.status == 'idle') {
 
         numberInput = <TextInput style={[styles.forminput, styles.numberinput]} onChangeText={this.updateNumber}
-            placeholder="Number to call" value={number} onSubmitEditing={this.onSubmit}
+            placeholder="Number to call" initialValue={number} onSubmitEditing={this.onSubmit}
             ref={component => this._thisNumber = component} />;
 
         settingsTable = <View style={{flex: 1, justifyContent: 'flex-end'}}>
