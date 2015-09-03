@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var Modal = require('react-native-modal');
 var Button = require('react-native-button');
 var KeyboardEvents = require('react-native-keyboardevents');
 var KeyboardEventEmitter = KeyboardEvents.Emitter;
@@ -13,7 +12,9 @@ var {
   TextInput,
   TouchableOpacity,
   LayoutAnimation,
-  Image
+  Image,
+  Modal,
+  TouchableHighlight
 } = React;
 
 var animations = {
@@ -57,7 +58,8 @@ var LoginForm = React.createClass({
     return {
       keyboardSpace: 0,
       isKeyboardOpened: false,
-      modalText: ''     
+      modalText: '',
+      isModalOpen: false
     };
   },
 
@@ -98,22 +100,22 @@ var LoginForm = React.createClass({
 
   updateAccText: function(text) {
     accnameValue = text;
-    this._thisAccname.setNativeProps({text: text});
+    //this._thisAccname.setNativeProps({text: text});
   },
 
   updateAppText: function(text) {
     appnameValue = text;
-    this._thisAppname.setNativeProps({text: text});
+    //this._thisAppname.setNativeProps({text: text});
   },
 
   updateUserText: function(text) {
     usernameValue = text;
-    this._thisUsername.setNativeProps({text: text});
+    //this._thisUsername.setNativeProps({text: text});
   },
 
   updatePasswordText: function(text) {
     passwordValue = text;
-    this._thisPassword.setNativeProps({text: text});
+    //this._thisPassword.setNativeProps({text: text});
   },
 
   setModalText: function(text) {
@@ -121,9 +123,24 @@ var LoginForm = React.createClass({
         this.state, 
         { 
           $merge: {
-            modalText: text          
+            modalText: text,
+            isModalOpen: true          
           }
         }));
+  },
+
+  closeModal: function() {
+    this.setState(React.addons.update(
+        this.state, 
+        { 
+          $merge: {
+            isModalOpen: false          
+          }
+        }));
+  },
+
+  componentDidUpdate: function() {
+    console.log(this.state);
   },
 
   render: function() {
@@ -147,11 +164,14 @@ var LoginForm = React.createClass({
             <Button style={styles.loginbutton} onPress={this.buttonClicked}>Login</Button>
           </View>            
         </View>
-        <Modal backdropType="blur" 
-                  isVisible={this.state.isModalOpen} 
-                  onClose={() => this.closeModal()} 
-                  onPressBackdrop={() => this.closeModal()}>
-            <Text>{this.state.modalText}</Text>
+        <Modal animated={true} transparent={true} visible={this.state.isModalOpen}>
+            <TouchableHighlight onPress={this.closeModal} style={styles.container}>
+              <View style={[styles.container, styles.modalBackground]}>
+                <View style={[styles.innerContainer, styles.innerContainerTransparent]}>
+                  <Text>{this.state.modalText}</Text>
+                </View>
+              </View>
+            </TouchableHighlight>
         </Modal>
       </View>
     );
@@ -164,6 +184,17 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch'    
   },  
+  modalBackground: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 20
+  },
+  innerContainer: {
+    borderRadius: 10,
+  },
+  innerContainerTransparent: {
+    backgroundColor: '#fff', 
+    padding: 20
+  },
   formcontainer: {
   },
 	appheader: {

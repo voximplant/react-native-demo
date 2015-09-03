@@ -5,7 +5,6 @@
 'use strict';
 
 var React = require('react-native');
-var Modal = require('react-native-modal');
 var KeyboardEvents = require('react-native-keyboardevents');
 var KeyboardEventEmitter = KeyboardEvents.Emitter;
 var TimerMixin = require('react-timer-mixin');
@@ -23,7 +22,8 @@ var {
   View,
   TextInput,
   TouchableOpacity,
-  LayoutAnimation
+  LayoutAnimation,
+  Modal
 } = React;
 
 var _this,  
@@ -54,7 +54,6 @@ RCTDeviceEventEmitter.addListener(
   (code) => {
     console.log('Login failed');
     formInstance.setModalText('Login failed');
-    formInstance.openModal();
   }
 );
 

@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var Modal = require('react-native-modal');
 var ColorSwitch = require('./ColorSwitch');
 var Button = require('react-native-button');
 var { createIconSet } = require('react-native-vector-icons');
@@ -23,7 +22,9 @@ var {
   Text,
   View,
   StyleSheet,
-  TextInput
+  TextInput,
+  Modal,
+  TouchableHighlight
 } = React;
 
 var	currentCallId,
@@ -54,7 +55,6 @@ RCTDeviceEventEmitter.addListener(
   (callId, code, reason) => {
     console.log('Call failed. Code '+code+' Reason '+reason);
     uaInstance.setModalText('Call failed', 'idle');
-    uaInstance.openModal();
   }
 );
 
@@ -72,7 +72,6 @@ RCTDeviceEventEmitter.addListener(
     console.log('Inbound call');
     currentCallId = incomingCall.callId;
     uaInstance.setModalText('Inbound call from '+incomingCall.from, 'inboundcall');
-    uaInstance.openModal();
   }
 );
 
@@ -83,6 +82,7 @@ var UserAgent = React.createClass({
   getInitialState: function() {
     return {
       modalText: '',
+      isModalOpen: false,
       status: 'idle'
     };
   },
@@ -123,12 +123,12 @@ var UserAgent = React.createClass({
 
   answerCall: function() {
     VoxImplant.SDK.answerCall(currentCallId);
-    this.closeModal();
+    this.closeModal(true);
   },
 
   rejectCall: function() {
     VoxImplant.SDK.declineCall(currentCallId);
-    this.closeModal();
+    this.closeModal(true);
   },
 
   callConnected: function(callId) {
@@ -157,7 +157,8 @@ var UserAgent = React.createClass({
         { 
           $merge: {
             modalText: text,
-            status: typeof(status)!='undefined'?status:this.state.status
+            status: typeof(status)!='undefined'?status:this.state.status,
+            isModalOpen: true   
           }
         }));
   },
@@ -208,6 +209,19 @@ var UserAgent = React.createClass({
     setTimeout(() => {
       this.forceUpdate();
     }, 200);
+  },
+
+  closeModal: function(force) {
+    if (this.state.status != 'inboundcall' || force === true) {
+      this.setState(React.addons.update(
+        this.state, 
+        { 
+          $merge: {
+            isModalOpen: false,
+            status: force===true?this.state.status:'idle'      
+          }
+        }));
+    }
   },
 
   render: function() {
@@ -307,18 +321,37 @@ var UserAgent = React.createClass({
         {keypad}
         {button}        
         {settingsTable}
-         <Modal backdropType="blur" 
-                isVisible={this.state.isModalOpen} 
-                onClose={() => this.closeModal()} 
-                onPressBackdrop={this.onPressBackdrop}>
-          <Text>{this.state.modalText}</Text>
-          {modalButtons}
+         <Modal animated={true} transparent={true} visible={this.state.isModalOpen}>
+          <TouchableHighlight onPress={this.closeModal} style={styles.container}>
+            <View style={[styles.container, styles.modalBackground]}>
+              <View style={[styles.innerContainer, styles.innerContainerTransparent]}>
+                <Text>{this.state.modalText}</Text>
+                {modalButtons}
+              </View>
+            </View>
+          </TouchableHighlight>
         </Modal>
       </View>;
   }
 });
 
 var styles = StyleSheet.create({
+  container: {
+    flex: 1,    
+    justifyContent: 'center',
+    alignItems: 'stretch'    
+  }, 
+  modalBackground: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 20
+  },
+  innerContainer: {
+    borderRadius: 10,
+  },
+  innerContainerTransparent: {
+    backgroundColor: '#fff', 
+    padding: 20
+  },
   forminput: {
     borderRadius: 4,
     padding: 5,
