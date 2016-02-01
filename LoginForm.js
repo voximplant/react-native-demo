@@ -44,10 +44,10 @@ var animations = {
   }
 };
 
-var usernameValue ='alexey',
-    appnameValue = 'myapp',
-    accnameValue = 'aylarov',
-    passwordValue = 'testpass';
+var usernameValue ='',
+    appnameValue = '',
+    accnameValue = '',
+    passwordValue = '';
 
 class LoginForm extends React.Component {
 
