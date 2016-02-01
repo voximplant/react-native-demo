@@ -1,6 +1,6 @@
 /**
- * Voximplant Demo Application
- * https://github.com/voximplant/react-native-demo
+ * Sample React Native App
+ * https://github.com/facebook/react-native
  */
 'use strict';
 
@@ -9,18 +9,15 @@ import React, {
   StyleSheet,
   Text,
   View,
-  TextInput,
-  TouchableOpacity,
-  LayoutAnimation,
-  Modal,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  ToastAndroid
 } from 'react-native';
-import VoxImplant from "react-native-voximplant";
+import VoxImplant from 'react-native-voximplant';
 import Loader from './Loader';
 import LoginForm from './LoginForm';
 import UserAgent from './UserAgent';
 
-var _this,  
+var _this,
     formInstance,
     uaDisplayName;
 
@@ -47,10 +44,9 @@ DeviceEventEmitter.addListener(
   'LoginFailed',
   (code) => {
     console.log('Login failed');
-    formInstance.setModalText('Login failed');
+    ToastAndroid.show('Login failed', ToastAndroid.SHORT);
   }
 );
-
 
 class VoximplantDemo extends React.Component {
 
@@ -59,18 +55,12 @@ class VoximplantDemo extends React.Component {
     VoxImplant.SDK.closeConnection();
     this.state = {
       page: 'connection'
-    }
+    };
   }
 
   componentDidMount() {
     _this = this;
-    VoxImplant.SDK.connect();    
-  }
-
-  componentDidUpdate() {
-    if (this.state.page == "useragent") {
-      VoxImplant.SDK.setCameraResolution(320,240);
-    }
+    VoxImplant.SDK.connect();
   }
 
   _login(accnameValue, appnameValue, usernameValue, passwordValue) {
@@ -81,16 +71,30 @@ class VoximplantDemo extends React.Component {
   }
 
   render() {
-    var ui = <Loader />;
+    let ui = <Loader />;
     if (this.state.page == "login") ui = <LoginForm login={(...params) => this._login(...params)} ref={(component) => formInstance = component}/>;
     else if (this.state.page == "useragent") ui = <UserAgent uaDisplayName={uaDisplayName} />;
     return (ui);
   }
+};
 
-}
-
-var styles = StyleSheet.create({ 
-  
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
 });
 
 AppRegistry.registerComponent('VoximplantDemo', () => VoximplantDemo);

@@ -1,11 +1,8 @@
 'use strict';
 
-var React = require('react-native');
-var Button = require('react-native-button');
-var KeyboardEvents = require('react-native-keyboardevents');
-var KeyboardEventEmitter = KeyboardEvents.Emitter;
-
-var {
+import React, { 
+  DeviceEventEmitter, 
+  Dimensions,
   StyleSheet,
   Text,
   View,
@@ -14,8 +11,10 @@ var {
   LayoutAnimation,
   Image,
   Modal,
-  TouchableHighlight
-} = React;
+  TouchableHighlight,
+  Platform
+} from 'react-native';
+import Button from 'react-native-button';
 
 var animations = {
   layout: {
@@ -45,80 +44,82 @@ var animations = {
   }
 };
 
-var usernameValue ='',
-    appnameValue = '',
-    accnameValue = '',
-    passwordValue = '';
+var usernameValue ='alexey',
+    appnameValue = 'myapp',
+    accnameValue = 'aylarov',
+    passwordValue = 'testpass';
 
-var LoginForm = React.createClass({
+class LoginForm extends React.Component {
 
-  mixins: [Modal.Mixin],
-
-  getInitialState: function() {
-    return {
+  constructor() {
+    super();
+    this.state = {
       keyboardSpace: 0,
       isKeyboardOpened: false,
       modalText: '',
       isModalOpen: false
-    };
-  },
-
-  componentDidMount: function() {
-    KeyboardEventEmitter.on(KeyboardEvents.KeyboardDidShowEvent, this.updateKeyboardSpace);
-    KeyboardEventEmitter.on(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
-    this._thisAccname.focus();
-  },
-
-  componentWillUnmount: function() {
-    KeyboardEventEmitter.off(KeyboardEvents.KeyboardDidShowEvent, this.updateKeyboardSpace);
-    KeyboardEventEmitter.off(KeyboardEvents.KeyboardWillHideEvent, this.resetKeyboardSpace);
-  },
-
-  componentWillUpdate: function(props, state) {
-    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
-      LayoutAnimation.configureNext(animations.layout.spring);
     }
-  },
+    this.keyboardWillShow = this.keyboardWillShow.bind(this);
+    this.keyboardWillHide = this.keyboardWillHide.bind(this);
+  }
 
-  updateKeyboardSpace: function(frames) {
-    this.setState({
-      keyboardSpace: frames.end.height,
-      isKeyboardOpened: true
-    });
-  },
+  componentWillMount() {    
+    DeviceEventEmitter.addListener(Platform.OS=="ios"?'keyboardWillShow':'keyboardDidShow', this.keyboardWillShow);
+    DeviceEventEmitter.addListener(Platform.OS=="ios"?'keyboardWillHide':'keyboardDidHide', this.keyboardWillHide);
+  }
 
-  resetKeyboardSpace: function() {
+  componentDidMount() {        
+    this._thisAccname.focus();
+  }
+
+  componentWillUnmount() {
+    DeviceEventEmitter.removeAllListeners(Platform.OS=="ios"?'keyboardWillShow':'keyboardDidShow', this.keyboardWillShow);
+    DeviceEventEmitter.removeAllListeners(Platform.OS=="ios"?'keyboardWillHide':'keyboardDidHide', this.keyboardWillHide);    
+  }
+
+  keyboardWillShow(e: Event) {
+    if (typeof e.endCoordinates != "undefined") {
+      this.setState({
+        keyboardSpace: e.endCoordinates.height,
+        isKeyboardOpened: true
+      });
+    }
+  }
+
+  keyboardWillHide(e: Event) {
     this.setState({
       keyboardSpace: 0,
       isKeyboardOpened: false
     });
-  },
+  }
 
-  buttonClicked: function() {
+  componentWillUpdate(props, state) {
+    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
+      LayoutAnimation.configureNext(animations.layout.spring);
+    }
+  }
+
+  buttonClicked() {
   	this.props.login(accnameValue, appnameValue, usernameValue, passwordValue);    
-  },
+  }
 
-  updateAccText: function(text) {
+  updateAccText(text) {
     accnameValue = text;
-    //this._thisAccname.setNativeProps({text: text});
-  },
+  }
 
-  updateAppText: function(text) {
+  updateAppText(text) {
     appnameValue = text;
-    //this._thisAppname.setNativeProps({text: text});
-  },
+  }
 
-  updateUserText: function(text) {
+  updateUserText(text) {
     usernameValue = text;
-    //this._thisUsername.setNativeProps({text: text});
-  },
+  }
 
-  updatePasswordText: function(text) {
+  updatePasswordText(text) {
     passwordValue = text;
-    //this._thisPassword.setNativeProps({text: text});
-  },
+  }
 
-  setModalText: function(text) {
+  setModalText(text) {
     this.setState(React.addons.update(
         this.state, 
         { 
@@ -127,9 +128,9 @@ var LoginForm = React.createClass({
             isModalOpen: true          
           }
         }));
-  },
+  }
 
-  closeModal: function() {
+  closeModal() {
     this.setState(React.addons.update(
         this.state, 
         { 
@@ -137,35 +138,41 @@ var LoginForm = React.createClass({
             isModalOpen: false          
           }
         }));
-  },
+  }
 
-  componentDidUpdate: function() {
-    console.log(this.state);
-  },
+  componentDidUpdate() {
+    //console.log(this.state);
+  }
 
-  render: function() {
+  render() {
     return (
-      <View style={[styles.container, {marginBottom: this.state.keyboardSpace}]}>        
-        <View style={styles.formcontainer}>
+      <View style={[styles.container]}>        
+        <View style={[styles.formcontainer, {marginBottom: this.state.keyboardSpace}]}>
           <View style={styles.loginform}>
-            <TextInput style={styles.forminput} onChangeText={this.updateAccText}
+            <TextInput style={styles.forminput} onChangeText={(e) => this.updateAccText(e)}
               placeholder="Account name" initialValue={accnameValue}
               autoFocus={false} ref={component => this._thisAccname = component}
-              onFocus={this.inputFocus} />
-            <TextInput style={styles.forminput} onChangeText={this.updateAppText}
+              onFocus={this.inputFocus} 
+              autoCapitalize="none"
+              autoCorrect={false} />
+            <TextInput style={styles.forminput} onChangeText={(e) => this.updateAppText(e)}
               placeholder="Application name" initialValue={appnameValue} 
-              ref={component => this._thisAppname = component} />
-            <TextInput style={styles.forminput} onChangeText={this.updateUserText}
+              ref={component => this._thisAppname = component} 
+              autoCapitalize="none"
+              autoCorrect={false} />
+            <TextInput style={styles.forminput} onChangeText={(e) => this.updateUserText(e)}
               placeholder="User name" initialValue={usernameValue} 
-              ref={component => this._thisUsername = component}/>
-            <TextInput style={styles.forminput} onChangeText={this.updatePasswordText}
+              ref={component => this._thisUsername = component} 
+              autoCapitalize="none"
+              autoCorrect={false} />
+            <TextInput style={styles.forminput} onChangeText={(e) => this.updatePasswordText(e)}
               placeholder="User password" initialValue={passwordValue}
-              secureTextEntry="true" ref={component => this._thisPassword = component} />
-            <Button style={styles.loginbutton} onPress={this.buttonClicked}>Login</Button>
+              secureTextEntry={true} ref={component => this._thisPassword = component} />
+            <Button style={styles.loginbutton} onPress={(e) => this.buttonClicked(e)}>Login</Button>
           </View>            
         </View>
         <Modal animated={true} transparent={true} visible={this.state.isModalOpen}>
-            <TouchableHighlight onPress={this.closeModal} style={styles.container}>
+            <TouchableHighlight onPress={(e) => this.closeModal(e)} style={styles.container}>
               <View style={[styles.container, styles.modalBackground]}>
                 <View style={[styles.innerContainer, styles.innerContainerTransparent]}>
                   <Text>{this.state.modalText}</Text>
@@ -176,7 +183,8 @@ var LoginForm = React.createClass({
       </View>
     );
   }
-});
+
+}
 
 var styles = StyleSheet.create({
 	container: {
@@ -223,4 +231,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = LoginForm;
+export default LoginForm;

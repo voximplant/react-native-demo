@@ -13,21 +13,50 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
 
 	```sh
 	cd VoximplantDemo
-	git clone https://github.com/voximplant/react-native-demo.git temp
-	mv temp/.git .
-	rm -rf temp
-	git reset --hard HEAD
+	wget https://github.com/voximplant/react-native-demo/archive/master.zip
+	unzip -j master.zip
+	rm -rf master.zip
+	cp Custom.ttf android/app/src/main/assets/fonts
 	```
 
 4. Run `npm install` , all required components will be installed automatically
 5. Read the instructions for installed react native modules (they will be placed into node_modules folder) , some of them will require additional steps. `react-native-voximplant` example:
 
-    1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-    2. Go to `node_modules` ➜ `react-native-voximplant` and add `VoxImplant.xcodeproj`
-    3. In XCode, in the project navigator, select your project. Add `libvoximplant.a, react-native-voximplant/VoxImplantSDK/libVoxImplantSDK.a, libc++.dylib, GLKit.framework` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-    4. Click `VoxImplant.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains both `$(SRCROOT)/../react-native/React` and `$(SRCROOT)/../../React` - mark both as `recursive`.
+	### iOS
+	1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
+	2. Go to `node_modules` ➜ `react-native-voximplant/ios` and add `VoxImplant.xcodeproj`
+	3. In XCode, in the project navigato r, select your project. Add `libvoximplant.a, react-native-voximplant/VoxImplantSDK/libVoxImplantSDK.a, libc++.dylib or libc++.tbd, GLKit.framework` to your project's `Build Phases` ➜ `Link Binary With Libraries`
+	4. Click `VoxImplant.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains `$(SRCROOT)/../node_modules/react-native/React` and mark as `recursive`. Look for `Library Search Paths` and add `$(SRCROOT)/../node_modules/react-native-voximplant/ios/VoxImplantSDK/lib` 
 
+    ### Android
+	1. Open up `android/app/main/java/[...]/MainActivity.java`
+    	- Add `import import com.voximplant.reactnative.VoxImplantReactPackage;` to the imports at the top of the file
+    	- Add `new VoxImplantReactPackage()` to the list returned by the `getPackages()` method
+
+	3. Append the following lines to `android/settings.gradle`:
+
+    	```
+    	include ':react-native-voximplant'
+    	project(':react-native-voximplant').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-voximplant/android')
+    	```
+
+	4. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
+
+    	```
+    	compile project(':react-native-voximplant')
+    	```    
+
+	5. And finally, in android/src/main/AndroidManifest.xml add user permissions
+
+    	```
+    	<uses-permission android:name="android.permission.CAMERA" />
+    	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+    	<uses-permission android:name="android.permission.INTERNET" />
+    	```
+ 
 6. Right click on you project in XCode and select **Add files to "_NameOfYourProject_"** and add `Custom.ttf` from the project folder
 7. Edit `Info.plist` and add a property called **Fonts provided by application** (if you haven't added one already) and type in the file you just added:
 [![FontEmbedding](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)
-8. Run your project (`Cmd+R`)
+8. Run your project from XCode (`Cmd+R`) for iOS, or use `react-native run-android` to run your project on Android.

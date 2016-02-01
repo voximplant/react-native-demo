@@ -1,8 +1,13 @@
 'use strict';
 
-var React = require('react-native');
-var Button = require('react-native-button');
-var { createIconSet } = require('react-native-vector-icons');
+import React, {
+  StyleSheet,
+  Text,
+  View,
+  Platform
+} from 'react-native';
+import Button from 'react-native-button';
+import { createIconSet } from 'react-native-vector-icons';
 var glyphMap = { 
   'speaker': '\uE600',
   'mic-mute': '\uE601',
@@ -11,23 +16,22 @@ var glyphMap = {
   'phone': '\uE604',
   'hangup': '\uE605' 
 };
-var Icon = createIconSet(glyphMap, 'icomoon');
+if (Platform.OS == "ios") {
+	var Icon = createIconSet(glyphMap, 'icomoon');
+} else {
+	Icon = createIconSet(glyphMap, 'Custom');
+}
 
-var {
-  StyleSheet,
-  Text
-} = React;
+class ToggleButton extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			pressed: props.pressed? props.pressed: false
+		}
+	}
 
-var ToggleButton = React.createClass({
-
-	getInitialState: function() {
-		return {
-			pressed: false
-		};
-	},
-
-	_onPress: function() {
+	_onPress() {
 		if (!this.state.pressed) {
 			this.setState({
 				pressed: true
@@ -38,9 +42,9 @@ var ToggleButton = React.createClass({
 			});
 		}
 		if (this.props.onPress) this.props.onPress();
-	},
+	}
 
-	render: function() {
+	render() {
 		var style, color;
 		if (this.state.pressed) {
 			style = [this.props.style, styles.pressed];
@@ -49,12 +53,19 @@ var ToggleButton = React.createClass({
 			style = this.props.style;
 			color = this.props.color;
 		}
-		return <Button onPress={this._onPress}>
-                  <Icon name={this.props.name} style={style} size={this.props.size} color={color} />
-                </Button>;
+		return <View style={{ width: 70, height: 70 }}>
+                  <Icon.Button 
+                  	name={this.props.name} 
+                  	style={[style, {alignSelf: 'center'}]} 
+                  	size={this.props.size} 
+                  	color={color}
+                  	onPress={(e) => this._onPress(e)}
+                  	backgroundColor="transparent"
+                  	iconStyle={{marginLeft:9}} />
+                </View>;
 	}
 
-});
+}
 
 var styles = StyleSheet.create({
 	pressed: {
@@ -62,4 +73,4 @@ var styles = StyleSheet.create({
 	}
 });
 
-module.exports = ToggleButton;
+export default ToggleButton;

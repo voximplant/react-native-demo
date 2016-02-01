@@ -1,26 +1,35 @@
 'use strict';
 
-var React = require('react-native');
-
-var {
+import React, {
   ActivityIndicatorIOS,
+  ProgressBarAndroid,
   Text,
   View,
-  StyleSheet
-} = React;
+  StyleSheet,
+  Platform
+} from 'react-native';
 
-var Loader = React.createClass({
-  render: function() {
+class Loader extends React.Component {
+  render() {
+
+    let indicator;
+
+    if (Platform.OS == "ios") {
+      indicator = <ActivityIndicatorIOS 
+          animating={true}
+          size="large" />;
+    } else {
+      indicator = <ProgressBarAndroid styleAttr="Inverse" />;
+    }
+
     return (
       <View style={styles.loader}>
-        <ActivityIndicatorIOS 
-          animating="true"
-          size="large" />
+        {indicator}
         <Text>Establishing connection...</Text>
       </View>
     );
   }
-});
+}
 
 var styles = StyleSheet.create({
   loader: {
@@ -30,4 +39,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Loader;
+export default Loader;

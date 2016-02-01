@@ -1,48 +1,59 @@
 'use strict';
 
-var React = require('react-native');
-var ColorSwitch = require('./ColorSwitch');
-var Button = require('react-native-button');
-var { createIconSet } = require('react-native-vector-icons');
+import React, {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Modal,
+  TouchableHighlight,
+  TouchableOpacity,
+  Platform,
+  DeviceEventEmitter
+} from 'react-native';
+import ColorSwitch from './ColorSwitch';
+import Button from 'react-native-button';
+import { createIconSet } from 'react-native-vector-icons';
 var glyphMap = { 
   'speaker': '\uE600',
   'mic-mute': '\uE601',
   'keypad': '\uE602',
   'snd-mute': '\uE603',
   'phone': '\uE604',
-  'hangup': '\uE605' 
+  'hangup': '\uE605',
+  'flip-camera': '\uE606'
 };
-var Icon = createIconSet(glyphMap, 'icomoon');
-var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
-var ToggleButton = require('./ToggleButton');
-var Keypad = require('./Keypad').Keypad;
-var VoxImplant = require("react-native-voximplant");
+if (Platform.OS == "ios") {
+  var Icon = createIconSet(glyphMap, 'icomoon');
+} else {
+  Icon = createIconSet(glyphMap, 'Custom');
+}
+import ToggleButton from './ToggleButton';
+import { Keypad } from './Keypad';
+import VoxImplant from "react-native-voximplant";
 
-var {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  Modal,
-  TouchableHighlight
-} = React;
+if (Platform.OS === 'android'){
+  var Portal = require('react-native/Libraries/Portal/Portal');
+  var tag;
+}
 
 var	currentCallId,
-	uaInstance,
-	number = '',
-	settings_p2p = false,
+    uaInstance,
+    number = '',
+    settings_p2p = false,
     settings_video = false,
     micMuted = false,
-    loudSpeaker = false;
+    loudSpeaker = false,
+    camera = "front";
 
-RCTDeviceEventEmitter.addListener(
+DeviceEventEmitter.addListener(
   'CallRinging',
   (callId) => {
     console.log('Call ringing');
   }
 );
 
-RCTDeviceEventEmitter.addListener(
+DeviceEventEmitter.addListener(
   'CallConnected',
   (callId) => {
     console.log('Call connected');
@@ -50,7 +61,7 @@ RCTDeviceEventEmitter.addListener(
   }
 );
 
-RCTDeviceEventEmitter.addListener(
+DeviceEventEmitter.addListener(
   'CallFailed',
   (callId, code, reason) => {
     console.log('Call failed. Code '+code+' Reason '+reason);
@@ -58,7 +69,7 @@ RCTDeviceEventEmitter.addListener(
   }
 );
 
-RCTDeviceEventEmitter.addListener(
+DeviceEventEmitter.addListener(
   'CallDisconnected',
   (callId) => {
     console.log('Call disconnected');
@@ -66,7 +77,7 @@ RCTDeviceEventEmitter.addListener(
   }
 );
 
-RCTDeviceEventEmitter.addListener(
+DeviceEventEmitter.addListener(
   'IncomingCall',
   (incomingCall) => {
     console.log('Inbound call');
@@ -75,33 +86,64 @@ RCTDeviceEventEmitter.addListener(
   }
 );
 
-var UserAgent = React.createClass({
+class UserAgent extends React.Component {
 
-  mixins: [Modal.Mixin],
-
-  getInitialState: function() {
-    return {
+  constructor() {
+    super();
+    this.state = {
       modalText: '',
       isModalOpen: false,
       status: 'idle'
     };
-  },
+    VoxImplant.SDK.switchToCamera(camera);
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     uaInstance = this;
     this._thisNumber.focus();
-  },
+  }
 
-  updateNumber: function(text) {
+  componentWillMount() {
+    if( Platform.OS === 'android' ) {
+      tag = Portal.allocateTag();
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.isModalOpen) {
+      if (Platform.OS === 'android') {
+        let modalButtons;
+
+        if (nextState.status == "inboundcall") {
+          modalButtons = <View style={styles.modalButtons}>
+            <Button onPress={(e) => this.answerCall(e)} style={styles.callbutton}>Answer</Button>
+            <Button onPress={(e) => this.rejectCall(e)} style={styles.cancelbutton}>Reject</Button>
+          </View>;
+        }
+
+        Portal.showModal(tag, 
+          <TouchableHighlight onPress={() => this.closeModal()} style={styles.container}>
+            <View style={[styles.container, styles.modalBackground]}>
+              <View style={[styles.innerContainer, styles.innerContainerTransparent]}>
+                <Text>{nextState.modalText}</Text>
+                {modalButtons}
+              </View>
+            </View>
+          </TouchableHighlight>);
+      }
+    }
+  }
+
+  updateNumber(text) {
     number = text;
     this._thisNumber.setNativeProps({text: text}); 
-  },
+  }
 
-  onSubmit: function(event) {    
+  onSubmit(event) {    
     this.makeCall();
-  },
+  }
 
-  makeCall: function(event) {
+  makeCall(event) {
     console.log('calling '+number);
     VoxImplant.SDK.createCall(number, settings_video, null, function(callId) {
       currentCallId = callId;      
@@ -115,23 +157,24 @@ var UserAgent = React.createClass({
           }
         }));
     }.bind(this));
-  },
+  }
 
-  cancelCall: function(event) {
+  cancelCall(event) {
+    console.log("Cancel call");
     VoxImplant.SDK.disconnectCall(currentCallId);
-  },
+  }
 
-  answerCall: function() {
+  answerCall() {
     VoxImplant.SDK.answerCall(currentCallId);
     this.closeModal(true);
-  },
+  }
 
-  rejectCall: function() {
+  rejectCall() {
     VoxImplant.SDK.declineCall(currentCallId);
     this.closeModal(true);
-  },
+  }
 
-  callConnected: function(callId) {
+  callConnected(callId) {
     this.setState(React.addons.update(
         this.state, 
         { 
@@ -139,9 +182,14 @@ var UserAgent = React.createClass({
             status: 'connected'
           }
         }));
-  },
+  }
 
-  callDisconnected: function(callId) {
+  callDisconnected(callId) {
+    number = '';
+    loudSpeaker = false;
+    micMuted = false;
+    VoxImplant.SDK.setUseLoudspeaker(loudSpeaker);
+    VoxImplant.SDK.setMute(micMuted);
     this.setState(React.addons.update(
         this.state, 
         { 
@@ -149,9 +197,10 @@ var UserAgent = React.createClass({
             status: 'idle'
           }
         }));
-  },
+    this.closeModal(true);
+  }
 
-  setModalText: function(text, status) {
+  setModalText(text, status) {
     this.setState(React.addons.update(
         this.state, 
         { 
@@ -161,13 +210,13 @@ var UserAgent = React.createClass({
             isModalOpen: true   
           }
         }));
-  },
+  }
 
-  onPressBackdrop: function() {
+  onPressBackdrop() {
     if (this.state.status != 'inboundcall') this.closeModal();
-  },
+  }
 
-  switchKeypad: function() {
+  switchKeypad() {
     if (this.state.status == 'connected') {
       this.setState(React.addons.update(
         this.state, 
@@ -185,33 +234,46 @@ var UserAgent = React.createClass({
           }
         }));
     }
-  },
+  }
 
-  switchSpeaker: function() {
+  switchSpeaker() {
     if (!loudSpeaker) loudSpeaker = true;
     else loudSpeaker = false;
     VoxImplant.SDK.setUseLoudspeaker(loudSpeaker);
-  },
+  }
 
-  switchMute: function() {
+  switchMute() {
     if (!micMuted) micMuted = true;
     else micMuted = false;
     VoxImplant.SDK.setMute(micMuted);
-  },
+  }
 
-  _keypadPressed: function(value) {
+  _keypadPressed(value) {
     console.log('Send DTMF '+value+' for call id '+currentCallId);
     VoxImplant.SDK.sendDTMF(currentCallId, value);
-  },
+  }
 
-  videoSwitch: function(value) {
+  videoSwitch(value) {
     settings_video = value;  
     setTimeout(() => {
       this.forceUpdate();
     }, 200);
-  },
+  }
 
-  closeModal: function(force) {
+  switchCamera() {
+    if (camera == "front") {
+      VoxImplant.SDK.switchToCamera("back");
+      camera = "back";
+    } else {
+      VoxImplant.SDK.switchToCamera("front");
+      camera = "front";
+    }
+  }
+
+  closeModal(force) {
+    if (Platform.OS === 'android') {
+      Portal.closeModal(tag);
+    }
     if (this.state.status != 'inboundcall' || force === true) {
       this.setState(React.addons.update(
         this.state, 
@@ -222,16 +284,17 @@ var UserAgent = React.createClass({
           }
         }));
     }
-  },
+  }
 
-  render: function() {
+  render() {
     var button, 
         modalButtons = <View style={styles.modalButtons}></View>,
         settingsTable, 
         keypad, 
         videoPanel,
         callingText,
-        numberInput;
+        numberInput,
+        flipButton;
 
     if (settings_video && this.state.status != 'connected_keypad') videoPanel = <View style={styles.videopanel}>
         <VoxImplant.RemoteView style={styles.remotevideo}>
@@ -240,11 +303,24 @@ var UserAgent = React.createClass({
         </VoxImplant.Preview>        
         </View>;
 
+    if (settings_video) flipButton = <View style={{ width: 70, height: 70, marginLeft: 10 }}>
+                  <Icon.Button 
+                    name="flip-camera" 
+                    style={[styles.icon, styles.keypad_icon, {alignSelf: 'center'}]} 
+                    size={25} 
+                    color="#2B2B2B"
+                    backgroundColor="transparent"
+                    onPress={() => this.switchCamera()}
+                    iconStyle={{marginLeft:9}} />
+                </View>;
+
     if (this.state.status == 'idle') {
 
-        numberInput = <TextInput style={[styles.forminput, styles.numberinput]} onChangeText={this.updateNumber}
-            placeholder="Number to call" initialValue={number} onSubmitEditing={this.onSubmit}
-            ref={component => this._thisNumber = component} />;
+        numberInput = <TextInput style={[styles.forminput, styles.numberinput]} onChangeText={(e) => this.updateNumber(e)}
+            placeholder="Number to call" initialValue={number} onSubmitEditing={(e) => this.onSubmit(e)}
+            ref={component => this._thisNumber = component} 
+            autoCapitalize="none"
+            autoCorrect={false} />;
 
         settingsTable = <View style={{flex: 1, justifyContent: 'flex-end'}}>
           <Text style={{alignSelf: 'center', marginTop: 15}}>Settings (will be applied to the next call)</Text>
@@ -255,14 +331,20 @@ var UserAgent = React.createClass({
             </View>        
             <View style={styles.settings_switch}>
               <Text style={styles.settings_label}>Video</Text>
-              <ColorSwitch defaultValue={settings_video} valueUpdate={this.videoSwitch}/> 
+              <ColorSwitch defaultValue={settings_video} valueUpdate={(e) => this.videoSwitch(e)}/> 
             </View>
           </View>
         </View>;
 
-        button = <Button onPress={this.makeCall}>
-                  <Icon name="phone" style={[styles.icon, styles.phone_icon]} size={30} color="#FFFFFF" />
-                  </Button>;
+        button =    <View style={{ width: 70, height: 70, alignSelf: 'center' }}>
+                    <Icon.Button 
+                      name="phone" 
+                      style={[styles.icon, styles.phone_icon]} 
+                      size={30} 
+                      backgroundColor="transparent"
+                      onPress={(e) => this.makeCall(e)}
+                      iconStyle={{marginLeft:7}} />
+                    </View>;
 
     } else if (this.state.status == 'calling' ||
                 this.state.status == 'connected') {
@@ -272,41 +354,73 @@ var UserAgent = React.createClass({
 
       button = <View> 
               <View style={{flexDirection: 'row', alignSelf: 'center', marginBottom: 20}}>
-                <ToggleButton onPress={this.switchMute} name="mic-mute" style={[styles.icon, styles.keypad_icon]} size={30} color="#2B2B2B" />
-                <Button onPress={this.switchKeypad}>
-                  <Icon name="keypad" style={[styles.icon, styles.keypad_icon]} size={25} color="#2B2B2B" />
-                </Button>
-                <ToggleButton onPress={this.switchSpeaker} name="speaker" style={[styles.icon, styles.keypad_icon]} size={30} color="#2B2B2B" />
+                <ToggleButton 
+                  onPress={() => this.switchMute()} 
+                  name="mic-mute" 
+                  style={[styles.icon, styles.keypad_icon]} 
+                  size={30} 
+                  color="#2B2B2B"
+                  pressed={micMuted} />
+                <View style={{ width: 70, height: 70, marginHorizontal: 10 }}>
+                  <Icon.Button 
+                    name="keypad" 
+                    style={[styles.icon, styles.keypad_icon, {alignSelf: 'center'}]} 
+                    size={25} 
+                    color="#2B2B2B"
+                    backgroundColor="transparent"
+                    onPress={() => this.switchKeypad()}
+                    iconStyle={{marginLeft:9}} />
+                </View>
+                <ToggleButton 
+                  onPress={() => this.switchSpeaker()} 
+                  name="speaker" 
+                  style={[styles.icon, styles.keypad_icon]} 
+                  size={30} 
+                  color="#2B2B2B" 
+                  pressed={loudSpeaker} />
+                {flipButton}
               </View>
               <View style={{flexDirection: 'column', alignSelf: 'center'}}>
-                <Button onPress={this.cancelCall}>
-                  <Icon name="hangup" style={[styles.icon, styles.cancel_icon]} size={12} color="#FFFFFF" />
-                </Button>
+                <View style={{ width: 70, height: 70 }}>
+                  <Icon.Button 
+                    name="hangup" 
+                    style={[styles.icon, styles.cancel_icon]} 
+                    size={12} 
+                    color="#FFFFFF" 
+                    backgroundColor="transparent"
+                    onPress={(e) => this.cancelCall(e)}
+                    iconStyle={{marginLeft:9}} />
+                </View>
               </View>
               </View>;
 
-    } else if (this.state.status == 'connected_keypad') {
-
-      //callingText = <Text style={styles.callingLabel}>Connected</Text>;      
+    } else if (this.state.status == 'connected_keypad') {     
 
       button = <View style={{flexDirection: 'row', alignSelf: 'center', alignItems: 'center'}}>                
-                <Button onPress={this.cancelCall}>
-                  <Icon name="hangup" style={[styles.icon, styles.cancel_icon]} size={12} color="#FFFFFF" />
-                </Button>                
+                <View style={{ width: 70, height: 70 }}>
+                  <Icon.Button 
+                    name="hangup" 
+                    style={[styles.icon, styles.cancel_icon]} 
+                    size={12} 
+                    color="#FFFFFF"
+                    backgroundColor="transparent"
+                    onPress={(e) => this.cancelCall(e)}
+                    iconStyle={{marginLeft:9}} />
+                </View>                
               </View>;
 
-      settingsTable = <View style={{flex: 1, flexDirection: 'row'}}>
+      settingsTable = <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={{flex: 1, alignSelf: 'flex-start'}}></Text>
-                        <Button onPress={this.switchKeypad} style={styles.hidekeypad}>Hide</Button>
+                        <Text onPress={() => this.switchKeypad()} style={styles.hidekeypad}>Hide</Text>
                       </View>;
 
-      if (this.state.status == 'connected_keypad') keypad = <Keypad keyPressed={this._keypadPressed} />;
+      if (this.state.status == 'connected_keypad') keypad = <Keypad keyPressed={(e) => this._keypadPressed(e)} />;
 
     } else if (this.state.status == 'inboundcall') {
 
       modalButtons = <View style={styles.modalButtons}>
-      <Button onPress={this.answerCall} style={styles.callbutton}>Answer</Button>
-      <Button onPress={this.rejectCall} style={styles.cancelbutton}>Reject</Button>
+      <Button onPress={(e) => this.answerCall(e)} style={styles.callbutton}>Answer</Button>
+      <Button onPress={(e) => this.rejectCall(e)} style={styles.cancelbutton}>Reject</Button>
       </View>;
 
     } 
@@ -322,7 +436,7 @@ var UserAgent = React.createClass({
         {button}        
         {settingsTable}
          <Modal animated={true} transparent={true} visible={this.state.isModalOpen}>
-          <TouchableHighlight onPress={this.closeModal} style={styles.container}>
+          <TouchableHighlight onPress={() => this.closeModal()} style={styles.container}>
             <View style={[styles.container, styles.modalBackground]}>
               <View style={[styles.innerContainer, styles.innerContainerTransparent]}>
                 <Text>{this.state.modalText}</Text>
@@ -333,7 +447,8 @@ var UserAgent = React.createClass({
         </Modal>
       </View>;
   }
-});
+
+}
 
 var styles = StyleSheet.create({
   container: {
@@ -456,6 +571,8 @@ var styles = StyleSheet.create({
     borderRadius: 35
   },
   phone_icon: {
+    width: 70,
+    height: 70,
     alignSelf: 'center',
     borderColor: '#4CD964', 
     backgroundColor: '#4CD964',
@@ -474,9 +591,14 @@ var styles = StyleSheet.create({
   },
   hidekeypad: {
     flex: 1, 
-    alignSelf: 'flex-start',
-    paddingVertical: 15
+    paddingVertical: 15,
+    justifyContent: 'center',
+    color: '#007aff',
+    fontFamily: '.HelveticaNeueInterface-MediumP4',
+    fontSize: 17,
+    fontWeight: 'bold',
+    textAlign: 'center'
   }
 });
 
-module.exports = UserAgent;
+export default UserAgent;
