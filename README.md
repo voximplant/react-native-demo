@@ -32,7 +32,7 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
 
     ### Android
 	1. Open up `android/app/main/java/[...]/MainActivity.java`
-    	- Add `import import com.voximplant.reactnative.VoxImplantReactPackage;` to the imports at the top of the file
+    	- Add `import com.voximplant.reactnative.VoxImplantReactPackage;` to the imports at the top of the file
     	- Add `new VoxImplantReactPackage()` to the list returned by the `getPackages()` method
 
 	3. Append the following lines to `android/settings.gradle`:
