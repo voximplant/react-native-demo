@@ -1,12 +1,13 @@
 'use strict';
 
-var React = require('react-native');
-
-var {
+import React from 'react';
+import {
   SwitchIOS,
   Text,
   View
-} = React;
+} from 'react-native';
+
+import update from 'react-addons-update';
 
 var ColorSwitch = React.createClass({
   getInitialState() {
@@ -17,7 +18,7 @@ var ColorSwitch = React.createClass({
   },
   componentDidMount() {
     if (this.props.defaultValue) {
-      this.setState(React.addons.update(
+      this.setState(update(
         this.state, 
         { 
           $merge: {

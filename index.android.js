@@ -4,7 +4,8 @@
  */
 'use strict';
 
-import React, {
+import React from 'react';
+import {
   AppRegistry,
   StyleSheet,
   Text,

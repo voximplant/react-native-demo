@@ -31,6 +31,7 @@ if (Platform.OS == "ios") {
 import ToggleButton from './ToggleButton';
 import { Keypad } from './Keypad';
 import VoxImplant from "react-native-voximplant";
+import update from 'react-addons-update';
 
 if (Platform.OS === 'android'){
   var Portal = require('react-native/Libraries/Portal/Portal');
@@ -149,7 +150,7 @@ class UserAgent extends React.Component {
       currentCallId = callId;      
       if (settings_p2p) VoxImplant.SDK.startCall(callId, {'X-DirectCall' : 'true'});
       else VoxImplant.SDK.startCall(callId);      
-      this.setState(React.addons.update(
+      this.setState(update(
         this.state, 
         { 
           $merge: {
@@ -175,7 +176,7 @@ class UserAgent extends React.Component {
   }
 
   callConnected(callId) {
-    this.setState(React.addons.update(
+    this.setState(update(
         this.state, 
         { 
           $merge: {
@@ -190,7 +191,7 @@ class UserAgent extends React.Component {
     micMuted = false;
     VoxImplant.SDK.setUseLoudspeaker(loudSpeaker);
     VoxImplant.SDK.setMute(micMuted);
-    this.setState(React.addons.update(
+    this.setState(update(
         this.state, 
         { 
           $merge: {
@@ -201,7 +202,7 @@ class UserAgent extends React.Component {
   }
 
   setModalText(text, status) {
-    this.setState(React.addons.update(
+    this.setState(update(
         this.state, 
         { 
           $merge: {
@@ -218,7 +219,7 @@ class UserAgent extends React.Component {
 
   switchKeypad() {
     if (this.state.status == 'connected') {
-      this.setState(React.addons.update(
+      this.setState(update(
         this.state, 
         { 
           $merge: {
@@ -226,7 +227,7 @@ class UserAgent extends React.Component {
           }
         }));
     } else {
-      this.setState(React.addons.update(
+      this.setState(update(
         this.state, 
         { 
           $merge: {
@@ -275,7 +276,7 @@ class UserAgent extends React.Component {
       Portal.closeModal(tag);
     }
     if (this.state.status != 'inboundcall' || force === true) {
-      this.setState(React.addons.update(
+      this.setState(update(
         this.state, 
         { 
           $merge: {

@@ -1,6 +1,7 @@
 'use strict';
 
-import React, { 
+import React from 'react';
+import { 
   DeviceEventEmitter, 
   Dimensions,
   StyleSheet,
@@ -15,6 +16,7 @@ import React, {
   Platform
 } from 'react-native';
 import Button from 'react-native-button';
+import update from 'react-addons-update';
 
 var animations = {
   layout: {
@@ -120,7 +122,7 @@ class LoginForm extends React.Component {
   }
 
   setModalText(text) {
-    this.setState(React.addons.update(
+    this.setState(update(
         this.state, 
         { 
           $merge: {
@@ -131,7 +133,7 @@ class LoginForm extends React.Component {
   }
 
   closeModal() {
-    this.setState(React.addons.update(
+    this.setState(update(
         this.state, 
         { 
           $merge: {
