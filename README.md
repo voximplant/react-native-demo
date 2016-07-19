@@ -31,7 +31,7 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
     6. Edit `Info.plist` and add a property called **Fonts provided by application** (if you haven't added one already) and type in the file you just added: [![FontEmbedding](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)
 
     ### Android
-	1. Open up `android/app/main/java/[...]/MainActivity.java`
+	1. Open up `android/app/main/java/[...]/MainApplication.java`
     	- Add `import com.voximplant.reactnative.VoxImplantReactPackage;` to the imports at the top of the file
     	- Add `new VoxImplantReactPackage()` to the list returned by the `getPackages()` method
 

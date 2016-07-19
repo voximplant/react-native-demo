@@ -1,6 +1,6 @@
 {
   "name": "react-native-voximplantdemo",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "description": "Demo React Native app that uses react-native-voximplant and Voximplant for audio/video calls",
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
