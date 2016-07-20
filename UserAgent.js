@@ -1,6 +1,8 @@
 'use strict';
 
-import React, {
+import React, {Component} from 'react';
+
+import {
   Text,
   View,
   StyleSheet,
@@ -31,12 +33,12 @@ if (Platform.OS == "ios") {
 import ToggleButton from './ToggleButton';
 import { Keypad } from './Keypad';
 import VoxImplant from "react-native-voximplant";
-import update from 'react-addons-update';
+var update = require('react-addons-update');
 
-if (Platform.OS === 'android'){
+/*if (Platform.OS === 'android'){
   var Portal = require('react-native/Libraries/Portal/Portal');
   var tag;
-}
+}*/
 
 var	currentCallId,
     uaInstance,
@@ -105,14 +107,14 @@ class UserAgent extends React.Component {
   }
 
   componentWillMount() {
-    if( Platform.OS === 'android' ) {
+    /*if( Platform.OS === 'android' ) {
       tag = Portal.allocateTag();
-    }
+    }*/
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (nextState.isModalOpen) {
-      if (Platform.OS === 'android') {
+      /*if (Platform.OS === 'android') {
         let modalButtons;
 
         if (nextState.status == "inboundcall") {
@@ -131,7 +133,7 @@ class UserAgent extends React.Component {
               </View>
             </View>
           </TouchableHighlight>);
-      }
+      }*/
     }
   }
 
@@ -272,9 +274,9 @@ class UserAgent extends React.Component {
   }
 
   closeModal(force) {
-    if (Platform.OS === 'android') {
+    /*if (Platform.OS === 'android') {
       Portal.closeModal(tag);
-    }
+    }*/
     if (this.state.status != 'inboundcall' || force === true) {
       this.setState(update(
         this.state, 
@@ -436,7 +438,7 @@ class UserAgent extends React.Component {
         {keypad}
         {button}        
         {settingsTable}
-         <Modal animated={true} transparent={true} visible={this.state.isModalOpen}>
+         <Modal animationType="fade" transparent={true} visible={this.state.isModalOpen} onRequestClose={() => {}}>
           <TouchableHighlight onPress={() => this.closeModal()} style={styles.container}>
             <View style={[styles.container, styles.modalBackground]}>
               <View style={[styles.innerContainer, styles.innerContainerTransparent]}>

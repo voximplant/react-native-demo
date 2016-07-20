@@ -1,9 +1,9 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
+
 import {
-  ActivityIndicatorIOS,
-  ProgressBarAndroid,
+  ActivityIndicator,
   Text,
   View,
   StyleSheet,
@@ -15,13 +15,9 @@ class Loader extends React.Component {
 
     let indicator;
 
-    if (Platform.OS == "ios") {
-      indicator = <ActivityIndicatorIOS 
+      indicator = <ActivityIndicator 
           animating={true}
           size="large" />;
-    } else {
-      indicator = <ProgressBarAndroid styleAttr="Inverse" />;
-    }
 
     return (
       <View style={styles.loader}>

@@ -1,7 +1,7 @@
 'use strict';
 
-import React from 'react';
-import { 
+import React, { Component } from 'react';
+import {
   DeviceEventEmitter, 
   Dimensions,
   StyleSheet,
@@ -15,8 +15,9 @@ import {
   TouchableHighlight,
   Platform
 } from 'react-native';
+import Keyboard from 'Keyboard';
 import Button from 'react-native-button';
-import update from 'react-addons-update';
+var update = require('react-addons-update');
 
 var animations = {
   layout: {
@@ -66,8 +67,8 @@ class LoginForm extends React.Component {
   }
 
   componentWillMount() {    
-    DeviceEventEmitter.addListener(Platform.OS=="ios"?'keyboardWillShow':'keyboardDidShow', this.keyboardWillShow);
-    DeviceEventEmitter.addListener(Platform.OS=="ios"?'keyboardWillHide':'keyboardDidHide', this.keyboardWillHide);
+    Keyboard.addListener(Platform.OS=="ios"?'keyboardWillShow':'keyboardDidShow', this.keyboardWillShow);
+    Keyboard.addListener(Platform.OS=="ios"?'keyboardWillHide':'keyboardDidHide', this.keyboardWillHide);
   }
 
   componentDidMount() {        
@@ -75,8 +76,8 @@ class LoginForm extends React.Component {
   }
 
   componentWillUnmount() {
-    DeviceEventEmitter.removeAllListeners(Platform.OS=="ios"?'keyboardWillShow':'keyboardDidShow', this.keyboardWillShow);
-    DeviceEventEmitter.removeAllListeners(Platform.OS=="ios"?'keyboardWillHide':'keyboardDidHide', this.keyboardWillHide);    
+    Keyboard.removeAllListeners(Platform.OS=="ios"?'keyboardWillShow':'keyboardDidShow', this.keyboardWillShow);
+    Keyboard.removeAllListeners(Platform.OS=="ios"?'keyboardWillHide':'keyboardDidHide', this.keyboardWillHide);    
   }
 
   keyboardWillShow(e: Event) {
@@ -173,7 +174,7 @@ class LoginForm extends React.Component {
             <Button style={styles.loginbutton} onPress={(e) => this.buttonClicked(e)}>Login</Button>
           </View>            
         </View>
-        <Modal animated={true} transparent={true} visible={this.state.isModalOpen}>
+        <Modal animationType="fade" transparent={true} visible={this.state.isModalOpen} onRequestClose={() => {}}>
             <TouchableHighlight onPress={(e) => this.closeModal(e)} style={styles.container}>
               <View style={[styles.container, styles.modalBackground]}>
                 <View style={[styles.innerContainer, styles.innerContainerTransparent]}>

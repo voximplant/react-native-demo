@@ -1,13 +1,13 @@
 'use strict';
 
-import React from 'react';
-import {
+var React = require('react-native');
+
+var {
   SwitchIOS,
   Text,
   View
-} from 'react-native';
-
-import update from 'react-addons-update';
+} = React;
+var update = require('react-addons-update');
 
 var ColorSwitch = React.createClass({
   getInitialState() {
