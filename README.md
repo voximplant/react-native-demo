@@ -23,12 +23,22 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
 5. Read the instructions for installed react native modules (they will be placed into node_modules folder) , some of them will require additional steps. `react-native-voximplant` example:
 
 	### iOS
+
+    #### Option: Manual
+
 	1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 	2. Go to `node_modules` ➜ `react-native-voximplant/ios` and add `VoxImplant.xcodeproj`
 	3. In XCode, in the project navigato r, select your project. Add `libvoximplant.a, react-native-voximplant/VoxImplantSDK/libVoxImplantSDK.a, libc++.dylib or libc++.tbd, GLKit.framework` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 	4. Click `VoxImplant.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains `$(SRCROOT)/../node_modules/react-native/React` and mark as `recursive`. Look for `Library Search Paths` and add `$(SRCROOT)/../node_modules/react-native-voximplant/ios/VoxImplantSDK/lib` 
     5. Right click on you project in XCode and select **Add files to "_NameOfYourProject_"** and add `Custom.ttf` from the project folder
     6. Edit `Info.plist` and add a property called **Fonts provided by application** (if you haven't added one already) and type in the file you just added: [![FontEmbedding](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)
+
+    #### Option: With [`rnpm`](https://github.com/rnpm/rnpm)
+
+    `$ rnpm link`
+
+    *Note: Some users are having trouble using this method, try one of the others if you are too.*
+ 
 
     ### Android
 	1. Open up `android/app/main/java/[...]/MainApplication.java`
@@ -57,6 +67,12 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
     	<uses-permission android:name="android.permission.RECORD_AUDIO" />
     	<uses-permission android:name="android.permission.INTERNET" />
     	```
- 
+
+    #### Option: With [`rnpm`](https://github.com/rnpm/rnpm)
+
+    `$ rnpm link`
+
+    *Note: Some users are having trouble using this method, try one of the others if you are too.*
+
 
 8. Run your project from XCode (`Cmd+R`) for iOS, or use `react-native run-android` to run your project on Android.

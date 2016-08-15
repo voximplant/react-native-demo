@@ -1,6 +1,6 @@
 {
   "name": "react-native-voximplantdemo",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Demo React Native app that uses react-native-voximplant and Voximplant for audio/video calls",
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
@@ -11,7 +11,7 @@
     "react-native": "^0.29.1",
     "react-native-button": "^1.6.0",
     "react-native-vector-icons": "^2.0.3",
-    "react-native-voximplant": "^0.1.6"
+    "react-native-voximplant": "^0.1.7"
   },
   "keywords": [
     "react-native",
@@ -20,6 +20,11 @@
     "application",
     "react-native-voximplant"
   ],
+  "rnpm": {
+    "assets": [
+      "Fonts"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/voximplant/react-native-demo.git"
