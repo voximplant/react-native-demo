@@ -16,7 +16,7 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
 	wget https://github.com/voximplant/react-native-demo/archive/master.zip
 	unzip -j master.zip
 	rm -rf master.zip
-	mkdir android/app/src/main/assets android/app/src/main/assets/fonts && cp Custom.ttf android/app/src/main/assets/fonts/Custom.ttf
+	mkdir Fonts && cp Custom.ttf Fonts/Custom.ttf && rm Custom.ttf
 	```
 
 4. Run `npm install` , all required components will be installed automatically
