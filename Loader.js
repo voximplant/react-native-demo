@@ -10,18 +10,14 @@ import {
   Platform
 } from 'react-native';
 
-class Loader extends React.Component {
+export default class Loader extends Component {
   render() {
-
-    let indicator;
-
-      indicator = <ActivityIndicator 
-          animating={true}
-          size="large" />;
-
+    let indicator = <ActivityIndicator 
+                          animating={true}
+                          size='large' />;
     return (
-      <View style={styles.loader}>
-        {indicator}
+      <View style={ styles.loader }>
+        { indicator }
         <Text>Establishing connection...</Text>
       </View>
     );
@@ -35,5 +31,3 @@ var styles = StyleSheet.create({
     alignItems: 'center'   
   }
 });
-
-export default Loader;

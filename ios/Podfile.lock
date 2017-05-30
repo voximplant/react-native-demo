@@ -1,0 +1,59 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - React (0.44.0):
+    - React/Core (= 0.44.0)
+  - react-native-voximplant (0.0.1):
+    - VoxImplantSDK
+  - React/Core (0.44.0):
+    - React/cxxreact
+    - Yoga (= 0.44.0.React)
+  - React/cxxreact (0.44.0):
+    - React/jschelpers
+  - React/jschelpers (0.44.0)
+  - SocketRocket (0.5.1)
+  - VoxImplantSDK (2.3.0):
+    - AFNetworking (~> 3.1.0)
+    - SocketRocket (~> 0.5.1)
+    - VoxImplantWebRTC (~> 58.0.0)
+  - VoxImplantWebRTC (58.0.0)
+  - Yoga (0.44.0.React)
+
+DEPENDENCIES:
+  - React (from `../node_modules/react-native`)
+  - react-native-voximplant (from `../node_modules/react-native-voximplant`)
+  - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+EXTERNAL SOURCES:
+  React:
+    :path: ../node_modules/react-native
+  react-native-voximplant:
+    :path: ../node_modules/react-native-voximplant
+  Yoga:
+    :path: ../node_modules/react-native/ReactCommon/yoga
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  React: d2077cc20245ccdc8bfe1fdc002f2003318ae8d8
+  react-native-voximplant: e55b5be88968ee6c01fb1f91903ecef52eccd53c
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  VoxImplantSDK: b5241ed5f7bc781cb2d8b7af9974660b857f5c3b
+  VoxImplantWebRTC: 23d545ef4825079772ab29ff235e92515fbb9990
+  Yoga: a92a5d8e128905bf9f29c82f870192a6e873dd98
+
+PODFILE CHECKSUM: 011251cb13ee6d4c9e981488a75850d87b976d21
+
+COCOAPODS: 1.2.1

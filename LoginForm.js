@@ -7,103 +7,38 @@ import {
   StyleSheet,
   Text,
   View,
+  Button,
   TextInput,
-  TouchableOpacity,
-  LayoutAnimation,
-  Image,
+  Platform,
   Modal,
-  TouchableHighlight,
-  Platform
+  TouchableHighlight
 } from 'react-native';
-import Keyboard from 'Keyboard';
-import Button from 'react-native-button';
-var update = require('react-addons-update');
 
-var animations = {
-  layout: {
-    spring: {
-      duration: 300,
-      create: {
-        duration: 300,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity
-      },
-      update: {
-        type: LayoutAnimation.Types.spring,
-        springDamping: 200
-      }
-    },
-    easeInEaseOut: {
-      duration: 300,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut
-      }
-    }
-  }
-};
+import loginManager from './LoginManager';
 
 var usernameValue ='',
     appnameValue = '',
     accnameValue = '',
     passwordValue = '';
 
-class LoginForm extends React.Component {
-
+export default class LoginForm extends Component {
   constructor() {
     super();
     this.state = {
-      keyboardSpace: 0,
-      isKeyboardOpened: false,
       modalText: '',
       isModalOpen: false
     }
-    this.keyboardWillShow = this.keyboardWillShow.bind(this);
-    this.keyboardWillHide = this.keyboardWillHide.bind(this);
   }
 
-  componentWillMount() {    
-    Keyboard.addListener(Platform.OS=="ios"?'keyboardWillShow':'keyboardDidShow', this.keyboardWillShow);
-    Keyboard.addListener(Platform.OS=="ios"?'keyboardWillHide':'keyboardDidHide', this.keyboardWillHide);
-  }
-
-  componentDidMount() {        
-    this._thisAccname.focus();
-  }
-
-  componentWillUnmount() {
-    Keyboard.removeAllListeners(Platform.OS=="ios"?'keyboardWillShow':'keyboardDidShow', this.keyboardWillShow);
-    Keyboard.removeAllListeners(Platform.OS=="ios"?'keyboardWillHide':'keyboardDidHide', this.keyboardWillHide);    
-  }
-
-  keyboardWillShow(e: Event) {
-    if (typeof e.endCoordinates != "undefined") {
-      this.setState({
-        keyboardSpace: e.endCoordinates.height,
-        isKeyboardOpened: true
-      });
-    }
-  }
-
-  keyboardWillHide(e: Event) {
-    this.setState({
-      keyboardSpace: 0,
-      isKeyboardOpened: false
-    });
-  }
-
-  componentWillUpdate(props, state) {
-    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
-      LayoutAnimation.configureNext(animations.layout.spring);
-    }
-  }
+  focusNextField = (nextField) => {
+    this.refs[nextField].focus();
+  };
 
   buttonClicked() {
-  	this.props.login(accnameValue, appnameValue, usernameValue, passwordValue);    
+    loginManager.loginWithPassword(usernameValue +
+                                  "@" + appnameValue +
+                                  "." + accnameValue +
+                                  ".voximplant.com", passwordValue)   
   }
 
   updateAccText(text) {
@@ -123,62 +58,77 @@ class LoginForm extends React.Component {
   }
 
   setModalText(text) {
-    this.setState(update(
-        this.state, 
-        { 
-          $merge: {
-            modalText: text,
-            isModalOpen: true          
-          }
-        }));
+    this.setState({ isModalOpen: true, modalText: text });
   }
 
   closeModal() {
-    this.setState(update(
-        this.state, 
-        { 
-          $merge: {
-            isModalOpen: false          
-          }
-        }));
-  }
-
-  componentDidUpdate() {
-    //console.log(this.state);
+    this.setState({ isModalOpen: false });
   }
 
   render() {
     return (
       <View style={[styles.container]}>        
-        <View style={[styles.formcontainer, {marginBottom: this.state.keyboardSpace}]}>
-          <View style={styles.loginform}>
-            <TextInput style={styles.forminput} onChangeText={(e) => this.updateAccText(e)}
-              placeholder="Account name" initialValue={accnameValue}
-              autoFocus={false} ref={component => this._thisAccname = component}
-              onFocus={this.inputFocus} 
-              autoCapitalize="none"
-              autoCorrect={false} />
-            <TextInput style={styles.forminput} onChangeText={(e) => this.updateAppText(e)}
-              placeholder="Application name" initialValue={appnameValue} 
-              ref={component => this._thisAppname = component} 
-              autoCapitalize="none"
-              autoCorrect={false} />
-            <TextInput style={styles.forminput} onChangeText={(e) => this.updateUserText(e)}
-              placeholder="User name" initialValue={usernameValue} 
-              ref={component => this._thisUsername = component} 
-              autoCapitalize="none"
-              autoCorrect={false} />
-            <TextInput style={styles.forminput} onChangeText={(e) => this.updatePasswordText(e)}
-              placeholder="User password" initialValue={passwordValue}
-              secureTextEntry={true} ref={component => this._thisPassword = component} />
-            <Button style={styles.loginbutton} onPress={(e) => this.buttonClicked(e)}>Login</Button>
+        <View>
+          <View style={ styles.loginform }>
+            <TextInput 
+                  style={ styles.forminput } 
+                  placeholder="Account name" 
+                  defaultValue={ accnameValue }
+                  autoFocus={ true }
+                  ref='acc'
+                  autoCapitalize='none'
+                  autoCorrect={ false } 
+                  onSubmitEditing={ (event) => this.focusNextField('app') }
+                  onChangeText={ (e) => this.updateAccText(e) }
+                  blurOnSubmit={ false } />
+            <TextInput 
+                  style={ styles.forminput } 
+                  placeholder="Application name" 
+                  defaultValue={ appnameValue } 
+                  ref='app'
+                  autoCapitalize='none'
+                  autoCorrect={ false } 
+                  onSubmitEditing={ (event) => this.focusNextField('user') }
+                  onChangeText={ (e) => this.updateAppText(e) }
+                  blurOnSubmit={ false } />
+            <TextInput 
+                  style={ styles.forminput } 
+                  placeholder="User name" 
+                  defaultValue={ usernameValue } 
+                  ref='user'
+                  autoCapitalize='none'
+                  autoCorrect={ false }
+                  onSubmitEditing={ (event) => this.focusNextField('password') }
+                  onChangeText={ (e) => this.updateUserText(e) }
+                  blurOnSubmit={ false } />
+            <TextInput 
+                  style={ styles.forminput } 
+                  placeholder="User password" 
+                  defaultValue={ passwordValue }
+                  secureTextEntry={ true } 
+                  ref='password'
+                  onChangeText={ (e) => this.updatePasswordText(e) }
+                  blurOnSubmit={ true } />
+            <Button 
+                  onPress={ (e) => this.buttonClicked(e) }
+                  title="Login"
+                  color='#23a9e2'
+                  style={ styles.loginbutton }
+            />
           </View>            
         </View>
-        <Modal animationType="fade" transparent={true} visible={this.state.isModalOpen} onRequestClose={() => {}}>
-            <TouchableHighlight onPress={(e) => this.closeModal(e)} style={styles.container}>
+        <Modal 
+          animationType='fade'
+          transparent={ true } 
+          visible={ this.state.isModalOpen } 
+          onRequestClose={ () => {} }>
+            <TouchableHighlight 
+              onPress={ (e) => this.closeModal(e) } 
+              style={ styles.container }>
               <View style={[styles.container, styles.modalBackground]}>
-                <View style={[styles.innerContainer, styles.innerContainerTransparent]}>
-                  <Text>{this.state.modalText}</Text>
+                <View 
+                  style={[styles.innerContainer, styles.innerContainerTransparent]}>
+                  <Text>{ this.state.modalText }</Text>
                 </View>
               </View>
             </TouchableHighlight>
@@ -206,8 +156,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff', 
     padding: 20
   },
-  formcontainer: {
-  },
 	appheader: {
     resizeMode: 'contain',
 		height: 60,
@@ -218,20 +166,15 @@ var styles = StyleSheet.create({
     alignItems: 'stretch'
 	},
 	forminput: {
-    flex:1 ,
-		borderRadius: 4,
-		padding: 5,
-		marginBottom: 10,
-		height: 40, 
-		borderColor: 'gray', 
-		borderWidth: 0.5
-	},
-  loginbutton: {
-    backgroundColor: '#23a9e2',
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    borderRadius: 4
-  }
+    fontSize: 16,
+    padding: 10,
+    marginBottom: 10,
+    ...Platform.select({
+      ios: {
+        height: 40,
+        borderColor: '#0f0f0f',
+        borderWidth: 0.5
+      }
+    })
+	}
 });
-
-export default LoginForm;

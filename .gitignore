@@ -1,6 +1,8 @@
 # OSX
 #
 .DS_Store
+.vscode/*
+jsconfig.json
 
 # Xcode
 #
@@ -21,26 +23,39 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-*.xcodeproj
+ios/Pods/*
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+android/.project
+android/.settings/*
+android/app/.classpath
+android/app/.project
+android/app/.settings/
 
 # node.js
 #
 node_modules/
 npm-debug.log
-.npmignore
-.flowconfig
+yarn-error.log
 
-# React Native
-#
-android/
-ios/
-VoximplantDemoTests/
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
 
-# Android
+# fastlane
 #
-.gradle
-build/
-# Ignore Gradle GUI config
-gradle-app.setting
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
+
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
