@@ -162,6 +162,16 @@ export default class UserAgent extends Component {
     // this.closeModal(true);
   }
 
+  removeVideo() {
+    this.setState({videoEnabled: false});
+    VoxImplant.SDK.sendVideo(false);
+  }
+
+  addVideo() {
+    this.setState({videoEnabled: true});
+    VoxImplant.SDK.sendVideo(true);
+  }
+
   render() {
     var button, 
         keypad, 
@@ -235,6 +245,11 @@ export default class UserAgent extends Component {
                 <CallButton icon_name='volume-mute' color='#0C90E7' buttonPressed={ () => this.switchSpeakerphone() } />
               ) : (
                 <CallButton icon_name='volume-up' color='#0C90E7' buttonPressed={ () => this.switchSpeakerphone() } />
+              )}
+              { this.state.videoEnabled ? (
+                <CallButton icon_name='videocam-off' color='#0C90E7' buttonPressed={ () => this.removeVideo() } />
+              ) : (
+                <CallButton icon_name='video-call' color='#0C90E7' buttonPressed={ () => this.addVideo() } />
               )}
               <CallButton icon_name='call-end' color='#FF3B30' buttonPressed={ () => this.cancelCall() } />
               
