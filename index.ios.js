@@ -37,6 +37,7 @@ export default class VoximplantDemoNew extends Component {
     _this = this;
     loginManager.on('onLoggedIn', (param) => this.onLogin(param));
     loginManager.on('onConnected', () => this.onConnected());
+    loginManager.on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
     loginManager.connect(true);
   }
 
@@ -47,6 +48,10 @@ export default class VoximplantDemoNew extends Component {
   onLogin(displayName) {
     uaDisplayName = displayName;
     _this.setState({page: 'useragent'});
+  }
+
+  onConnectionFailed(reason) {
+    //TODO
   }
 
   render() {

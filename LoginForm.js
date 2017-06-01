@@ -15,19 +15,70 @@ import {
 } from 'react-native';
 
 import loginManager from './LoginManager';
+import DefaultPreference from 'react-native-default-preference';
 
-var usernameValue ='',
-    appnameValue = '',
-    accnameValue = '',
-    passwordValue = '';
+var passwordValue = '',
+    _this;
 
 export default class LoginForm extends Component {
   constructor() {
     super();
+    loginManager.on('onLoginFailed', (errorCode) => this.onLoginFailed(errorCode));
+    loginManager.on('onLoggedIn', (param) => this.saveUsername());
+    
     this.state = {
       modalText: '',
-      isModalOpen: false
+      isModalOpen: false,
+      usernameValue: '',
+      appnameValue: '',
+      accnameValue: ''
     }
+  }
+
+  componentDidMount() {
+    _this = this;
+    this.fillFields();
+  }
+
+  fillFields() {
+    DefaultPreference.get('usernameValue').then(
+      function(value) {
+        _this.setState({usernameValue: value}); 
+      });
+    DefaultPreference.get('appnameValue').then(
+      function(value) {
+        _this.setState({appnameValue: value});
+      });
+    DefaultPreference.get('accnameValue').then(
+      function(value) {
+        _this.setState({accnameValue: value});
+      });
+  }
+
+  onLoginFailed(errorCode) {
+    switch(errorCode) {
+      case 401:
+        this.setModalText('Invalid password');
+        break;
+      case 403:
+        this.setModalText('Account frozen');
+        break;
+      case 404: 
+        this.setModalText('Invalid username')
+        break;
+      case 701:
+        this.setModalText('Token expired');
+        break;
+      default:
+      case 500:
+        this.setModalText('Internal error');
+    }
+  }
+
+  saveUsername() {
+    DefaultPreference.set('usernameValue', usernameValue);
+    DefaultPreference.set('appnameValue', appnameValue);
+    DefaultPreference.set('accnameValue', accnameValue);
   }
 
   focusNextField = (nextField) => {
@@ -73,7 +124,7 @@ export default class LoginForm extends Component {
             <TextInput 
                   style={ styles.forminput } 
                   placeholder="Account name" 
-                  defaultValue={ accnameValue }
+                  value={ this.state.accnameValue }
                   autoFocus={ true }
                   ref='acc'
                   autoCapitalize='none'
@@ -84,7 +135,7 @@ export default class LoginForm extends Component {
             <TextInput 
                   style={ styles.forminput } 
                   placeholder="Application name" 
-                  defaultValue={ appnameValue } 
+                  value={ this.state.appnameValue } 
                   ref='app'
                   autoCapitalize='none'
                   autoCorrect={ false } 
@@ -94,7 +145,7 @@ export default class LoginForm extends Component {
             <TextInput 
                   style={ styles.forminput } 
                   placeholder="User name" 
-                  defaultValue={ usernameValue } 
+                  value={ this.state.usernameValue } 
                   ref='user'
                   autoCapitalize='none'
                   autoCorrect={ false }
