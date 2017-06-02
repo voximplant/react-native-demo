@@ -76,9 +76,9 @@ export default class LoginForm extends Component {
   }
 
   saveUsername() {
-    DefaultPreference.set('usernameValue', usernameValue);
-    DefaultPreference.set('appnameValue', appnameValue);
-    DefaultPreference.set('accnameValue', accnameValue);
+    DefaultPreference.set('usernameValue', this.state.usernameValue);
+    DefaultPreference.set('appnameValue', this.state.appnameValue);
+    DefaultPreference.set('accnameValue', this.state.accnameValue);
   }
 
   focusNextField = (nextField) => {
@@ -86,22 +86,22 @@ export default class LoginForm extends Component {
   };
 
   buttonClicked() {
-    loginManager.loginWithPassword(usernameValue +
-                                  "@" + appnameValue +
-                                  "." + accnameValue +
+    loginManager.loginWithPassword(this.state.usernameValue +
+                                  "@" + this.state.appnameValue +
+                                  "." + this.state.accnameValue +
                                   ".voximplant.com", passwordValue)   
   }
 
   updateAccText(text) {
-    accnameValue = text;
+    this.setState({accnameValue: text});
   }
 
   updateAppText(text) {
-    appnameValue = text;
+    this.setState({appnameValue: text});
   }
 
   updateUserText(text) {
-    usernameValue = text;
+    this.setState({usernameValue: text});
   }
 
   updatePasswordText(text) {
