@@ -6,12 +6,12 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "react": "^15.2.0",
-    "react-addons-update": "^15.2.0",
-    "react-native": "^0.29.1",
-    "react-native-button": "^1.6.0",
-    "react-native-vector-icons": "^2.0.3",
-    "react-native-voximplant": "^0.1.7"
+    "react": "15.2.0",
+    "react-addons-update": "15.2.0",
+    "react-native": "0.29.1",
+    "react-native-button": "1.6.0",
+    "react-native-vector-icons": "2.0.3",
+    "react-native-voximplant": "0.1.7"
   },
   "keywords": [
     "react-native",
