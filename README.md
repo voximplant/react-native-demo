@@ -32,6 +32,14 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
 	4. Click `VoxImplant.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains `$(SRCROOT)/../node_modules/react-native/React` and mark as `recursive`. Look for `Library Search Paths` and add `$(SRCROOT)/../node_modules/react-native-voximplant/ios/VoxImplantSDK/lib` 
     5. Right click on you project in XCode and select **Add files to "_NameOfYourProject_"** and add `Custom.ttf` from the project folder
     6. Edit `Info.plist` and add a property called **Fonts provided by application** (if you haven't added one already) and type in the file you just added: [![FontEmbedding](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)
+	7. Edit `Info.plist` file and add `NSMicrophoneUsageDescription` and `NSCameraUsageDescription` key for iOS 10 support:
+
+		```
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Need microphone access for audio and video calls</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Need camera access for video calls</string>
+		```
 
     #### Option: With [`rnpm`](https://github.com/rnpm/rnpm)
 
