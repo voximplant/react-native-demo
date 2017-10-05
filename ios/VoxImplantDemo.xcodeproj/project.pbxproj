@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* VoximplantDemoNewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VoximplantDemoNewTests.m */; };
+		00E356F31AD99517003FC87E /* VoxImplantDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VoxImplantDemoTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -15,14 +15,10 @@
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* VoximplantDemoNewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VoximplantDemoNewTests.m */; };
-		97835FAAAE6A3AA1EE92004F /* Pods_VoximplantDemoNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4C0B006DFDA325FE19A8B21 /* Pods_VoximplantDemoNew.framework */; };
-		B2FF0D551F02A3B9006DD466 /* React.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2FF0D541F02A3B9006DD466 /* React.framework */; };
-		BF79DDCE315AF408C8AE8A57 /* Pods_VoximplantDemoNewTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932C15D78AFAB3B6F02511F2 /* Pods_VoximplantDemoNewTests.framework */; };
-		CE16F4B21ECC98020080BB26 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE16F4B11ECC98020080BB26 /* GLKit.framework */; };
-		CE16F4B41ECC980E0080BB26 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE16F4B31ECC980D0080BB26 /* VideoToolbox.framework */; };
-		CE16F4B61ECE03CD0080BB26 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE16F4B51ECE03CD0080BB26 /* MaterialIcons.ttf */; };
-		CE16F5581ED759FB0080BB26 /* libRNDefaultPreference.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE16F5571ED759E10080BB26 /* libRNDefaultPreference.a */; };
+		2DCD954D1E0B4F2C00145EB5 /* VoxImplantDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VoxImplantDemoTests.m */; };
+		B20E24FD1F860CC2002552CF /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B20E24FC1F860CC2002552CF /* MaterialIcons.ttf */; };
+		FA04C87B9997FE894892B909 /* Pods_VoxImplantDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930E091A23EF752C749140A0 /* Pods_VoxImplantDemoTests.framework */; };
+		FB72DFA8236D9E6658560AE3 /* Pods_VoxImplantDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 344431D34BB0B290910BF480 /* Pods_VoxImplantDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,50 +27,38 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = VoximplantDemoNew;
+			remoteInfo = VoxImplantDemo;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "VoximplantDemoNew-tvOS";
-		};
-		CE16F5561ED759E10080BB26 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE16F5391ED759E00080BB26 /* RNDefaultPreference.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNDefaultPreference;
+			remoteInfo = "VoxImplantDemo-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* VoximplantDemoNewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoximplantDemoNewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* VoxImplantDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoxImplantDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* VoximplantDemoNewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VoximplantDemoNewTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* VoximplantDemoNew.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoximplantDemoNew.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = VoximplantDemoNew/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = VoximplantDemoNew/AppDelegate.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* VoxImplantDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VoxImplantDemoTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* VoxImplantDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoxImplantDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = VoxImplantDemo/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = VoxImplantDemo/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = VoximplantDemoNew/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = VoximplantDemoNew/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = VoximplantDemoNew/main.m; sourceTree = "<group>"; };
-		1CEE362D69A10E22423C8D3A /* Pods-VoximplantDemoNewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoximplantDemoNewTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VoximplantDemoNewTests/Pods-VoximplantDemoNewTests.release.xcconfig"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* VoximplantDemoNew-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoximplantDemoNew-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* VoximplantDemoNew-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VoximplantDemoNew-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		514D38487351AA105F08D46F /* Pods-VoximplantDemoNew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoximplantDemoNew.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VoximplantDemoNew/Pods-VoximplantDemoNew.debug.xcconfig"; sourceTree = "<group>"; };
-		679CB24FC07A936DE7106141 /* Pods-VoximplantDemoNewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoximplantDemoNewTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VoximplantDemoNewTests/Pods-VoximplantDemoNewTests.debug.xcconfig"; sourceTree = "<group>"; };
-		932C15D78AFAB3B6F02511F2 /* Pods_VoximplantDemoNewTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VoximplantDemoNewTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A4C0B006DFDA325FE19A8B21 /* Pods_VoximplantDemoNew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VoximplantDemoNew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2FF0D541F02A3B9006DD466 /* React.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = React.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/VoximplantDemoNew-eaxxezuhncmhvcftxmqfdcrpygtz/Build/Products/Debug-iphonesimulator/React/React.framework"; sourceTree = "<group>"; };
-		B4B2518883F6433531D8EBDC /* Pods-VoximplantDemoNew.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoximplantDemoNew.release.xcconfig"; path = "Pods/Target Support Files/Pods-VoximplantDemoNew/Pods-VoximplantDemoNew.release.xcconfig"; sourceTree = "<group>"; };
-		CE16F4B11ECC98020080BB26 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		CE16F4B31ECC980D0080BB26 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
-		CE16F4B51ECE03CD0080BB26 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		CE16F4E71ED5C6AD0080BB26 /* libreact-native-voximplant.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libreact-native-voximplant.a"; path = "../../../../../Library/Developer/Xcode/DerivedData/VoximplantDemoNew-blwhsnisoeedlbgfikcsspyiieom/Build/Products/Debug-iphonesimulator/react-native-voximplant/libreact-native-voximplant.a"; sourceTree = "<group>"; };
-		CE16F5391ED759E00080BB26 /* RNDefaultPreference.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDefaultPreference.xcodeproj; path = "../node_modules/react-native-default-preference/ios/RNDefaultPreference.xcodeproj"; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = VoxImplantDemo/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = VoxImplantDemo/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = VoxImplantDemo/main.m; sourceTree = "<group>"; };
+		2D02E47B1E0B4A5D006451C7 /* VoxImplantDemo-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoxImplantDemo-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* VoxImplantDemo-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VoxImplantDemo-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		344431D34BB0B290910BF480 /* Pods_VoxImplantDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VoxImplantDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		930E091A23EF752C749140A0 /* Pods_VoxImplantDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VoxImplantDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B20E24FC1F860CC2002552CF /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		C451A07015506A0D687382CF /* Pods-VoxImplantDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoxImplantDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VoxImplantDemoTests/Pods-VoxImplantDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CB3DCEFE0019DA42624A0DFD /* Pods-VoxImplantDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoxImplantDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-VoxImplantDemo/Pods-VoxImplantDemo.release.xcconfig"; sourceTree = "<group>"; };
+		D59D766922E2B93BBFB5A17E /* Pods-VoxImplantDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoxImplantDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VoxImplantDemoTests/Pods-VoxImplantDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		E1FB4DB93F238D75A9569B0D /* Pods-VoxImplantDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoxImplantDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VoxImplantDemo/Pods-VoxImplantDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2FF0D551F02A3B9006DD466 /* React.framework in Frameworks */,
-				BF79DDCE315AF408C8AE8A57 /* Pods_VoximplantDemoNewTests.framework in Frameworks */,
+				FA04C87B9997FE894892B909 /* Pods_VoxImplantDemoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,10 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE16F5581ED759FB0080BB26 /* libRNDefaultPreference.a in Frameworks */,
-				CE16F4B41ECC980E0080BB26 /* VideoToolbox.framework in Frameworks */,
-				CE16F4B21ECC98020080BB26 /* GLKit.framework in Frameworks */,
-				97835FAAAE6A3AA1EE92004F /* Pods_VoximplantDemoNew.framework in Frameworks */,
+				FB72DFA8236D9E6658560AE3 /* Pods_VoxImplantDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,13 +95,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* VoximplantDemoNewTests */ = {
+		00E356EF1AD99517003FC87E /* VoxImplantDemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* VoximplantDemoNewTests.m */,
+				00E356F21AD99517003FC87E /* VoxImplantDemoTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = VoximplantDemoNewTests;
+			path = VoxImplantDemoTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -132,7 +112,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* VoximplantDemoNew */ = {
+		13B07FAE1A68108700A75B9A /* VoxImplantDemo */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -143,13 +123,23 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = VoximplantDemoNew;
+			name = VoxImplantDemo;
+			sourceTree = "<group>";
+		};
+		4254BFC56E90B8C635DB9832 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E1FB4DB93F238D75A9569B0D /* Pods-VoxImplantDemo.debug.xcconfig */,
+				CB3DCEFE0019DA42624A0DFD /* Pods-VoxImplantDemo.release.xcconfig */,
+				C451A07015506A0D687382CF /* Pods-VoxImplantDemoTests.debug.xcconfig */,
+				D59D766922E2B93BBFB5A17E /* Pods-VoxImplantDemoTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				CE16F5391ED759E00080BB26 /* RNDefaultPreference.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -157,109 +147,87 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				CE16F4B51ECE03CD0080BB26 /* MaterialIcons.ttf */,
-				13B07FAE1A68108700A75B9A /* VoximplantDemoNew */,
+				B20E24FC1F860CC2002552CF /* MaterialIcons.ttf */,
+				13B07FAE1A68108700A75B9A /* VoxImplantDemo */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* VoximplantDemoNewTests */,
+				00E356EF1AD99517003FC87E /* VoxImplantDemoTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
-				CE16F4AE1ECC97F30080BB26 /* Frameworks */,
-				8DB4C26F38FF2A237AFB6287 /* Pods */,
+				4254BFC56E90B8C635DB9832 /* Pods */,
+				C6B1AB22B8CC55BD794477A8 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
 			tabWidth = 2;
+			usesTabs = 0;
 		};
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* VoximplantDemoNew.app */,
-				00E356EE1AD99517003FC87E /* VoximplantDemoNewTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* VoximplantDemoNew-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* VoximplantDemoNew-tvOSTests.xctest */,
+				13B07F961A680F5B00A75B9A /* VoxImplantDemo.app */,
+				00E356EE1AD99517003FC87E /* VoxImplantDemoTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* VoxImplantDemo-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* VoxImplantDemo-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8DB4C26F38FF2A237AFB6287 /* Pods */ = {
+		C6B1AB22B8CC55BD794477A8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				514D38487351AA105F08D46F /* Pods-VoximplantDemoNew.debug.xcconfig */,
-				B4B2518883F6433531D8EBDC /* Pods-VoximplantDemoNew.release.xcconfig */,
-				679CB24FC07A936DE7106141 /* Pods-VoximplantDemoNewTests.debug.xcconfig */,
-				1CEE362D69A10E22423C8D3A /* Pods-VoximplantDemoNewTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		CE16F4AE1ECC97F30080BB26 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B2FF0D541F02A3B9006DD466 /* React.framework */,
-				CE16F4E71ED5C6AD0080BB26 /* libreact-native-voximplant.a */,
-				CE16F4B31ECC980D0080BB26 /* VideoToolbox.framework */,
-				CE16F4B11ECC98020080BB26 /* GLKit.framework */,
-				A4C0B006DFDA325FE19A8B21 /* Pods_VoximplantDemoNew.framework */,
-				932C15D78AFAB3B6F02511F2 /* Pods_VoximplantDemoNewTests.framework */,
+				344431D34BB0B290910BF480 /* Pods_VoxImplantDemo.framework */,
+				930E091A23EF752C749140A0 /* Pods_VoxImplantDemoTests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		CE16F53A1ED759E00080BB26 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CE16F5571ED759E10080BB26 /* libRNDefaultPreference.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* VoximplantDemoNewTests */ = {
+		00E356ED1AD99517003FC87E /* VoxImplantDemoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "VoximplantDemoNewTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "VoxImplantDemoTests" */;
 			buildPhases = (
-				6AE463E772F14C1CEE74FE12 /* [CP] Check Pods Manifest.lock */,
+				18371C834A35D5E2762F48AF /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				998F035E14D6BC81951FD479 /* [CP] Embed Pods Frameworks */,
-				8CAB06FA013334E7CDC4F54C /* [CP] Copy Pods Resources */,
+				AFBEE9D45EA619EC831B5F6F /* [CP] Embed Pods Frameworks */,
+				590D5254223432747DA90AB9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = VoximplantDemoNewTests;
-			productName = VoximplantDemoNewTests;
-			productReference = 00E356EE1AD99517003FC87E /* VoximplantDemoNewTests.xctest */;
+			name = VoxImplantDemoTests;
+			productName = VoxImplantDemoTests;
+			productReference = 00E356EE1AD99517003FC87E /* VoxImplantDemoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* VoximplantDemoNew */ = {
+		13B07F861A680F5B00A75B9A /* VoxImplantDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "VoximplantDemoNew" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "VoxImplantDemo" */;
 			buildPhases = (
-				905C0E7463EA73D0793EA45F /* [CP] Check Pods Manifest.lock */,
+				07A813E88BE844BA49783314 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				88DA29AF67561C31512EA81B /* [CP] Embed Pods Frameworks */,
-				B09B69DD42B0569B03873E52 /* [CP] Copy Pods Resources */,
+				95337EB97244B0AF2C239D35 /* [CP] Embed Pods Frameworks */,
+				C6B19E67DF31E98E689A561A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = VoximplantDemoNew;
+			name = VoxImplantDemo;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* VoximplantDemoNew.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* VoxImplantDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* VoximplantDemoNew-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* VoxImplantDemo-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "VoximplantDemoNew-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "VoxImplantDemo-tvOS" */;
 			buildPhases = (
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -270,14 +238,14 @@
 			);
 			dependencies = (
 			);
-			name = "VoximplantDemoNew-tvOS";
-			productName = "VoximplantDemoNew-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* VoximplantDemoNew-tvOS.app */;
+			name = "VoxImplantDemo-tvOS";
+			productName = "VoxImplantDemo-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* VoxImplantDemo-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* VoximplantDemoNew-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* VoxImplantDemo-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "VoximplantDemoNew-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "VoxImplantDemo-tvOSTests" */;
 			buildPhases = (
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
@@ -288,9 +256,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "VoximplantDemoNew-tvOSTests";
-			productName = "VoximplantDemoNew-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* VoximplantDemoNew-tvOSTests.xctest */;
+			name = "VoxImplantDemo-tvOSTests";
+			productName = "VoxImplantDemo-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* VoxImplantDemo-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -304,27 +272,23 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 25S6X4YD96;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 25S6X4YD96;
-						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 25S6X4YD96;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 25S6X4YD96;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "VoximplantDemoNew" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "VoxImplantDemo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -335,31 +299,15 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = CE16F53A1ED759E00080BB26 /* Products */;
-					ProjectRef = CE16F5391ED759E00080BB26 /* RNDefaultPreference.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* VoximplantDemoNew */,
-				00E356ED1AD99517003FC87E /* VoximplantDemoNewTests */,
-				2D02E47A1E0B4A5D006451C7 /* VoximplantDemoNew-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* VoximplantDemoNew-tvOSTests */,
+				13B07F861A680F5B00A75B9A /* VoxImplantDemo */,
+				00E356ED1AD99517003FC87E /* VoxImplantDemoTests */,
+				2D02E47A1E0B4A5D006451C7 /* VoxImplantDemo-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* VoxImplantDemo-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		CE16F5571ED759E10080BB26 /* libRNDefaultPreference.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNDefaultPreference.a;
-			remoteRef = CE16F5561ED759E10080BB26 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -375,7 +323,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				CE16F4B61ECE03CD0080BB26 /* MaterialIcons.ttf in Resources */,
+				B20E24FD1F860CC2002552CF /* MaterialIcons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,7 +357,37 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		07A813E88BE844BA49783314 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		18371C834A35D5E2762F48AF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -423,39 +401,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		6AE463E772F14C1CEE74FE12 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		88DA29AF67561C31512EA81B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VoximplantDemoNew/Pods-VoximplantDemoNew-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8CAB06FA013334E7CDC4F54C /* [CP] Copy Pods Resources */ = {
+		590D5254223432747DA90AB9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -467,25 +415,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VoximplantDemoNewTests/Pods-VoximplantDemoNewTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VoxImplantDemoTests/Pods-VoxImplantDemoTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		905C0E7463EA73D0793EA45F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		998F035E14D6BC81951FD479 /* [CP] Embed Pods Frameworks */ = {
+		95337EB97244B0AF2C239D35 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -497,10 +430,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VoximplantDemoNewTests/Pods-VoximplantDemoNewTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VoxImplantDemo/Pods-VoxImplantDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B09B69DD42B0569B03873E52 /* [CP] Copy Pods Resources */ = {
+		AFBEE9D45EA619EC831B5F6F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VoxImplantDemoTests/Pods-VoxImplantDemoTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C6B19E67DF31E98E689A561A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -512,7 +460,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VoximplantDemoNew/Pods-VoximplantDemoNew-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VoxImplantDemo/Pods-VoxImplantDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -522,7 +470,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* VoximplantDemoNewTests.m in Sources */,
+				00E356F31AD99517003FC87E /* VoxImplantDemoTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,7 +496,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD954D1E0B4F2C00145EB5 /* VoximplantDemoNewTests.m in Sources */,
+				2DCD954D1E0B4F2C00145EB5 /* VoxImplantDemoTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,12 +505,12 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* VoximplantDemoNew */;
+			target = 13B07F861A680F5B00A75B9A /* VoxImplantDemo */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* VoximplantDemoNew-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* VoxImplantDemo-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -574,7 +522,7 @@
 				13B07FB21A68108700A75B9A /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = VoximplantDemoNew;
+			path = VoxImplantDemo;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -582,15 +530,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 679CB24FC07A936DE7106141 /* Pods-VoximplantDemoNewTests.debug.xcconfig */;
+			baseConfigurationReference = C451A07015506A0D687382CF /* Pods-VoxImplantDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 25S6X4YD96;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = VoximplantDemoNewTests/Info.plist;
+				INFOPLIST_FILE = VoxImplantDemoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -598,18 +545,17 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoximplantDemoNew.app/VoximplantDemoNew";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoxImplantDemo.app/VoxImplantDemo";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1CEE362D69A10E22423C8D3A /* Pods-VoximplantDemoNewTests.release.xcconfig */;
+			baseConfigurationReference = D59D766922E2B93BBFB5A17E /* Pods-VoxImplantDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 25S6X4YD96;
-				INFOPLIST_FILE = VoximplantDemoNewTests/Info.plist;
+				INFOPLIST_FILE = VoxImplantDemoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -617,49 +563,47 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoximplantDemoNew.app/VoximplantDemoNew";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoxImplantDemo.app/VoxImplantDemo";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 514D38487351AA105F08D46F /* Pods-VoximplantDemoNew.debug.xcconfig */;
+			baseConfigurationReference = E1FB4DB93F238D75A9569B0D /* Pods-VoxImplantDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 25S6X4YD96;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = VoximplantDemoNew/Info.plist;
+				INFOPLIST_FILE = VoxImplantDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_NAME = VoximplantDemoNew;
+				PRODUCT_NAME = VoxImplantDemo;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4B2518883F6433531D8EBDC /* Pods-VoximplantDemoNew.release.xcconfig */;
+			baseConfigurationReference = CB3DCEFE0019DA42624A0DFD /* Pods-VoxImplantDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 25S6X4YD96;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = VoximplantDemoNew/Info.plist;
+				INFOPLIST_FILE = VoxImplantDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_NAME = VoximplantDemoNew;
+				PRODUCT_NAME = VoxImplantDemo;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -674,16 +618,15 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 25S6X4YD96;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "VoximplantDemoNew-tvOS/Info.plist";
+				INFOPLIST_FILE = "VoxImplantDemo-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.VoximplantDemoNew-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.VoxImplantDemo-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -702,15 +645,14 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 25S6X4YD96;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "VoximplantDemoNew-tvOS/Info.plist";
+				INFOPLIST_FILE = "VoxImplantDemo-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.VoximplantDemoNew-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.VoxImplantDemo-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -727,15 +669,14 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 25S6X4YD96;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "VoximplantDemoNew-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "VoxImplantDemo-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.VoximplantDemoNew-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.VoxImplantDemo-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoximplantDemoNew-tvOS.app/VoximplantDemoNew-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoxImplantDemo-tvOS.app/VoxImplantDemo-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
@@ -750,14 +691,13 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 25S6X4YD96;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "VoximplantDemoNew-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "VoxImplantDemo-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.VoximplantDemoNew-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.VoxImplantDemo-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoximplantDemoNew-tvOS.app/VoximplantDemoNew-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoxImplantDemo-tvOS.app/VoxImplantDemo-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -781,7 +721,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -797,9 +736,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native/React/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-voximplant/ios/VoxImplantSDK/lib/**";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -825,7 +762,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -835,9 +771,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native/React/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-voximplant/ios/VoxImplantSDK/lib/**";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -847,7 +781,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "VoximplantDemoNewTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "VoxImplantDemoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -856,7 +790,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "VoximplantDemoNew" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "VoxImplantDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -865,7 +799,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "VoximplantDemoNew-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "VoxImplantDemo-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -874,7 +808,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "VoximplantDemoNew-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "VoxImplantDemo-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -883,7 +817,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "VoximplantDemoNew" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "VoxImplantDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

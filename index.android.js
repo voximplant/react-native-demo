@@ -22,7 +22,7 @@ import LoginForm from './LoginForm';
 import UserAgent from './UserAgent';
 //import IncomingCallForm from './IncomingCallForm';
 
-export default class VoximplantDemoNew extends Component {
+export default class VoximplantDemo extends Component {
   constructor() {
     super();
 
@@ -68,4 +68,4 @@ export default class VoximplantDemoNew extends Component {
   }
 }
 
-AppRegistry.registerComponent('VoximplantDemoNew', () => VoximplantDemoNew);
+AppRegistry.registerComponent('VoximplantDemo', () => VoximplantDemo);

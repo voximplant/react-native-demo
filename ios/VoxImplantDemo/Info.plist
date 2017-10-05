@@ -6,10 +6,14 @@
 	<array>
 		<string>MaterialIcons.ttf</string>
 	</array>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Need microphone access for audio and video calls</string>
+  <key>NSCameraUsageDescription</key>
+  <string>Need camera access for video calls</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>VoximplantDemoNew</string>
+	<string>VoxImplantDemo</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

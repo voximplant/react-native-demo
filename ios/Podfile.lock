@@ -14,49 +14,59 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - CocoaLumberjack/Default (3.2.0)
-  - CocoaLumberjack/Swift (3.2.0):
+  - CocoaLumberjack (3.2.1):
+    - CocoaLumberjack/Default (= 3.2.1)
+    - CocoaLumberjack/Extensions (= 3.2.1)
+  - CocoaLumberjack/Default (3.2.1)
+  - CocoaLumberjack/Extensions (3.2.1):
     - CocoaLumberjack/Default
-  - React (0.44.0):
-    - React/Core (= 0.44.0)
+  - React (0.48.4):
+    - React/Core (= 0.48.4)
   - react-native-voximplant (0.0.1):
     - React
-    - VoxImplantSDK
-  - React/Core (0.44.0):
-    - React/cxxreact
-    - Yoga (= 0.44.0.React)
-  - React/cxxreact (0.44.0):
-    - React/jschelpers
-  - React/jschelpers (0.44.0)
-  - React/RCTAnimation (0.44.0):
+    - VoxImplantSDK (~> 2.10.0)
+  - React/BatchedBridge (0.48.4):
     - React/Core
-  - React/RCTImage (0.44.0):
+    - React/cxxreact_legacy
+  - React/Core (0.48.4):
+    - Yoga (= 0.48.4.React)
+  - React/cxxreact_legacy (0.48.4):
+    - React/jschelpers_legacy
+  - React/DevSupport (0.48.4):
+    - React/Core
+    - React/RCTWebSocket
+  - React/jschelpers_legacy (0.48.4)
+  - React/RCTBlob (0.48.4):
+    - React/Core
+  - React/RCTImage (0.48.4):
     - React/Core
     - React/RCTNetwork
-  - React/RCTNetwork (0.44.0):
+  - React/RCTNetwork (0.48.4):
     - React/Core
-  - React/RCTText (0.44.0):
+  - React/RCTText (0.48.4):
     - React/Core
-  - React/RCTWebSocket (0.44.0):
+  - React/RCTWebSocket (0.48.4):
     - React/Core
+    - React/RCTBlob
   - SocketRocket (0.5.1)
-  - VoxImplantSDK (2.4.1):
+  - VoxImplantSDK (2.10.0):
     - AFNetworking (~> 3.1.0)
-    - CocoaLumberjack/Swift (~> 3.2.0)
+    - CocoaLumberjack (~> 3.2.0)
     - SocketRocket (~> 0.5.1)
-    - VoxImplantWebRTC (~> 58.1.0)
-  - VoxImplantWebRTC (58.1.0)
-  - Yoga (0.44.0.React)
+    - VoxImplantWebRTC (~> 60.0.0)
+  - VoxImplantWebRTC (60.0.0)
+  - Yoga (0.48.4.React)
 
 DEPENDENCIES:
   - react-native-voximplant (from `../node_modules/react-native-voximplant`)
+  - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
-  - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/DevSupport (from `../node_modules/react-native`)
   - React/RCTImage (from `../node_modules/react-native`)
   - React/RCTNetwork (from `../node_modules/react-native`)
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
-  - Yoga (from `../node_modules/react-native/ReactCommon/yoga/Yoga.podspec`)
+  - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
   React:
@@ -64,18 +74,18 @@ EXTERNAL SOURCES:
   react-native-voximplant:
     :path: ../node_modules/react-native-voximplant
   Yoga:
-    :path: ../node_modules/react-native/ReactCommon/yoga/Yoga.podspec
+    :path: ../node_modules/react-native/ReactCommon/yoga
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  CocoaLumberjack: 9b4aed7073d242f29cc2f62068d995faf67f703a
-  React: d2077cc20245ccdc8bfe1fdc002f2003318ae8d8
-  react-native-voximplant: 9872ad8a178119aacd86b45668e38fdb9acbaca3
+  CocoaLumberjack: 2800c03334042fe80589423c8d80e582dcaec482
+  React: 6d68659481a8a56e0f6b3dbecd984d5b9bb2d6c5
+  react-native-voximplant: 5508ce322d6d6a2b5ca8c0acd0ef2ece4e1d76bb
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  VoxImplantSDK: e335849a0a946bad5851419fbc9335291b1c07a9
-  VoxImplantWebRTC: eed21293a27841d8c5b8dbcb7f694191e62ba128
-  Yoga: a92a5d8e128905bf9f29c82f870192a6e873dd98
+  VoxImplantSDK: 5988ae9f9834637699b9cf69052f8ae9fba4a5cd
+  VoxImplantWebRTC: e70d9d49868c19b2a0828b74d5c74ea730c2ab41
+  Yoga: ccefa1454b2e9825dce3b2df98088b7f0e3c2675
 
-PODFILE CHECKSUM: a8164ab4505e99b58a3f96461c936a51ba3fc085
+PODFILE CHECKSUM: 90a0c5213952d02de282a59742d69a7354cfdfbd
 
 COCOAPODS: 1.2.1

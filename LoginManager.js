@@ -3,10 +3,11 @@
 import React from 'react';
 import {
   DeviceEventEmitter,
+  Platform
 } from 'react-native';
 
 import VoxImplant from 'react-native-voximplant';
-import DefaultPreference from 'react-native-default-preference';
+//import DefaultPreference from 'react-native-default-preference';
 
 DeviceEventEmitter.addListener(
   'ConnectionFailed',
@@ -29,11 +30,15 @@ DeviceEventEmitter.addListener(
   (loginSuccessful) => {
     console.log('Login successful ' + loginSuccessful.displayName);
     loginManager.displayName = loginSuccessful.displayName;
-    DefaultPreference.set('accessToken', loginSuccessful.accessToken);
-    DefaultPreference.set('accessExpire', loginSuccessful.accessExpire.toString());
-    DefaultPreference.set('refreshToken', loginSuccessful.refreshToken);
-    DefaultPreference.set('refreshExpire', loginSuccessful.refreshExpire.toString());
-
+    // DefaultPreference.set('accessToken', loginSuccessful.accessToken);
+    // DefaultPreference.set('refreshToken', loginSuccessful.refreshToken);
+    // if (Platform.OS === 'ios') {
+    //   DefaultPreference.set('accessExpire', loginSuccessful.accessExpire);
+    //   DefaultPreference.set('refreshExpire', loginSuccessful.refreshExpire);
+    // } else if (Platform.OS === 'android') {
+    //   DefaultPreference.set('accessExpire', loginSuccessful.accessExpire.toString());
+    //   DefaultPreference.set('refreshExpire', loginSuccessful.refreshExpire.toString());
+    // }
     loginManager.emit('onLoggedIn', loginManager.displayName);
   }
 );

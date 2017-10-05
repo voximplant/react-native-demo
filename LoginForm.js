@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 
 import loginManager from './LoginManager';
-import DefaultPreference from 'react-native-default-preference';
+//import DefaultPreference from 'react-native-default-preference';
 
 var passwordValue = '',
     _this;
@@ -41,18 +41,18 @@ export default class LoginForm extends Component {
   }
 
   fillFields() {
-    DefaultPreference.get('usernameValue').then(
-      function(value) {
-        _this.setState({usernameValue: value}); 
-      });
-    DefaultPreference.get('appnameValue').then(
-      function(value) {
-        _this.setState({appnameValue: value});
-      });
-    DefaultPreference.get('accnameValue').then(
-      function(value) {
-        _this.setState({accnameValue: value});
-      });
+    // DefaultPreference.get('usernameValue').then(
+    //   function(value) {
+    //     _this.setState({usernameValue: value}); 
+    //   });
+    // DefaultPreference.get('appnameValue').then(
+    //   function(value) {
+    //     _this.setState({appnameValue: value});
+    //   });
+    // DefaultPreference.get('accnameValue').then(
+    //   function(value) {
+    //     _this.setState({accnameValue: value});
+    //   });
   }
 
   onLoginFailed(errorCode) {
@@ -76,9 +76,9 @@ export default class LoginForm extends Component {
   }
 
   saveUsername() {
-    DefaultPreference.set('usernameValue', this.state.usernameValue);
-    DefaultPreference.set('appnameValue', this.state.appnameValue);
-    DefaultPreference.set('accnameValue', this.state.accnameValue);
+    // DefaultPreference.set('usernameValue', this.state.usernameValue);
+    // DefaultPreference.set('appnameValue', this.state.appnameValue);
+    // DefaultPreference.set('accnameValue', this.state.accnameValue);
   }
 
   focusNextField = (nextField) => {

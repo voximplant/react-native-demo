@@ -23,7 +23,7 @@ var _this,
     formInstance,
     uaDisplayName;
 
-export default class VoximplantDemoNew extends Component {
+export default class VoxImplantDemo extends Component {
 
   constructor() {
     super();
@@ -68,4 +68,4 @@ export default class VoximplantDemoNew extends Component {
   }
 }
 
-AppRegistry.registerComponent('VoximplantDemoNew', () => VoximplantDemoNew);
+AppRegistry.registerComponent('VoxImplantDemo', () => VoxImplantDemo);
