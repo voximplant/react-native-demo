@@ -17,6 +17,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* VoxImplantDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VoxImplantDemoTests.m */; };
 		B20E24FD1F860CC2002552CF /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B20E24FC1F860CC2002552CF /* MaterialIcons.ttf */; };
+		CE36C7921F98B102005B36F1 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE36C7911F98B102005B36F1 /* PushKit.framework */; };
 		FA04C87B9997FE894892B909 /* Pods_VoxImplantDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930E091A23EF752C749140A0 /* Pods_VoxImplantDemoTests.framework */; };
 		FB72DFA8236D9E6658560AE3 /* Pods_VoxImplantDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 344431D34BB0B290910BF480 /* Pods_VoxImplantDemo.framework */; };
 /* End PBXBuildFile section */
@@ -57,6 +58,8 @@
 		B20E24FC1F860CC2002552CF /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		C451A07015506A0D687382CF /* Pods-VoxImplantDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoxImplantDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VoxImplantDemoTests/Pods-VoxImplantDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CB3DCEFE0019DA42624A0DFD /* Pods-VoxImplantDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoxImplantDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-VoxImplantDemo/Pods-VoxImplantDemo.release.xcconfig"; sourceTree = "<group>"; };
+		CE36C7911F98B102005B36F1 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
+		CE36C7931F98CF52005B36F1 /* VoxImplantDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = VoxImplantDemo.entitlements; path = VoxImplantDemo/VoxImplantDemo.entitlements; sourceTree = "<group>"; };
 		D59D766922E2B93BBFB5A17E /* Pods-VoxImplantDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoxImplantDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VoxImplantDemoTests/Pods-VoxImplantDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		E1FB4DB93F238D75A9569B0D /* Pods-VoxImplantDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoxImplantDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VoxImplantDemo/Pods-VoxImplantDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE36C7921F98B102005B36F1 /* PushKit.framework in Frameworks */,
 				FB72DFA8236D9E6658560AE3 /* Pods_VoxImplantDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,6 +119,7 @@
 		13B07FAE1A68108700A75B9A /* VoxImplantDemo */ = {
 			isa = PBXGroup;
 			children = (
+				CE36C7931F98CF52005B36F1 /* VoxImplantDemo.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -174,6 +179,7 @@
 		C6B1AB22B8CC55BD794477A8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE36C7911F98B102005B36F1 /* PushKit.framework */,
 				344431D34BB0B290910BF480 /* Pods_VoxImplantDemo.framework */,
 				930E091A23EF752C749140A0 /* Pods_VoxImplantDemoTests.framework */,
 			);
@@ -276,6 +282,14 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 25S6X4YD96;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -572,6 +586,7 @@
 			baseConfigurationReference = E1FB4DB93F238D75A9569B0D /* Pods-VoxImplantDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VoxImplantDemo/VoxImplantDemo.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 25S6X4YD96;
@@ -583,6 +598,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.voximplant.reactjs.native.VoxImplantDemo;
 				PRODUCT_NAME = VoxImplantDemo;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -593,6 +609,7 @@
 			baseConfigurationReference = CB3DCEFE0019DA42624A0DFD /* Pods-VoxImplantDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VoxImplantDemo/VoxImplantDemo.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 25S6X4YD96;
 				ENABLE_BITCODE = NO;
@@ -603,6 +620,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.voximplant.reactjs.native.VoxImplantDemo;
 				PRODUCT_NAME = VoxImplantDemo;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

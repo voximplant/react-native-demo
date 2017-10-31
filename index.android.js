@@ -20,24 +20,31 @@ import VoxImplant from 'react-native-voximplant';
 import Loader from './Loader';
 import LoginForm from './LoginForm';
 import UserAgent from './UserAgent';
-//import IncomingCallForm from './IncomingCallForm';
+import pushManager from './PushManager';
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
 export default class VoximplantDemo extends Component {
   constructor() {
     super();
 
-    loginManager.init();
+    pushManager.init();
     this.state = {
-      page: 'connection'
+      page: 'connection',
+      userName: ''
     };
   }
 
   componentDidMount() {
     _this = this;  
-    loginManager.on('onLoggedIn', (param) => this.onLogin(param));
-    loginManager.on('onConnected', () => this.onConnected());
-    loginManager.on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
-    loginManager.connect(true);
+    loginManager.getInstance().on('onLoggedIn', (param) => this.onLogin(param));
+    loginManager.getInstance().on('onConnected', () => this.onConnected());
+    loginManager.getInstance().on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
+    loginManager.getInstance().connect(true);
+    if (loginManager.getInstance().loggedIn) {
+      _this.setState({page: 'useragent'});
+    } else if (loginManager.getInstance().connected) {
+      _this.setState({page: 'login'});
+    }
   }
 
   onConnected() {
@@ -45,8 +52,7 @@ export default class VoximplantDemo extends Component {
   }
 
   onLogin(displayName) {
-    uaDisplayName = displayName;
-    _this.setState({page: 'useragent'});
+    _this.setState({userName: displayName, page: 'useragent'});
   }
 
   onConnectionFailed(reason) {
@@ -61,7 +67,7 @@ export default class VoximplantDemo extends Component {
             />;
     }
     if (this.state.page === 'useragent') {
-      ui = <UserAgent uaDisplayName={uaDisplayName} />;
+      ui = <UserAgent uaDisplayName={this.state.userName} />;
     }
 
     return ui;

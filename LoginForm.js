@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 
 import loginManager from './LoginManager';
-//import DefaultPreference from 'react-native-default-preference';
+import DefaultPreference from 'react-native-default-preference';
 
 var passwordValue = '',
     _this;
@@ -23,15 +23,13 @@ var passwordValue = '',
 export default class LoginForm extends Component {
   constructor() {
     super();
-    loginManager.on('onLoginFailed', (errorCode) => this.onLoginFailed(errorCode));
-    loginManager.on('onLoggedIn', (param) => this.saveUsername());
+    loginManager.getInstance().on('onLoginFailed', (errorCode) => this.onLoginFailed(errorCode));
+    loginManager.getInstance().on('onLoggedIn', (param) => this.saveUsername());
     
     this.state = {
       modalText: '',
       isModalOpen: false,
-      usernameValue: '',
-      appnameValue: '',
-      accnameValue: ''
+      usernameValue: ''
     }
   }
 
@@ -41,18 +39,10 @@ export default class LoginForm extends Component {
   }
 
   fillFields() {
-    // DefaultPreference.get('usernameValue').then(
-    //   function(value) {
-    //     _this.setState({usernameValue: value}); 
-    //   });
-    // DefaultPreference.get('appnameValue').then(
-    //   function(value) {
-    //     _this.setState({appnameValue: value});
-    //   });
-    // DefaultPreference.get('accnameValue').then(
-    //   function(value) {
-    //     _this.setState({accnameValue: value});
-    //   });
+    DefaultPreference.get('usernameValue').then(
+      function(value) {
+        _this.setState({usernameValue: value}); 
+      });
   }
 
   onLoginFailed(errorCode) {
@@ -76,9 +66,7 @@ export default class LoginForm extends Component {
   }
 
   saveUsername() {
-    // DefaultPreference.set('usernameValue', this.state.usernameValue);
-    // DefaultPreference.set('appnameValue', this.state.appnameValue);
-    // DefaultPreference.set('accnameValue', this.state.accnameValue);
+    DefaultPreference.set('usernameValue', this.state.usernameValue);
   }
 
   focusNextField = (nextField) => {
@@ -86,18 +74,8 @@ export default class LoginForm extends Component {
   };
 
   buttonClicked() {
-    loginManager.loginWithPassword(this.state.usernameValue +
-                                  "@" + this.state.appnameValue +
-                                  "." + this.state.accnameValue +
+    loginManager.getInstance().loginWithPassword(this.state.usernameValue +
                                   ".voximplant.com", passwordValue)   
-  }
-
-  updateAccText(text) {
-    this.setState({accnameValue: text});
-  }
-
-  updateAppText(text) {
-    this.setState({appnameValue: text});
   }
 
   updateUserText(text) {
@@ -123,35 +101,15 @@ export default class LoginForm extends Component {
           <View style={ styles.loginform }>
             <TextInput 
                   style={ styles.forminput } 
-                  placeholder="Account name" 
-                  value={ this.state.accnameValue }
+                  placeholder="user@app.account" 
+                  value={ this.state.usernameValue }
                   autoFocus={ true }
                   ref='acc'
                   autoCapitalize='none'
                   autoCorrect={ false } 
-                  onSubmitEditing={ (event) => this.focusNextField('app') }
-                  onChangeText={ (e) => this.updateAccText(e) }
-                  blurOnSubmit={ false } />
-            <TextInput 
-                  style={ styles.forminput } 
-                  placeholder="Application name" 
-                  value={ this.state.appnameValue } 
-                  ref='app'
-                  autoCapitalize='none'
-                  autoCorrect={ false } 
-                  onSubmitEditing={ (event) => this.focusNextField('user') }
-                  onChangeText={ (e) => this.updateAppText(e) }
-                  blurOnSubmit={ false } />
-            <TextInput 
-                  style={ styles.forminput } 
-                  placeholder="User name" 
-                  value={ this.state.usernameValue } 
-                  ref='user'
-                  autoCapitalize='none'
-                  autoCorrect={ false }
                   onSubmitEditing={ (event) => this.focusNextField('password') }
                   onChangeText={ (e) => this.updateUserText(e) }
-                  blurOnSubmit={ false } />
+                  blurOnSubmit={ true } />
             <TextInput 
                   style={ styles.forminput } 
                   placeholder="User password" 

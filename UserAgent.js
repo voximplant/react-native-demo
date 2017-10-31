@@ -14,15 +14,14 @@ import {
   DeviceEventEmitter,
   Image
 } from 'react-native';
-// import ColorSwitch from './ColorSwitch';
-// import ToggleButton from './ToggleButton';
 import { Keypad } from './Keypad';
 import { CallButton } from './CallButton';
 import VoxImplant from "react-native-voximplant";
+import loginManager from './LoginManager';
 
 var	currentCallId,
     uaInstance,
-    number = 'test2',
+    number = '',
     settings_video = false,
     camera = "front";
 
@@ -30,7 +29,9 @@ DeviceEventEmitter.addListener(
   'CallRinging',
   (callRinging) => {
     console.log('Call ringing. Call id = ' + callRinging.callId);
-    uaInstance.setState({callState: "Ringing"});
+    if (uaInstance !== undefined) {
+      uaInstance.setState({callState: "Ringing"});
+    }
   }
 );
 
@@ -38,8 +39,10 @@ DeviceEventEmitter.addListener(
   'CallConnected',
   (callConnected) => {
     console.log('Call connected. Call id = ' + callConnected.callId);
-    uaInstance.setState({status: 'connected',
-                         callState: "Call is in progress"}); 
+    if (uaInstance !== undefined) {
+      uaInstance.setState({status: 'connected',
+                          callState: "Call is in progress"}); 
+    }
   }
 );
 
@@ -47,16 +50,20 @@ DeviceEventEmitter.addListener(
   'CallFailed',
   (callFailed) => {
     console.log('Call failed. Code ' + callFailed.code + ' Reason ' + callFailed.reason);
-    uaInstance.setState({modalText: 'Call failed. Reason: ' + callFailed.reason, 
-                         status: 'idle', isModalOpen: true});
+    if (uaInstance !== undefined) {
+      uaInstance.setState({modalText: 'Call failed. Reason: ' + callFailed.reason, 
+                          status: 'idle', isModalOpen: true});
+    }
   }
 );
 
 DeviceEventEmitter.addListener(
   'CallDisconnected',
   (callDisconnected) => {
-    console.log('Call disconnected. Call id = ' + callDisconnected.callId);
-    uaInstance.callDisconnected(callDisconnected.callId);
+    if (uaInstance !== undefined) {
+      console.log('Call disconnected. Call id = ' + callDisconnected.callId);
+      uaInstance.callDisconnected(callDisconnected.callId);
+    }
   }
 );
 
@@ -65,9 +72,11 @@ DeviceEventEmitter.addListener(
   (incomingCall) => {
     console.log('Incoming call: is video ' + incomingCall.videoCall);
     currentCallId = incomingCall.callId;
-    uaInstance.setState({ status: 'incoming_call', 
-                          callState: "Incoming call from " + incomingCall.from,
-                          videoEnabled: incomingCall.videoCall });
+    if (uaInstance !== undefined) {
+      uaInstance.setState({ status: 'incoming_call', 
+                            callState: "Incoming call from " + incomingCall.from,
+                            videoEnabled: incomingCall.videoCall });
+    }
   }
 );
 
@@ -89,11 +98,16 @@ export default class UserAgent extends Component {
   componentDidMount() {
     uaInstance = this;
     this._thisNumber.focus();
+    if (loginManager.getInstance().incomingCall != undefined) {
+      this.setState({ status: 'incoming_call', 
+                            callState: "Incoming call from " + loginManager.getInstance().incomingCall.from,
+                            videoEnabled: loginManager.getInstance().incomingCall.videoCall });
+      loginManager.getInstance().incomingCall = undefined;
+    }
   }
 
   updateNumber(text) {
     number = text;
-    //this._thisNumber.setNativeProps({text: text}); 
   }
 
   makeCall(isVideoCall) {

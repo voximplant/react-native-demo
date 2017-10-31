@@ -11,6 +11,10 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <PushKit/PushKit.h>
+#import <UIKit/UIKit.h>
+#import "RNNotifications.h"
+
 
 @implementation AppDelegate
 
@@ -31,7 +35,23 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  UIUserNotificationType types = UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+  UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+  [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+  
   return YES;
+}
+  
+  // PushKit API Support
+- (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)credentials forType:(NSString *)type
+{
+  [RNNotifications didUpdatePushCredentials:credentials forType:type];
+}
+  
+- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type
+{
+  [RNNotifications didReceiveRemoteNotification:payload.dictionaryPayload];
 }
 
 @end

@@ -13,11 +13,14 @@ target 'VoxImplantDemo' do
     'RCTText',
     'RCTWebSocket',
     'DevSupport',
-    'BatchedBridge'
+    'BatchedBridge',
+    'RCTAnimation'
     # Add any other subspecs you want to use in your project
     ]
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
     pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
+    pod 'RNDefaultPreference', path: '../node_modules/react-native-default-preference'
+    pod 'react-native-notifications', path: '../node_modules/react-native-notifications'
     
     inherit! :search_paths
     
@@ -44,13 +47,15 @@ target 'VoxImplantDemoTests' do
     'RCTText',
     'RCTWebSocket',
     'DevSupport',
-    'BatchedBridge'
+    'BatchedBridge',
+    'RCTAnimation'
     # Add any other subspecs you want to use in your project
     ]
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
     pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
+    pod 'RNDefaultPreference', path: '../node_modules/react-native-default-preference'
+    pod 'react-native-notifications', path: '../node_modules/react-native-notifications'
     
     inherit! :search_paths
-    
 end
 

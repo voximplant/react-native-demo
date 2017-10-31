@@ -36,6 +36,8 @@ PODS:
     - React/Core
     - React/RCTWebSocket
   - React/jschelpers_legacy (0.48.4)
+  - React/RCTAnimation (0.48.4):
+    - React/Core
   - React/RCTBlob (0.48.4):
     - React/Core
   - React/RCTImage (0.48.4):
@@ -48,6 +50,8 @@ PODS:
   - React/RCTWebSocket (0.48.4):
     - React/Core
     - React/RCTBlob
+  - RNDefaultPreference (1.2.0):
+    - React
   - SocketRocket (0.5.1)
   - VoxImplantSDK (2.10.0):
     - AFNetworking (~> 3.1.0)
@@ -62,10 +66,12 @@ DEPENDENCIES:
   - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
+  - React/RCTAnimation (from `../node_modules/react-native`)
   - React/RCTImage (from `../node_modules/react-native`)
   - React/RCTNetwork (from `../node_modules/react-native`)
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNDefaultPreference (from `../node_modules/react-native-default-preference`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
@@ -73,6 +79,8 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native
   react-native-voximplant:
     :path: ../node_modules/react-native-voximplant
+  RNDefaultPreference:
+    :path: ../node_modules/react-native-default-preference
   Yoga:
     :path: ../node_modules/react-native/ReactCommon/yoga
 
@@ -81,11 +89,12 @@ SPEC CHECKSUMS:
   CocoaLumberjack: 2800c03334042fe80589423c8d80e582dcaec482
   React: 6d68659481a8a56e0f6b3dbecd984d5b9bb2d6c5
   react-native-voximplant: 5508ce322d6d6a2b5ca8c0acd0ef2ece4e1d76bb
+  RNDefaultPreference: ea491f92fe86cfd7bd76048eaa66c1afe0838da5
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   VoxImplantSDK: 5988ae9f9834637699b9cf69052f8ae9fba4a5cd
   VoxImplantWebRTC: e70d9d49868c19b2a0828b74d5c74ea730c2ab41
   Yoga: ccefa1454b2e9825dce3b2df98088b7f0e3c2675
 
-PODFILE CHECKSUM: 90a0c5213952d02de282a59742d69a7354cfdfbd
+PODFILE CHECKSUM: e739ef9bda8c098cd7cd25682072d3a18b6cf6a1
 
 COCOAPODS: 1.2.1

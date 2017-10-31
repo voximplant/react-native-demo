@@ -20,25 +20,25 @@ import UserAgent from './UserAgent';
 import loginManager from './LoginManager';
 
 var _this,  
-    formInstance,
-    uaDisplayName;
+    formInstance;
 
 export default class VoxImplantDemo extends Component {
 
   constructor() {
     super();
-    loginManager.init();
     this.state = {
-      page: 'connection'
+      page: 'connection',
+      userName: ''
     }
   }
 
   componentDidMount() {
     _this = this;
-    loginManager.on('onLoggedIn', (param) => this.onLogin(param));
-    loginManager.on('onConnected', () => this.onConnected());
-    loginManager.on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
-    loginManager.connect(true);
+    loginManager.getInstance().on('onLoggedIn', (param) => this.onLogin(param));
+    loginManager.getInstance().on('onConnected', () => this.onConnected());
+    loginManager.getInstance().on('onConnectionClosed', () => this.onConnectionClosed());
+    loginManager.getInstance().on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
+    loginManager.getInstance().connect(true);
   }
 
   onConnected() {
@@ -46,12 +46,15 @@ export default class VoxImplantDemo extends Component {
   }
 
   onLogin(displayName) {
-    uaDisplayName = displayName;
-    _this.setState({page: 'useragent'});
+    _this.setState({userName: displayName, page: 'useragent'});
   }
 
   onConnectionFailed(reason) {
-    //TODO
+    console.log("index ios onConnectionClosed");
+  }
+
+  onConnectionClosed() {
+    console.log("index ios onConnectionClosed");
   }
 
   render() {
@@ -62,7 +65,7 @@ export default class VoxImplantDemo extends Component {
             />;
     }
     if (this.state.page == "useragent") {
-      ui = <UserAgent uaDisplayName={uaDisplayName} />;
+      ui = <UserAgent uaDisplayName={this.state.userName} />;
     }
     return ui;
   }

@@ -1,9 +1,11 @@
-package com.voximplantdemonew;
+package com.voximplantdemo;
 
 import android.app.Application;
 
 import com.voximplant.reactnative.VoxImplantReactPackage;
 import com.reactlibrary.RNDefaultPreferencePackage;
+import com.evollu.react.fcm.FIRMessagingPackage;
+
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -26,7 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new VoxImplantReactPackage(),
-          new RNDefaultPreferencePackage()
+          new RNDefaultPreferencePackage(),
+          new FIRMessagingPackage()
       );
     }
   };

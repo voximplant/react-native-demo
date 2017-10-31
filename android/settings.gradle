@@ -1,4 +1,4 @@
-rootProject.name = 'VoximplantDemoNew'
+rootProject.name = 'VoximplantDemo'
 
 include ':app'
 
@@ -7,3 +7,6 @@ project(':react-native-voximplant').projectDir = new File(rootProject.projectDir
 
 include ':react-native-default-preference'
 project(':react-native-default-preference').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-default-preference/android')
+
+include ':react-native-fcm'
+project(':react-native-fcm').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fcm/android')
