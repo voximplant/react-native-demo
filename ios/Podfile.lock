@@ -22,9 +22,11 @@ PODS:
     - CocoaLumberjack/Default
   - React (0.48.4):
     - React/Core (= 0.48.4)
-  - react-native-voximplant (0.0.1):
+  - react-native-notifications (1.1.16):
     - React
-    - VoxImplantSDK (~> 2.10.0)
+  - react-native-voximplant (0.1.8):
+    - React
+    - VoxImplantSDK (~> 2.11.0)
   - React/BatchedBridge (0.48.4):
     - React/Core
     - React/cxxreact_legacy
@@ -53,15 +55,16 @@ PODS:
   - RNDefaultPreference (1.2.0):
     - React
   - SocketRocket (0.5.1)
-  - VoxImplantSDK (2.10.0):
+  - VoxImplantSDK (2.11.0):
     - AFNetworking (~> 3.1.0)
     - CocoaLumberjack (~> 3.2.0)
     - SocketRocket (~> 0.5.1)
-    - VoxImplantWebRTC (~> 60.0.0)
-  - VoxImplantWebRTC (60.0.0)
+    - VoxImplantWebRTC (~> 62.0.0)
+  - VoxImplantWebRTC (62.0.0)
   - Yoga (0.48.4.React)
 
 DEPENDENCIES:
+  - react-native-notifications (from `../node_modules/react-native-notifications`)
   - react-native-voximplant (from `../node_modules/react-native-voximplant`)
   - React/BatchedBridge (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
@@ -77,6 +80,8 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   React:
     :path: ../node_modules/react-native
+  react-native-notifications:
+    :path: ../node_modules/react-native-notifications
   react-native-voximplant:
     :path: ../node_modules/react-native-voximplant
   RNDefaultPreference:
@@ -88,13 +93,14 @@ SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   CocoaLumberjack: 2800c03334042fe80589423c8d80e582dcaec482
   React: 6d68659481a8a56e0f6b3dbecd984d5b9bb2d6c5
-  react-native-voximplant: 5508ce322d6d6a2b5ca8c0acd0ef2ece4e1d76bb
+  react-native-notifications: 53ae5f73356132883e6d557959c1705fba66b65c
+  react-native-voximplant: 95cc5c87a7abf7fb7f6de4222380dced63863451
   RNDefaultPreference: ea491f92fe86cfd7bd76048eaa66c1afe0838da5
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  VoxImplantSDK: 5988ae9f9834637699b9cf69052f8ae9fba4a5cd
-  VoxImplantWebRTC: e70d9d49868c19b2a0828b74d5c74ea730c2ab41
+  VoxImplantSDK: 44de2bc7aa194f4b4f0c1b975b587208c32efb98
+  VoxImplantWebRTC: 054bd6eae6871e32f547954c8ceea65db7b0bf37
   Yoga: ccefa1454b2e9825dce3b2df98088b7f0e3c2675
 
-PODFILE CHECKSUM: e739ef9bda8c098cd7cd25682072d3a18b6cf6a1
+PODFILE CHECKSUM: e3edf4758686200afd3d7bd28615dcfdaf3921a6
 
 COCOAPODS: 1.2.1
