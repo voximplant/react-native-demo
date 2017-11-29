@@ -12,7 +12,7 @@ import DefaultPreference from 'react-native-default-preference';
 import pushManager from './PushManager'
 
 DeviceEventEmitter.addListener(
-  'ConnectionFailed',
+  VoxImplant.SDK.Events.ConnectionFailed,
   (connectionFailed) => {
     console.log('Connection failed: reason: ' + connectionFailed.reason);
     LoginManager.getInstance().connected = false;
@@ -21,7 +21,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  'ConnectionSuccessful',
+  VoxImplant.SDK.Events.ConnectionSuccessful,
   () => {
    console.log('Connection successful');
    LoginManager.getInstance().connected = true;
@@ -30,7 +30,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  'ConnectionClosed',
+  VoxImplant.SDK.Events.ConnectionClosed,
   () => {
    console.log('Connection closed');
    LoginManager.getInstance().connected = false;
@@ -39,7 +39,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  'LoginSuccessful',
+  VoxImplant.SDK.Events.LoginSuccessful,
   (loginSuccessful) => {
     console.log('Login successful ' + loginSuccessful.displayName);
     LoginManager.getInstance().displayName = loginSuccessful.displayName;
@@ -55,7 +55,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  'LoginFailed',
+  VoxImplant.SDK.Events.LoginFailed,
   (loginFailed) => {
     console.log('Login failed: error code: ' + loginFailed.errorCode);
     LoginManager.getInstance().loggedIn = false;
@@ -64,7 +64,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  'IncomingCall',
+  VoxImplant.SDK.Events.IncomingCall,
   (incomingCall) => {
     if (LoginManager.getInstance().currentAppState != "active") {
       console.log('LoginManager: Incoming call: is video ' + incomingCall.videoCall);

@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { Keypad } from './Keypad';
 import { CallButton } from './CallButton';
+import { IncomingCallForm } from './IncomingCallForm';
 import VoxImplant from "react-native-voximplant";
 import loginManager from './LoginManager';
 
@@ -23,10 +24,10 @@ var	currentCallId,
     uaInstance,
     number = '',
     settings_video = false,
-    camera = "front";
+    camera = VoxImplant.SDK.CameraType.CameraTypeFront;
 
 DeviceEventEmitter.addListener(
-  'CallRinging',
+  VoxImplant.SDK.Events.CallRinging,
   (callRinging) => {
     console.log('Call ringing. Call id = ' + callRinging.callId);
     if (uaInstance !== undefined) {
@@ -36,7 +37,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  'CallConnected',
+  VoxImplant.SDK.Events.CallConnected,
   (callConnected) => {
     console.log('Call connected. Call id = ' + callConnected.callId);
     if (uaInstance !== undefined) {
@@ -47,7 +48,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  'CallFailed',
+  VoxImplant.SDK.Events.CallFailed,
   (callFailed) => {
     console.log('Call failed. Code ' + callFailed.code + ' Reason ' + callFailed.reason);
     if (uaInstance !== undefined) {
@@ -58,7 +59,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  'CallDisconnected',
+  VoxImplant.SDK.Events.CallDisconnected,
   (callDisconnected) => {
     if (uaInstance !== undefined) {
       console.log('Call disconnected. Call id = ' + callDisconnected.callId);
@@ -68,7 +69,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  'IncomingCall',
+  VoxImplant.SDK.Events.IncomingCall,
   (incomingCall) => {
     console.log('Incoming call: is video ' + incomingCall.videoCall);
     currentCallId = incomingCall.callId;
@@ -230,13 +231,7 @@ export default class UserAgent extends Component {
 
     if (this.state.status === 'incoming_call') {
       incomingCall = (
-        <View style={{ flex: 1, alignItems:'center', justifyContent:'center' }}>
-          <Text style={styles.incoming_call}>{this.state.callState}</Text>
-          <View style={{ flexDirection: 'row', width: 200, height: 90, alignSelf: 'center', margin: 20 }}>
-            <CallButton icon_name='call' color='#0C90E7' buttonPressed={ () => this.answerCall() } />
-            <CallButton icon_name='call-end' color='#FF3B30' buttonPressed={ () => this.rejectCall() } /> 
-          </View>
-        </View>
+        <IncomingCallForm title ={this.state.callState} answerCall={ () => this.answerCall()} rejectCall={ () => this.rejectCall() }/>
       );
     }
 
@@ -394,9 +389,4 @@ var styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'center'
   },  
-  incoming_call: {
-    justifyContent:'center',
-    alignSelf: 'center',
-    fontSize: 18,
-  },
 });
