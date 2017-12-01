@@ -13,7 +13,8 @@
 		"react-native-vector-icons": "^4.1.1",
 		"react-native-default-preference": "^1.2.0",
 		"react-native-fcm": "10.0.2",
-		"react-native-notifications": "1.1.16"
+		"react-native-notifications": "1.1.16",
+		"react-native-md5": "1.0.0"
 	},
 	"devDependencies": {
 		"babel-jest": "21.2.0",

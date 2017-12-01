@@ -11,7 +11,8 @@ import {
   Text,
   View,
   DeviceEventEmitter,
-  ToastAndroid
+  ToastAndroid,
+  Button
 } from 'react-native';
 
 import loginManager from './LoginManager';
@@ -39,7 +40,8 @@ export default class VoximplantDemo extends Component {
     loginManager.getInstance().on('onLoggedIn', (param) => this.onLogin(param));
     loginManager.getInstance().on('onConnected', () => this.onConnected());
     loginManager.getInstance().on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
-    loginManager.getInstance().connect(true);
+    loginManager.getInstance().on('onConnectionClosed', () => this.onConnectionClosed());
+    loginManager.getInstance().connect(false);
     if (loginManager.getInstance().loggedIn) {
       _this.setState({page: 'useragent'});
     } else if (loginManager.getInstance().connected) {
@@ -56,11 +58,31 @@ export default class VoximplantDemo extends Component {
   }
 
   onConnectionFailed(reason) {
-    //TODO
+    this.setState({ page: 'retry' });
+  }
+
+  onConnectionClosed() {
+    this.setState({ page: 'connection'});
+    loginManager.getInstance().connect(false);
+  }
+
+  reconnect() {
+    this.setState({ page: 'connection' });
+    loginManager.getInstance().connect(false)
   }
 
   render() {
     let ui = <Loader />;
+
+    if (this.state.page === 'retry') {
+      ui = (
+        <View style={{ flex: 1, alignItems:'center', justifyContent:'center' }}>
+          <Text>Internet connection is lost. Reconnect?</Text>
+          <Button title="OK" onPress={ () => this.reconnect() }/>
+        </View>
+      );
+    }
+
     if (this.state.page === 'login') {
       ui = <LoginForm 
               ref={(component) => formInstance = component}

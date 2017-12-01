@@ -105,10 +105,25 @@ export default class UserAgent extends Component {
                             videoEnabled: loginManager.getInstance().incomingCall.videoCall });
       loginManager.getInstance().incomingCall = undefined;
     }
+    loginManager.getInstance().on("onConnectionClosed", () => this.onConnectionClosed());
+  }
+
+  componentWillUnmount() {
+    uaInstance = undefined;
   }
 
   updateNumber(text) {
     number = text;
+  }
+
+  onConnectionClosed() {
+    if (currentCallId !== undefined && uaInstance !== undefined) {
+      this.setState({ 
+        status: 'idle',
+        callState: ""
+       })
+       currentCallId = undefined;
+    }
   }
 
   makeCall(isVideoCall) {
@@ -134,6 +149,7 @@ export default class UserAgent extends Component {
 
   rejectCall() {
     VoxImplant.SDK.declineCall(currentCallId);
+    currentCallId = undefined;
   }
 
   muteAudio() {
@@ -174,6 +190,7 @@ export default class UserAgent extends Component {
     this.setState({status: 'idle', micMuted: false, speakerphoneOn: false});
     VoxImplant.SDK.setUseLoudspeaker(this.state.speakerphoneOn);
     VoxImplant.SDK.setMute(this.state.micMuted);
+    currentCallId = undefined;
     // this.closeModal(true);
   }
 

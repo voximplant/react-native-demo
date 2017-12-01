@@ -11,7 +11,8 @@ import {
   TextInput,
   Platform,
   Modal,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 
 import loginManager from './LoginManager';
@@ -73,9 +74,14 @@ export default class LoginForm extends Component {
     this.refs[nextField].focus();
   };
 
-  buttonClicked() {
+  loginClicked() {
     loginManager.getInstance().loginWithPassword(this.state.usernameValue +
-                                  ".voximplant.com", passwordValue)   
+                                  ".voximplant.com", passwordValue);
+  }
+
+  loginWithOneTimeKeyClicked() {
+    loginManager.getInstance().requestOneTimeKey(this.state.usernameValue + 
+                                  ".voximplant.com", passwordValue);
   }
 
   updateUserText(text) {
@@ -118,12 +124,16 @@ export default class LoginForm extends Component {
                   ref='password'
                   onChangeText={ (e) => this.updatePasswordText(e) }
                   blurOnSubmit={ true } />
-            <Button 
-                  onPress={ (e) => this.buttonClicked(e) }
-                  title="Login"
-                  color='#23a9e2'
-                  style={ styles.loginbutton }
-            />
+            <TouchableOpacity onPress={ () => this.loginClicked() }>
+              <Text style = {styles.loginbutton}>
+                  Login
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={ () => this.loginWithOneTimeKeyClicked() }>
+              <Text style = {styles.loginbutton}>
+                  Login With One Time Key
+              </Text>
+            </TouchableOpacity>
           </View>            
         </View>
         <Modal 
@@ -173,7 +183,13 @@ var styles = StyleSheet.create({
 	loginform: {
 		paddingHorizontal: 20,
     alignItems: 'stretch'
-	},
+  },
+  loginbutton: {
+    color: '#23a9e2',
+    fontSize: 16,
+    alignSelf: 'center',
+    paddingTop: 20,
+  },
 	forminput: {
     fontSize: 16,
     padding: 10,

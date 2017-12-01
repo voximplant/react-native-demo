@@ -9,7 +9,8 @@ import {
 
 import VoxImplant from 'react-native-voximplant';
 import DefaultPreference from 'react-native-default-preference';
-import pushManager from './PushManager'
+import pushManager from './PushManager';
+import md5 from "react-native-md5";
 
 DeviceEventEmitter.addListener(
   VoxImplant.SDK.Events.ConnectionFailed,
@@ -74,6 +75,17 @@ DeviceEventEmitter.addListener(
   }
 );
 
+DeviceEventEmitter.addListener(
+  VoxImplant.SDK.Events.OneTimeKeyGenerated,
+  (oneTimeKeyGenerated) => {
+      console.log('LoginManager: OneTimeKeyGenerated: key: ' + oneTimeKeyGenerated.key);
+      let hash = md5.hex_md5(oneTimeKeyGenerated.key + "|" 
+                      + md5.hex_md5(LoginManager.getInstance().myuser + ":voximplant.com:" 
+                      + LoginManager.getInstance().mypassword));
+      LoginManager.getInstance().loginWithOneTimeKey(LoginManager.getInstance().fullUserName, hash);
+  }
+);
+
 const handlersGlobal = {};
 
 export default class LoginManager {
@@ -85,6 +97,9 @@ export default class LoginManager {
   displayName = '';
   currentAppState = "inactive";
   incomingCall = undefined;
+  fullUserName = '';
+  myuser = '';
+  mypassword = '';
 
   static getInstance() {
       if (this.myInstance == null) {
@@ -105,6 +120,17 @@ export default class LoginManager {
 
   loginWithPassword(user, password) {
     VoxImplant.SDK.login(user, password);
+  }
+
+  requestOneTimeKey(user, password) {
+    this.fullUserName = user;
+    this.myuser = user.substring(0, user.indexOf('@'));
+    this.mypassword = password;
+    VoxImplant.SDK.requestOneTimeKey(user);
+  }
+
+  loginWithOneTimeKey(user, hash) {
+    VoxImplant.SDK.loginUsingOneTimeKey(this.fullUserName, hash);
   }
 
   handleAppStateChange = newState => {
