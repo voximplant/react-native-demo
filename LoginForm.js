@@ -191,14 +191,15 @@ var styles = StyleSheet.create({
     paddingTop: 20,
   },
 	forminput: {
-    fontSize: 16,
-    padding: 10,
+    padding: 5,
     marginBottom: 10,
+    height: 40, 
     ...Platform.select({
       ios: {
         height: 40,
         borderColor: '#0f0f0f',
-        borderWidth: 0.5
+        borderWidth: 0.5,
+        borderRadius: 4,
       }
     })
 	}

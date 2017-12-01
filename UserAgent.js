@@ -204,6 +204,11 @@ export default class UserAgent extends Component {
     VoxImplant.SDK.sendVideo(true);
   }
 
+  logoutClicked() {
+    loginManager.getInstance().unregisterPushToken();
+    VoxImplant.SDK.closeConnection();
+  }
+
   render() {
     var button, 
         keypad, 
@@ -300,8 +305,18 @@ export default class UserAgent extends Component {
 
     return (
       <View style={ styles.useragent }>   
-        <View style={ styles.headerView }>
-          <Text style={ styles.headerText }>Logged in as { this.props.uaDisplayName }</Text>   
+        <View style={ styles.toolbar }>
+          <TouchableOpacity onPress={ () => this.logoutClicked() }>
+            <Text style = {styles.toolbarButton}>
+                Logout
+            </Text>
+          </TouchableOpacity>
+          <Text style={ styles.toolbarText }>Logged in as { this.props.uaDisplayName }</Text> 
+          <TouchableOpacity>
+            <Text style = {styles.toolbarButton}>
+                Settings
+            </Text>
+          </TouchableOpacity>  
         </View> 
           {videoPanel}
           {callingText} 
@@ -339,15 +354,22 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch'    
   }, 
-  headerView: {
+  toolbar: {
     backgroundColor: '#0C90E7', 
-    height: 44, 
-    justifyContent: 'flex-end'
+    paddingTop: 30,
+    paddingBottom: 10,
+    flexDirection:'row'  
   },
-  headerText: {
+  toolbarText: {
     color: '#FFFFFF', 
-    alignSelf: 'center',
-    marginBottom: 10
+    textAlign:'center',
+    fontWeight: 'bold',
+    flex: 1
+  },
+  toolbarButton: {
+    width: 60, 
+    textAlign:'center',
+    color: '#FFFFFF',
   },
   modalBackground: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',

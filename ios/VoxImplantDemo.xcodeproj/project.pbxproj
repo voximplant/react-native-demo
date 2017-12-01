@@ -600,6 +600,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.voximplant.reactjs.native.VoxImplantDemo;
 				PRODUCT_NAME = VoxImplantDemo;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -622,6 +623,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.voximplant.reactjs.native.VoxImplantDemo;
 				PRODUCT_NAME = VoxImplantDemo;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
