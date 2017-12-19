@@ -35,6 +35,7 @@ DeviceEventEmitter.addListener(
   () => {
    console.log('Connection closed');
    LoginManager.getInstance().connected = false;
+   LoginManager.getInstance().loggedIn = false;
    LoginManager.getInstance().emit('onConnectionClosed');
   }
 );

@@ -44,6 +44,7 @@ class PushManager {
 
   onNotificationReceivedForeground(notification) {
     console.log("Notification Received Foreground: " + notification.getData());
+    loginManager.getInstance().pushNotificationReceived(notification.getData());
   }
 
   onNotificationReceivedBackground(notification) {
