@@ -124,12 +124,12 @@ export default class LoginForm extends Component {
                   ref='password'
                   onChangeText={ (e) => this.updatePasswordText(e) }
                   blurOnSubmit={ true } />
-            <TouchableOpacity onPress={ () => this.loginClicked() }>
+            <TouchableOpacity onPress={ () => this.loginClicked() } style={{width: 200, alignSelf: 'center'}}>
               <Text style = {styles.loginbutton}>
                   Login
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={ () => this.loginWithOneTimeKeyClicked() }>
+            <TouchableOpacity onPress={ () => this.loginWithOneTimeKeyClicked() } style={{width: 200, alignSelf: 'center'}}>
               <Text style = {styles.loginbutton}>
                   Login With One Time Key
               </Text>
@@ -189,6 +189,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: 'center',
     paddingTop: 20,
+    textAlign: 'center'
   },
 	forminput: {
     padding: 5,

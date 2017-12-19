@@ -76,7 +76,8 @@ DeviceEventEmitter.addListener(
     if (uaInstance !== undefined) {
       uaInstance.setState({ status: 'incoming_call', 
                             callState: "Incoming call from " + incomingCall.from,
-                            videoEnabled: incomingCall.videoCall });
+                            videoEnabled: incomingCall.videoCall,
+                            sendVideo: incomingCall.videoCall });
     }
   }
 );
@@ -92,7 +93,8 @@ export default class UserAgent extends Component {
       isModalOpen: false,
       micMuted: false,
       speakerphoneOn: false,
-      videoEnabled: false
+      videoEnabled: false,
+      sendVideo: false,
     };
   }
 
@@ -101,8 +103,9 @@ export default class UserAgent extends Component {
     this._thisNumber.focus();
     if (loginManager.getInstance().incomingCall != undefined) {
       this.setState({ status: 'incoming_call', 
-                            callState: "Incoming call from " + loginManager.getInstance().incomingCall.from,
-                            videoEnabled: loginManager.getInstance().incomingCall.videoCall });
+                      callState: "Incoming call from " + loginManager.getInstance().incomingCall.from,
+                      videoEnabled: loginManager.getInstance().incomingCall.videoCall,
+                      sendVideo: loginManager.getInstance().incomingCall.videoCall});
       loginManager.getInstance().incomingCall = undefined;
     }
     loginManager.getInstance().on("onConnectionClosed", () => this.onConnectionClosed());
@@ -133,7 +136,8 @@ export default class UserAgent extends Component {
       VoxImplant.SDK.startCall(callId);   
       this.setState({ status: 'connecting', 
                       callState: "Calling " + number + "...", 
-                      videoEnabled: isVideoCall});
+                      videoEnabled: isVideoCall,
+                      sendVideo: isVideoCall });
     }.bind(this));
   }
 
@@ -195,12 +199,12 @@ export default class UserAgent extends Component {
   }
 
   removeVideo() {
-    this.setState({videoEnabled: false});
+    this.setState({sendVideo: false});
     VoxImplant.SDK.sendVideo(false);
   }
 
   addVideo() {
-    this.setState({videoEnabled: true});
+    this.setState({videoEnabled: true, sendVideo: true});
     VoxImplant.SDK.sendVideo(true);
   }
 
@@ -242,7 +246,7 @@ export default class UserAgent extends Component {
 
     if (this.state.status == 'connecting') {
       callingText = (
-        <Text style={ styles.call_connecting_Label }>{ this.state.callState }</Text>
+        <Text style={ styles.call_connecting_label }>{ this.state.callState }</Text>
       );
       button = (
         <View style={{ height: 90, alignItems: 'center' }}>
@@ -260,7 +264,7 @@ export default class UserAgent extends Component {
     if (this.state.status === 'connected' || this.state.status === 'connected_keypad') {
       callingText = (
         <View style={{alignItems:'center', justifyContent:'center'}}>
-          <Text style={ styles.call_connecting_Label }>{ this.state.callState }</Text>
+          <Text style={ styles.call_connecting_label }>{ this.state.callState }</Text>
         </View>
       );
       callControls = (
@@ -277,7 +281,7 @@ export default class UserAgent extends Component {
               ) : (
                 <CallButton icon_name='volume-up' color='#0C90E7' buttonPressed={ () => this.switchSpeakerphone() } />
               )}
-              { this.state.videoEnabled ? (
+              { this.state.videoEnabled && this.state.sendVideo ? (
                 <CallButton icon_name='videocam-off' color='#0C90E7' buttonPressed={ () => this.removeVideo() } />
               ) : (
                 <CallButton icon_name='video-call' color='#0C90E7' buttonPressed={ () => this.addVideo() } />
@@ -298,7 +302,11 @@ export default class UserAgent extends Component {
       videoPanel = (
         <View style={styles.videoPanel}>
           <VoxImplant.RemoteView style={ styles.remotevideo } callId={ currentCallId } ></VoxImplant.RemoteView>
-          <VoxImplant.Preview style={ styles.selfview }></VoxImplant.Preview>
+          { this.state.sendVideo ? (
+            <VoxImplant.Preview style={ styles.selfview }></VoxImplant.Preview>
+          ) : (
+            null
+          )}
         </View>
       );
     }
@@ -396,35 +404,30 @@ var styles = StyleSheet.create({
     })
   },
   useragent: {
-    position: 'relative',
     flex: 1,
+    flexDirection: 'column',
   },
   selfview: {
     position: 'absolute',
     right: 20,
     bottom: 20,
-    width: 80,
-    height: 100,
-    borderColor: '#007AFF', 
-    borderWidth: 1,
-    backgroundColor: '#000000'
+    width: 100,
+    height: 120,
   },
   remotevideo: {
     flex: 1,
-    borderColor: '#FF1300', 
-    borderWidth: 1,
   },
   videoPanel: {
     flex: 1,
     position: 'relative'
   },
   call_controls: {
-    height: 70
+    height: 70,
   },
   numberinput: {
     margin: 10
   },
-  call_connecting_Label: {
+  call_connecting_label: {
     fontSize: 18,
     alignSelf: 'center'
   },  

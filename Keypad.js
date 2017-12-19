@@ -80,8 +80,9 @@ class Keypad extends Component {
 
 var styles = StyleSheet.create({
 	keypad: {
-    	marginTop: 0,
-      marginBottom: 10
+    flex: 1,
+    marginTop: 0,
+    marginBottom: 10
   },
 	keypadrow: {
 		flexDirection: 'row',
