@@ -47,10 +47,10 @@ DeviceEventEmitter.addListener(
     LoginManager.getInstance().displayName = loginSuccessful.displayName;
     LoginManager.getInstance().loggedIn = true;
     LoginManager.getInstance().processingPushNotification = false;
-    DefaultPreference.set('accessToken', loginSuccessful.accessToken);
-    DefaultPreference.set('refreshToken', loginSuccessful.refreshToken);
-    DefaultPreference.set('accessExpire', loginSuccessful.accessExpire.toString());
-    DefaultPreference.set('refreshExpire', loginSuccessful.refreshExpire.toString());
+    DefaultPreference.set('accessToken', loginSuccessful.loginTokens.accessToken);
+    DefaultPreference.set('refreshToken', loginSuccessful.loginTokens.refreshToken);
+    DefaultPreference.set('accessExpire', loginSuccessful.loginTokens.accessExpire.toString());
+    DefaultPreference.set('refreshExpire', loginSuccessful.loginTokens.refreshExpire.toString());
     LoginManager.getInstance().registerPushToken();
     LoginManager.getInstance().emit('onLoggedIn', LoginManager.getInstance().displayName);
   }
