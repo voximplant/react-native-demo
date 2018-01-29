@@ -1,7 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
+/*
+ * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
 import React, { Component } from 'react';
