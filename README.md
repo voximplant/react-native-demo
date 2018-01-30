@@ -27,6 +27,16 @@ User agent demo application that uses `react-native-voximplant` and [Voximplant 
 	2. Add `google-services.json` file to android/app folder
 	3. Open `app/build.gradle` file and uncomment the `//apply plugin: 'com.google.gms.google-services'` line
 
-
-
 4. Run your project from XCode (`Cmd+R`) for iOS, or use `react-native run-android` to run your project on Android.
+
+## Demo project dependencies
+
+The demo project uses the following third-party dependencies:
+- "react-native-vector-icons" - to implement icon buttons
+- "react-native-default-preference" - to store username and login tokens in default pregerences 
+- "react-native-fcm" - to support push notifications on android
+- "react-native-notifications" - to support push notifications on iOS
+- "react-native-md5" - to login with one time key
+
+These are not the dependencies for our react native sdk, but only for demo project. 
+Please note that we use these dependencies just to simplify our demo project and to provide the ability to try full functionality of our sdk. Integration of these dependencies to the demo project does not mean that you have to use these dependencies in your project.
