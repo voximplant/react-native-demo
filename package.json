@@ -9,7 +9,7 @@
 	"dependencies": {
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.48.4",
-		"react-native-voximplant": "^0.1.7",
+		"react-native-voximplant": "^0.2.0",
 		"react-native-vector-icons": "^4.1.1",
 		"react-native-default-preference": "^1.2.0",
 		"react-native-fcm": "10.0.2",
