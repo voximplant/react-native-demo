@@ -12,13 +12,12 @@ User agent demo application that uses `react-native-voximplant` and [Voximplant 
 3. Run `npm install` , all required components will be installed automatically
 
 	### iOS
-
 	1. Run `pod install` from `react-native-demo/ios` folder
 	2. Start XCode and open generated `VoxImplantDemo.xcworkspace`
 
 	Note: To enable ios push notifications in demo project, follow the [the instructions](http://voximplant.com/blog/push-notifications-for-ios/) to add certificates to the Voximplant Cloud
 
-    ### Android
+  ### Android
 	no steps required
 	
 	Note: 
