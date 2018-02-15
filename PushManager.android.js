@@ -26,9 +26,6 @@ FCM.on(FCMEvent.RefreshToken, (token) => {
 
 var pushToken = '';
 
-const pushEventList = [];
-let pushManagerInstance = null;
-
 class PushManager {
   constructor() {
 

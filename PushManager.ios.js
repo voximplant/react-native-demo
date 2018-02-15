@@ -15,9 +15,6 @@ import NotificationsIOS from 'react-native-notifications';
 
 var pushToken = '';
 
-const pushEventList = [];
-let pushManagerInstance = null;
-
 class PushManager {
   constructor() {
     console.log("Push manager ios");
@@ -26,7 +23,6 @@ class PushManager {
     NotificationsIOS.registerPushKit();
     NotificationsIOS.addEventListener('notificationReceivedBackground', this.onNotificationReceivedBackground.bind(this));
     NotificationsIOS.addEventListener('notificationReceivedForeground', this.onNotificationReceivedForeground.bind(this));
-    
   }
 
   init() {

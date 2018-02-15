@@ -23,8 +23,8 @@ class KeypadButton extends Component {
     var touchableProps = {}, letters;
     touchableProps.onPress = function() {
       var digit = this.props.txt1;
-      if (this.props.txt1 == "*") digit = 10;
-      if (this.props.txt1 == "#") digit = 11;
+      if (this.props.txt1 === "*") digit = 10;
+      if (this.props.txt1 === "#") digit = 11;
       this.props.onPress(parseInt(digit));
     }.bind(this);
     touchableProps.onPressIn = this.props.onPressIn;
