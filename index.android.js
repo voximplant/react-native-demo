@@ -1,8 +1,6 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
+/*
+ * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
-'use strict';
 
 import React, { Component } from 'react';
 import {
@@ -11,91 +9,89 @@ import {
   Text,
   View,
   DeviceEventEmitter,
-  ToastAndroid
+  ToastAndroid,
+  Button
 } from 'react-native';
+
+import loginManager from './LoginManager';
+
 import VoxImplant from 'react-native-voximplant';
 import Loader from './Loader';
 import LoginForm from './LoginForm';
 import UserAgent from './UserAgent';
+import pushManager from './PushManager';
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
-var _this,
-    formInstance,
-    uaDisplayName;
-
-DeviceEventEmitter.addListener(
-  'ConnectionSuccessful',
-  () => {
-   console.log('Connection successful');
-   _this.setState({page: 'login'});
-  }
-);
-
-DeviceEventEmitter.addListener(
-  'LoginSuccessful',
-  (obj) => {
-    uaDisplayName = obj.displayName;
-    console.log('Login successful '+uaDisplayName);
-    _this.setState({
-      page: 'useragent'
-    });
-  }
-);
-
-DeviceEventEmitter.addListener(
-  'LoginFailed',
-  (code) => {
-    console.log('Login failed');
-    ToastAndroid.show('Login failed', ToastAndroid.SHORT);
-  }
-);
-
-class VoximplantDemo extends React.Component {
-
+export default class VoximplantDemo extends Component {
   constructor() {
     super();
-    VoxImplant.SDK.closeConnection();
+
+    pushManager.init();
     this.state = {
-      page: 'connection'
+      page: 'connection',
+      userName: ''
     };
   }
 
   componentDidMount() {
-    _this = this;
-    VoxImplant.SDK.connect();
+    _this = this;  
+    loginManager.getInstance().on('onLoggedIn', (param) => this.onLogin(param));
+    loginManager.getInstance().on('onConnected', () => this.onConnected());
+    loginManager.getInstance().on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
+    loginManager.getInstance().on('onConnectionClosed', () => this.onConnectionClosed());
+    loginManager.getInstance().connect(false);
+    if (loginManager.getInstance().loggedIn) {
+      _this.setState({page: 'useragent'});
+    } else if (loginManager.getInstance().connected) {
+      _this.setState({page: 'login'});
+    }
   }
 
-  _login(accnameValue, appnameValue, usernameValue, passwordValue) {
-    VoxImplant.SDK.login(usernameValue +
-      "@" + appnameValue +
-      "." + accnameValue +
-      ".voximplant.com", passwordValue);
+  onConnected() {
+    _this.setState({page: 'login'});
+  }
+
+  onLogin(displayName) {
+    _this.setState({userName: displayName, page: 'useragent'});
+  }
+
+  onConnectionFailed(reason) {
+    this.setState({ page: 'retry' });
+  }
+
+  onConnectionClosed() {
+    this.setState({ page: 'connection'});
+    loginManager.getInstance().connect(false);
+  }
+
+  reconnect() {
+    this.setState({ page: 'connection' });
+    loginManager.getInstance().connect(false)
   }
 
   render() {
     let ui = <Loader />;
-    if (this.state.page == "login") ui = <LoginForm login={(...params) => this._login(...params)} ref={(component) => formInstance = component}/>;
-    else if (this.state.page == "useragent") ui = <UserAgent uaDisplayName={uaDisplayName} />;
-    return (ui);
-  }
-};
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+    if (this.state.page === 'retry') {
+      ui = (
+        <View style={{ flex: 1, alignItems:'center', justifyContent:'center' }}>
+          <Text>Internet connection is lost. Reconnect?</Text>
+          <Button title="OK" onPress={ () => this.reconnect() }/>
+        </View>
+      );
+    }
+
+    if (this.state.page === 'login') {
+      ui = <LoginForm 
+              ref={(component) => formInstance = component}
+            />;
+    }
+    if (this.state.page === 'useragent') {
+      ui = <UserAgent uaDisplayName={this.state.userName} />;
+    }
+
+    return ui;
+  }
+}
 
 AppRegistry.registerComponent('VoximplantDemo', () => VoximplantDemo);

@@ -1,6 +1,6 @@
 # React Native Voximplant Demo Application
 
-User agent demo application that uses `react-native-voximplant` and [VoxImplant cloud platform](http://voximplant.com) for making/receiving audio/video calls.
+User agent demo application that uses `react-native-voximplant` and [Voximplant cloud platform](http://voximplant.com) for making/receiving audio/video calls.
 
 ## In Action
 [![VoxImplant SDK demo](https://habrastorage.org/files/185/1b5/dd6/1851b5dd689e4a688c2f6e68fcf38d81.gif)](http://www.youtube.com/watch?v=gC2iDVl4RRM)
@@ -8,79 +8,34 @@ User agent demo application that uses `react-native-voximplant` and [VoxImplant 
 ## Getting started
 
 1. Install React Native as described at [https://facebook.github.io/react-native/docs/getting-started.html#content](https://facebook.github.io/react-native/docs/getting-started.html#content)
-2. Create new application using `react-native init VoximplantDemo`
-3. Execute:
-
-	```sh
-	cd VoximplantDemo
-	wget https://github.com/voximplant/react-native-demo/archive/master.zip
-	unzip -j master.zip
-	rm -rf master.zip
-	mkdir Fonts && cp Custom.ttf Fonts/Custom.ttf && rm Custom.ttf
-	```
-
-4. Run `npm install` , all required components will be installed automatically
-5. Read the instructions for installed react native modules (they will be placed into node_modules folder) , some of them will require additional steps. `react-native-voximplant` example:
+2. Clone this repository
+3. Run `npm install` , all required components will be installed automatically
 
 	### iOS
+	1. Run `pod install` from `react-native-demo/ios` folder
+	2. Start XCode and open generated `VoxImplantDemo.xcworkspace`
 
-    #### Option: Manual
+	Note: To enable ios push notifications in demo project, follow the [the instructions](http://voximplant.com/blog/push-notifications-for-ios/) to add certificates to the Voximplant Cloud
 
-	1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-	2. Go to `node_modules` ➜ `react-native-voximplant/ios` and add `VoxImplant.xcodeproj`
-	3. In XCode, in the project navigato r, select your project. Add `libvoximplant.a, react-native-voximplant/VoxImplantSDK/libVoxImplantSDK.a, libc++.dylib or libc++.tbd, GLKit.framework` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-	4. Click `VoxImplant.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains `$(SRCROOT)/../node_modules/react-native/React` and mark as `recursive`. Look for `Library Search Paths` and add `$(SRCROOT)/../node_modules/react-native-voximplant/ios/VoxImplantSDK/lib` 
-    5. Right click on you project in XCode and select **Add files to "_NameOfYourProject_"** and add `Custom.ttf` from the project folder
-    6. Edit `Info.plist` and add a property called **Fonts provided by application** (if you haven't added one already) and type in the file you just added: [![FontEmbedding](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)](https://habrastorage.org/files/00a/b2e/648/00ab2e648fb541938910df3c5368decd.png)
-	7. Edit `Info.plist` file and add `NSMicrophoneUsageDescription` and `NSCameraUsageDescription` key for iOS 10 support:
+  ### Android
+	no steps required
+	
+	Note: 
+	To enable andorid push notifications in demo preoject:
+	1. Follow [the instructions](http://voximplant.com/blog/push-notifications-for-android/) to add the certificates to the Voximplant Cloud 
+	2. Add `google-services.json` file to android/app folder
+	3. Open `app/build.gradle` file and uncomment the `//apply plugin: 'com.google.gms.google-services'` line
 
-		```
-		<key>NSMicrophoneUsageDescription</key>
-		<string>Need microphone access for audio and video calls</string>
-		<key>NSCameraUsageDescription</key>
-		<string>Need camera access for video calls</string>
-		```
+4. Run your project from XCode (`Cmd+R`) for iOS, or use `react-native run-android` to run your project on Android.
 
-    #### Option: With [`rnpm`](https://github.com/rnpm/rnpm)
+## Demo project dependencies
 
-    `$ rnpm link`
+The demo project uses the following third-party dependencies:
+- "react-native-vector-icons" - to implement icon buttons
+- "react-native-default-preference" - to store username and login tokens in default pregerences 
+- "react-native-fcm" - to support push notifications on android
+- "react-native-notifications" - to support push notifications on iOS
+- "react-native-md5" - to login with one time key
 
-    *Note: Some users are having trouble using this method, try one of the others if you are too.*
- 
-
-    ### Android
-	1. Open up `android/app/main/java/[...]/MainApplication.java`
-    	- Add `import com.voximplant.reactnative.VoxImplantReactPackage;` to the imports at the top of the file
-    	- Add `new VoxImplantReactPackage()` to the list returned by the `getPackages()` method
-
-	3. Append the following lines to `android/settings.gradle`:
-
-    	```
-    	include ':react-native-voximplant'
-    	project(':react-native-voximplant').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-voximplant/android')
-    	```
-
-	4. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-
-    	```
-    	compile project(':react-native-voximplant')
-    	```    
-
-	5. And finally, in android/src/main/AndroidManifest.xml add user permissions
-
-    	```
-    	<uses-permission android:name="android.permission.CAMERA" />
-    	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    	<uses-permission android:name="android.permission.RECORD_AUDIO" />
-    	<uses-permission android:name="android.permission.INTERNET" />
-    	```
-
-    #### Option: With [`rnpm`](https://github.com/rnpm/rnpm)
-
-    `$ rnpm link`
-
-    *Note: Some users are having trouble using this method, try one of the others if you are too.*
-
-
-8. Run your project from XCode (`Cmd+R`) for iOS, or use `react-native run-android` to run your project on Android.
+These are not the dependencies for our react native sdk, but only for demo project. 
+Please note that we use these dependencies just to simplify our demo project and to provide the ability to try full functionality of our sdk. Integration of these dependencies to the demo project does not mean that you have to use these dependencies in your project.

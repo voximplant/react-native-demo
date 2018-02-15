@@ -1,34 +1,28 @@
 {
-  "name": "react-native-voximplantdemo",
-  "version": "0.1.7",
-  "description": "Demo React Native app that uses react-native-voximplant and Voximplant for audio/video calls",
-  "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh"
-  },
-  "dependencies": {
-    "react": "15.2.0",
-    "react-addons-update": "15.2.0",
-    "react-native": "0.29.1",
-    "react-native-button": "1.6.0",
-    "react-native-vector-icons": "2.0.3",
-    "react-native-voximplant": "0.1.7"
-  },
-  "keywords": [
-    "react-native",
-    "voximplant",
-    "demo",
-    "application",
-    "react-native-voximplant"
-  ],
-  "rnpm": {
-    "assets": [
-      "Fonts"
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/voximplant/react-native-demo.git"
-  },
-  "author": "Zingaya Inc. <info@voximplant.com> (http://voximplant.com)",
-  "license": "MIT"
+	"name": "VoxImplantDemo",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest"
+	},
+	"dependencies": {
+		"react": "16.0.0-alpha.12",
+		"react-native": "0.48.4",
+		"react-native-voximplant": "^0.2.0",
+		"react-native-vector-icons": "^4.1.1",
+		"react-native-default-preference": "^1.2.0",
+		"react-native-fcm": "10.0.2",
+		"react-native-notifications": "1.1.16",
+		"react-native-md5": "1.0.0"
+	},
+	"devDependencies": {
+		"babel-jest": "21.2.0",
+		"babel-preset-react-native": "4.0.0",
+		"jest": "21.2.1",
+		"react-test-renderer": "16.0.0-alpha.12"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
 }

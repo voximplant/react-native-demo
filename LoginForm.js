@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
+ */
+
 'use strict';
 
 import React, { Component } from 'react';
@@ -7,115 +11,85 @@ import {
   StyleSheet,
   Text,
   View,
+  Button,
   TextInput,
-  TouchableOpacity,
-  LayoutAnimation,
-  Image,
+  Platform,
   Modal,
   TouchableHighlight,
-  Platform
+  TouchableOpacity,
 } from 'react-native';
-import Keyboard from 'Keyboard';
-import Button from 'react-native-button';
-var update = require('react-addons-update');
 
-var animations = {
-  layout: {
-    spring: {
-      duration: 300,
-      create: {
-        duration: 300,
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity
-      },
-      update: {
-        type: LayoutAnimation.Types.spring,
-        springDamping: 200
-      }
-    },
-    easeInEaseOut: {
-      duration: 300,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut
-      }
-    }
-  }
-};
+import loginManager from './LoginManager';
+import DefaultPreference from 'react-native-default-preference';
 
-var usernameValue ='',
-    appnameValue = '',
-    accnameValue = '',
-    passwordValue = '';
+var passwordValue = '',
+    _this;
 
-class LoginForm extends React.Component {
-
+export default class LoginForm extends Component {
   constructor() {
     super();
+    loginManager.getInstance().on('onLoginFailed', (errorCode) => this.onLoginFailed(errorCode));
+    loginManager.getInstance().on('onLoggedIn', (param) => this.saveUsername());
+    
     this.state = {
-      keyboardSpace: 0,
-      isKeyboardOpened: false,
       modalText: '',
-      isModalOpen: false
+      isModalOpen: false,
+      usernameValue: ''
     }
-    this.keyboardWillShow = this.keyboardWillShow.bind(this);
-    this.keyboardWillHide = this.keyboardWillHide.bind(this);
   }
 
-  componentWillMount() {    
-    Keyboard.addListener(Platform.OS=="ios"?'keyboardWillShow':'keyboardDidShow', this.keyboardWillShow);
-    Keyboard.addListener(Platform.OS=="ios"?'keyboardWillHide':'keyboardDidHide', this.keyboardWillHide);
+  componentDidMount() {
+    _this = this;
+    this.fillFields();
   }
 
-  componentDidMount() {        
-    this._thisAccname.focus();
-  }
-
-  componentWillUnmount() {
-    Keyboard.removeAllListeners(Platform.OS=="ios"?'keyboardWillShow':'keyboardDidShow', this.keyboardWillShow);
-    Keyboard.removeAllListeners(Platform.OS=="ios"?'keyboardWillHide':'keyboardDidHide', this.keyboardWillHide);    
-  }
-
-  keyboardWillShow(e: Event) {
-    if (typeof e.endCoordinates != "undefined") {
-      this.setState({
-        keyboardSpace: e.endCoordinates.height,
-        isKeyboardOpened: true
+  fillFields() {
+    DefaultPreference.get('usernameValue').then(
+      function(value) {
+        _this.setState({usernameValue: value}); 
       });
+  }
+
+  onLoginFailed(errorCode) {
+    switch(errorCode) {
+      case 401:
+        this.setModalText('Invalid password');
+        break;
+      case 403:
+        this.setModalText('Account frozen');
+        break;
+      case 404: 
+        this.setModalText('Invalid username')
+        break;
+      case 701:
+        this.setModalText('Token expired');
+        break;
+      default:
+      case 500:
+        this.setModalText('Internal error');
     }
   }
 
-  keyboardWillHide(e: Event) {
-    this.setState({
-      keyboardSpace: 0,
-      isKeyboardOpened: false
-    });
+  saveUsername() {
+    DefaultPreference.set('usernameValue', this.state.usernameValue);
   }
 
-  componentWillUpdate(props, state) {
-    if (state.isKeyboardOpened !== this.state.isKeyboardOpened) {
-      LayoutAnimation.configureNext(animations.layout.spring);
-    }
+  focusNextField = (nextField) => {
+    this.refs[nextField].focus();
+  };
+
+  loginClicked() {
+    loginManager.getInstance().loginWithPassword(this.state.usernameValue +
+                                  ".voximplant.com", passwordValue);
   }
 
-  buttonClicked() {
-  	this.props.login(accnameValue, appnameValue, usernameValue, passwordValue);    
-  }
-
-  updateAccText(text) {
-    accnameValue = text;
-  }
-
-  updateAppText(text) {
-    appnameValue = text;
+  loginWithOneTimeKeyClicked() {
+    loginManager.getInstance().requestOneTimeKey(this.state.usernameValue + 
+                                  ".voximplant.com", passwordValue);
   }
 
   updateUserText(text) {
-    usernameValue = text;
+    this.setState({usernameValue: text});
   }
 
   updatePasswordText(text) {
@@ -123,62 +97,61 @@ class LoginForm extends React.Component {
   }
 
   setModalText(text) {
-    this.setState(update(
-        this.state, 
-        { 
-          $merge: {
-            modalText: text,
-            isModalOpen: true          
-          }
-        }));
+    this.setState({ isModalOpen: true, modalText: text });
   }
 
   closeModal() {
-    this.setState(update(
-        this.state, 
-        { 
-          $merge: {
-            isModalOpen: false          
-          }
-        }));
-  }
-
-  componentDidUpdate() {
-    //console.log(this.state);
+    this.setState({ isModalOpen: false });
   }
 
   render() {
     return (
       <View style={[styles.container]}>        
-        <View style={[styles.formcontainer, {marginBottom: this.state.keyboardSpace}]}>
-          <View style={styles.loginform}>
-            <TextInput style={styles.forminput} onChangeText={(e) => this.updateAccText(e)}
-              placeholder="Account name" initialValue={accnameValue}
-              autoFocus={false} ref={component => this._thisAccname = component}
-              onFocus={this.inputFocus} 
-              autoCapitalize="none"
-              autoCorrect={false} />
-            <TextInput style={styles.forminput} onChangeText={(e) => this.updateAppText(e)}
-              placeholder="Application name" initialValue={appnameValue} 
-              ref={component => this._thisAppname = component} 
-              autoCapitalize="none"
-              autoCorrect={false} />
-            <TextInput style={styles.forminput} onChangeText={(e) => this.updateUserText(e)}
-              placeholder="User name" initialValue={usernameValue} 
-              ref={component => this._thisUsername = component} 
-              autoCapitalize="none"
-              autoCorrect={false} />
-            <TextInput style={styles.forminput} onChangeText={(e) => this.updatePasswordText(e)}
-              placeholder="User password" initialValue={passwordValue}
-              secureTextEntry={true} ref={component => this._thisPassword = component} />
-            <Button style={styles.loginbutton} onPress={(e) => this.buttonClicked(e)}>Login</Button>
+        <View>
+          <View style={ styles.loginform }>
+            <TextInput 
+                  style={ styles.forminput } 
+                  placeholder="user@app.account" 
+                  value={ this.state.usernameValue }
+                  autoFocus={ true }
+                  ref='acc'
+                  autoCapitalize='none'
+                  autoCorrect={ false } 
+                  onSubmitEditing={ (event) => this.focusNextField('password') }
+                  onChangeText={ (e) => this.updateUserText(e) }
+                  blurOnSubmit={ true } />
+            <TextInput 
+                  style={ styles.forminput } 
+                  placeholder="User password" 
+                  defaultValue={ passwordValue }
+                  secureTextEntry={ true } 
+                  ref='password'
+                  onChangeText={ (e) => this.updatePasswordText(e) }
+                  blurOnSubmit={ true } />
+            <TouchableOpacity onPress={ () => this.loginClicked() } style={{width: 200, alignSelf: 'center'}}>
+              <Text style = {styles.loginbutton}>
+                  Login
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={ () => this.loginWithOneTimeKeyClicked() } style={{width: 200, alignSelf: 'center'}}>
+              <Text style = {styles.loginbutton}>
+                  Login With One Time Key
+              </Text>
+            </TouchableOpacity>
           </View>            
         </View>
-        <Modal animationType="fade" transparent={true} visible={this.state.isModalOpen} onRequestClose={() => {}}>
-            <TouchableHighlight onPress={(e) => this.closeModal(e)} style={styles.container}>
+        <Modal 
+          animationType='fade'
+          transparent={ true } 
+          visible={ this.state.isModalOpen } 
+          onRequestClose={ () => {} }>
+            <TouchableHighlight 
+              onPress={ (e) => this.closeModal(e) } 
+              style={ styles.container }>
               <View style={[styles.container, styles.modalBackground]}>
-                <View style={[styles.innerContainer, styles.innerContainerTransparent]}>
-                  <Text>{this.state.modalText}</Text>
+                <View 
+                  style={[styles.innerContainer, styles.innerContainerTransparent]}>
+                  <Text>{ this.state.modalText }</Text>
                 </View>
               </View>
             </TouchableHighlight>
@@ -206,8 +179,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff', 
     padding: 20
   },
-  formcontainer: {
-  },
 	appheader: {
     resizeMode: 'contain',
 		height: 60,
@@ -216,22 +187,25 @@ var styles = StyleSheet.create({
 	loginform: {
 		paddingHorizontal: 20,
     alignItems: 'stretch'
-	},
-	forminput: {
-    flex:1 ,
-		borderRadius: 4,
-		padding: 5,
-		marginBottom: 10,
-		height: 40, 
-		borderColor: 'gray', 
-		borderWidth: 0.5
-	},
+  },
   loginbutton: {
-    backgroundColor: '#23a9e2',
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    borderRadius: 4
-  }
+    color: '#23a9e2',
+    fontSize: 16,
+    alignSelf: 'center',
+    paddingTop: 20,
+    textAlign: 'center'
+  },
+	forminput: {
+    padding: 5,
+    marginBottom: 10,
+    height: 40, 
+    ...Platform.select({
+      ios: {
+        height: 40,
+        borderColor: '#0f0f0f',
+        borderWidth: 0.5,
+        borderRadius: 4,
+      }
+    })
+	}
 });
-
-export default LoginForm;
