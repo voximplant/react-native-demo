@@ -4,12 +4,13 @@
 	"private": true,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"postinstall": "sed -i '' 's/#import <RCTAnimation\\/RCTValueAnimatedNode.h>/#import <React\\/RCTValueAnimatedNode.h>/' ./node_modules/react-native/Libraries/NativeAnimation/RCTNativeAnimatedNodesManager.h; sed -i '' 's/#import <fishhook\\/fishhook.h>/#import <React\\/fishhook.h>/' ./node_modules/react-native/Libraries/WebSocket/RCTReconnectingWebSocket.m",
 		"test": "jest"
 	},
 	"dependencies": {
-		"react": "16.0.0-alpha.12",
-		"react-native": "0.48.4",
-		"react-native-voximplant": "^0.2.0",
+		"react": "16.3.0-alpha.2",
+		"react-native": "0.54.2",
+		"react-native-voximplant": "0.2.1",
 		"react-native-vector-icons": "^4.1.1",
 		"react-native-default-preference": "^1.2.0",
 		"react-native-fcm": "10.0.2",
@@ -17,10 +18,10 @@
 		"react-native-md5": "1.0.0"
 	},
 	"devDependencies": {
-		"babel-jest": "21.2.0",
+		"babel-jest": "23.0.0-alpha.0",
 		"babel-preset-react-native": "4.0.0",
-		"jest": "21.2.1",
-		"react-test-renderer": "16.0.0-alpha.12"
+		"jest": "22.4.2",
+		"react-test-renderer": "16.3.0-alpha.2"
 	},
 	"jest": {
 		"preset": "react-native"

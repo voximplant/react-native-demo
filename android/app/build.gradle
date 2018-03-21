@@ -136,7 +136,6 @@ dependencies {
     compile project(':react-native-voximplant')
     compile project(':react-native-default-preference')
     compile project(':react-native-fcm')
-    compile 'com.google.firebase:firebase-core:11.0.0'
 }
 
 // Run this once to be able to run the application with BUCK

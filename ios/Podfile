@@ -1,6 +1,58 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '8.0'
 
+# Fix for RCTSurfaceHostingView.h:12: Expected ‘)’ build error
+def fix_cplusplus_header_compiler_error
+    filepath = '../node_modules/react-native/React/Base/Surface/SurfaceHostingView/RCTSurfaceSizeMeasureMode.h'
+    
+    contents = []
+    
+    file = File.open(filepath, 'r')
+    file.each_line do | line |
+        contents << line
+    end
+    file.close
+    
+    if contents[32].include? "&"
+        contents.insert(26, "#ifdef __cplusplus")
+        contents[36] = "#endif"
+        
+        file = File.open(filepath, 'w') do |f|
+            f.puts(contents)
+        end
+    end
+end
+
+# Fix for 'algorithm' file not found build error
+def fix_unused_yoga_headers
+    filepath = './Pods/Target Support Files/yoga/yoga-umbrella.h'
+    
+    contents = []
+    
+    file = File.open(filepath, 'r')
+    file.each_line do | line |
+        contents << line
+    end
+    file.close
+    
+    if contents[12].include? "Utils.h"
+        contents.delete_at(15) # #import "YGNode.h"
+        contents.delete_at(15) # #import "YGNodePrint.h"
+        contents.delete_at(15) # #import "Yoga-internal.h"
+        contents.delete_at(12) # #import "Utils.h"
+        
+        file = File.open(filepath, 'w') do |f|
+            f.puts(contents)
+        end
+    end
+end
+
+def react_native_fix
+    fix_cplusplus_header_compiler_error
+    fix_unused_yoga_headers
+end
+
+
 target 'VoxImplantDemo' do
     # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
      use_frameworks!
@@ -8,21 +60,28 @@ target 'VoxImplantDemo' do
     # Pods for VoximplantDemo
     pod 'React', :path => '../node_modules/react-native', :subspecs => [
     'Core',
+    'CxxBridge',
     'RCTImage',
     'RCTNetwork',
     'RCTText',
     'RCTWebSocket',
     'DevSupport',
-    'BatchedBridge',
     'RCTAnimation'
     # Add any other subspecs you want to use in your project
     ]
+
+    # Demo project dependencies
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
-    pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
     pod 'RNDefaultPreference', path: '../node_modules/react-native-default-preference'
     pod 'react-native-notifications', path: '../node_modules/react-native-notifications'
-    
-    inherit! :search_paths
+
+    # Explicitly include Yoga if you are using RN >= 0.42.0
+    pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+
+    # Third party deps podspec link
+    pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+    pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/GLog.podspec'
+    pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
     
     post_install do |installer|
         installer.pods_project.targets.each do |target|
@@ -30,6 +89,7 @@ target 'VoxImplantDemo' do
                 config.build_settings['ENABLE_BITCODE'] = 'NO'
             end
         end
+        react_native_fix
     end
     
     
@@ -42,19 +102,28 @@ target 'VoxImplantDemoTests' do
     # Pods for VoximplantDemo
     pod 'React', :path => '../node_modules/react-native', :subspecs => [
     'Core',
+    'CxxBridge',
     'RCTImage',
     'RCTNetwork',
     'RCTText',
     'RCTWebSocket',
     'DevSupport',
-    'BatchedBridge',
     'RCTAnimation'
     # Add any other subspecs you want to use in your project
     ]
+
+    # Demo project dependencies
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
-    pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
     pod 'RNDefaultPreference', path: '../node_modules/react-native-default-preference'
     pod 'react-native-notifications', path: '../node_modules/react-native-notifications'
+
+    # Explicitly include Yoga if you are using RN >= 0.42.0
+    pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+
+    # Third party deps podspec link
+    pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+    pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/GLog.podspec'
+    pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
     
     inherit! :search_paths
 end
