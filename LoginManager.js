@@ -11,13 +11,13 @@ import {
   AppState
 } from 'react-native';
 
-import VoxImplant from 'react-native-voximplant';
+import { VoximplantLegacy } from 'react-native-voximplant';
 import DefaultPreference from 'react-native-default-preference';
 import PushManager from './PushManager';
 import md5 from "react-native-md5";
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.ConnectionFailed,
+  VoximplantLegacy.Events.ConnectionFailed,
   (connectionFailed) => {
     console.log('Connection failed: reason: ' + connectionFailed.reason);
     loginManagerGlobal.connected = false;
@@ -26,7 +26,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.ConnectionSuccessful,
+  VoximplantLegacy.Events.ConnectionSuccessful,
   () => {
    console.log('Connection successful');
    loginManagerGlobal.connected = true;
@@ -35,7 +35,7 @@ DeviceEventEmitter.addListener(
       function(username) {
         DefaultPreference.get('accessToken').then(
           function(accessToken) {
-            VoxImplant.SDK.loginUsingAccessToken(username + ".voximplant.com", accessToken);
+            VoximplantLegacy.loginUsingAccessToken(username + ".voximplant.com", accessToken);
         });
     });
    } else {
@@ -45,7 +45,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.ConnectionClosed,
+  VoximplantLegacy.Events.ConnectionClosed,
   () => {
     console.log('Connection closed');
     loginManagerGlobal.connected = false;
@@ -55,7 +55,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.LoginSuccessful,
+  VoximplantLegacy.Events.LoginSuccessful,
   (loginSuccessful) => {
     console.log('Login successful ' + loginSuccessful.displayName);
     loginManagerGlobal.displayName = loginSuccessful.displayName;
@@ -80,7 +80,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.LoginFailed,
+  VoximplantLegacy.Events.LoginFailed,
   (loginFailed) => {
     console.log('Login failed: error code: ' + loginFailed.errorCode);
     loginManagerGlobal.loggedIn = false;
@@ -89,7 +89,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.IncomingCall,
+  VoximplantLegacy.Events.IncomingCall,
   (incomingCall) => {
     if (loginManagerGlobal.currentAppState !== "active") {
       console.log('LoginManager: Incoming call: is video ' + incomingCall.videoCall);
@@ -99,7 +99,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.OneTimeKeyGenerated,
+  VoximplantLegacy.Events.OneTimeKeyGenerated,
   (oneTimeKeyGenerated) => {
       console.log('LoginManager: OneTimeKeyGenerated: key: ' + oneTimeKeyGenerated.key);
       let hash = md5.hex_md5(oneTimeKeyGenerated.key + "|" 
@@ -131,11 +131,11 @@ export default class LoginManager {
   }
 
   constructor() {
-    VoxImplant.SDK.init();
+    VoximplantLegacy.init();
     // Connection to the Voximplant Clound is stayed alive on reloading of the app's 
     // JavaScript code. Calling "closeConnection" API here makes the SDK and app states 
     // synchronized.
-    VoxImplant.SDK.closeConnection();
+    VoximplantLegacy.closeConnection();
     AppState.addEventListener("change", (...args) => this._handleAppStateChange(...args));
   }
 
@@ -145,30 +145,30 @@ export default class LoginManager {
   }
 
   connect(connectivityCheck) {
-    VoxImplant.SDK.connect({connectivityCheck})
+    VoximplantLegacy.connect({connectivityCheck})
   }
 
   loginWithPassword(user, password) {
-    VoxImplant.SDK.login(user, password);
+    VoximplantLegacy.login(user, password);
   }
 
   requestOneTimeKey(user, password) {
     this.fullUserName = user;
     this.myuser = user.split('@')[0];
     this.mypassword = password;
-    VoxImplant.SDK.requestOneTimeKey(user);
+    VoximplantLegacy.requestOneTimeKey(user);
   }
 
   loginWithOneTimeKey(user, hash) {
-    VoxImplant.SDK.loginUsingOneTimeKey(user, hash);
+    VoximplantLegacy.loginUsingOneTimeKey(user, hash);
   }
 
   registerPushToken() {
-    VoxImplant.SDK.registerForPushNotifications(PushManager.getPushToken());
+    VoximplantLegacy.registerForPushNotifications(PushManager.getPushToken());
   }
 
   unregisterPushToken() {
-    VoxImplant.SDK.unregisterFromPushNotifications(PushManager.getPushToken());
+    VoximplantLegacy.unregisterFromPushNotifications(PushManager.getPushToken());
   }
 
   pushNotificationReceived(notification) {
@@ -183,11 +183,11 @@ export default class LoginManager {
         function(username) {
           DefaultPreference.get('accessToken').then(
             function(accessToken) {
-              VoxImplant.SDK.loginUsingAccessToken(username + ".voximplant.com", accessToken);
+              VoximplantLegacy.loginUsingAccessToken(username + ".voximplant.com", accessToken);
           });
       });
     }
-    VoxImplant.SDK.handlePushNotification(notification);
+    VoximplantLegacy.handlePushNotification(notification);
   }
 
   on(event, handler) {

@@ -11,7 +11,7 @@ import {
   DeviceEventEmitter,
   Button
 } from 'react-native';
-import VoxImplant from "react-native-voximplant";
+
 import Loader from './Loader';
 import LoginForm from './LoginForm';
 import UserAgent from './UserAgent';

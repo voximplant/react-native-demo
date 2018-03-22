@@ -21,17 +21,17 @@ import {
 import { Keypad } from './Keypad';
 import { CallButton } from './CallButton';
 import { IncomingCallForm } from './IncomingCallForm';
-import VoxImplant from "react-native-voximplant";
+import { VoximplantLegacy, Preview, RemoteView } from "react-native-voximplant";
 import loginManager from './LoginManager';
 
 var	currentCallId,
     uaInstance,
     number = '',
     settings_video = false,
-    camera = VoxImplant.SDK.CameraType.CameraTypeFront;
+    camera = VoximplantLegacy.CameraType.CameraTypeFront;
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.CallRinging,
+  VoximplantLegacy.Events.CallRinging,
   (callRinging) => {
     console.log('Call ringing. Call id = ' + callRinging.callId);
     if (uaInstance !== undefined) {
@@ -41,7 +41,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.CallConnected,
+  VoximplantLegacy.Events.CallConnected,
   (callConnected) => {
     console.log('Call connected. Call id = ' + callConnected.callId);
     if (uaInstance !== undefined) {
@@ -52,7 +52,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.CallFailed,
+  VoximplantLegacy.Events.CallFailed,
   (callFailed) => {
     console.log('Call failed. Code ' + callFailed.code + ' Reason ' + callFailed.reason);
     if (uaInstance !== undefined) {
@@ -63,7 +63,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.CallDisconnected,
+  VoximplantLegacy.Events.CallDisconnected,
   (callDisconnected) => {
     if (uaInstance !== undefined) {
       console.log('Call disconnected. Call id = ' + callDisconnected.callId);
@@ -73,7 +73,7 @@ DeviceEventEmitter.addListener(
 );
 
 DeviceEventEmitter.addListener(
-  VoxImplant.SDK.Events.IncomingCall,
+  VoximplantLegacy.Events.IncomingCall,
   (incomingCall) => {
     console.log('Incoming call: is video ' + incomingCall.videoCall);
     currentCallId = incomingCall.callId;
@@ -135,9 +135,9 @@ export default class UserAgent extends Component {
 
   makeCall(isVideoCall) {
     console.log('calling ' + number);
-    VoxImplant.SDK.createCall(number, isVideoCall, null, function(callId) {
+    VoximplantLegacy.createCall(number, isVideoCall, null, function(callId) {
       currentCallId = callId;    
-      VoxImplant.SDK.startCall(callId);   
+      VoximplantLegacy.startCall(callId);   
       this.setState({ status: 'connecting', 
                       callState: "Calling " + number + "...", 
                       videoEnabled: isVideoCall,
@@ -147,35 +147,35 @@ export default class UserAgent extends Component {
 
   cancelCall() {
     console.log("Cancel call");
-    VoxImplant.SDK.disconnectCall(currentCallId);
+    VoximplantLegacy.disconnectCall(currentCallId);
   }
 
   answerCall() {
-    VoxImplant.SDK.answerCall(currentCallId);
+    VoximplantLegacy.answerCall(currentCallId);
     this.setState({ status: 'connecting', callState: "Call is connecting" });
   }
 
   rejectCall() {
-    VoxImplant.SDK.declineCall(currentCallId);
+    VoximplantLegacy.declineCall(currentCallId);
     currentCallId = undefined;
   }
 
   muteAudio() {
     if (this.state.micMuted) {
-      VoxImplant.SDK.setMute(false);
+      VoximplantLegacy.setMute(false);
       this.setState({ micMuted: false });
     } else {
-      VoxImplant.SDK.setMute(true);
+      VoximplantLegacy.setMute(true);
       this.setState({ micMuted: true });
     }
   }
 
   switchSpeakerphone() {
     if (this.state.speakerphoneOn) {
-      VoxImplant.SDK.setUseLoudspeaker(false);
+      VoximplantLegacy.setUseLoudspeaker(false);
       this.setState({ speakerphoneOn: false });
     } else {
-      VoxImplant.SDK.setUseLoudspeaker(true);
+      VoximplantLegacy.setUseLoudspeaker(true);
       this.setState({ speakerphoneOn: true });
     }
   }
@@ -190,31 +190,31 @@ export default class UserAgent extends Component {
 
   _keypadPressed(value) {
     console.log('Send DTMF ' + value + ' for call id ' + currentCallId);
-    VoxImplant.SDK.sendDTMF(currentCallId, value);
+    VoximplantLegacy.sendDTMF(currentCallId, value);
   }
 
 
   callDisconnected(callId) {
     this.setState({status: 'idle', micMuted: false, speakerphoneOn: false});
-    VoxImplant.SDK.setUseLoudspeaker(this.state.speakerphoneOn);
-    VoxImplant.SDK.setMute(this.state.micMuted);
+    VoximplantLegacy.setUseLoudspeaker(this.state.speakerphoneOn);
+    VoximplantLegacy.setMute(this.state.micMuted);
     currentCallId = undefined;
     // this.closeModal(true);
   }
 
   removeVideo() {
     this.setState({sendVideo: false});
-    VoxImplant.SDK.sendVideo(false);
+    VoximplantLegacy.sendVideo(false);
   }
 
   addVideo() {
     this.setState({videoEnabled: true, sendVideo: true});
-    VoxImplant.SDK.sendVideo(true);
+    VoximplantLegacy.sendVideo(true);
   }
 
   logoutClicked() {
     loginManager.getInstance().unregisterPushToken();
-    VoxImplant.SDK.closeConnection();
+    VoximplantLegacy.closeConnection();
   }
 
   render() {
@@ -305,9 +305,9 @@ export default class UserAgent extends Component {
     if (this.state.videoEnabled && (this.state.status === 'connecting' || this.state.status === 'connected')) {
       videoPanel = (
         <View style={styles.videoPanel}>
-          <VoxImplant.RemoteView style={ styles.remotevideo } callId={ currentCallId } ></VoxImplant.RemoteView>
+          <RemoteView style={ styles.remotevideo } callId={ currentCallId } ></RemoteView>
           { this.state.sendVideo ? (
-            <VoxImplant.Preview style={ styles.selfview }></VoxImplant.Preview>
+            <Preview style={ styles.selfview }></Preview>
           ) : (
             null
           )}

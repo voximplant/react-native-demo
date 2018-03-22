@@ -15,7 +15,6 @@ import {
 
 import loginManager from './LoginManager';
 
-import VoxImplant from 'react-native-voximplant';
 import Loader from './Loader';
 import LoginForm from './LoginForm';
 import UserAgent from './UserAgent';
