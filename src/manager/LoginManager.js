@@ -35,13 +35,13 @@ DeviceEventEmitter.addListener(
         function (username) {
           DefaultPreference.get('accessToken').then(
             function (accessToken) {
-              VoxImplant.SDK.loginUsingAccessToken(username + ".voximplant.com", accessToken);
+              VoximplantLegacy.loginUsingAccessToken(username + ".voximplant.com", accessToken);
             });
         });
     } else if (loginManagerGlobal.username !== '' && loginManagerGlobal.password !== '') {
-      VoxImplant.SDK.login(loginManagerGlobal.username, loginManagerGlobal.password);
+      VoximplantLegacy.login(loginManagerGlobal.username, loginManagerGlobal.password);
     } else if (loginManagerGlobal.myuser !== '' && loginManagerGlobal.password !== '') {
-      VoxImplant.SDK.requestOneTimeKey(loginManagerGlobal.fullUserName);
+      VoximplantLegacy.requestOneTimeKey(loginManagerGlobal.fullUserName);
     } else {
       loginManagerGlobal.emit('onConnected');
     }
@@ -175,7 +175,7 @@ export default class LoginManager {
   }
 
   continueLoginWithOneTimeKey(user, hash) {
-    VoxImplant.SDK.loginUsingOneTimeKey(user, hash);
+    VoximplantLegacy.loginUsingOneTimeKey(user, hash);
   }
 
   registerPushToken() {
@@ -198,7 +198,7 @@ export default class LoginManager {
         function (username) {
           DefaultPreference.get('accessToken').then(
             function (accessToken) {
-              VoxImplant.SDK.loginUsingAccessToken(username + ".voximplant.com", accessToken);
+              VoximplantLegacy.loginUsingAccessToken(username + ".voximplant.com", accessToken);
             });
         });
     }
