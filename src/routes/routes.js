@@ -4,18 +4,39 @@
 
 'use strict';
 
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, SwitchNavigator } from 'react-navigation';
 import LoginScreen from '../screens/LoginScreen';
 import MainScreen from '../screens/MainScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import CallScreen from '../screens/CallScreen';
 
-const RootStack = StackNavigator(
+const AppStack = StackNavigator(
     {
-        Login: {
-            screen: LoginScreen,
-        },
         Main: {
             screen: MainScreen,
         },
+        Settings: {
+            screen: SettingsScreen,
+        }
+    },
+    {
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#1c0b43',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            }
+        }
+    }
+);
+
+const RootStack = SwitchNavigator(
+    {
+        Login: LoginScreen,
+        App: AppStack,
+        Call: CallScreen,
     },
     {
         initialRouteName: 'Login',
@@ -23,4 +44,5 @@ const RootStack = StackNavigator(
 );
 
 export default RootStack;
+
 

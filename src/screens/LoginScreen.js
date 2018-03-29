@@ -22,30 +22,28 @@ import {
 } from 'react-native';
 
 import LoginManager from '../manager/LoginManager';
+import DefaultPreference from 'react-native-default-preference';
+import COLOR_SCHEME from '../styles/ColorScheme';
+
+var _this;
 
 export default class LoginScreen extends React.Component {
-    static navigationOptions = {
-        title: "Voximplant",
-        headerStyle: {
-            backgroundColor: '#1c0b43',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        }
-    };
-
     constructor(props) {
         super(props);
-        this.username = '';
         this.password = '';
         this.state = {
+            username: '',
             isModalOpen: false,
             modalText: ''
         }
     }
 
     componentDidMount() {
+        _this = this;
+        DefaultPreference.get('usernameValue').then(
+            function(value) {
+              _this.setState({username: value}); 
+        });
         LoginManager.getInstance().on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
         LoginManager.getInstance().on('onLoggedIn', (param) => this.onLoggedIn());
         LoginManager.getInstance().on('onLoginFailed', (errorCode) => this.onLoginFailed(errorCode));
@@ -72,7 +70,8 @@ export default class LoginScreen extends React.Component {
     }
 
     onLoggedIn() {
-        this.props.navigation.navigate('Main');
+        DefaultPreference.set('usernameValue', this.state.username);
+        this.props.navigation.navigate('App');
     }
 
     onConnectionFailed(reason) {
@@ -80,30 +79,30 @@ export default class LoginScreen extends React.Component {
     }
 
     loginClicked() {
-        LoginManager.getInstance().loginWithPassword(this.username + ".voximplant.com", this.password);
+        LoginManager.getInstance().loginWithPassword(this.state.username + ".voximplant.com", this.password);
     }
 
     loginWithOneTimeKeyClicked() {
-        LoginManager.getInstance().loginWithOneTimeKey(this.username + ".voximplant.com", this.password);
+        LoginManager.getInstance().loginWithOneTimeKey(this.state.username + ".voximplant.com", this.password);
     }
 
     render() {
         return (
             <SafeAreaView style={styles.safearea}>
-                <StatusBar barStyle="light-content" backgroundColor="#392b5b" />
+                <StatusBar barStyle={Platform.OS === 'ios' ? COLOR_SCHEME.DARK : COLOR_SCHEME.LIGHT} backgroundColor="#392b5b" />
                 <View style={[styles.container]}>
                     <View>
                         <View style={styles.loginform}>
                             <TextInput
                                 style={styles.forminput}
                                 placeholder="user@app.account"
-                                value={this.usernameValue}
+                                value={this.state.username}
                                 autoFocus={true}
                                 ref='acc'
                                 autoCapitalize='none'
                                 autoCorrect={false}
                                 onSubmitEditing={(event) => this.focusNextField('password')}
-                                onChangeText={(text) => { this.username = text }}
+                                onChangeText={(text) => { this.setState({username: text}) }}
                                 blurOnSubmit={true} />
                             <TextInput
                                 style={styles.forminput}

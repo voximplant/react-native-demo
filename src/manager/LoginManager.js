@@ -178,6 +178,10 @@ export default class LoginManager {
     VoximplantLegacy.loginUsingOneTimeKey(user, hash);
   }
 
+  logout() {
+    VoximplantLegacy.closeConnection();
+  }
+
   registerPushToken() {
     VoximplantLegacy.registerForPushNotifications(PushManager.getPushToken());
   }
