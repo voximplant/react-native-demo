@@ -193,7 +193,7 @@ var styles = StyleSheet.create({
             ios: {
                 height: 40,
                 borderColor: '#8b61ff',
-                borderWidth: 0.5,
+                borderWidth: 1,
                 borderRadius: 4,
             }
         })

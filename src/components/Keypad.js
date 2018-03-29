@@ -11,12 +11,12 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 class KeypadButton extends Component {
 
   static propTypes = {
     ...TouchableOpacity.propTypes,
-    style: View.propTypes.style,
   };
 
   render() {
@@ -84,9 +84,13 @@ class Keypad extends Component {
 
 var styles = StyleSheet.create({
 	keypad: {
-    flex: 1,
-    marginTop: 0,
-    marginBottom: 10
+    position: 'absolute',
+    bottom: 80,
+    alignSelf: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    // flex: 1,
+    // marginTop: 0,
+    // marginBottom: 10
   },
 	keypadrow: {
 		flexDirection: 'row',

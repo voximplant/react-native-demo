@@ -22,6 +22,7 @@ import {
 
 import { VoximplantLegacy, Preview, RemoteView } from 'react-native-voximplant';
 import CallButton from '../components/CallButton';
+import { Keypad } from '../components/Keypad';
 import COLOR_SCHEME from '../styles/ColorScheme';
 
 DeviceEventEmitter.addListener(
@@ -98,11 +99,13 @@ export default class CallScreen extends React.Component {
         this.isVideoCall = params ? params.isVideo : false;
         this.isIncoming = params ? params.isIncoming : false;
         this.callState = CALL_STATES.DISCONNECTED;
+        this.isKeyboardVisible = false;
 
         this.state = {
             isAudioMuted: false,
             isVideoSent: this.isVideoCall,
             isSpeakerEnabled: false,
+            isKeypadVisible: false,
             isModalOpen: false,
             modalText: ''
         }
@@ -125,24 +128,16 @@ export default class CallScreen extends React.Component {
 
     muteAudio() {
         console.log("CallScreen[" + this.callId + "] muteAudio: " + !this.state.isAudioMuted);
-        if (this.state.isAudioMuted) {
-            VoximplantLegacy.setMute(false);
-            this.setState({ isAudioMuted: false });
-        } else {
-            VoximplantLegacy.setMute(true);
-            this.setState({ isAudioMuted: true });
-        }
+        var isMuted = this.state.isAudioMuted;
+        VoximplantLegacy.setMute(!isMuted);
+        this.setState({isAudioMuted: !isMuted});
     }
 
     switchSpeakerphone() {
         console.log("CallScreen[" + this.callId + "] switchSpeakerphone: " + !this.state.isSpeakerEnabled);
-        if (this.state.isSpeakerEnabled) {
-            VoximplantLegacy.setUseLoudspeaker(false);
-            this.setState({ isSpeakerEnabled: false });
-        } else {
-            VoximplantLegacy.setUseLoudspeaker(true);
-            this.setState({ isSpeakerEnabled: true });
-        }
+        var isSpeaker = this.state.isSpeakerEnabled;
+        VoximplantLegacy.setUseLoudspeaker(!isSpeaker);
+        this.setState({ isSpeakerEnabled: !isSpeaker});
     }
 
     sendVideo(doSend) {
@@ -156,6 +151,15 @@ export default class CallScreen extends React.Component {
         VoximplantLegacy.disconnectCall(this.callId);
     }
 
+    switchKeypad() {
+        var isVisible = this.state.isKeypadVisible;
+        this.setState({ isKeypadVisible: !isVisible});
+    }
+
+    _keypadPressed(value) {
+        console.log("CallScreen[" + this.callId + "] sendDTMF: " + value);
+        VoximplantLegacy.sendDTMF(this.callId, value);
+    }
 
     render() {
         return (
@@ -175,25 +179,31 @@ export default class CallScreen extends React.Component {
                         <Text style={styles.call_connecting_label}>{this.state.callState}</Text>
                     </View>
 
+                    {this.state.isKeypadVisible ? (
+                        <Keypad keyPressed={(e) => this._keypadPressed(e)} />
+                    ) : (
+                            null
+                        )}
+
                     <View style={styles.call_controls}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: 'transparent' }}>
-                            {this.state.micMuted ? (
-                                <CallButton icon_name='mic' color='#0C90E7' buttonPressed={() => this.muteAudio()} />
+                            {this.state.isAudioMuted ? (
+                                <CallButton icon_name='mic' color='#8b61ff' buttonPressed={() => this.muteAudio()} />
                             ) : (
-                                    <CallButton icon_name='mic-off' color='#0C90E7' buttonPressed={() => this.muteAudio()} />
+                                    <CallButton icon_name='mic-off' color='#8b61ff' buttonPressed={() => this.muteAudio()} />
                                 )}
-                            <CallButton icon_name='dialpad' color='#0C90E7' buttonPressed={() => this.switchKeypad()} />
-                            {this.state.speakerphoneOn ? (
-                                <CallButton icon_name='volume-mute' color='#0C90E7' buttonPressed={() => this.switchSpeakerphone()} />
+                            <CallButton icon_name='dialpad' color='#8b61ff' buttonPressed={() => this.switchKeypad()} />
+                            {this.state.isSpeakerEnabled ? (
+                                <CallButton icon_name='volume-mute' color='#8b61ff' buttonPressed={() => this.switchSpeakerphone()} />
                             ) : (
-                                    <CallButton icon_name='volume-up' color='#0C90E7' buttonPressed={() => this.switchSpeakerphone()} />
+                                    <CallButton icon_name='volume-up' color='#8b61ff' buttonPressed={() => this.switchSpeakerphone()} />
                                 )}
                             {this.state.isVideoSent ? (
-                                <CallButton icon_name='videocam-off' color='#0C90E7' buttonPressed={() => this.sendVideo(false)} />
+                                <CallButton icon_name='videocam-off' color='#8b61ff' buttonPressed={() => this.sendVideo(false)} />
                             ) : (
-                                    <CallButton icon_name='video-call' color='#0C90E7' buttonPressed={() => this.sendVideo(true)} />
+                                    <CallButton icon_name='video-call' color='#8b61ff' buttonPressed={() => this.sendVideo(true)} />
                                 )}
-                            <CallButton icon_name='call-end' color='#FF3B30' buttonPressed={() => this.endCall()} />
+                            <CallButton icon_name='call-end' color='#f54b5e' buttonPressed={() => this.endCall()} />
 
                         </View>
                     </View>

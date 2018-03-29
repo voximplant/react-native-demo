@@ -38,7 +38,7 @@ var styles = StyleSheet.create({
   icon: {
     width: 50,
     height: 50,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 35,
     margin: 10,
     alignItems: 'center', 
