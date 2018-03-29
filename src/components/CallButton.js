@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-class CallButton extends Component {
+export default class CallButton extends Component {
 
   handleButtonPressed() {
     this.props.buttonPressed();
@@ -59,7 +59,3 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
 });
-
-export {
-	CallButton as CallButton
-}

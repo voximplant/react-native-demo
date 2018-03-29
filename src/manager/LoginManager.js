@@ -28,19 +28,23 @@ DeviceEventEmitter.addListener(
 DeviceEventEmitter.addListener(
   VoximplantLegacy.Events.ConnectionSuccessful,
   () => {
-   console.log('Connection successful');
-   loginManagerGlobal.connected = true;
-   if (loginManagerGlobal.processingPushNotification) {
-    DefaultPreference.get('usernameValue').then(
-      function(username) {
-        DefaultPreference.get('accessToken').then(
-          function(accessToken) {
-            VoximplantLegacy.loginUsingAccessToken(username + ".voximplant.com", accessToken);
+    console.log('Connection successful');
+    loginManagerGlobal.connected = true;
+    if (loginManagerGlobal.processingPushNotification) {
+      DefaultPreference.get('usernameValue').then(
+        function (username) {
+          DefaultPreference.get('accessToken').then(
+            function (accessToken) {
+              VoxImplant.SDK.loginUsingAccessToken(username + ".voximplant.com", accessToken);
+            });
         });
-    });
-   } else {
-    loginManagerGlobal.emit('onConnected');
-   }
+    } else if (loginManagerGlobal.username !== '' && loginManagerGlobal.password !== '') {
+      VoxImplant.SDK.login(loginManagerGlobal.username, loginManagerGlobal.password);
+    } else if (loginManagerGlobal.myuser !== '' && loginManagerGlobal.password !== '') {
+      VoxImplant.SDK.requestOneTimeKey(loginManagerGlobal.fullUserName);
+    } else {
+      loginManagerGlobal.emit('onConnected');
+    }
   }
 );
 
@@ -101,11 +105,11 @@ DeviceEventEmitter.addListener(
 DeviceEventEmitter.addListener(
   VoximplantLegacy.Events.OneTimeKeyGenerated,
   (oneTimeKeyGenerated) => {
-      console.log('LoginManager: OneTimeKeyGenerated: key: ' + oneTimeKeyGenerated.key);
-      let hash = md5.hex_md5(oneTimeKeyGenerated.key + "|" 
-                      + md5.hex_md5(loginManagerGlobal.myuser + ":voximplant.com:" 
-                      + loginManagerGlobal.mypassword));
-      loginManagerGlobal.loginWithOneTimeKey(loginManagerGlobal.fullUserName, hash);
+    console.log('LoginManager: OneTimeKeyGenerated: key: ' + oneTimeKeyGenerated.key);
+    let hash = md5.hex_md5(oneTimeKeyGenerated.key + "|"
+      + md5.hex_md5(loginManagerGlobal.myuser + ":voximplant.com:"
+        + loginManagerGlobal.password));
+    loginManagerGlobal.continueLoginWithOneTimeKey(loginManagerGlobal.fullUserName, hash);
   }
 );
 
@@ -121,13 +125,14 @@ export default class LoginManager {
   currentAppState = "inactive";
   fullUserName = '';
   myuser = '';
-  mypassword = '';
+  username = '';
+  password = '';
 
   static getInstance() {
-      if (this.myInstance === null) {
-          this.myInstance = new LoginManager();
-      }
-      return this.myInstance;
+    if (this.myInstance === null) {
+      this.myInstance = new LoginManager();
+    }
+    return this.myInstance;
   }
 
   constructor() {
@@ -149,18 +154,28 @@ export default class LoginManager {
   }
 
   loginWithPassword(user, password) {
+    this.username = user;
+    this.password = password;
+    if (!this.connected) {
+      this.connect(false);
+    } else {
     VoximplantLegacy.login(user, password);
+    }
   }
 
-  requestOneTimeKey(user, password) {
+  loginWithOneTimeKey(user, password) {
     this.fullUserName = user;
     this.myuser = user.split('@')[0];
-    this.mypassword = password;
+    this.password = password;
+    if (!this.connected) {
+      this.connect(false);
+    } else {
     VoximplantLegacy.requestOneTimeKey(user);
+    }
   }
 
-  loginWithOneTimeKey(user, hash) {
-    VoximplantLegacy.loginUsingOneTimeKey(user, hash);
+  continueLoginWithOneTimeKey(user, hash) {
+    VoxImplant.SDK.loginUsingOneTimeKey(user, hash);
   }
 
   registerPushToken() {
@@ -180,12 +195,12 @@ export default class LoginManager {
       this.connect(isConnectivityCheck);
     } else if (!this.loggedIn) {
       DefaultPreference.get('usernameValue').then(
-        function(username) {
+        function (username) {
           DefaultPreference.get('accessToken').then(
-            function(accessToken) {
-              VoximplantLegacy.loginUsingAccessToken(username + ".voximplant.com", accessToken);
-          });
-      });
+            function (accessToken) {
+              VoxImplant.SDK.loginUsingAccessToken(username + ".voximplant.com", accessToken);
+            });
+        });
     }
     VoximplantLegacy.handlePushNotification(notification);
   }

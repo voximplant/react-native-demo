@@ -11,13 +11,12 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
-import PropTypes from 'prop-types';
 
 class KeypadButton extends Component {
 
   static propTypes = {
     ...TouchableOpacity.propTypes,
-    style: PropTypes.style,
+    style: View.propTypes.style,
   };
 
   render() {

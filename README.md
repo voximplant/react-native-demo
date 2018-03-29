@@ -3,7 +3,7 @@
 User agent demo application that uses `react-native-voximplant` and [Voximplant cloud platform](http://voximplant.com) for making/receiving audio/video calls.
 
 ## In Action
-[![VoxImplant SDK demo](https://habrastorage.org/files/185/1b5/dd6/1851b5dd689e4a688c2f6e68fcf38d81.gif)](http://www.youtube.com/watch?v=gC2iDVl4RRM)
+[![Voximplant SDK demo](https://habrastorage.org/files/185/1b5/dd6/1851b5dd689e4a688c2f6e68fcf38d81.gif)](http://www.youtube.com/watch?v=gC2iDVl4RRM)
 
 ## Getting started
 
@@ -13,7 +13,7 @@ User agent demo application that uses `react-native-voximplant` and [Voximplant 
 
 	### iOS
 	1. Run `pod install` from `react-native-demo/ios` folder
-	2. Start XCode and open generated `VoxImplantDemo.xcworkspace`
+	2. Start XCode and open generated `VoximplantDemo.xcworkspace`
 
 	Note: To enable ios push notifications in demo project, follow the [the instructions](http://voximplant.com/blog/push-notifications-for-ios/) to add certificates to the Voximplant Cloud
 

@@ -53,7 +53,7 @@ def react_native_fix
 end
 
 
-target 'VoxImplantDemo' do
+target 'VoximplantDemo' do
     # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
      use_frameworks!
     
@@ -66,7 +66,8 @@ target 'VoxImplantDemo' do
     'RCTText',
     'RCTWebSocket',
     'DevSupport',
-    'RCTAnimation'
+    'RCTAnimation',
+    'RCTLinkingIOS'
     # Add any other subspecs you want to use in your project
     ]
 
@@ -95,7 +96,7 @@ target 'VoxImplantDemo' do
     
 end
 
-target 'VoxImplantDemoTests' do
+target 'VoximplantDemoTests' do
     # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
      use_frameworks!
     
@@ -108,7 +109,8 @@ target 'VoxImplantDemoTests' do
     'RCTText',
     'RCTWebSocket',
     'DevSupport',
-    'RCTAnimation'
+    'RCTAnimation',
+    'RCTLinkingIOS'
     # Add any other subspecs you want to use in your project
     ]
 

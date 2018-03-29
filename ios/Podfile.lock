@@ -46,6 +46,8 @@ PODS:
   - React/RCTImage (0.54.2):
     - React/Core
     - React/RCTNetwork
+  - React/RCTLinkingIOS (0.54.2):
+    - React/Core
   - React/RCTNetwork (0.54.2):
     - React/Core
   - React/RCTText (0.54.2):
@@ -75,6 +77,7 @@ DEPENDENCIES:
   - React/DevSupport (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
   - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTLinkingIOS (from `../node_modules/react-native`)
   - React/RCTNetwork (from `../node_modules/react-native`)
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
@@ -114,6 +117,6 @@ SPEC CHECKSUMS:
   VoxImplantWebRTC: 28ea801d86ece73adb0b9e2ea3ea02d062c9a9ae
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 5ca7abed82381fcf4988a38938e457ea1a8e442a
+PODFILE CHECKSUM: dab57e193a3c1eaf8f7bac4b34e2e46977d92eed
 
 COCOAPODS: 1.4.0

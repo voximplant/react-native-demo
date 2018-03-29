@@ -25,6 +25,7 @@ DerivedData
 project.xcworkspace
 ios/Pods/*
 VoxImplantDemo.xcworkspace
+VoximplantDemo.xcworkspace
 
 # Android/IntelliJ
 #
