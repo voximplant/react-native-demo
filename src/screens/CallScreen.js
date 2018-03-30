@@ -24,14 +24,13 @@ import { VoximplantLegacy, Preview, RemoteView } from 'react-native-voximplant';
 import CallButton from '../components/CallButton';
 import { Keypad } from '../components/Keypad';
 import COLOR_SCHEME from '../styles/ColorScheme';
+import COLOR from '../styles/Color';
+import CallManager from '../manager/CallManager';
 
 DeviceEventEmitter.addListener(
     VoximplantLegacy.Events.CallRinging,
     (callRinging) => {
         console.log("CallScreen[" + callRinging.callId + "] CallRinging event");
-        // if (uaInstance !== undefined) {
-        //     uaInstance.setState({ callState: "Ringing" });
-        // }
     }
 );
 
@@ -42,12 +41,6 @@ DeviceEventEmitter.addListener(
         if (callScreenInstance !== null) {
             callScreenInstance.callState = CALL_STATES.CONNECTED;
         }
-        // if (uaInstance !== undefined) {
-        //     uaInstance.setState({
-        //         status: 'connected',
-        //         callState: "Call is in progress"
-        //     });
-        // }
     }
 );
 
@@ -58,12 +51,6 @@ DeviceEventEmitter.addListener(
         if (callScreenInstance !== null) {
             callScreenInstance.callState = CALL_STATES.DISCONNECTED;
         }
-        // if (uaInstance !== undefined) {
-        //     uaInstance.setState({
-        //         modalText: 'Call failed. Reason: ' + callFailed.reason,
-        //         status: 'idle', isModalOpen: true
-        //     });
-        // }
     }
 );
 
@@ -71,14 +58,11 @@ DeviceEventEmitter.addListener(
     VoximplantLegacy.Events.CallDisconnected,
     (callDisconnected) => {
         console.log("CallScreen[" + callDisconnected.callId + "] CallDisconnected event");
-        if (callScreenInstance != null) {
+        if (callScreenInstance != null && callScreenInstance.callId === callDisconnected.callId) {
+            CallManager.getInstance().removeCall(callDisconnected.callId);
             callScreenInstance.callState = CALL_STATES.DISCONNECTED;
             callScreenInstance.props.navigation.navigate("App");
         }
-        // if (uaInstance !== undefined) {
-        //     console.log('Call disconnected. Call id = ' + callDisconnected.callId);
-        //     uaInstance.callDisconnected(callDisconnected.callId);
-        // }
     }
 );
 
@@ -164,7 +148,7 @@ export default class CallScreen extends React.Component {
     render() {
         return (
             <SafeAreaView style={styles.safearea}>
-                <StatusBar barStyle={Platform.OS === 'ios' ? COLOR_SCHEME.DARK : COLOR_SCHEME.LIGHT} backgroundColor="#392b5b" />
+                <StatusBar barStyle={Platform.OS === 'ios' ? COLOR_SCHEME.DARK : COLOR_SCHEME.LIGHT} backgroundColor={COLOR.PRIMARY_DARK} />
                 <View style={styles.useragent}>
                     <View style={styles.videoPanel}>
                         <RemoteView style={styles.remotevideo} callId={this.callId} ></RemoteView>
@@ -188,22 +172,22 @@ export default class CallScreen extends React.Component {
                     <View style={styles.call_controls}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: 'transparent' }}>
                             {this.state.isAudioMuted ? (
-                                <CallButton icon_name='mic' color='#8b61ff' buttonPressed={() => this.muteAudio()} />
+                                <CallButton icon_name='mic' color={COLOR.ACCENT} buttonPressed={() => this.muteAudio()} />
                             ) : (
-                                    <CallButton icon_name='mic-off' color='#8b61ff' buttonPressed={() => this.muteAudio()} />
+                                    <CallButton icon_name='mic-off' color={COLOR.ACCENT} buttonPressed={() => this.muteAudio()} />
                                 )}
-                            <CallButton icon_name='dialpad' color='#8b61ff' buttonPressed={() => this.switchKeypad()} />
+                            <CallButton icon_name='dialpad' color={COLOR.ACCENT} buttonPressed={() => this.switchKeypad()} />
                             {this.state.isSpeakerEnabled ? (
-                                <CallButton icon_name='volume-mute' color='#8b61ff' buttonPressed={() => this.switchSpeakerphone()} />
+                                <CallButton icon_name='volume-mute' color={COLOR.ACCENT} buttonPressed={() => this.switchSpeakerphone()} />
                             ) : (
-                                    <CallButton icon_name='volume-up' color='#8b61ff' buttonPressed={() => this.switchSpeakerphone()} />
+                                    <CallButton icon_name='volume-up' color={COLOR.ACCENT} buttonPressed={() => this.switchSpeakerphone()} />
                                 )}
                             {this.state.isVideoSent ? (
-                                <CallButton icon_name='videocam-off' color='#8b61ff' buttonPressed={() => this.sendVideo(false)} />
+                                <CallButton icon_name='videocam-off' color={COLOR.ACCENT} buttonPressed={() => this.sendVideo(false)} />
                             ) : (
-                                    <CallButton icon_name='video-call' color='#8b61ff' buttonPressed={() => this.sendVideo(true)} />
+                                    <CallButton icon_name='video-call' color={COLOR.ACCENT} buttonPressed={() => this.sendVideo(true)} />
                                 )}
-                            <CallButton icon_name='call-end' color='#f54b5e' buttonPressed={() => this.endCall()} />
+                            <CallButton icon_name='call-end' color={COLOR.RED} buttonPressed={() => this.endCall()} />
 
                         </View>
                     </View>
@@ -247,7 +231,7 @@ var styles = StyleSheet.create({
         borderRadius: 10,
     },
     innerContainerTransparent: {
-        backgroundColor: '#fff',
+        backgroundColor: COLOR.WHITE,
         padding: 20
     },
     useragent: {
@@ -282,6 +266,6 @@ var styles = StyleSheet.create({
     },
     safearea: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: COLOR.WHITE,
     },
 });

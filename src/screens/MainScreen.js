@@ -21,8 +21,11 @@ import {
 
 import CallButton from '../components/CallButton';
 import LoginManager from '../manager/LoginManager';
+import CallManager from '../manager/CallManager';
 
 import {VoximplantLegacy} from 'react-native-voximplant';
+import COLOR from '../styles/Color';
+import COLOR_SCHEME from '../styles/ColorScheme';
 
 export default class MainScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -70,6 +73,7 @@ export default class MainScreen extends React.Component {
     makeCall(isVideoCall) {
         console.log('MainScreen: make call: ' + this.number + ', isVideo:' + isVideoCall);
         VoximplantLegacy.createCall(this.number, isVideoCall, null, function (newCallId) {
+            CallManager.getInstance().addCall(newCallId);
             this.props.navigation.navigate('Call', {
                 callId: newCallId,
                 isVideo: isVideoCall,
@@ -81,7 +85,7 @@ export default class MainScreen extends React.Component {
     render() {
         return (
             <SafeAreaView style={styles.safearea}>
-                <StatusBar barStyle="light-content" backgroundColor="#392b5b" />
+                <StatusBar barStyle={COLOR_SCHEME.LIGHT} backgroundColor={COLOR.PRIMARY_DARK} />
                 <View style={styles.useragent}>
                     <TextInput
                         style={[styles.forminput, styles.numberinput]}
@@ -93,8 +97,8 @@ export default class MainScreen extends React.Component {
                         autoCapitalize='none'
                         autoCorrect={false} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 90 }}>
-                        <CallButton icon_name='call' color='#8b61ff' buttonPressed={() => this.makeCall(false)} />
-                        <CallButton icon_name='videocam' color='#8b61ff' buttonPressed={() => this.makeCall(true)} />
+                        <CallButton icon_name='call' color={COLOR.ACCENT} buttonPressed={() => this.makeCall(false)} />
+                        <CallButton icon_name='videocam' color={COLOR.ACCENT} buttonPressed={() => this.makeCall(true)} />
                     </View>
 
                     <Modal
@@ -122,7 +126,7 @@ export default class MainScreen extends React.Component {
 var styles = StyleSheet.create({
     safearea: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: COLOR.WHITE
     },
     container: {
         flex: 1,
@@ -137,18 +141,18 @@ var styles = StyleSheet.create({
         borderRadius: 10,
     },
     innerContainerTransparent: {
-        backgroundColor: '#fff',
+        backgroundColor: COLOR.WHITE,
         padding: 20
     },
     forminput: {
         padding: 5,
         marginBottom: 10,
         height: 40,
-        color: '#8b61ff',
+        color: COLOR.ACCENT,
         ...Platform.select({
             ios: {
                 height: 40,
-                borderColor: '#8b61ff',
+                borderColor: COLOR.ACCENT,
                 borderWidth: 1,
                 borderRadius: 4,
             }
@@ -183,7 +187,7 @@ var styles = StyleSheet.create({
         alignSelf: 'center'
     },
     headerButton: {
-        color: '#FFF',
+        color: COLOR.WHITE,
         fontSize: 16,
         alignSelf: 'center',
         paddingTop: 20,

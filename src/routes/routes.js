@@ -9,6 +9,9 @@ import LoginScreen from '../screens/LoginScreen';
 import MainScreen from '../screens/MainScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CallScreen from '../screens/CallScreen';
+import IncomingCallScreen from '../screens/IncomingCallScreen';
+
+import COLOR from '../styles/Color';
 
 const AppStack = StackNavigator(
     {
@@ -22,9 +25,9 @@ const AppStack = StackNavigator(
     {
         navigationOptions: {
             headerStyle: {
-                backgroundColor: '#1c0b43',
+                backgroundColor: COLOR.PRIMARY,
             },
-            headerTintColor: '#fff',
+            headerTintColor: COLOR.WHITE,
             headerTitleStyle: {
                 fontWeight: 'bold',
             }
@@ -37,6 +40,7 @@ const RootStack = SwitchNavigator(
         Login: LoginScreen,
         App: AppStack,
         Call: CallScreen,
+        IncomingCall: IncomingCallScreen
     },
     {
         initialRouteName: 'Login',

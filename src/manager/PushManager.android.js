@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2018, Zingaya, Inc. All rights reserved.
  */
 
- 'use strict';
+'use strict';
 
 import React from 'react';
 import {
@@ -12,16 +12,17 @@ import {
 import loginManager from './LoginManager';
 import VoxImplant from 'react-native-voximplant';
 
-import FCM, {FCMEvent} from 'react-native-fcm';
+import FCM, { FCMEvent } from 'react-native-fcm';
 
 FCM.on(FCMEvent.Notification, async (notif) => {
-    var remoteData = {};
-    remoteData.voximplant = notif.voximplant;
-    pushManager.pushNotificationReceived(remoteData);
+  console.log("PushManager: FCM: notification: " + notif.voximplant);
+  var remoteData = {};
+  remoteData.voximplant = notif.voximplant;
+  pushManager.pushNotificationReceived(remoteData);
 });
 
 FCM.on(FCMEvent.RefreshToken, (token) => {
-    console.log("Refresh token: " + token);
+  console.log("Refresh token: " + token);
 });
 
 var pushToken = '';
@@ -34,10 +35,10 @@ class PushManager {
   init() {
     console.log("PushManager init");
     if (Platform.OS === 'android') {
-        FCM.getFCMToken().then(token => {
-            console.log(token)
-            pushToken = token;
-        });
+      FCM.getFCMToken().then(token => {
+        console.log(token)
+        pushToken = token;
+      });
     }
   }
 

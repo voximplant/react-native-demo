@@ -24,6 +24,7 @@ import {
 import LoginManager from '../manager/LoginManager';
 import DefaultPreference from 'react-native-default-preference';
 import COLOR_SCHEME from '../styles/ColorScheme';
+import COLOR from '../styles/Color';
 
 var _this;
 
@@ -89,7 +90,7 @@ export default class LoginScreen extends React.Component {
     render() {
         return (
             <SafeAreaView style={styles.safearea}>
-                <StatusBar barStyle={Platform.OS === 'ios' ? COLOR_SCHEME.DARK : COLOR_SCHEME.LIGHT} backgroundColor="#392b5b" />
+                <StatusBar barStyle={Platform.OS === 'ios' ? COLOR_SCHEME.DARK : COLOR_SCHEME.LIGHT} backgroundColor={COLOR.PRIMARY_DARK} />
                 <View style={[styles.container]}>
                     <View>
                         <View style={styles.loginform}>
@@ -150,7 +151,7 @@ export default class LoginScreen extends React.Component {
 var styles = StyleSheet.create({
     safearea: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: COLOR.WHITE,
     },
     container: {
         flex: 1,
@@ -165,7 +166,7 @@ var styles = StyleSheet.create({
         borderRadius: 10,
     },
     innerContainerTransparent: {
-        backgroundColor: '#fff',
+        backgroundColor: COLOR.WHITE,
         padding: 20
     },
     appheader: {
@@ -178,7 +179,7 @@ var styles = StyleSheet.create({
         alignItems: 'stretch'
     },
     loginbutton: {
-        color: '#662eff',
+        color: COLOR.BUTTON,
         fontSize: 16,
         alignSelf: 'center',
         paddingTop: 20,
@@ -188,11 +189,11 @@ var styles = StyleSheet.create({
         padding: 5,
         marginBottom: 10,
         height: 40,
-        color: '#8b61ff',
+        color: COLOR.ACCENT,
         ...Platform.select({
             ios: {
                 height: 40,
-                borderColor: '#8b61ff',
+                borderColor: COLOR.ACCENT,
                 borderWidth: 1,
                 borderRadius: 4,
             }
