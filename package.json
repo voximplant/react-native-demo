@@ -15,7 +15,7 @@
 		"react-native-md5": "1.0.0",
 		"react-native-notifications": "1.1.16",
 		"react-native-vector-icons": "^4.1.1",
-		"react-native-voximplant": "0.2.1",
+		"react-native-voximplant": "1.0.0",
 		"react-navigation": "1.5.8"
 	},
 	"devDependencies": {

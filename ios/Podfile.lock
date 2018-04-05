@@ -1,10 +1,10 @@
 PODS:
   - boost-for-react-native (1.63.0)
-  - CocoaLumberjack (3.2.1):
-    - CocoaLumberjack/Default (= 3.2.1)
-    - CocoaLumberjack/Extensions (= 3.2.1)
-  - CocoaLumberjack/Default (3.2.1)
-  - CocoaLumberjack/Extensions (3.2.1):
+  - CocoaLumberjack (3.4.1):
+    - CocoaLumberjack/Default (= 3.4.1)
+    - CocoaLumberjack/Extensions (= 3.4.1)
+  - CocoaLumberjack/Default (3.4.1)
+  - CocoaLumberjack/Extensions (3.4.1):
     - CocoaLumberjack/Default
   - DoubleConversion (1.1.5)
   - Folly (2016.09.26.00):
@@ -16,9 +16,9 @@ PODS:
     - React/Core (= 0.54.2)
   - react-native-notifications (1.1.16):
     - React
-  - react-native-voximplant (0.2.0):
+  - react-native-voximplant (1.0.0):
     - React
-    - VoxImplantSDK (~> 2.13.1)
+    - VoxImplantSDK (~> 2.13.2)
   - React/Core (0.54.2):
     - yoga (= 0.54.2.React)
   - React/CxxBridge (0.54.2):
@@ -59,11 +59,11 @@ PODS:
   - RNDefaultPreference (1.3.1):
     - React
   - SocketRocket (0.5.1)
-  - VoxImplantSDK (2.13.1):
-    - CocoaLumberjack (~> 3.2.0)
+  - VoxImplantSDK (2.13.2):
+    - CocoaLumberjack (~> 3.4.0)
     - SocketRocket (~> 0.5.1)
-    - VoxImplantWebRTC (~> 63.0.1)
-  - VoxImplantWebRTC (63.0.1)
+    - VoxImplantWebRTC (~> 63.0.2)
+  - VoxImplantWebRTC (63.0.2)
   - yoga (0.54.2.React)
 
 DEPENDENCIES:
@@ -104,17 +104,17 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CocoaLumberjack: 2800c03334042fe80589423c8d80e582dcaec482
+  CocoaLumberjack: 2e258a064cacc8eb9a2aca318e24d02a0a7fd56d
   DoubleConversion: ebb6747c5b66026ad4f97b789c3ceac6f18e57a6
   Folly: 211775e49d8da0ca658aebc8eab89d642935755c
   glog: 1de0bb937dccdc981596d3b5825ebfb765017ded
   React: c237e42de9c70e5cac6eeb52b4cfd3a0910c1f00
   react-native-notifications: 4626ecc0189e1b0594b1f422c17e64849390e30d
-  react-native-voximplant: 69175ecbd1e4873115ba87f1fcbe3a0226f2a95c
+  react-native-voximplant: dc93b9f9f27f0a64a3a4104b3d17ea23c3e69915
   RNDefaultPreference: f0ec2a41653832443559a28a599fc6c7628fe776
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  VoxImplantSDK: 2f2953929c985cb495c8b5a2a381d2e3ff79ac0d
-  VoxImplantWebRTC: 28ea801d86ece73adb0b9e2ea3ea02d062c9a9ae
+  VoxImplantSDK: 7052f02be912ad1499f890002d000fec72584feb
+  VoxImplantWebRTC: e81c2d276ca46cc31ceff0c35b3a1c47f9ce4717
   yoga: 55da126afc384965b96bff46652464373b330add
 
 PODFILE CHECKSUM: dab57e193a3c1eaf8f7bac4b34e2e46977d92eed
