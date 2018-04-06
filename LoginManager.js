@@ -93,6 +93,7 @@ DeviceEventEmitter.addListener(
   (incomingCall) => {
     if (loginManagerGlobal.currentAppState !== "active") {
       console.log('LoginManager: Incoming call: is video ' + incomingCall.videoCall);
+      loginManagerGlobal.incomingCall = incomingCall;
       PushManager.showLocalNotification(incomingCall.from);
     }
   }
@@ -122,6 +123,7 @@ export default class LoginManager {
   fullUserName = '';
   myuser = '';
   mypassword = '';
+  incomingCall = undefined;
 
   static getInstance() {
       if (this.myInstance === null) {

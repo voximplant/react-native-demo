@@ -105,7 +105,7 @@ export default class UserAgent extends Component {
   componentDidMount() {
     uaInstance = this;
     this._thisNumber.focus();
-    if (loginManager.getInstance().incomingCall != undefined) {
+    if (loginManager.getInstance().incomingCall !== undefined) {
       this.setState({ status: 'incoming_call', 
                       callState: "Incoming call from " + loginManager.getInstance().incomingCall.from,
                       videoEnabled: loginManager.getInstance().incomingCall.videoCall,
