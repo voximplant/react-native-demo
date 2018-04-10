@@ -24,7 +24,7 @@ DeviceEventEmitter.addListener(
         console.log("IncomingCallScreen[" + callDisconnected.callId + "] CallDisconnected event");
         if (screenInstance !== null && 
             screenInstance.callId === callDisconnected.callId) {
-                CallManager.getInstance().removeCall(callDisconnected.callId);
+                //CallManager.getInstance().removeCall(callDisconnected.callId);
                 screenInstance.callId = null;
                 screenInstance.props.navigation.navigate("App");
             }

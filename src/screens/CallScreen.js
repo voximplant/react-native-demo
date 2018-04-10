@@ -20,51 +20,12 @@ import {
     StatusBar
 } from 'react-native';
 
-import { VoximplantLegacy, Preview, RemoteView } from 'react-native-voximplant';
+import { VoximplantLegacy, Preview, RemoteView, CallEvents } from 'react-native-voximplant';
 import CallButton from '../components/CallButton';
 import { Keypad } from '../components/Keypad';
 import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
 import CallManager from '../manager/CallManager';
-
-DeviceEventEmitter.addListener(
-    VoximplantLegacy.Events.CallRinging,
-    (callRinging) => {
-        console.log("CallScreen[" + callRinging.callId + "] CallRinging event");
-    }
-);
-
-DeviceEventEmitter.addListener(
-    VoximplantLegacy.Events.CallConnected,
-    (callConnected) => {
-        console.log("CallScreen[" + callConnected.callId + "] CallConnected event");
-        if (callScreenInstance !== null) {
-            callScreenInstance.callState = CALL_STATES.CONNECTED;
-        }
-    }
-);
-
-DeviceEventEmitter.addListener(
-    VoximplantLegacy.Events.CallFailed,
-    (callFailed) => {
-        console.log("CallScreen[" + callFailed.callId + "] CallFailed event");
-        if (callScreenInstance !== null) {
-            callScreenInstance.callState = CALL_STATES.DISCONNECTED;
-        }
-    }
-);
-
-DeviceEventEmitter.addListener(
-    VoximplantLegacy.Events.CallDisconnected,
-    (callDisconnected) => {
-        console.log("CallScreen[" + callDisconnected.callId + "] CallDisconnected event");
-        if (callScreenInstance != null && callScreenInstance.callId === callDisconnected.callId) {
-            CallManager.getInstance().removeCall(callDisconnected.callId);
-            callScreenInstance.callState = CALL_STATES.DISCONNECTED;
-            callScreenInstance.props.navigation.navigate("App");
-        }
-    }
-);
 
 const CALL_STATES = {
     DISCONNECTED: 'disconnected',
@@ -94,20 +55,41 @@ export default class CallScreen extends React.Component {
             modalText: ''
         }
 
+        
+        this._onCallFailedCallback = (event) => this._onCallFailed(event);
+        this._onCallDisconnectedCallback = (event) => this._onCallDisconnected(event);
+        this._onCallConnectedCallback = (event) => this._onCallConnected(event);
+
+        this.call = CallManager.getInstance().getCallById(this.callId);
+        if (this.call !== null) {
+            this.call.on(CallEvents.Failed, this._onCallFailedCallback);
+            this.call.on(CallEvents.Disconnected, this._onCallDisconnectedCallback);
+            this.call.on(CallEvents.Connected, this._onCallConnectedCallback);
+        }
+
         console.log("CallScreen: ctr: callid: " + this.callId + ", isVideoCall: " + this.isVideoCall
             + ", isIncoming:  " + this.isIncoming + ", callState: " + this.callState);
     }
 
     componentDidMount() {
         callScreenInstance = this;
-        if (this.isIncoming) {
-            console.log("CallScreen[" + this.callId + "] answer call");
-            VoximplantLegacy.answerCall(this.callId);
-        } else {
-            console.log("CallScreen[" + this.callId + "] start call");
-            VoximplantLegacy.startCall(this.callId);
-        }
+        // if (this.isIncoming) {
+        //     console.log("CallScreen[" + this.callId + "] answer call");
+        //     VoximplantLegacy.answerCall(this.callId);
+        // } else {
+        //     console.log("CallScreen[" + this.callId + "] start call");
+        //     VoximplantLegacy.startCall(this.callId);
+        // }
         this.callState = CALL_STATES.CONNECTING;
+    }
+
+    componentWillUnmount() {
+        console.log('CallScreen: componentWillUnmount ' + this.call.callId);
+        if (this.call) {
+            this.call.off(CallEvents.Failed, this._onCallFailedCallback);
+            this.call.off(CallEvents.Disconnected, this._onCallDisconnectedCallback);
+            this.call.off(CallEvents.Connected, this._onCallConnectedCallback);
+        }
     }
 
     muteAudio() {
@@ -132,7 +114,7 @@ export default class CallScreen extends React.Component {
 
     endCall() {
         console.log("CallScreen[" + this.callId + "] endCall");
-        VoximplantLegacy.disconnectCall(this.callId);
+        this.call.hangup();
     }
 
     switchKeypad() {
@@ -143,6 +125,31 @@ export default class CallScreen extends React.Component {
     _keypadPressed(value) {
         console.log("CallScreen[" + this.callId + "] sendDTMF: " + value);
         VoximplantLegacy.sendDTMF(this.callId, value);
+    }
+
+    _closeModal() {
+        this.setState({ isModalOpen: false, modalText: '' });
+        this.props.navigation.navigate("App");
+    }
+
+    _onCallFailed(event) {
+        this.callState = CALL_STATES.DISCONNECTED;
+        this.setState({
+            isModalOpen: true, 
+            modalText: 'Call failed: ' + event.reason
+        });
+    }
+
+    _onCallDisconnected(event) {
+        console.log('CallScreen:' + this.call.callId +  '_onCallDisconnected: ' + event.call.callId);
+        CallManager.getInstance().removeCall(this.call);
+        this.callState = CALL_STATES.DISCONNECTED;
+        this.props.navigation.navigate("App");
+    }
+
+    _onCallConnected(event) {
+        console.log('CallScreen: _onCallConnected: ');
+        this.callState = CALL_STATES.DISCONNECTED;
     }
 
     render() {
@@ -198,7 +205,7 @@ export default class CallScreen extends React.Component {
                         visible={this.state.isModalOpen}
                         onRequestClose={() => { }}>
                         <TouchableHighlight
-                            onPress={(e) => this.setState({ isModalOpen: false, modalText: '' })}
+                            onPress={(e) => this._closeModal()}
                             style={styles.container}>
                             <View style={[styles.container, styles.modalBackground]}>
                                 <View

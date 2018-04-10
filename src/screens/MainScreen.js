@@ -23,7 +23,7 @@ import CallButton from '../components/CallButton';
 import LoginManager from '../manager/LoginManager';
 import CallManager from '../manager/CallManager';
 
-import {VoximplantLegacy} from 'react-native-voximplant';
+import {VoximplantLegacy, Voximplant, Client, Call} from 'react-native-voximplant';
 import COLOR from '../styles/Color';
 import COLOR_SCHEME from '../styles/ColorScheme';
 
@@ -72,14 +72,19 @@ export default class MainScreen extends React.Component {
 
     makeCall(isVideoCall) {
         console.log('MainScreen: make call: ' + this.number + ', isVideo:' + isVideoCall);
-        VoximplantLegacy.createCall(this.number, isVideoCall, null, function (newCallId) {
-            CallManager.getInstance().addCall(newCallId);
+        (async() => {
+            let callSettings = {};
+            callSettings.video = {};
+            callSettings.video.receiveVideo = isVideoCall;
+            callSettings.video.sendVideo = isVideoCall;
+            let call = await Voximplant.getClientInstance().call(this.number, callSettings);
+            CallManager.getInstance().addCall(call);
             this.props.navigation.navigate('Call', {
-                callId: newCallId,
+                callId: call.callId,
                 isVideo: isVideoCall,
                 isIncoming: false
             });
-        }.bind(this));
+        })();
     }
 
     render() {

@@ -10,7 +10,7 @@ import {
     Platform
 } from 'react-native';
 
-import { VoximplantLegacy } from 'react-native-voximplant';
+import { VoximplantLegacy, Voximplant, Client, Call } from 'react-native-voximplant';
 import NavigationService from '../routes/NavigationService';
 
 DeviceEventEmitter.addListener(
@@ -28,7 +28,9 @@ export default class CallManager {
     static myInstance = null;
 
     constructor() {
+        this.call = null;
         this.currentCallId = null;
+        this.client = Voximplant.getClientInstance();
     }
 
     static getInstance() {
@@ -38,18 +40,35 @@ export default class CallManager {
         return this.myInstance;
     }
 
-    addCall(callId) {
-        console.log("CallManager: addCall:" + callId);
-        this.currentCallId = callId;
+    addCall(call) {
+        console.log("CallManager: addCall:" + call.callId);
+        this.call = call;
+        //this.currentCallId = callId;
     }
 
-    removeCall(callId) {
-        console.log("CallManager: removeCall:" + callId);
-        if (this.currentCallId === callId) {
-            this.currentCallId = null;
+    removeCall(call) {
+        console.log("CallManager: removeCall :" + call.callId);
+        if (this.call.callId === call.callId) {
+            this.call = null;
         } else {
             console.warn("CallManager: removeCall: call id mismatch");
         }
+    }
+
+    // removeCall(callId) {
+    //     console.log("CallManager: removeCall:" + callId);
+    //     if (this.currentCallId === callId) {
+    //         this.currentCallId = null;
+    //     } else {
+    //         console.warn("CallManager: removeCall: call id mismatch");
+    //     }
+    // }
+
+    getCallById(callId) {
+        if (callId === this.call.callId) {
+            return this.call;
+        }
+        return null;
     }
 
     incomingCall(callId, isVideoCall, displayName) {
