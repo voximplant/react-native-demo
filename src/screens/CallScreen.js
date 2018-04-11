@@ -94,8 +94,8 @@ export default class CallScreen extends React.Component {
 
     muteAudio() {
         console.log("CallScreen[" + this.callId + "] muteAudio: " + !this.state.isAudioMuted);
-        var isMuted = this.state.isAudioMuted;
-        VoximplantLegacy.setMute(!isMuted);
+        const isMuted = this.state.isAudioMuted;
+        this.call.sendAudio(isMuted);
         this.setState({isAudioMuted: !isMuted});
     }
 
@@ -123,8 +123,8 @@ export default class CallScreen extends React.Component {
     }
 
     _keypadPressed(value) {
-        console.log("CallScreen[" + this.callId + "] sendDTMF: " + value);
-        VoximplantLegacy.sendDTMF(this.callId, value);
+        console.log("CallScreen[" + this.callId + "] _keypadPressed(: " + value);
+        this.call.sendTone(value);
     }
 
     _closeModal() {
@@ -158,12 +158,12 @@ export default class CallScreen extends React.Component {
                 <StatusBar barStyle={Platform.OS === 'ios' ? COLOR_SCHEME.DARK : COLOR_SCHEME.LIGHT} backgroundColor={COLOR.PRIMARY_DARK} />
                 <View style={styles.useragent}>
                     <View style={styles.videoPanel}>
-                        <RemoteView style={styles.remotevideo} callId={this.callId} ></RemoteView>
+                        {/* <RemoteView style={styles.remotevideo} callId={this.call.callId} ></RemoteView>
                         {this.state.isVideoSent ? (
                             <Preview style={styles.selfview}></Preview>
                         ) : (
                                 null
-                            )}
+                            )} */}
                     </View>
 
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
