@@ -6,20 +6,11 @@
 
 import React from 'react';
 import {
-    DeviceEventEmitter,
     Platform
 } from 'react-native';
 
-import { VoximplantLegacy, Voximplant, Client, Call } from 'react-native-voximplant';
+import { VoximplantLegacy, Voximplant, Client, Call, ClientEvents } from 'react-native-voximplant';
 import NavigationService from '../routes/NavigationService';
-
-DeviceEventEmitter.addListener(
-    VoximplantLegacy.Events.IncomingCall,
-    (incomingCall) => {
-        console.log('CallManager: Incoming call:' + incomingCall.callId + ', is video ' + incomingCall.videoCall);
-        callManagerGlobal.incomingCall(incomingCall.callId, incomingCall.videoCall, incomingCall.displayName);
-    }
-);
 
 // Voximplant SDK supports multiple calls at the same time, however
 // this demo app demostrates only one active call at the moment, 
@@ -29,8 +20,11 @@ export default class CallManager {
 
     constructor() {
         this.call = null;
-        this.currentCallId = null;
         this.client = Voximplant.getClientInstance();
+    }
+
+    init() {
+        this.client.on(ClientEvents.IncomingCall, (event) => this._incomingCall(event));
     }
 
     static getInstance() {
@@ -43,26 +37,16 @@ export default class CallManager {
     addCall(call) {
         console.log("CallManager: addCall:" + call.callId);
         this.call = call;
-        //this.currentCallId = callId;
     }
 
     removeCall(call) {
         console.log("CallManager: removeCall :" + call.callId);
-        if (this.call.callId === call.callId) {
+        if (this.call && (this.call.callId === call.callId)) {
             this.call = null;
-        } else {
+        } else if (this.call) {
             console.warn("CallManager: removeCall: call id mismatch");
         }
     }
-
-    // removeCall(callId) {
-    //     console.log("CallManager: removeCall:" + callId);
-    //     if (this.currentCallId === callId) {
-    //         this.currentCallId = null;
-    //     } else {
-    //         console.warn("CallManager: removeCall: call id mismatch");
-    //     }
-    // }
 
     getCallById(callId) {
         if (callId === this.call.callId) {
@@ -71,19 +55,17 @@ export default class CallManager {
         return null;
     }
 
-    incomingCall(callId, isVideoCall, displayName) {
-        if (this.currentCallId !== null) {
-            console.log("CallManager: incomingCall: already have a call, rejecting new call, current call id " + this.currentCallId);
-            VoximplantLegacy.declineCall(callId);
+    _incomingCall(event) {
+        if (this.call !== null) {
+            console.log("CallManager: incomingCall: already have a call, rejecting new call, current call id " + this.call.callId);
+            event.call.decline();
         } else {
-            this.addCall(callId);
+            this.addCall(event.call);
             NavigationService.navigate('IncomingCall', {
-                callId: callId,
-                isVideo: isVideoCall,
-                from: displayName
+                callId: event.call.callId,
+                isVideo: event.video,
+                from: null
             });
         }
     }
 }
-
-const callManagerGlobal = CallManager.getInstance();

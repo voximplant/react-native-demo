@@ -6,7 +6,6 @@
 
 import React from 'react';
 import {
-    DeviceEventEmitter,
     Platform,
     AppState
 } from 'react-native';
@@ -14,18 +13,8 @@ import {
 import { VoximplantLegacy, Voximplant, ClientEvents, Client, ClientState } from 'react-native-voximplant';
 import DefaultPreference from 'react-native-default-preference';
 import PushManager from './PushManager';
+import CallManager from './CallManager';
 import md5 from "react-native-md5";
-
-DeviceEventEmitter.addListener(
-    VoximplantLegacy.Events.IncomingCall,
-    (incomingCall) => {
-        if (loginManagerGlobal.currentAppState !== "active") {
-            console.log('LoginManager: Incoming call: is video ' + incomingCall.videoCall);
-            loginManagerGlobal.incomingCall = incomingCall;
-            PushManager.showLocalNotification(incomingCall.from);
-        }
-    }
-);
 
 const handlersGlobal = {};
 
@@ -212,6 +201,7 @@ export default class LoginManager {
             console.error("LoginSuccessful: login tokens are invalid");
         }
         this.registerPushToken();
+        CallManager.getInstance().init();
         this._emit('onLoggedIn', authResult.displayName);
     }
 }

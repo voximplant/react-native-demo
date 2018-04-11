@@ -6,7 +6,6 @@
 
 import React, { Component } from 'react';
 import {
-    DeviceEventEmitter,
     Dimensions,
     StyleSheet,
     Text,

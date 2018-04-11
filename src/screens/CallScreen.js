@@ -14,7 +14,6 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     Platform,
-    DeviceEventEmitter,
     Image,
     SafeAreaView,
     StatusBar
@@ -61,7 +60,7 @@ export default class CallScreen extends React.Component {
         this._onCallConnectedCallback = (event) => this._onCallConnected(event);
 
         this.call = CallManager.getInstance().getCallById(this.callId);
-        if (this.call !== null) {
+        if (this.call) {
             this.call.on(CallEvents.Failed, this._onCallFailedCallback);
             this.call.on(CallEvents.Disconnected, this._onCallDisconnectedCallback);
             this.call.on(CallEvents.Connected, this._onCallConnectedCallback);
@@ -73,13 +72,15 @@ export default class CallScreen extends React.Component {
 
     componentDidMount() {
         callScreenInstance = this;
-        // if (this.isIncoming) {
-        //     console.log("CallScreen[" + this.callId + "] answer call");
-        //     VoximplantLegacy.answerCall(this.callId);
-        // } else {
-        //     console.log("CallScreen[" + this.callId + "] start call");
-        //     VoximplantLegacy.startCall(this.callId);
-        // }
+        if (this.isIncoming) {
+            const callSettings = {
+                video: {
+                    sendVideo: this.isVideoCall,
+                    receiveVideo: this.isVideoCall
+                }
+            }
+            this.call.answer(callSettings);
+        }
         this.callState = CALL_STATES.CONNECTING;
     }
 
@@ -134,6 +135,7 @@ export default class CallScreen extends React.Component {
 
     _onCallFailed(event) {
         this.callState = CALL_STATES.DISCONNECTED;
+        CallManager.getInstance().removeCall(this.call);
         this.setState({
             isModalOpen: true, 
             modalText: 'Call failed: ' + event.reason
