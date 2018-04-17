@@ -28,16 +28,23 @@ export default class IncomingCallScreen extends React.Component {
         this.displayName = params ? params.from : null;
         this.call = CallManager.getInstance().getCallById(callId);
         this._onCallDisconnectedCallback = (event) => this._onCallDisconnected(event);
+        this._onEnpointAddedCallback = (event) => this._onEnpointAdded(event);
+
+        this.state = {
+            displayName: null
+        }
     }
 
     componentDidMount() {
         if (this.call) {
             this.call.on(CallEvents.Disconnected, this._onCallDisconnectedCallback);
+            this.call.on(CallEvents.EndpointAdded, this._onEnpointAddedCallback);
         }
     }
 
     componentWillUnmount() {
         if (this.call) {
+            this.call.off(CallEvents.EndpointAdded, this._onEnpointAddedCallback);
             this.call.off(CallEvents.Disconnected, this._onCallDisconnectedCallback);
             this.call = null;
         }
@@ -61,11 +68,16 @@ export default class IncomingCallScreen extends React.Component {
         this.props.navigation.navigate("App");
     }
 
+    _onEnpointAdded(event) {
+        console.log('IncomingCallScreen: _onEndpointAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+        this.setState({displayName: event.endpoint.displayName});
+    }
+
     render() {
         return (
             <SafeAreaView style={styles.safearea}>
                 <Text style={styles.incoming_call}>Incoming call from:</Text>
-                <Text style={styles.incoming_call}>{this.displayName}</Text>
+                <Text style={styles.incoming_call}>{this.state.displayName}</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 90 }}>
                     <CallButton icon_name='call' color={COLOR.ACCENT} buttonPressed={() => this.answerCall(false)} />
                     <CallButton icon_name='videocam' color={COLOR.ACCENT} buttonPressed={() => this.answerCall(true)} />

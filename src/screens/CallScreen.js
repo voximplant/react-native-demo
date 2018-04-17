@@ -19,7 +19,7 @@ import {
     StatusBar
 } from 'react-native';
 
-import { VoximplantLegacy, Preview, RemoteView, CallEvents } from 'react-native-voximplant';
+import { VoximplantLegacy, Preview, RemoteView, CallEvents, Endpoint, EndpointEvents } from 'react-native-voximplant';
 import CallButton from '../components/CallButton';
 import { Keypad } from '../components/Keypad';
 import COLOR_SCHEME from '../styles/ColorScheme';
@@ -58,13 +58,25 @@ export default class CallScreen extends React.Component {
         this._onCallFailedCallback = (event) => this._onCallFailed(event);
         this._onCallDisconnectedCallback = (event) => this._onCallDisconnected(event);
         this._onCallConnectedCallback = (event) => this._onCallConnected(event);
+        this._onEndpointAddedCallback = (event) => this._onEndpointAdded(event);
+        this._onRemoteVideoStreamAddedCallback = (event) => this._onRemoteVideoStreamAdded(event);
+        this._onRemoteVideoStreamRemovedCallback = (event) => this._onRemoteVideoStreamRemoved(event);
+        this._onEndpointRemovedCallback = (event) => this._onEndpointRemoved(event);
+        this._onEndpointInfoUpdatedCallback = (event) => this._onEndpointInfoUpdated(event);
 
         this.call = CallManager.getInstance().getCallById(this.callId);
         if (this.call) {
             this.call.on(CallEvents.Failed, this._onCallFailedCallback);
             this.call.on(CallEvents.Disconnected, this._onCallDisconnectedCallback);
             this.call.on(CallEvents.Connected, this._onCallConnectedCallback);
+            this.call.on(CallEvents.EndpointAdded, this._onEndpointAdded);
+            if (this.isIncoming) {
+                this.call.getEndpoints().forEach(endpoint => {
+                    this._setupEndpointListeners(endpoint, true);
+                });
+            }
         }
+        
 
         console.log("CallScreen: ctr: callid: " + this.callId + ", isVideoCall: " + this.isVideoCall
             + ", isIncoming:  " + this.isIncoming + ", callState: " + this.callState);
@@ -90,6 +102,7 @@ export default class CallScreen extends React.Component {
             this.call.off(CallEvents.Failed, this._onCallFailedCallback);
             this.call.off(CallEvents.Disconnected, this._onCallDisconnectedCallback);
             this.call.off(CallEvents.Connected, this._onCallConnectedCallback);
+            this.call.off(CallEvents.EndpointAdded, this._onEndpointAdded);
         }
     }
 
@@ -150,8 +163,44 @@ export default class CallScreen extends React.Component {
     }
 
     _onCallConnected(event) {
-        console.log('CallScreen: _onCallConnected: ');
+        console.log('CallScreen: _onCallConnected: ' + this.call.callId);
         this.callState = CALL_STATES.DISCONNECTED;
+    }
+
+    _onEndpointAdded(event) {
+        console.log('CallScreen: _onEndpointAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+        this._setupEndpointListeners(event.endpoint, true);
+    }
+
+    _onRemoteVideoStreamAdded(event) {
+        console.log('CallScreen: _onRemoteVideoStreamAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+    }
+
+    _onRemoteVideoStreamRemoved(event) {
+        console.log('CallScreen: _onRemoteVideoStreamRemoved: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+    }
+
+    _onEndpointRemoved(event) {
+        console.log('CallScreen: _onEndpointRemoved: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+        this._setupEndpointListeners(event.endpoint, false);
+    }
+
+    _onEndpointInfoUpdated(event) {
+        console.log('CallScreen: _onEndpointInfoUpdated: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+    }
+
+    _setupEndpointListeners(endpoint, on) {
+        if (on) {
+            endpoint.on(EndpointEvents.RemoteVideoStreamAdded, this._onRemoteVideoStreamAddedCallback);
+            endpoint.on(EndpointEvents.RemoteVideoStreamRemoved, this._onRemoteVideoStreamRemovedCallback);
+            endpoint.on(EndpointEvents.Removed, this._onEndpointRemovedCallback);
+            endpoint.on(EndpointEvents.InfoUpdated, this._onEndpointInfoUpdatedCallback);
+        } else {
+            endpoint.off(EndpointEvents.RemoteVideoStreamAdded, this._onRemoteVideoStreamAddedCallback);
+            endpoint.off(EndpointEvents.RemoteVideoStreamRemoved, this._onRemoteVideoStreamRemovedCallback);
+            endpoint.off(EndpointEvents.Removed, this._onEndpointRemovedCallback);
+            endpoint.off(EndpointEvents.InfoUpdated, this._onEndpointInfoUpdatedCallback);
+        }
     }
 
     render() {
