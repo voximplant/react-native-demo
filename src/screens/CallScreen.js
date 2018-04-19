@@ -16,7 +16,8 @@ import {
     Platform,
     Image,
     SafeAreaView,
-    StatusBar
+    StatusBar,
+    ToastAndroid
 } from 'react-native';
 
 import { 
@@ -139,8 +140,36 @@ export default class CallScreen extends React.Component {
 
     sendVideo(doSend) {
         console.log("CallScreen[" + this.callId + "] sendVideo: " + doSend);
-        this.setState({ isVideoSent: doSend });
-        VoximplantLegacy.sendVideo(doSend);
+        (async() => {
+            try {
+                await this.call.sendVideo(doSend);
+                this.setState({ isVideoSent: doSend });
+            } catch (e) {
+                ToastAndroid.show('Failed to sendVideo(' + doSend + ') due to ' + e.code + ' ' + e.message, ToastAndroid.SHORT);
+            }       
+        })();
+    }
+
+    hold(doHold) {
+        console.log('CallScreen[' + this.callId + '] hold: ' + doHold);
+        (async() => {
+            try {
+                await this.call.hold(doHold);
+            } catch (e) {
+                ToastAndroid.show('Failed to hold(' + doHold + ') due to ' + e.code + ' ' + e.message, ToastAndroid.SHORT);
+            }       
+        })();
+    }
+
+    receiveVideo() {
+        console.log('CallScreen[' + this.callId + '] receiveVideo');
+        (async() => {
+            try {
+                await this.call.receiveVideo();
+            } catch (e) {
+                ToastAndroid.show('Failed to receiveVideo due to ' + e.code + ' ' + e.message, ToastAndroid.SHORT);
+            }       
+        })();
     }
 
     endCall() {
@@ -181,6 +210,8 @@ export default class CallScreen extends React.Component {
 
     _onCallConnected(event) {
         console.log('CallScreen: _onCallConnected: ' + this.call.callId);
+        // this.call.sendMessage('Test message');
+        // this.call.sendInfo('rn/info', 'test info');
         this.callState = CALL_STATES.DISCONNECTED;
     }
 
@@ -238,9 +269,12 @@ export default class CallScreen extends React.Component {
                 <StatusBar barStyle={Platform.OS === 'ios' ? COLOR_SCHEME.DARK : COLOR_SCHEME.LIGHT} backgroundColor={COLOR.PRIMARY_DARK} />
                 <View style={styles.useragent}>
                     <View style={styles.videoPanel}>
-                        <VideoView style={styles.selfview} videoStreamId={this.state.localVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}></VideoView>
+                        {this.state.isVideoSent ? (
+                            <VideoView style={styles.selfview} videoStreamId={this.state.localVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}></VideoView>
+                        ) : (
+                                null
+                            )} 
                         <VideoView style={styles.remotevideo} videoStreamId={this.state.remoteVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}></VideoView>
-                        
                     </View>
 
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
