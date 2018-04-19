@@ -19,7 +19,16 @@ import {
     StatusBar
 } from 'react-native';
 
-import { VoximplantLegacy, Preview, RemoteView, CallEvents, Endpoint, EndpointEvents } from 'react-native-voximplant';
+import { 
+    VoximplantLegacy, 
+    Preview, 
+    RemoteView, 
+    CallEvents, 
+    Endpoint, 
+    EndpointEvents,
+    VideoStream,
+    VideoView,
+    RenderScaleType } from 'react-native-voximplant';
 import CallButton from '../components/CallButton';
 import { Keypad } from '../components/Keypad';
 import COLOR_SCHEME from '../styles/ColorScheme';
@@ -51,13 +60,17 @@ export default class CallScreen extends React.Component {
             isSpeakerEnabled: false,
             isKeypadVisible: false,
             isModalOpen: false,
-            modalText: ''
+            modalText: '',
+            localVideoStreamId: null,
+            remoteVideoStreamId: null
         }
 
         
         this._onCallFailedCallback = (event) => this._onCallFailed(event);
         this._onCallDisconnectedCallback = (event) => this._onCallDisconnected(event);
         this._onCallConnectedCallback = (event) => this._onCallConnected(event);
+        this._onLocalVideoStreamAddedCallback = (event) => this._onLocalVideoStreamAdded(event);
+        this._onLocalVideoStreamRemovedCallback = (event) => this._onLocalVideoStreamRemoved(event);
         this._onEndpointAddedCallback = (event) => this._onEndpointAdded(event);
         this._onRemoteVideoStreamAddedCallback = (event) => this._onRemoteVideoStreamAdded(event);
         this._onRemoteVideoStreamRemovedCallback = (event) => this._onRemoteVideoStreamRemoved(event);
@@ -69,7 +82,9 @@ export default class CallScreen extends React.Component {
             this.call.on(CallEvents.Failed, this._onCallFailedCallback);
             this.call.on(CallEvents.Disconnected, this._onCallDisconnectedCallback);
             this.call.on(CallEvents.Connected, this._onCallConnectedCallback);
-            this.call.on(CallEvents.EndpointAdded, this._onEndpointAdded);
+            this.call.on(CallEvents.LocalVideoStreamAdded, this._onLocalVideoStreamAddedCallback);
+            this.call.on(CallEvents.LocalVideoStreamRemoved, this._onLocalVideoStreamRemovedCallback);
+            this.call.on(CallEvents.EndpointAdded, this._onEndpointAddedCallback);
             if (this.isIncoming) {
                 this.call.getEndpoints().forEach(endpoint => {
                     this._setupEndpointListeners(endpoint, true);
@@ -102,7 +117,9 @@ export default class CallScreen extends React.Component {
             this.call.off(CallEvents.Failed, this._onCallFailedCallback);
             this.call.off(CallEvents.Disconnected, this._onCallDisconnectedCallback);
             this.call.off(CallEvents.Connected, this._onCallConnectedCallback);
-            this.call.off(CallEvents.EndpointAdded, this._onEndpointAdded);
+            this.call.off(CallEvents.LocalVideoStreamAdded, this._onLocalVideoStreamAddedCallback);
+            this.call.off(CallEvents.LocalVideoStreamRemoved, this._onLocalVideoStreamRemovedCallback);
+            this.call.off(CallEvents.EndpointAdded, this._onEndpointAddedCallback);
         }
     }
 
@@ -167,6 +184,16 @@ export default class CallScreen extends React.Component {
         this.callState = CALL_STATES.DISCONNECTED;
     }
 
+    _onLocalVideoStreamAdded(event) {
+        console.log('CallScreen: _onLocalVideoStreamAdded: ' + this.call.callId + ', video stream id: ' + event.videoStream.id );
+        this.setState({localVideoStreamId: event.videoStream.id});
+    }
+
+    _onLocalVideoStreamRemoved(event) {
+        console.log('CallScreen: _onLocalVideoStreamRemoved: ' + this.call.callId);
+        this.setState({localVideoStreamId: null});
+    }
+
     _onEndpointAdded(event) {
         console.log('CallScreen: _onEndpointAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
         this._setupEndpointListeners(event.endpoint, true);
@@ -174,10 +201,12 @@ export default class CallScreen extends React.Component {
 
     _onRemoteVideoStreamAdded(event) {
         console.log('CallScreen: _onRemoteVideoStreamAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+        this.setState({remoteVideoStreamId: event.videoStream.id});
     }
 
     _onRemoteVideoStreamRemoved(event) {
         console.log('CallScreen: _onRemoteVideoStreamRemoved: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+        this.setState({remoteVideoStreamId: null});
     }
 
     _onEndpointRemoved(event) {
@@ -209,12 +238,9 @@ export default class CallScreen extends React.Component {
                 <StatusBar barStyle={Platform.OS === 'ios' ? COLOR_SCHEME.DARK : COLOR_SCHEME.LIGHT} backgroundColor={COLOR.PRIMARY_DARK} />
                 <View style={styles.useragent}>
                     <View style={styles.videoPanel}>
-                        {/* <RemoteView style={styles.remotevideo} callId={this.call.callId} ></RemoteView>
-                        {this.state.isVideoSent ? (
-                            <Preview style={styles.selfview}></Preview>
-                        ) : (
-                                null
-                            )} */}
+                        <VideoView style={styles.selfview} videoStreamId={this.state.localVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}></VideoView>
+                        <VideoView style={styles.remotevideo} videoStreamId={this.state.remoteVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}></VideoView>
+                        
                     </View>
 
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -305,8 +331,6 @@ var styles = StyleSheet.create({
     },
     remotevideo: {
         flex: 1,
-        // width: 300,
-        // height: 300
     },
     videoPanel: {
         flex: 1,
