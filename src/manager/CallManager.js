@@ -13,7 +13,7 @@ import { VoximplantLegacy, Voximplant, Client, Call, ClientEvents } from 'react-
 import NavigationService from '../routes/NavigationService';
 
 // Voximplant SDK supports multiple calls at the same time, however
-// this demo app demostrates only one active call at the moment, 
+// this demo app demonstrates only one active call at the moment,
 // so it rejects new incoming call if there is already a call. 
 export default class CallManager {
     static myInstance = null;

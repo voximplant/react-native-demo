@@ -153,7 +153,7 @@ export default class CallScreen extends React.Component {
                 await this.call.sendVideo(doSend);
                 this.setState({ isVideoSent: doSend });
             } catch (e) {
-                ToastAndroid.show('Failed to sendVideo(' + doSend + ') due to ' + e.code + ' ' + e.message, ToastAndroid.SHORT);
+                console.warn(`Failed to sendVideo(${doSend}) due to ${e.code} ${e.message}`);
             }
         })();
     }
@@ -164,7 +164,7 @@ export default class CallScreen extends React.Component {
             try {
                 await this.call.hold(doHold);
             } catch (e) {
-                ToastAndroid.show('Failed to hold(' + doHold + ') due to ' + e.code + ' ' + e.message, ToastAndroid.SHORT);
+                console.warn('Failed to hold(' + doHold + ') due to ' + e.code + ' ' + e.message);
             }
         })();
     }
@@ -175,7 +175,7 @@ export default class CallScreen extends React.Component {
             try {
                 await this.call.receiveVideo();
             } catch (e) {
-                ToastAndroid.show('Failed to receiveVideo due to ' + e.code + ' ' + e.message, ToastAndroid.SHORT);
+                console.warn('Failed to receiveVideo due to ' + e.code + ' ' + e.message);
             }
         })();
     }
@@ -186,7 +186,7 @@ export default class CallScreen extends React.Component {
     }
 
     switchKeypad() {
-        var isVisible = this.state.isKeypadVisible;
+        let isVisible = this.state.isKeypadVisible;
         this.setState({ isKeypadVisible: !isVisible });
     }
 
@@ -286,6 +286,7 @@ export default class CallScreen extends React.Component {
     }
 
     _onAudioDeviceChanged(event) {
+        console.log('CallScreen: _onAudioDeviceChanged:' + event.currentDevice );
         switch (event.currentDevice) {
             case AudioDevice.BLUETOOTH:
                 this.setState({audioDeviceIcon: 'bluetooth-audio'});
@@ -321,7 +322,7 @@ export default class CallScreen extends React.Component {
                 }}
             />
         );
-    }
+    };
 
     render() {
         return (
@@ -330,11 +331,11 @@ export default class CallScreen extends React.Component {
                 <View style={styles.useragent}>
                     <View style={styles.videoPanel}>
                         {this.state.isVideoSent ? (
-                            <VideoView style={styles.selfview} videoStreamId={this.state.localVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}></VideoView>
+                            <VideoView style={styles.selfview} videoStreamId={this.state.localVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}/>
                         ) : (
                                 null
                             )}
-                        <VideoView style={styles.remotevideo} videoStreamId={this.state.remoteVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}></VideoView>
+                        <VideoView style={styles.remotevideo} videoStreamId={this.state.remoteVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}/>
                     </View>
 
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>

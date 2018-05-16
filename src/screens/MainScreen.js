@@ -63,12 +63,12 @@ export default class MainScreen extends React.Component {
 
     _goToSettings = () => {
         this.props.navigation.navigate('Settings')
-    }
+    };
 
     _goToLogin = () => {
         LoginManager.getInstance().logout();
         this.props.navigation.navigate("Login");
-    }
+    };
 
     makeCall(isVideoCall) {
         console.log('MainScreen: make call: ' + this.number + ', isVideo:' + isVideoCall);
