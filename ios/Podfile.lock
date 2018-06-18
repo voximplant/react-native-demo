@@ -1,10 +1,10 @@
 PODS:
   - boost-for-react-native (1.63.0)
-  - CocoaLumberjack (3.2.1):
-    - CocoaLumberjack/Default (= 3.2.1)
-    - CocoaLumberjack/Extensions (= 3.2.1)
-  - CocoaLumberjack/Default (3.2.1)
-  - CocoaLumberjack/Extensions (3.2.1):
+  - CocoaLumberjack (3.4.2):
+    - CocoaLumberjack/Default (= 3.4.2)
+    - CocoaLumberjack/Extensions (= 3.4.2)
+  - CocoaLumberjack/Default (3.4.2)
+  - CocoaLumberjack/Extensions (3.4.2):
     - CocoaLumberjack/Default
   - DoubleConversion (1.1.5)
   - Folly (2016.09.26.00):
@@ -12,57 +12,57 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.4)
-  - React (0.54.2):
-    - React/Core (= 0.54.2)
+  - React (0.55.4):
+    - React/Core (= 0.55.4)
   - react-native-notifications (1.1.16):
     - React
   - react-native-voximplant (0.2.0):
     - React
     - VoxImplantSDK (~> 2.13.1)
-  - React/Core (0.54.2):
-    - yoga (= 0.54.2.React)
-  - React/CxxBridge (0.54.2):
+  - React/Core (0.55.4):
+    - yoga (= 0.55.4.React)
+  - React/CxxBridge (0.55.4):
     - Folly (= 2016.09.26.00)
     - React/Core
     - React/cxxreact
-  - React/cxxreact (0.54.2):
+  - React/cxxreact (0.55.4):
     - boost-for-react-native (= 1.63.0)
     - Folly (= 2016.09.26.00)
     - React/jschelpers
     - React/jsinspector
-  - React/DevSupport (0.54.2):
+  - React/DevSupport (0.55.4):
     - React/Core
     - React/RCTWebSocket
-  - React/fishhook (0.54.2)
-  - React/jschelpers (0.54.2):
+  - React/fishhook (0.55.4)
+  - React/jschelpers (0.55.4):
     - Folly (= 2016.09.26.00)
     - React/PrivateDatabase
-  - React/jsinspector (0.54.2)
-  - React/PrivateDatabase (0.54.2)
-  - React/RCTAnimation (0.54.2):
+  - React/jsinspector (0.55.4)
+  - React/PrivateDatabase (0.55.4)
+  - React/RCTAnimation (0.55.4):
     - React/Core
-  - React/RCTBlob (0.54.2):
+  - React/RCTBlob (0.55.4):
     - React/Core
-  - React/RCTImage (0.54.2):
+  - React/RCTImage (0.55.4):
     - React/Core
     - React/RCTNetwork
-  - React/RCTNetwork (0.54.2):
+  - React/RCTNetwork (0.55.4):
     - React/Core
-  - React/RCTText (0.54.2):
+  - React/RCTText (0.55.4):
     - React/Core
-  - React/RCTWebSocket (0.54.2):
+  - React/RCTWebSocket (0.55.4):
     - React/Core
     - React/fishhook
     - React/RCTBlob
   - RNDefaultPreference (1.3.1):
     - React
   - SocketRocket (0.5.1)
-  - VoxImplantSDK (2.13.1):
-    - CocoaLumberjack (~> 3.2.0)
+  - VoxImplantSDK (2.13.2):
+    - CocoaLumberjack (~> 3.4.0)
     - SocketRocket (~> 0.5.1)
-    - VoxImplantWebRTC (~> 63.0.1)
-  - VoxImplantWebRTC (63.0.1)
-  - yoga (0.54.2.React)
+    - VoxImplantWebRTC (~> 63.0.2)
+  - VoxImplantWebRTC (63.0.3)
+  - yoga (0.55.4.React)
 
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
@@ -101,19 +101,19 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CocoaLumberjack: 2800c03334042fe80589423c8d80e582dcaec482
-  DoubleConversion: ebb6747c5b66026ad4f97b789c3ceac6f18e57a6
+  CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
+  DoubleConversion: e22e0762848812a87afd67ffda3998d9ef29170c
   Folly: 211775e49d8da0ca658aebc8eab89d642935755c
   glog: 1de0bb937dccdc981596d3b5825ebfb765017ded
-  React: c237e42de9c70e5cac6eeb52b4cfd3a0910c1f00
+  React: aa2040dbb6f317b95314968021bd2888816e03d5
   react-native-notifications: 4626ecc0189e1b0594b1f422c17e64849390e30d
   react-native-voximplant: 69175ecbd1e4873115ba87f1fcbe3a0226f2a95c
   RNDefaultPreference: f0ec2a41653832443559a28a599fc6c7628fe776
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  VoxImplantSDK: 2f2953929c985cb495c8b5a2a381d2e3ff79ac0d
-  VoxImplantWebRTC: 28ea801d86ece73adb0b9e2ea3ea02d062c9a9ae
-  yoga: 55da126afc384965b96bff46652464373b330add
+  VoxImplantSDK: 7052f02be912ad1499f890002d000fec72584feb
+  VoxImplantWebRTC: ba1a17ce010a1fbab433326a90f79ce1acd99515
+  yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: 5ca7abed82381fcf4988a38938e457ea1a8e442a
+PODFILE CHECKSUM: c06076e9c131d427e0b623987690cb46bc6cee8d
 
 COCOAPODS: 1.4.0
