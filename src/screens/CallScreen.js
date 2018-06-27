@@ -80,7 +80,7 @@ export default class CallScreen extends React.Component {
             }
         }
         Object.keys(Voximplant.Hardware.AudioDeviceEvents).forEach((eventName) => {
-           const callbackName = `_onAudioDevice${eventName}`;
+           const callbackName = `_onAudio${eventName}`;
            if (typeof this[callbackName] !== 'undefined') {
                Voximplant.Hardware.AudioDeviceManager.getInstance().on(eventName, this[callbackName]);
            }
@@ -257,7 +257,7 @@ export default class CallScreen extends React.Component {
         });
     }
 
-    _onAudioDeviceChanged(event) {
+    _onAudioDeviceChanged = (event) => {
         console.log('CallScreen: _onAudioDeviceChanged:' + event.currentDevice );
         switch (event.currentDevice) {
             case Voximplant.Hardware.AudioDevice.BLUETOOTH:
@@ -274,15 +274,15 @@ export default class CallScreen extends React.Component {
                 this.setState({audioDeviceIcon: 'hearing'});
                 break;
         }
-    }
+    };
 
-    _onAudioDeviceListChanged(event) {
+    _onAudioDeviceListChanged = (event) => {
         (async() => {
             let device = await Voximplant.Hardware.AudioDeviceManager.getInstance().getActiveDevice();
             console.log(device);
         })();
         this.setState({audioDevices: event.newDeviceList});
-    }
+    };
 
     flatListItemSeparator = () => {
         return (
