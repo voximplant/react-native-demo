@@ -6,11 +6,10 @@
 
 import React from 'react';
 import {
-    Platform,
     AppState
 } from 'react-native';
 
-import { VoximplantLegacy, Voximplant, ClientEvents, Client, ClientState } from 'react-native-voximplant';
+import { VoximplantLegacy, Voximplant } from 'react-native-voximplant';
 import DefaultPreference from 'react-native-default-preference';
 import PushManager from './PushManager';
 import CallManager from './CallManager';
@@ -19,7 +18,6 @@ import md5 from "react-native-md5";
 const handlersGlobal = {};
 
 export default class LoginManager {
-
     static myInstance = null;
     client = null;
     processingPushNotification = false;
@@ -39,12 +37,18 @@ export default class LoginManager {
     }
 
     constructor() {
-        this.client = Voximplant.getClientInstance();
-        // Connection to the Voximplant Clound is stayed alive on reloading of the app's 
+        this.client = Voximplant.getInstance();
+        // Connection to the Voximplant Cloud is stayed alive on reloading of the app's
         // JavaScript code. Calling "disconnect" API here makes the SDK and app states 
         // synchronized.
         PushManager.init();
-        this.client.disconnect();
+        (async() => {
+            try {
+                this.client.disconnect();
+            } catch (e) {
+
+            }
+        })();
         AppState.addEventListener("change", (...args) => this._handleAppStateChange(...args));
     }
 
@@ -54,18 +58,18 @@ export default class LoginManager {
         (async() => {
             try {
                 let state = await this.client.getClientState();
-                if (state === ClientState.DISCONNECTED) {
+                if (state === Voximplant.ClientState.DISCONNECTED) {
                     await this.client.connect();
                 } 
                 let authResult = await this.client.login(user, password);
                 this._processLoginSuccess(authResult);
             } catch (e) {
-                console.log('LoginManager: loginWithPassword ' + e.name);
+                console.log('LoginManager: loginWithPassword ' + e.name + e.message);
                 switch (e.name) {
-                    case ClientEvents.ConnectionFailed:
+                    case Voximplant.ClientEvents.ConnectionFailed:
                         this._emit('onConnectionFailed', e.message);
                         break;
-                    case ClientEvents.AuthResult:
+                    case Voximplant.ClientEvents.AuthResult:
                         this._emit('onLoginFailed', e.code);
                         break;
                 }
@@ -80,17 +84,17 @@ export default class LoginManager {
         (async() => {
             try {
                 let state = await this.client.getClientState();
-                if (state === ClientState.DISCONNECTED) {
+                if (state === Voximplant.ClientState.DISCONNECTED) {
                     await this.client.connect();
                 } 
                 await this.client.requestOneTimeLoginKey(user);
             } catch (e) {
                 console.log('LoginManager: loginWithPassword ' + e.name);
                 switch (e.name) {
-                    case ClientEvents.ConnectionFailed:
+                    case Voximplant.ClientEvents.ConnectionFailed:
                         this._emit('onConnectionFailed', e.message);
                         break;
-                    case ClientEvents.AuthResult:
+                    case Voximplant.ClientEvents.AuthResult:
                         if (e.code === 302) {
                             let hash = md5.hex_md5(e.key + "|"
                                 + md5.hex_md5(this.myuser + ":voximplant.com:"
@@ -114,10 +118,10 @@ export default class LoginManager {
         (async() => {
             try {
                 let state = await this.client.getClientState();
-                if (state === ClientState.DISCONNECTED) {
+                if (state === Voximplant.ClientState.DISCONNECTED) {
                     await this.client.connect();
                 } 
-                if (state !== ClientState.LOGGED_IN) {
+                if (state !== Voximplant.ClientState.LOGGED_IN) {
                     const username = await DefaultPreference.get('usernameValue');
                     const accessToken = await DefaultPreference.get('accessToken');
                     console.log('LoginManager: loginWithToken: user: ' + username + ', token: ' + accessToken );
@@ -126,7 +130,7 @@ export default class LoginManager {
                 }
             } catch (e) {
                 console.log('LoginManager: loginWithToken: ' + e.name);
-                if (e.name === ClientEvents.AuthResult) {
+                if (e.name === Voximplant.ClientEvents.AuthResult) {
                     console.log('LoginManager: loginWithToken: error code: ' + e.code);
                 }
             }

@@ -5,60 +5,48 @@
 'use strict';
 
 import React from 'react';
-import {
-  Platform
-} from 'react-native';
 
-import loginManager from './LoginManager';
-import VoxImplant from 'react-native-voximplant';
+import LoginManager from './LoginManager';
 
-import FCM, { FCMEvent } from 'react-native-fcm';
-
-FCM.on(FCMEvent.Notification, async (notif) => {
-  console.log("PushManager: FCM: notification: " + notif.voximplant);
-  var remoteData = {};
-  remoteData.voximplant = notif.voximplant;
-  pushManager.pushNotificationReceived(remoteData);
-});
-
-FCM.on(FCMEvent.RefreshToken, (token) => {
-  console.log("Refresh token: " + token);
-});
-
-var pushToken = '';
+import FCM, {FCMEvent} from 'react-native-fcm';
 
 class PushManager {
-  constructor() {
+    pushToken = null;
 
-  }
+    constructor() {
+        // FCM.on(FCMEvent.RefreshToken, (token) => {
+        //     console.log("Refresh token: " + token);
+        // });
+        // FCM.on(FCMEvent.Notification, async (notif) => {
+        //     console.log("PushManager: FCM: notification: " + notif.voximplant);
+        //     let remoteData = {};
+        //     remoteData.voximplant = notif.voximplant;
+        //     LoginManager.getInstance().pushNotificationReceived(remoteData);
+        // });
 
-  init() {
-    console.log("PushManager init");
-    if (Platform.OS === 'android') {
-      FCM.getFCMToken().then(token => {
-        console.log(token)
-        pushToken = token;
-      });
+        FCM.getFCMToken().then(token => {
+            console.log(token);
+            this.pushToken = token;
+        });
     }
-  }
 
-  getPushToken() {
-    return pushToken;
-  }
+    init() {
 
-  pushNotificationReceived(notification) {
-    loginManager.getInstance().pushNotificationReceived(notification);
-  }
+    }
 
-  showLocalNotification(from) {
-    FCM.presentLocalNotification({
-      title: 'Incoming call',
-      body: 'from: ' + from,
-      priority: "high",
-      show_in_foreground: false,
-      number: 10
-    });
-  }
+    getPushToken() {
+        return this.pushToken;
+    }
+
+    showLocalNotification(from) {
+        FCM.presentLocalNotification({
+            title: 'Incoming call',
+            body: 'from: ' + from,
+            priority: "high",
+            show_in_foreground: false,
+            number: 10
+        });
+    }
 }
 
 const pushManager = new PushManager();

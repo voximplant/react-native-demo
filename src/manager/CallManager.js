@@ -5,11 +5,8 @@
 'use strict';
 
 import React from 'react';
-import {
-    Platform
-} from 'react-native';
 
-import { VoximplantLegacy, Voximplant, Client, Call, ClientEvents } from 'react-native-voximplant';
+import { VoximplantLegacy, Voximplant } from 'react-native-voximplant';
 import NavigationService from '../routes/NavigationService';
 
 // Voximplant SDK supports multiple calls at the same time, however
@@ -17,14 +14,16 @@ import NavigationService from '../routes/NavigationService';
 // so it rejects new incoming call if there is already a call. 
 export default class CallManager {
     static myInstance = null;
-
+    /**
+     * @type {Voximplant.Call}
+     */
+    call = null;
     constructor() {
-        this.call = null;
-        this.client = Voximplant.getClientInstance();
+        this.client = Voximplant.getInstance();
     }
 
     init() {
-        this.client.on(ClientEvents.IncomingCall, (event) => this._incomingCall(event));
+        this.client.on(Voximplant.ClientEvents.IncomingCall, (event) => this._incomingCall(event));
     }
 
     static getInstance() {
@@ -34,9 +33,14 @@ export default class CallManager {
         return this.myInstance;
     }
 
+    /**
+     *
+     * @param {Voximplant.Call} call
+     */
     addCall(call) {
         console.log("CallManager: addCall:" + call.callId);
         this.call = call;
+
     }
 
     removeCall(call) {

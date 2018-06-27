@@ -4,17 +4,16 @@
 
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity,
     SafeAreaView
 } from 'react-native';
 import CallButton from '../components/CallButton';
 import CallManager from '../manager/CallManager';
-import { VoximplantLegacy, Call, CallEvents } from 'react-native-voximplant';
+import { VoximplantLegacy, Voximplant } from 'react-native-voximplant';
 import COLOR from '../styles/Color';
 
 export default class IncomingCallScreen extends React.Component {
@@ -27,8 +26,6 @@ export default class IncomingCallScreen extends React.Component {
         this.isVideoCall = params ? params.isVideo : false;
         this.displayName = params ? params.from : null;
         this.call = CallManager.getInstance().getCallById(callId);
-        this._onCallDisconnectedCallback = (event) => this._onCallDisconnected(event);
-        this._onEnpointAddedCallback = (event) => this._onEnpointAdded(event);
 
         this.state = {
             displayName: null
@@ -37,15 +34,23 @@ export default class IncomingCallScreen extends React.Component {
 
     componentDidMount() {
         if (this.call) {
-            this.call.on(CallEvents.Disconnected, this._onCallDisconnectedCallback);
-            this.call.on(CallEvents.EndpointAdded, this._onEnpointAddedCallback);
+            Object.keys(Voximplant.CallEvents).forEach((eventName) => {
+                const callbackName = `_onCall${eventName}`;
+                if (typeof this[callbackName] !== 'undefined') {
+                    this.call.on(eventName, this[callbackName]);
+                }
+            });
         }
     }
 
     componentWillUnmount() {
         if (this.call) {
-            this.call.off(CallEvents.EndpointAdded, this._onEnpointAddedCallback);
-            this.call.off(CallEvents.Disconnected, this._onCallDisconnectedCallback);
+            Object.keys(Voximplant.CallEvents).forEach((eventName) => {
+                const callbackName = `_onCall${eventName}`;
+                if (typeof this[callbackName] !== 'undefined') {
+                    this.call.off(eventName, this[callbackName]);
+                }
+            });
             this.call = null;
         }
     }
@@ -63,15 +68,15 @@ export default class IncomingCallScreen extends React.Component {
         CallManager.getInstance().removeCall(this.call);
     }
 
-    _onCallDisconnected(event) {
+    _onCallDisconnected = (event) => {
         CallManager.getInstance().removeCall(event.call);
         this.props.navigation.navigate("App");
-    }
+    };
 
-    _onEnpointAdded(event) {
-        console.log('IncomingCallScreen: _onEndpointAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+    _onCallEndpointAdded = (event) => {
+        console.log('IncomingCallScreen: _onCallEndpointAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
         this.setState({displayName: event.endpoint.displayName});
-    }
+    };
 
     render() {
         return (

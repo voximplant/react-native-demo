@@ -4,20 +4,16 @@
 
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Text,
     View,
     StyleSheet,
-    TextInput,
     Modal,
     TouchableHighlight,
-    TouchableOpacity,
     Platform,
-    Image,
     SafeAreaView,
     StatusBar,
-    ToastAndroid,
     FlatList
 } from 'react-native';
 
@@ -25,15 +21,7 @@ import {
     VoximplantLegacy,
     Preview,
     RemoteView,
-    CallEvents,
-    Endpoint,
-    EndpointEvents,
-    VideoStream,
-    VideoView,
-    RenderScaleType,
-    AudioDevice,
-    AudioDeviceManager,
-    AudioDeviceEvents
+    Voximplant
 } from 'react-native-voximplant';
 import CallButton from '../components/CallButton';
 import { Keypad } from '../components/Keypad';
@@ -45,9 +33,7 @@ const CALL_STATES = {
     DISCONNECTED: 'disconnected',
     CONNECTING: 'connecting',
     CONNECTED: 'connected'
-}
-
-var callScreenInstance = null;
+};
 
 export default class CallScreen extends React.Component {
     constructor(props) {
@@ -58,7 +44,6 @@ export default class CallScreen extends React.Component {
         this.isVideoCall = params ? params.isVideo : false;
         this.isIncoming = params ? params.isIncoming : false;
         this.callState = CALL_STATES.DISCONNECTED;
-        this.isKeyboardVisible = false;
 
 
         this.state = {
@@ -72,21 +57,7 @@ export default class CallScreen extends React.Component {
             audioDeviceSelectionVisible: false,
             audioDevices: [],
             audioDeviceIcon: 'hearing'
-        }
-
-
-        this._onCallFailedCallback = (event) => this._onCallFailed(event);
-        this._onCallDisconnectedCallback = (event) => this._onCallDisconnected(event);
-        this._onCallConnectedCallback = (event) => this._onCallConnected(event);
-        this._onLocalVideoStreamAddedCallback = (event) => this._onLocalVideoStreamAdded(event);
-        this._onLocalVideoStreamRemovedCallback = (event) => this._onLocalVideoStreamRemoved(event);
-        this._onEndpointAddedCallback = (event) => this._onEndpointAdded(event);
-        this._onRemoteVideoStreamAddedCallback = (event) => this._onRemoteVideoStreamAdded(event);
-        this._onRemoteVideoStreamRemovedCallback = (event) => this._onRemoteVideoStreamRemoved(event);
-        this._onEndpointRemovedCallback = (event) => this._onEndpointRemoved(event);
-        this._onEndpointInfoUpdatedCallback = (event) => this._onEndpointInfoUpdated(event);
-        this._onAudioDeviceChangedCallback = (event) => this._onAudioDeviceChanged(event);
-        this._onAudioDeviceListChangedCallBack = (event) => this._onAudioDeviceListChanged(event);
+        };
 
         this.call = CallManager.getInstance().getCallById(this.callId);
 
@@ -95,23 +66,25 @@ export default class CallScreen extends React.Component {
     }
 
     componentDidMount() {
-        callScreenInstance = this;
-
         if (this.call) {
-            this.call.on(CallEvents.Failed, this._onCallFailedCallback);
-            this.call.on(CallEvents.Disconnected, this._onCallDisconnectedCallback);
-            this.call.on(CallEvents.Connected, this._onCallConnectedCallback);
-            this.call.on(CallEvents.LocalVideoStreamAdded, this._onLocalVideoStreamAddedCallback);
-            this.call.on(CallEvents.LocalVideoStreamRemoved, this._onLocalVideoStreamRemovedCallback);
-            this.call.on(CallEvents.EndpointAdded, this._onEndpointAddedCallback);
+            Object.keys(Voximplant.CallEvents).forEach((eventName) => {
+                const callbackName = `_onCall${eventName}`;
+                if (typeof this[callbackName] !== 'undefined') {
+                    this.call.on(eventName, this[callbackName]);
+                }
+            });
             if (this.isIncoming) {
                 this.call.getEndpoints().forEach(endpoint => {
                     this._setupEndpointListeners(endpoint, true);
                 });
             }
         }
-        AudioDeviceManager.getInstance().on(AudioDeviceEvents.DeviceChanged, this._onAudioDeviceChangedCallback);
-        AudioDeviceManager.getInstance().on(AudioDeviceEvents.DeviceListChanged, this._onAudioDeviceListChangedCallBack);
+        Object.keys(Voximplant.Hardware.AudioDeviceEvents).forEach((eventName) => {
+           const callbackName = `_onAudioDevice${eventName}`;
+           if (typeof this[callbackName] !== 'undefined') {
+               Voximplant.Hardware.AudioDeviceManager.getInstance().on(eventName, this[callbackName]);
+           }
+        });
 
         if (this.isIncoming) {
             const callSettings = {
@@ -119,7 +92,7 @@ export default class CallScreen extends React.Component {
                     sendVideo: this.isVideoCall,
                     receiveVideo: this.isVideoCall
                 }
-            }
+            };
             this.call.answer(callSettings);
         }
         this.callState = CALL_STATES.CONNECTING;
@@ -128,15 +101,19 @@ export default class CallScreen extends React.Component {
     componentWillUnmount() {
         console.log('CallScreen: componentWillUnmount ' + this.call.callId);
         if (this.call) {
-            this.call.off(CallEvents.Failed, this._onCallFailedCallback);
-            this.call.off(CallEvents.Disconnected, this._onCallDisconnectedCallback);
-            this.call.off(CallEvents.Connected, this._onCallConnectedCallback);
-            this.call.off(CallEvents.LocalVideoStreamAdded, this._onLocalVideoStreamAddedCallback);
-            this.call.off(CallEvents.LocalVideoStreamRemoved, this._onLocalVideoStreamRemovedCallback);
-            this.call.off(CallEvents.EndpointAdded, this._onEndpointAddedCallback);
+            Object.keys(Voximplant.CallEvents).forEach((eventName) => {
+                const callbackName = `_onCall${eventName}Callback`;
+                if (typeof this[callbackName] !== 'undefined') {
+                    this.call.off(eventName, this[callbackName]);
+                }
+            });
         }
-        AudioDeviceManager.getInstance().off(AudioDeviceEvents.DeviceChanged, this._onAudioDeviceChangedCallback);
-        AudioDeviceManager.getInstance().off(AudioDeviceEvents.DeviceListChanged, this._onAudioDeviceListChangedCallBack);
+        Object.keys(Voximplant.Hardware.AudioDeviceEvents).forEach((eventName) => {
+            const callbackName = `_onAudioDevice${eventName}Callback`;
+            if (typeof this[callbackName] !== 'undefined') {
+                Voximplant.Hardware.AudioDeviceManager.getInstance().on(eventName, this[callbackName]);
+            }
+        });
     }
 
     muteAudio() {
@@ -193,14 +170,14 @@ export default class CallScreen extends React.Component {
     switchAudioDevice() {
         console.log('CallScreen[' + this.callId + '] switchAudioDevice');
         (async() => {
-            let devices = await AudioDeviceManager.getInstance().getAudioDevices();
+            let devices = await Voximplant.Hardware.AudioDeviceManager.getInstance().getAudioDevices();
             this.setState({audioDevices: devices, audioDeviceSelectionVisible: true });
         })();
     }
 
     selectAudioDevice(device) {
-        console.log('CallScrene[' + this.callId + '] selectAudioDevice: ' + device); 
-        AudioDeviceManager.getInstance().selectAudioDevice(device);
+        console.log('CallScreen[' + this.callId + '] selectAudioDevice: ' + device);
+        Voximplant.Hardware.AudioDeviceManager.getInstance().selectAudioDevice(device);
         this.setState({audioDeviceSelectionVisible: false});
     }
 
@@ -214,90 +191,85 @@ export default class CallScreen extends React.Component {
         this.props.navigation.navigate("App");
     }
 
-    _onCallFailed(event) {
+    _onCallFailed = (event) => {
         this.callState = CALL_STATES.DISCONNECTED;
         CallManager.getInstance().removeCall(this.call);
         this.setState({
             isModalOpen: true,
             modalText: 'Call failed: ' + event.reason
         });
-    }
+    };
 
-    _onCallDisconnected(event) {
+    _onCallDisconnected = (event) => {
         console.log('CallScreen:' + this.call.callId + '_onCallDisconnected: ' + event.call.callId);
         CallManager.getInstance().removeCall(this.call);
         this.callState = CALL_STATES.DISCONNECTED;
         this.props.navigation.navigate("App");
-    }
+    };
 
-    _onCallConnected(event) {
+    _onCallConnected = (event) => {
         console.log('CallScreen: _onCallConnected: ' + this.call.callId);
         // this.call.sendMessage('Test message');
         // this.call.sendInfo('rn/info', 'test info');
         this.callState = CALL_STATES.DISCONNECTED;
-    }
+    };
 
-    _onLocalVideoStreamAdded(event) {
-        console.log('CallScreen: _onLocalVideoStreamAdded: ' + this.call.callId + ', video stream id: ' + event.videoStream.id);
+    _onCallLocalVideoStreamAdded = (event) => {
+        console.log('CallScreen: _onCallLocalVideoStreamAdded: ' + this.call.callId + ', video stream id: ' + event.videoStream.id);
         this.setState({ localVideoStreamId: event.videoStream.id });
-    }
+    };
 
-    _onLocalVideoStreamRemoved(event) {
-        console.log('CallScreen: _onLocalVideoStreamRemoved: ' + this.call.callId);
+    _onCallLocalVideoStreamRemoved = (event) => {
+        console.log('CallScreen: _onCallLocalVideoStreamRemoved: ' + this.call.callId);
         this.setState({ localVideoStreamId: null });
-    }
+    };
 
-    _onEndpointAdded(event) {
-        console.log('CallScreen: _onEndpointAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+    _onCallEndpointAdded = (event) => {
+        console.log('CallScreen: _onCallEndpointAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
         this._setupEndpointListeners(event.endpoint, true);
-    }
+    };
 
-    _onRemoteVideoStreamAdded(event) {
-        console.log('CallScreen: _onRemoteVideoStreamAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+    _onEndpointRemoteVideoStreamAdded = (event) => {
+        console.log('CallScreen: _onEndpointRemoteVideoStreamAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
         this.setState({ remoteVideoStreamId: event.videoStream.id });
-    }
+    };
 
-    _onRemoteVideoStreamRemoved(event) {
-        console.log('CallScreen: _onRemoteVideoStreamRemoved: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+    _onEndpointRemoteVideoStreamRemoved = (event) => {
+        console.log('CallScreen: _onEndpointRemoteVideoStreamRemoved: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
         this.setState({ remoteVideoStreamId: null });
-    }
+    };
 
-    _onEndpointRemoved(event) {
+    _onEndpointRemoved = (event) => {
         console.log('CallScreen: _onEndpointRemoved: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
         this._setupEndpointListeners(event.endpoint, false);
-    }
+    };
 
-    _onEndpointInfoUpdated(event) {
+    _onEndpointInfoUpdated = (event) => {
         console.log('CallScreen: _onEndpointInfoUpdated: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
-    }
+    };
 
     _setupEndpointListeners(endpoint, on) {
-        if (on) {
-            endpoint.on(EndpointEvents.RemoteVideoStreamAdded, this._onRemoteVideoStreamAddedCallback);
-            endpoint.on(EndpointEvents.RemoteVideoStreamRemoved, this._onRemoteVideoStreamRemovedCallback);
-            endpoint.on(EndpointEvents.Removed, this._onEndpointRemovedCallback);
-            endpoint.on(EndpointEvents.InfoUpdated, this._onEndpointInfoUpdatedCallback);
-        } else {
-            endpoint.off(EndpointEvents.RemoteVideoStreamAdded, this._onRemoteVideoStreamAddedCallback);
-            endpoint.off(EndpointEvents.RemoteVideoStreamRemoved, this._onRemoteVideoStreamRemovedCallback);
-            endpoint.off(EndpointEvents.Removed, this._onEndpointRemovedCallback);
-            endpoint.off(EndpointEvents.InfoUpdated, this._onEndpointInfoUpdatedCallback);
-        }
+        Object.keys(Voximplant.EndpointEvents).forEach((eventName) => {
+            const callbackName = `_onEndpoint${eventName}`;
+            if (typeof this[callbackName] !== 'undefined') {
+                endpoint[(on) ? 'on' : 'off'](eventName, this[callbackName]);
+            }
+        });
     }
 
     _onAudioDeviceChanged(event) {
         console.log('CallScreen: _onAudioDeviceChanged:' + event.currentDevice );
         switch (event.currentDevice) {
-            case AudioDevice.BLUETOOTH:
+            case Voximplant.Hardware.AudioDevice.BLUETOOTH:
                 this.setState({audioDeviceIcon: 'bluetooth-audio'});
                 break;
-            case AudioDevice.SPEAKER:
+            case Voximplant.Hardware.AudioDevice.SPEAKER:
                 this.setState({audioDeviceIcon: 'volume-up'});
                 break;
-            case AudioDevice.WIRED_HEADSET:
+            case Voximplant.Hardware.AudioDevice.WIRED_HEADSET:
                 this.setState({audioDeviceIcon: 'headset'});
                 break;
-            case AudioDevice.EARPIECE:
+            case Voximplant.Hardware.AudioDevice.EARPIECE:
             default:
                 this.setState({audioDeviceIcon: 'hearing'});
                 break;
@@ -306,7 +278,7 @@ export default class CallScreen extends React.Component {
 
     _onAudioDeviceListChanged(event) {
         (async() => {
-            let device = await AudioDeviceManager.getInstance().getActiveDevice();
+            let device = await Voximplant.Hardware.AudioDeviceManager.getInstance().getActiveDevice();
             console.log(device);
         })();
         this.setState({audioDevices: event.newDeviceList});
@@ -319,6 +291,8 @@ export default class CallScreen extends React.Component {
                     height: 1,
                     width: "100%",
                     backgroundColor: "#607D8B",
+                    marginTop: 10,
+                    marginBottom: 10
                 }}
             />
         );
@@ -331,11 +305,11 @@ export default class CallScreen extends React.Component {
                 <View style={styles.useragent}>
                     <View style={styles.videoPanel}>
                         {this.state.isVideoSent ? (
-                            <VideoView style={styles.selfview} videoStreamId={this.state.localVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}/>
+                            <Voximplant.VideoView style={styles.selfview} videoStreamId={this.state.localVideoStreamId} scaleType={Voximplant.RenderScaleType.SCALE_FIT}/>
                         ) : (
                                 null
                             )}
-                        <VideoView style={styles.remotevideo} videoStreamId={this.state.remoteVideoStreamId} scaleType={RenderScaleType.SCALE_FIT}/>
+                        <Voximplant.VideoView style={styles.remotevideo} videoStreamId={this.state.remoteVideoStreamId} scaleType={Voximplant.RenderScaleType.SCALE_FIT}/>
                     </View>
 
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -373,7 +347,7 @@ export default class CallScreen extends React.Component {
                         visible={this.state.audioDeviceSelectionVisible}
                         onRequestClose={() => { }}>
                         <TouchableHighlight
-                            onPress={(e) => {this.setState({audioDeviceSelectionVisible: false})}}
+                            onPress={() => {this.setState({audioDeviceSelectionVisible: false})}}
                             style={styles.container}>
                             <View style={[styles.container, styles.modalBackground]}>
                                 <View style={[styles.innerContainer, styles.innerContainerTransparent]}>
