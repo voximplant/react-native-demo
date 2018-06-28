@@ -6,11 +6,9 @@
 
 import React from 'react';
 import {
-    Dimensions,
     StyleSheet,
     Text,
     View,
-    Button,
     TextInput,
     Platform,
     Modal,
@@ -25,7 +23,7 @@ import DefaultPreference from 'react-native-default-preference';
 import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
 
-var _this;
+let _this;
 
 export default class LoginScreen extends React.Component {
     constructor(props) {

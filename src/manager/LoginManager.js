@@ -5,9 +5,6 @@
 'use strict';
 
 import React from 'react';
-import {
-    AppState
-} from 'react-native';
 
 import { VoximplantLegacy, Voximplant } from 'react-native-voximplant';
 import DefaultPreference from 'react-native-default-preference';
@@ -20,14 +17,11 @@ const handlersGlobal = {};
 export default class LoginManager {
     static myInstance = null;
     client = null;
-    processingPushNotification = false;
     displayName = '';
-    currentAppState = "inactive";
     fullUserName = '';
     myuser = '';
     username = '';
     password = '';
-    incomingCall = undefined;
 
     static getInstance() {
         if (this.myInstance === null) {
@@ -49,7 +43,6 @@ export default class LoginManager {
 
             }
         })();
-        AppState.addEventListener("change", (...args) => this._handleAppStateChange(...args));
     }
 
     loginWithPassword(user, password) {
@@ -139,8 +132,8 @@ export default class LoginManager {
 
     logout() {
         (async() => {
-            await this.client.disconnect();
             this.unregisterPushToken();
+            await this.client.disconnect();
             this._emit('onConnectionClosed');
         })();
     }
@@ -154,9 +147,6 @@ export default class LoginManager {
     }
 
     pushNotificationReceived(notification) {
-        // While this flag is true, login is performed via access tokens.
-        // This glag will reset to false once logged in.
-        this.processingPushNotification = true;
         (async() => {
             await this.loginWithToken();
             this.client.handlePushNotification(notification);
@@ -183,14 +173,8 @@ export default class LoginManager {
         }
     }
 
-    _handleAppStateChange(newState) {
-        console.log("Current app state changed to " + newState);
-        this.currentAppState = newState;
-    }
-
     _processLoginSuccess(authResult) {
         this.displayName = authResult.displayName;
-        this.processingPushNotification = false;
 
         // save acceess and refresh token to default preferences to login using
         // access token on push notification, if the connection to Voximplant Cloud

@@ -13,25 +13,23 @@ import FCM, {FCMEvent} from 'react-native-fcm';
 class PushManager {
     pushToken = null;
 
-    constructor() {
-        // FCM.on(FCMEvent.RefreshToken, (token) => {
-        //     console.log("Refresh token: " + token);
-        // });
-        // FCM.on(FCMEvent.Notification, async (notif) => {
-        //     console.log("PushManager: FCM: notification: " + notif.voximplant);
-        //     let remoteData = {};
-        //     remoteData.voximplant = notif.voximplant;
-        //     LoginManager.getInstance().pushNotificationReceived(remoteData);
-        // });
+    constructor() { }
+
+    init() {
+        FCM.on(FCMEvent.RefreshToken, (token) => {
+            console.log("Refresh token: " + token);
+        });
+        FCM.on(FCMEvent.Notification, async (notif) => {
+            console.log("PushManager: FCM: notification: " + notif.voximplant);
+            let remoteData = {};
+            remoteData.voximplant = notif.voximplant;
+            LoginManager.getInstance().pushNotificationReceived(remoteData);
+        });
 
         FCM.getFCMToken().then(token => {
             console.log(token);
             this.pushToken = token;
         });
-    }
-
-    init() {
-
     }
 
     getPushToken() {
@@ -41,7 +39,7 @@ class PushManager {
     showLocalNotification(from) {
         FCM.presentLocalNotification({
             title: 'Incoming call',
-            body: 'from: ' + from,
+            body: 'from:' + from,
             priority: "high",
             show_in_foreground: false,
             number: 10
