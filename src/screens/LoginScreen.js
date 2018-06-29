@@ -6,7 +6,6 @@
 
 import React from 'react';
 import {
-    StyleSheet,
     Text,
     View,
     TextInput,
@@ -22,6 +21,7 @@ import LoginManager from '../manager/LoginManager';
 import DefaultPreference from 'react-native-default-preference';
 import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
+import styles from '../styles/Styles';
 
 let _this;
 
@@ -92,6 +92,7 @@ export default class LoginScreen extends React.Component {
                     <View>
                         <View style={styles.loginform}>
                             <TextInput
+                                underlineColorAndroid='transparent'
                                 style={styles.forminput}
                                 placeholder="user@app.account"
                                 value={this.state.username}
@@ -103,6 +104,7 @@ export default class LoginScreen extends React.Component {
                                 onChangeText={(text) => { this.setState({username: text}) }}
                                 blurOnSubmit={true} />
                             <TextInput
+                                underlineColorAndroid='transparent'
                                 style={styles.forminput}
                                 placeholder="User password"
                                 defaultValue={this.password}
@@ -143,57 +145,3 @@ export default class LoginScreen extends React.Component {
         );
     }
 }
-
-
-var styles = StyleSheet.create({
-    safearea: {
-        flex: 1,
-        backgroundColor: COLOR.WHITE,
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'stretch'
-    },
-    modalBackground: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        padding: 20
-    },
-    innerContainer: {
-        borderRadius: 10,
-    },
-    innerContainerTransparent: {
-        backgroundColor: COLOR.WHITE,
-        padding: 20
-    },
-    appheader: {
-        resizeMode: 'contain',
-        height: 60,
-        alignSelf: 'center'
-    },
-    loginform: {
-        paddingHorizontal: 20,
-        alignItems: 'stretch'
-    },
-    loginbutton: {
-        color: COLOR.BUTTON,
-        fontSize: 16,
-        alignSelf: 'center',
-        paddingTop: 20,
-        textAlign: 'center'
-    },
-    forminput: {
-        padding: 5,
-        marginBottom: 10,
-        height: 40,
-        color: COLOR.ACCENT,
-        ...Platform.select({
-            ios: {
-                height: 40,
-                borderColor: COLOR.ACCENT,
-                borderWidth: 1,
-                borderRadius: 4,
-            }
-        })
-    }
-});

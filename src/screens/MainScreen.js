@@ -6,11 +6,8 @@
 
 import React from 'react';
 import {
-    Platform,
-    StyleSheet,
     Text,
     View,
-    Button,
     Modal,
     TouchableHighlight,
     TouchableOpacity,
@@ -26,6 +23,7 @@ import CallManager from '../manager/CallManager';
 import {VoximplantLegacy, Voximplant} from 'react-native-voximplant';
 import COLOR from '../styles/Color';
 import COLOR_SCHEME from '../styles/ColorScheme';
+import styles from '../styles/Styles';
 
 export default class MainScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -93,7 +91,8 @@ export default class MainScreen extends React.Component {
                 <StatusBar barStyle={COLOR_SCHEME.LIGHT} backgroundColor={COLOR.PRIMARY_DARK} />
                 <View style={styles.useragent}>
                     <TextInput
-                        style={[styles.forminput, styles.numberinput]}
+                        underlineColorAndroid='transparent'
+                        style={[styles.forminput, styles.margin]}
                         onChangeText={(text) => { this.number = text }}
                         placeholder="Call to"
                         defaultValue={this.number}
@@ -127,75 +126,3 @@ export default class MainScreen extends React.Component {
         );
     }
 }
-
-var styles = StyleSheet.create({
-    safearea: {
-        flex: 1,
-        backgroundColor: COLOR.WHITE
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'stretch'
-    },
-    modalBackground: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        padding: 20
-    },
-    innerContainer: {
-        borderRadius: 10,
-    },
-    innerContainerTransparent: {
-        backgroundColor: COLOR.WHITE,
-        padding: 20
-    },
-    forminput: {
-        padding: 5,
-        marginBottom: 10,
-        height: 40,
-        color: COLOR.ACCENT,
-        ...Platform.select({
-            ios: {
-                height: 40,
-                borderColor: COLOR.ACCENT,
-                borderWidth: 1,
-                borderRadius: 4,
-            }
-        })
-    },
-    useragent: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    selfview: {
-        position: 'absolute',
-        right: 20,
-        bottom: 20,
-        width: 100,
-        height: 120,
-    },
-    remotevideo: {
-        flex: 1,
-    },
-    videoPanel: {
-        flex: 1,
-        position: 'relative'
-    },
-    call_controls: {
-        height: 70,
-    },
-    numberinput: {
-        margin: 10
-    },
-    call_connecting_label: {
-        fontSize: 18,
-        alignSelf: 'center'
-    },
-    headerButton: {
-        color: COLOR.WHITE,
-        fontSize: 16,
-        alignSelf: 'center',
-        paddingTop: 20,
-        textAlign: 'center'
-    }
-});

@@ -6,7 +6,6 @@
 
 import React from 'react';
 import {
-    StyleSheet,
     Text,
     View,
     SafeAreaView
@@ -15,6 +14,7 @@ import CallButton from '../components/CallButton';
 import CallManager from '../manager/CallManager';
 import { VoximplantLegacy, Voximplant } from 'react-native-voximplant';
 import COLOR from '../styles/Color';
+import styles from '../styles/Styles';
 
 export default class IncomingCallScreen extends React.Component {
 
@@ -92,17 +92,3 @@ export default class IncomingCallScreen extends React.Component {
         );
     }
 }
-
-var styles = StyleSheet.create({
-    safearea: {
-        flex: 1,
-        backgroundColor: COLOR.WHITE,
-        flexDirection: 'column',
-        justifyContent: 'center'
-    },
-    incoming_call: {
-        justifyContent: 'center',
-        alignSelf: 'center',
-        fontSize: 22,
-    },
-});
