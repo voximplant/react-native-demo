@@ -12,6 +12,10 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: COLOR.WHITE,
     },
+    aligncenter: {
+        flexDirection: 'column',
+        justifyContent: 'center'
+    },
     container: {
         flex: 1,
         justifyContent: 'center',

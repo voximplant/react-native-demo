@@ -80,7 +80,7 @@ export default class IncomingCallScreen extends React.Component {
 
     render() {
         return (
-            <SafeAreaView style={styles.safearea}>
+            <SafeAreaView style={[styles.safearea, styles.aligncenter]}>
                 <Text style={styles.incoming_call}>Incoming call from:</Text>
                 <Text style={styles.incoming_call}>{this.state.displayName}</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 90 }}>

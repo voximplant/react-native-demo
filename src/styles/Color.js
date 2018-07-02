@@ -12,6 +12,6 @@ const COLOR = {
     WHITE: "#fff",
     BLACK: "#000",
     RED: "#f54b5e"
-}
+};
 
 export default COLOR;
