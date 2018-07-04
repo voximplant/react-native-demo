@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import PushManager from './PushManager';
-import { VoximplantLegacy, Voximplant } from 'react-native-voximplant';
+import { Voximplant } from 'react-native-voximplant';
 import NavigationService from '../routes/NavigationService';
 
 // Voximplant SDK supports multiple calls at the same time, however

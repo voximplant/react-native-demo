@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import CallButton from '../components/CallButton';
 import CallManager from '../manager/CallManager';
-import { VoximplantLegacy, Voximplant } from 'react-native-voximplant';
+import { Voximplant } from 'react-native-voximplant';
 import COLOR from '../styles/Color';
 import styles from '../styles/Styles';
 

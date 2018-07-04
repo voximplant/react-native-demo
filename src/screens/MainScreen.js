@@ -20,7 +20,7 @@ import CallButton from '../components/CallButton';
 import LoginManager from '../manager/LoginManager';
 import CallManager from '../manager/CallManager';
 
-import {VoximplantLegacy, Voximplant} from 'react-native-voximplant';
+import {Voximplant} from 'react-native-voximplant';
 import COLOR from '../styles/Color';
 import COLOR_SCHEME from '../styles/ColorScheme';
 import styles from '../styles/Styles';
@@ -37,13 +37,13 @@ export default class MainScreen extends React.Component {
                     </Text>
                 </TouchableOpacity>
             ),
-            headerRight: (
-                <TouchableOpacity onPress={params.settingsClick}>
-                    <Text style={styles.headerButton}>
-                        Settings
-                    </Text>
-                </TouchableOpacity>
-            ),
+            // headerRight: (
+            //     <TouchableOpacity onPress={params.settingsClick}>
+            //         <Text style={styles.headerButton}>
+            //             Settings
+            //         </Text>
+            //     </TouchableOpacity>
+            // ),
         };
     };
     constructor(props) {

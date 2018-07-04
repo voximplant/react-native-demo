@@ -16,12 +16,7 @@ import {
     FlatList
 } from 'react-native';
 
-import {
-    VoximplantLegacy,
-    Preview,
-    RemoteView,
-    Voximplant
-} from 'react-native-voximplant';
+import { Voximplant } from 'react-native-voximplant';
 import CallButton from '../components/CallButton';
 import { Keypad } from '../components/Keypad';
 import COLOR_SCHEME from '../styles/ColorScheme';
@@ -123,38 +118,32 @@ export default class CallScreen extends React.Component {
         this.setState({isAudioMuted: !isMuted});
     }
 
-    sendVideo(doSend) {
+    async sendVideo(doSend) {
         console.log("CallScreen[" + this.callId + "] sendVideo: " + doSend);
-        (async () => {
-            try {
-                await this.call.sendVideo(doSend);
-                this.setState({isVideoSent: doSend});
-            } catch (e) {
-                console.warn(`Failed to sendVideo(${doSend}) due to ${e.code} ${e.message}`);
-            }
-        })();
+        try {
+            await this.call.sendVideo(doSend);
+            this.setState({isVideoSent: doSend});
+        } catch (e) {
+            console.warn(`Failed to sendVideo(${doSend}) due to ${e.code} ${e.message}`);
+        }
     }
 
-    hold(doHold) {
+    async hold(doHold) {
         console.log('CallScreen[' + this.callId + '] hold: ' + doHold);
-        (async () => {
-            try {
-                await this.call.hold(doHold);
-            } catch (e) {
-                console.warn('Failed to hold(' + doHold + ') due to ' + e.code + ' ' + e.message);
-            }
-        })();
+        try {
+            await this.call.hold(doHold);
+        } catch (e) {
+            console.warn('Failed to hold(' + doHold + ') due to ' + e.code + ' ' + e.message);
+        }
     }
 
-    receiveVideo() {
+    async receiveVideo() {
         console.log('CallScreen[' + this.callId + '] receiveVideo');
-        (async () => {
-            try {
-                await this.call.receiveVideo();
-            } catch (e) {
-                console.warn('Failed to receiveVideo due to ' + e.code + ' ' + e.message);
-            }
-        })();
+        try {
+            await this.call.receiveVideo();
+        } catch (e) {
+            console.warn('Failed to receiveVideo due to ' + e.code + ' ' + e.message);
+        }
     }
 
     endCall() {
@@ -167,12 +156,10 @@ export default class CallScreen extends React.Component {
         this.setState({isKeypadVisible: !isVisible});
     }
 
-    switchAudioDevice() {
+    async switchAudioDevice() {
         console.log('CallScreen[' + this.callId + '] switchAudioDevice');
-        (async () => {
-            let devices = await Voximplant.Hardware.AudioDeviceManager.getInstance().getAudioDevices();
-            this.setState({audioDevices: devices, audioDeviceSelectionVisible: true});
-        })();
+        let devices = await Voximplant.Hardware.AudioDeviceManager.getInstance().getAudioDevices();
+        this.setState({audioDevices: devices, audioDeviceSelectionVisible: true});
     }
 
     selectAudioDevice(device) {
