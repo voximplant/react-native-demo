@@ -2,6 +2,11 @@
 
 User agent demo application that uses `react-native-voximplant` and [Voximplant cloud platform](http://voximplant.com) for making/receiving audio/video calls.
 
+## Before you start
+You will need free Voximplant developer account setup for making and receiving calls using the SDK. 
+
+Learn more at [quickstart](https://voximplant.com/docs/references/articles/quickstart).
+
 ## Getting started
 
 1. Install React Native as described at [https://facebook.github.io/react-native/docs/getting-started.html#content](https://facebook.github.io/react-native/docs/getting-started.html#content)
@@ -39,3 +44,8 @@ The demo project uses the following third-party dependencies:
 
 These are not the dependencies for our react native sdk, but only for demo project. 
 Please note that we use these dependencies just to simplify our demo project and to provide the ability to try full functionality of our sdk. Integration of these dependencies to the demo project does not mean that you have to use these dependencies in your project.
+
+## Useful links
+Official guides:
+- [Using React Native SDK guide](https://voximplant.com/blog/using-react-native-sdk)
+- [Migration guide](https://voximplant.com/blog/migration-guide-for-react-native-sdk)
