@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "VoxImplantDemo.app"
-               BlueprintName = "VoxImplantDemo"
-               ReferencedContainer = "container:VoxImplantDemo.xcodeproj">
+               BuildableName = "VoximplantDemo.app"
+               BlueprintName = "VoximplantDemo"
+               ReferencedContainer = "container:VoximplantDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "VoxImplantDemoTests.xctest"
-               BlueprintName = "VoxImplantDemoTests"
-               ReferencedContainer = "container:VoxImplantDemo.xcodeproj">
+               BuildableName = "VoximplantDemoTests.xctest"
+               BlueprintName = "VoximplantDemoTests"
+               ReferencedContainer = "container:VoximplantDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "VoxImplantDemoTests.xctest"
-               BlueprintName = "VoxImplantDemoTests"
-               ReferencedContainer = "container:VoxImplantDemo.xcodeproj">
+               BuildableName = "VoximplantDemoTests.xctest"
+               BlueprintName = "VoximplantDemoTests"
+               ReferencedContainer = "container:VoximplantDemo.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "VoxImplantDemo.app"
-            BlueprintName = "VoxImplantDemo"
-            ReferencedContainer = "container:VoxImplantDemo.xcodeproj">
+            BuildableName = "VoximplantDemo.app"
+            BlueprintName = "VoximplantDemo"
+            ReferencedContainer = "container:VoximplantDemo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,16 +94,16 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "VoxImplantDemo.app"
-            BlueprintName = "VoxImplantDemo"
-            ReferencedContainer = "container:VoxImplantDemo.xcodeproj">
+            BuildableName = "VoximplantDemo.app"
+            BlueprintName = "VoximplantDemo"
+            ReferencedContainer = "container:VoximplantDemo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "OS_ACTIVITY_MODE"
             value = "disable"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>
@@ -120,9 +120,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "VoxImplantDemo.app"
-            BlueprintName = "VoxImplantDemo"
-            ReferencedContainer = "container:VoxImplantDemo.xcodeproj">
+            BuildableName = "VoximplantDemo.app"
+            BlueprintName = "VoximplantDemo"
+            ReferencedContainer = "container:VoximplantDemo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

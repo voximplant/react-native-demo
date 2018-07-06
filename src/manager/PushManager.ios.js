@@ -5,17 +5,12 @@
 'use strict';
 
 import React from 'react';
-import {
-  Platform
-} from 'react-native';
 
 import loginManager from './LoginManager';
-import VoxImplant from 'react-native-voximplant';
 import NotificationsIOS from 'react-native-notifications';
 
-var pushToken = '';
-
 class PushManager {
+  pushToken = '';
   constructor() {
     console.log("Push manager ios");
     NotificationsIOS.consumeBackgroundQueue();
@@ -31,11 +26,11 @@ class PushManager {
 
   onPushKitRegistered(deviceToken) {
     console.log("PushKit Token Received: " + deviceToken);
-    pushToken = deviceToken;
+    this.pushToken = deviceToken;
   }
 
   getPushToken() {
-    return pushToken;
+    return this.pushToken;
   }
 
   pushNotificationReceived(notification) {

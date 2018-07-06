@@ -7,13 +7,12 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-class CallButton extends Component {
+export default class CallButton extends Component {
 
   handleButtonPressed() {
     this.props.buttonPressed();
@@ -38,7 +37,7 @@ var styles = StyleSheet.create({
   icon: {
     width: 50,
     height: 50,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 35,
     margin: 10,
     alignItems: 'center', 
@@ -59,7 +58,3 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
 });
-
-export {
-	CallButton as CallButton
-}

@@ -11,22 +11,17 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
-import PropTypes from 'prop-types';
 
 class KeypadButton extends Component {
 
   static propTypes = {
     ...TouchableOpacity.propTypes,
-    style: PropTypes.style,
   };
 
   render() {
     var touchableProps = {}, letters;
     touchableProps.onPress = function() {
-      var digit = this.props.txt1;
-      if (this.props.txt1 === "*") digit = 10;
-      if (this.props.txt1 === "#") digit = 11;
-      this.props.onPress(parseInt(digit));
+      this.props.onPress(this.props.txt1);
     }.bind(this);
     touchableProps.onPressIn = this.props.onPressIn;
     touchableProps.onPressOut = this.props.onPressOut;
@@ -85,9 +80,13 @@ class Keypad extends Component {
 
 var styles = StyleSheet.create({
 	keypad: {
-    flex: 1,
-    marginTop: 0,
-    marginBottom: 10
+    position: 'absolute',
+    bottom: 80,
+    alignSelf: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    // flex: 1,
+    // marginTop: 0,
+    // marginBottom: 10
   },
 	keypadrow: {
 		flexDirection: 'row',
