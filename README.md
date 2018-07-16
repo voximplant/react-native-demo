@@ -31,7 +31,8 @@ Learn more at [quickstart](https://voximplant.com/docs/references/articles/quick
     2. Add `google-services.json` file to android/app folder
     3. Open `app/build.gradle` file and uncomment the `//apply plugin: 'com.google.gms.google-services'` line
 
-4. Run your project from XCode (`Cmd+R`) for iOS, or use `react-native run-android` to run your project on Android.
+4. It is recommended to run `react-native start` command from root project directory.
+5. Run your project from XCode (`Cmd+R`) for iOS, or use `react-native run-android` to run your project on Android.
 
 ## Demo project dependencies
 
