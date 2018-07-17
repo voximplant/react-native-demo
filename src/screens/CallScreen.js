@@ -13,7 +13,8 @@ import {
     Platform,
     SafeAreaView,
     StatusBar,
-    FlatList
+    FlatList,
+    PermissionsAndroid
 } from 'react-native';
 
 import { Voximplant } from 'react-native-voximplant';
@@ -121,6 +122,13 @@ export default class CallScreen extends React.Component {
     async sendVideo(doSend) {
         console.log("CallScreen[" + this.callId + "] sendVideo: " + doSend);
         try {
+            if (doSend && Platform.OS === 'android') {
+                const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+                if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+                    console.warn('CallScreen[' + this.callId + '] sendVideo: failed due to camera permission is not granted');
+                    return;
+                }
+            }
             await this.call.sendVideo(doSend);
             this.setState({isVideoSent: doSend});
         } catch (e) {

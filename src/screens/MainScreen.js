@@ -13,7 +13,9 @@ import {
     TouchableOpacity,
     TextInput,
     SafeAreaView,
-    StatusBar
+    StatusBar,
+    PermissionsAndroid,
+    Platform
 } from 'react-native';
 
 import CallButton from '../components/CallButton';
@@ -68,13 +70,33 @@ export default class MainScreen extends React.Component {
         this.props.navigation.navigate("Login");
     };
 
-    makeCall(isVideoCall) {
+    async makeCall(isVideoCall) {
         console.log('MainScreen: make call: ' + this.number + ', isVideo:' + isVideoCall);
-        (async() => {
-            let callSettings = {};
-            callSettings.video = {};
-            callSettings.video.receiveVideo = isVideoCall;
-            callSettings.video.sendVideo = isVideoCall;
+        try {
+            if (Platform.OS === 'android') {
+                let permissions = [PermissionsAndroid.PERMISSIONS.RECORD_AUDIO];
+                if (isVideoCall) {
+                    permissions.push(PermissionsAndroid.PERMISSIONS.CAMERA);
+                }
+                const granted = await PermissionsAndroid.requestMultiple(permissions);
+                const recordAudioGranted = granted['android.permission.RECORD_AUDIO'] === 'granted';
+                const cameraGranted = granted['android.permission.CAMERA'] === 'granted';
+                if (recordAudioGranted) {
+                    if (isVideoCall && !cameraGranted) {
+                        console.warn('MainScreen: makeCall: camera permission is not granted');
+                        return;
+                    }
+                } else {
+                    console.warn('MainScreen: makeCall: record audio permission is not granted');
+                    return;
+                }
+            }
+            const callSettings = {
+                video: {
+                    sendVideo: isVideoCall,
+                    receiveVideo: isVideoCall
+                }
+            };
             let call = await Voximplant.getInstance().call(this.number, callSettings);
             CallManager.getInstance().addCall(call);
             this.props.navigation.navigate('Call', {
@@ -82,7 +104,9 @@ export default class MainScreen extends React.Component {
                 isVideo: isVideoCall,
                 isIncoming: false
             });
-        })();
+        } catch (e) {
+            console.warn('MainScreen: makeCall failed' + e);
+        }
     }
 
     render() {

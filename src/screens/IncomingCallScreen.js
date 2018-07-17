@@ -8,7 +8,9 @@ import React from 'react';
 import {
     Text,
     View,
-    SafeAreaView
+    SafeAreaView,
+    PermissionsAndroid,
+    Platform
 } from 'react-native';
 import CallButton from '../components/CallButton';
 import CallManager from '../manager/CallManager';
@@ -55,7 +57,30 @@ export default class IncomingCallScreen extends React.Component {
         }
     }
 
-    answerCall(withVideo) {
+    async answerCall(withVideo) {
+        try {
+            if (Platform.OS === 'android') {
+                let permissions = [PermissionsAndroid.PERMISSIONS.RECORD_AUDIO];
+                if (withVideo) {
+                    permissions.push(PermissionsAndroid.PERMISSIONS.CAMERA);
+                }
+                const granted = await PermissionsAndroid.requestMultiple(permissions);
+                const recordAudioGranted = granted['android.permission.RECORD_AUDIO'] === 'granted';
+                const cameraGranted = granted['android.permission.CAMERA'] === 'granted';
+                if (recordAudioGranted) {
+                    if (withVideo && !cameraGranted) {
+                        console.warn('IncomingCallScreen: answerCall: camera permission is not granted');
+                        return;
+                    }
+                } else {
+                    console.warn('IncomingCallScreen: answerCall: record audio permission is not granted');
+                    return;
+                }
+            }
+        } catch (e) {
+            console.warn('IncomingCallScreen: asnwerCall:' + e);
+            return;
+        }
         this.props.navigation.navigate('Call', {
             callId: this.call.callId,
             isVideo: withVideo,
