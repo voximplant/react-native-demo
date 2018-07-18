@@ -26,10 +26,14 @@ class PushManager {
             LoginManager.getInstance().pushNotificationReceived(remoteData);
         });
 
-        FCM.getFCMToken().then(token => {
-            console.log(token);
-            this.pushToken = token;
-        });
+        FCM.getFCMToken()
+            .then(token => {
+                console.log(token);
+                this.pushToken = token;
+            })
+            .catch(() => {
+               console.warn('PushManager android: failed to get FCM token');
+            });
     }
 
     getPushToken() {
@@ -42,6 +46,7 @@ class PushManager {
             body: 'from:' + from,
             priority: "high",
             show_in_foreground: false,
+            icon: 'ic_vox_notification',
             number: 10
         });
     }

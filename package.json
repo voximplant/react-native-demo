@@ -11,11 +11,11 @@
 		"react": "16.3.1",
 		"react-native": "0.56.0",
 		"react-native-default-preference": "^1.2.0",
-		"react-native-fcm": "^15.0.1",
+		"react-native-fcm": "^16.0.0",
 		"react-native-md5": "1.0.0",
 		"react-native-notifications": "1.1.16",
 		"react-native-vector-icons": "^4.6.0",
-		"react-native-voximplant": "1.0.0",
+		"react-native-voximplant": "1.0.1",
 		"react-navigation": "2.5.3"
 	},
 	"devDependencies": {

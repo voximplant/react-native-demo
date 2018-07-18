@@ -43,6 +43,7 @@ export default class LoginManager {
 
             }
         })();
+        this.client.on(Voximplant.ClientEvents.ConnectionClosed, this._connectionClosed);
     }
 
     async loginWithPassword(user, password) {
@@ -163,6 +164,10 @@ export default class LoginManager {
             }
         }
     }
+
+    _connectionClosed = () => {
+        this._emit('onConnectionClosed');
+    };
 
     _processLoginSuccess(authResult) {
         this.displayName = authResult.displayName;

@@ -57,8 +57,13 @@ export default class MainScreen extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.navigation.setParams({ settingsClick: this._goToSettings, backClicked: this._goToLogin });
+        LoginManager.getInstance().on('onConnectionClosed', this._connectionClosed);
+    }
+
+    componentWillUnmount() {
+        LoginManager.getInstance().off('onConnectionClosed', this._connectionClosed);
     }
 
     _goToSettings = () => {
@@ -67,6 +72,10 @@ export default class MainScreen extends React.Component {
 
     _goToLogin = () => {
         LoginManager.getInstance().logout();
+        this.props.navigation.navigate("Login");
+    };
+
+    _connectionClosed = () => {
         this.props.navigation.navigate("Login");
     };
 

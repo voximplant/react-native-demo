@@ -39,7 +39,8 @@
       </service>
 
       <receiver android:name="com.evollu.react.fcm.FIRLocalMessagingPublisher"/>
-      <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_vox_notification"/>
+      <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+                 android:resource="@drawable/ic_vox_notification"/>
     </application>
 
 </manifest>
