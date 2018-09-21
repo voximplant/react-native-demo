@@ -5,19 +5,19 @@ We provide the list of the issues that we have faced with and possible fixes for
 ## RN 0.54 - iOS
 1. 'algorithm' file not found
     - Community solution: https://github.com/facebook/yoga/issues/711
-    - Fix in demo: https://github.com/voximplant/react-native-demo/blob/master/ios/Podfile
+    - Fix in demo: https://github.com/voximplant/react-native-demo/blob/7da7159ee02f367570c019cfaaae45f48d3a84b8/ios/Podfile
 
 2. RCTSurfaceHostingView.h:12: Expected ‘)’
     - Community solution: https://github.com/facebook/yoga/issues/711
-    - Fix in demo: https://github.com/voximplant/react-native-demo/blob/master/ios/Podfile
+    - Fix in demo: https://github.com/voximplant/react-native-demo/blob/7da7159ee02f367570c019cfaaae45f48d3a84b8/ios/Podfile
 
 3. 'fishhook/fishhook.h' not found
     - Community solution: https://github.com/facebook/react-native/issues/16039
-    - Fix in demo: https://github.com/voximplant/react-native-demo/blob/2258199638a09aa3f8ae9b801b3e7ccb5879397f/package.json#L7
+    - Fix in demo: https://github.com/voximplant/react-native-demo/blob/master/package.json#L7
 
 4. 'RCTAnimation/RCTValueAnimatedNode.h' file not found
     - Community solution: https://github.com/facebook/react-native/issues/13198
-    - Fix in demo: https://github.com/voximplant/react-native-demo/blob/2258199638a09aa3f8ae9b801b3e7ccb5879397f/package.json#L7
+    - Fix in demo: https://github.com/voximplant/react-native-demo/blob/master/package.json#L7
 
 5. xcrun: error: SDK "iphoneos" cannot be located on *glog* dependency install
     - Community solution: https://github.com/theos/theos/issues/255
