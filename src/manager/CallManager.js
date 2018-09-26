@@ -21,6 +21,10 @@ export default class CallManager {
     call = null;
     currentAppState = undefined;
     showIncomingCallScreen = false;
+
+    //Call Settings
+    useCallKit = false;
+
     constructor() {
         this.client = Voximplant.getInstance();
         this.currentAppState = AppState.currentState;

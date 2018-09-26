@@ -39,13 +39,14 @@ export default class MainScreen extends React.Component {
                     </Text>
                 </TouchableOpacity>
             ),
-            // headerRight: (
-            //     <TouchableOpacity onPress={params.settingsClick}>
-            //         <Text style={styles.headerButton}>
-            //             Settings
-            //         </Text>
-            //     </TouchableOpacity>
-            // ),
+            headerRight: (
+                <TouchableOpacity onPress={params.settingsClick}>
+                    <Text style={styles.headerButton}>
+                        Settings
+                    </Text>
+                </TouchableOpacity>
+            ),
+            title: LoginManager.getInstance().displayName,
         };
     };
     constructor(props) {

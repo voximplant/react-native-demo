@@ -43,7 +43,7 @@ export default class LoginScreen extends React.Component {
               _this.setState({username: value}); 
         });
         LoginManager.getInstance().on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
-        LoginManager.getInstance().on('onLoggedIn', (param) => this.onLoggedIn());
+        LoginManager.getInstance().on('onLoggedIn', (displayName) => this.onLoggedIn(displayName));
         LoginManager.getInstance().on('onLoginFailed', (errorCode) => this.onLoginFailed(errorCode));
     }
 
@@ -67,7 +67,7 @@ export default class LoginScreen extends React.Component {
         }
     }
 
-    onLoggedIn() {
+    onLoggedIn(displayName) {
         DefaultPreference.set('usernameValue', this.state.username);
         this.props.navigation.navigate('App');
     }

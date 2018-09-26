@@ -16,9 +16,9 @@ PODS:
     - React/Core (= 0.56.0)
   - react-native-notifications (1.1.16):
     - React
-  - react-native-voximplant (1.1.1):
+  - react-native-voximplant (1.2.0):
     - React
-    - VoxImplantSDK (= 2.14.3)
+    - VoxImplantSDK (= 2.14.4)
   - React/Core (0.56.0):
     - yoga (= 0.56.0.React)
   - React/CxxBridge (0.56.0):
@@ -59,11 +59,11 @@ PODS:
   - RNDefaultPreference (1.3.1):
     - React
   - SocketRocket (0.5.1)
-  - VoxImplantSDK (2.14.3):
+  - VoxImplantSDK (2.14.4):
     - CocoaLumberjack (~> 3.4.0)
     - SocketRocket (~> 0.5.1)
-    - VoxImplantWebRTC (~> 63.0.4)
-  - VoxImplantWebRTC (63.0.4)
+    - VoxImplantWebRTC (~> 66.0.0)
+  - VoxImplantWebRTC (66.0.0)
   - yoga (0.56.0.React)
 
 DEPENDENCIES:
@@ -118,11 +118,11 @@ SPEC CHECKSUMS:
   glog: b3b0330915eccea41c5cc9731a77cf564a9be5ea
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
   react-native-notifications: 4626ecc0189e1b0594b1f422c17e64849390e30d
-  react-native-voximplant: 91fdb91e021a8f288bc451bf714dc8a6567377f3
+  react-native-voximplant: 841729fe61482774d8febedf6a0785544ba9efd4
   RNDefaultPreference: f0ec2a41653832443559a28a599fc6c7628fe776
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  VoxImplantSDK: bcc17f69e5f5f710a899176d673d9a520cef41cb
-  VoxImplantWebRTC: 7f7217fced66ee3e05bafe2ab03c09150386ee66
+  VoxImplantSDK: 922e8857291f1599710ed0200574e738b8d39a77
+  VoxImplantWebRTC: cae7b639f25752d7f83cd033de3be6ae9c20e706
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
 PODFILE CHECKSUM: cc3b81670b9c1ef67708996f9f7ddef9ca6cf167
