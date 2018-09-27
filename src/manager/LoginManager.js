@@ -5,9 +5,9 @@
 'use strict';
 
 import React from 'react';
+import { AsyncStorage } from 'react-native';
 
 import { Voximplant } from 'react-native-voximplant';
-import DefaultPreference from 'react-native-default-preference';
 import PushManager from './PushManager';
 import CallManager from './CallManager';
 import md5 from "react-native-md5";
@@ -55,7 +55,7 @@ export default class LoginManager {
                 await this.client.connect();
             }
             let authResult = await this.client.login(user, password);
-            this._processLoginSuccess(authResult);
+            await this._processLoginSuccess(authResult);
         } catch (e) {
             console.log('LoginManager: loginWithPassword ' + e.name + e.message);
             switch (e.name) {
@@ -92,7 +92,7 @@ export default class LoginManager {
                                 + this.password));
                         try {
                             let authResult = await this.client.loginWithOneTimeKey(this.fullUserName, hash);
-                            this._processLoginSuccess(authResult);
+                            await this._processLoginSuccess(authResult);
                         } catch (e1) {
                             this._emit('onLoginFailed', e1.code);
                         }
@@ -110,11 +110,11 @@ export default class LoginManager {
                 await this.client.connect();
             }
             if (state !== Voximplant.ClientState.LOGGED_IN) {
-                const username = await DefaultPreference.get('usernameValue');
-                const accessToken = await DefaultPreference.get('accessToken');
+                const username = await AsyncStorage.getItem('usernameValue');
+                const accessToken = await AsyncStorage.getItem('accessToken');
                 console.log('LoginManager: loginWithToken: user: ' + username + ', token: ' + accessToken );
                 const authResult = await this.client.loginWithToken(username + '.voximplant.com', accessToken);
-                this._processLoginSuccess(authResult);
+                await this._processLoginSuccess(authResult);
             }
         } catch (e) {
             console.log('LoginManager: loginWithToken: ' + e.name);
@@ -169,7 +169,7 @@ export default class LoginManager {
         this._emit('onConnectionClosed');
     };
 
-    _processLoginSuccess(authResult) {
+    async _processLoginSuccess(authResult) {
         this.displayName = authResult.displayName;
 
         // save acceess and refresh token to default preferences to login using
@@ -177,10 +177,10 @@ export default class LoginManager {
         // is closed
         const loginTokens = authResult.tokens;
         if (loginTokens !== null) {
-            DefaultPreference.set('accessToken', loginTokens.accessToken);
-            DefaultPreference.set('refreshToken', loginTokens.refreshToken);
-            DefaultPreference.set('accessExpire', loginTokens.accessExpire.toString());
-            DefaultPreference.set('refreshExpire', loginTokens.refreshExpire.toString());
+            await AsyncStorage.setItem('accessToken', loginTokens.accessToken);
+            await AsyncStorage.setItem('refreshToken', loginTokens.refreshToken);
+            await AsyncStorage.setItem('accessExpire', loginTokens.accessExpire.toString());
+            await AsyncStorage.setItem('refreshExpire', loginTokens.refreshExpire.toString());
         } else {
             console.error("LoginSuccessful: login tokens are invalid");
         }

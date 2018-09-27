@@ -11,7 +11,6 @@ import NavigationService from "../routes/NavigationService";
 import CallManager from "./CallManager";
 
 export default class CallKitManager {
-    // static myInstance = null;
     callKitUuid = undefined;
     withVideo = false;
     callId = undefined;

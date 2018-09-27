@@ -21,7 +21,6 @@ target 'VoximplantDemo' do
 
     # Demo project dependencies
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
-    pod 'RNDefaultPreference', path: '../node_modules/react-native-default-preference'
     pod 'react-native-notifications', path: '../node_modules/react-native-notifications'
     pod 'RNCallKit', path: '../node_modules/react-native-callkit'
 
@@ -64,7 +63,6 @@ target 'VoximplantDemoTests' do
 
     # Demo project dependencies
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
-    pod 'RNDefaultPreference', path: '../node_modules/react-native-default-preference'
     pod 'react-native-notifications', path: '../node_modules/react-native-notifications'
     pod 'RNCallKit', path: '../node_modules/react-native-callkit'
 

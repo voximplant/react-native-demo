@@ -14,11 +14,11 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     SafeAreaView,
-    StatusBar
+    StatusBar,
+    AsyncStorage
 } from 'react-native';
 
 import LoginManager from '../manager/LoginManager';
-import DefaultPreference from 'react-native-default-preference';
 import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
 import styles from '../styles/Styles';
@@ -38,10 +38,10 @@ export default class LoginScreen extends React.Component {
 
     componentDidMount() {
         _this = this;
-        DefaultPreference.get('usernameValue').then(
-            function(value) {
-              _this.setState({username: value}); 
-        });
+        (async() => {
+            const usernameValue = await AsyncStorage.getItem('usernameValue');
+            _this.setState({username: usernameValue});
+        })();
         LoginManager.getInstance().on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
         LoginManager.getInstance().on('onLoggedIn', (displayName) => this.onLoggedIn(displayName));
         LoginManager.getInstance().on('onLoginFailed', (errorCode) => this.onLoginFailed(errorCode));
@@ -68,7 +68,9 @@ export default class LoginScreen extends React.Component {
     }
 
     onLoggedIn(displayName) {
-        DefaultPreference.set('usernameValue', this.state.username);
+        (async() => {
+            await AsyncStorage.setItem('usernameValue', this.state.username);
+        })();
         this.props.navigation.navigate('App');
     }
 
