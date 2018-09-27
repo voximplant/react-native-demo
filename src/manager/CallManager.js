@@ -6,12 +6,15 @@
 
 import React from 'react';
 import {
+    Platform,
     AppState
 } from 'react-native';
 
 import PushManager from './PushManager';
 import { Voximplant } from 'react-native-voximplant';
 import NavigationService from '../routes/NavigationService';
+import CallKitManager from './CallKitManager';
+import uuid from 'uuid';
 
 // Voximplant SDK supports multiple calls at the same time, however
 // this demo app demonstrates only one active call at the moment,
@@ -21,6 +24,8 @@ export default class CallManager {
     call = null;
     currentAppState = undefined;
     showIncomingCallScreen = false;
+    callKitManager = null;
+    callKitUuid = null;
 
     //Call Settings
     useCallKit = false;
@@ -28,6 +33,7 @@ export default class CallManager {
     constructor() {
         this.client = Voximplant.getInstance();
         this.currentAppState = AppState.currentState;
+        this.callKitManager = new CallKitManager();
     }
 
     init() {
@@ -68,6 +74,14 @@ export default class CallManager {
         if (this.call !== null) {
             console.log("CallManager: incomingCall: already have a call, rejecting new call, current call id " + this.call.callId);
             event.call.decline();
+        } else if (Platform.OS === 'ios' && this.useCallKit) {
+            console.log('CallManager: incomingCall: CallKit is selected as incoming call screen');
+
+            this.callKitUuid = uuid.v4();
+            let endpoints = event.call.getEndpoints();
+            let displayName = endpoints[0].displayName;
+            this.callKitManager.showIncomingCall(this.callKitUuid, event.video, displayName);
+
         } else {
             this.addCall(event.call);
             if (this.currentAppState !== 'active') {
