@@ -76,11 +76,10 @@ export default class CallManager {
             event.call.decline();
         } else if (Platform.OS === 'ios' && this.useCallKit) {
             console.log('CallManager: incomingCall: CallKit is selected as incoming call screen');
-
+            this.addCall(event.call);
+            this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
             this.callKitUuid = uuid.v4();
-            let endpoints = event.call.getEndpoints();
-            let displayName = endpoints[0].displayName;
-            this.callKitManager.showIncomingCall(this.callKitUuid, event.video, displayName);
+            this.callKitManager.showIncomingCall(this.callKitUuid, event.video, event.call.getEndpoints()[0].displayName, event.call.callId);
 
         } else {
             this.addCall(event.call);
@@ -101,6 +100,9 @@ export default class CallManager {
     _callDisconnected = (event) => {
         this.call.off(Voximplant.CallEvents.Disconnected, this._callDisconnected);
         this.removeCall(event.call);
+        if (this.useCallKit) {
+            this.callKitManager.endCall();
+        }
     };
 
     _handleAppStateChange = (newState) => {
