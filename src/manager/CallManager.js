@@ -7,7 +7,8 @@
 import React from 'react';
 import {
     Platform,
-    AppState
+    AppState,
+    AsyncStorage
 } from 'react-native';
 
 import PushManager from './PushManager';
@@ -26,9 +27,6 @@ export default class CallManager {
     showIncomingCallScreen = false;
     callKitManager = null;
     callKitUuid = null;
-
-    //Call Settings
-    useCallKit = false;
 
     constructor() {
         this.client = Voximplant.getInstance();
@@ -70,45 +68,66 @@ export default class CallManager {
         return null;
     }
 
+    _showIncomingScreenOrNotification(event) {
+        if (this.currentAppState !== 'active') {
+            this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
+            PushManager.showLocalNotification('');
+            this.showIncomingCallScreen = true;
+        } else {
+            NavigationService.navigate('IncomingCall', {
+                callId: event.call.callId,
+                isVideo: event.video,
+                from: null
+            });
+        }
+    }
+
     _incomingCall = (event) => {
         if (this.call !== null) {
             console.log("CallManager: incomingCall: already have a call, rejecting new call, current call id " + this.call.callId);
             event.call.decline();
-        } else if (Platform.OS === 'ios' && this.useCallKit) {
-            console.log('CallManager: incomingCall: CallKit is selected as incoming call screen');
-            this.addCall(event.call);
-            this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
-            this.callKitUuid = uuid.v4();
-            this.callKitManager.showIncomingCall(this.callKitUuid, event.video, event.call.getEndpoints()[0].displayName, event.call.callId);
+            return;
+        }
 
-        } else {
-            this.addCall(event.call);
-            if (this.currentAppState !== 'active') {
-                this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
-                PushManager.showLocalNotification('');
-                this.showIncomingCallScreen = true;
-            } else {
-                NavigationService.navigate('IncomingCall', {
-                    callId: event.call.callId,
-                    isVideo: event.video,
-                    from: null
+        this.addCall(event.call);
+
+        if (Platform.OS === 'ios') {
+            AsyncStorage.getItem('useCallKit')
+                .then((value) => {
+                    const useCallKit = JSON.parse(value);
+                    if (useCallKit) {
+                        console.log('CallManager: incomingCall: CallKit is selected as incoming call screen');
+                        this.addCall(event.call);
+                        this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
+                        this.callKitUuid = uuid.v4();
+                        this.callKitManager.showIncomingCall(this.callKitUuid, event.video, event.call.getEndpoints()[0].displayName, event.call.callId);
+                    } else {
+                        this._showIncomingScreenOrNotification(event);
+                    }
                 });
-            }
+        } else {
+            this._showIncomingScreenOrNotification(event);
         }
     };
 
     _callDisconnected = (event) => {
         this.call.off(Voximplant.CallEvents.Disconnected, this._callDisconnected);
+        this.showIncomingCallScreen = false;
         this.removeCall(event.call);
-        if (this.useCallKit) {
-            this.callKitManager.endCall();
-        }
+        AsyncStorage.getItem('useCallKit')
+            .then((value) => {
+                const useCallKit = JSON.parse(value);
+                if (useCallKit) {
+                    this.callKitManager.endCall();
+                }
+            });
     };
 
     _handleAppStateChange = (newState) => {
         console.log("CallManager: _handleAppStateChange: Current app state changed to " + newState);
         this.currentAppState = newState;
         if (this.currentAppState === 'active' && this.showIncomingCallScreen && this.call !== null) {
+            this.showIncomingCallScreen = false;
             NavigationService.navigate('IncomingCall', {
                 callId: this.call.callId,
                 isVideo: null,

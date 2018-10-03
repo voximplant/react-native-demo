@@ -5,14 +5,13 @@
 'use strict';
 
 import React from "react";
-import {ScrollView} from "react-native";
+import { ScrollView, AsyncStorage} from "react-native";
 import {SafeAreaView, StatusBar} from "react-native";
-import {SettingsDividerShort, SettingsDividerLong, SettingsEditText, SettingsCategoryHeader, SettingsSwitch, SettingsPicker} from 'react-native-settings-components';
+import {SettingsSwitch} from 'react-native-settings-components';
 
 import styles from "../styles/Styles";
 import COLOR_SCHEME from "../styles/ColorScheme";
 import COLOR from "../styles/Color";
-import CallManager from "../manager/CallManager";
 
 export default class SettingsScreen extends React.Component {
     static navigationOptions = {
@@ -21,8 +20,19 @@ export default class SettingsScreen extends React.Component {
 
     constructor() {
         super();
+        this.state = {
+            useCallKit: false
+        };
     }
 
+    componentDidMount() {
+        AsyncStorage.getItem('useCallKit')
+            .then((value) => {
+                this.setState({
+                    useCallKit: JSON.parse(value)
+                })
+            });
+    }
 
     render() {
         return(
@@ -33,9 +43,12 @@ export default class SettingsScreen extends React.Component {
                         title={'Use CallKit'}
                         onSaveValue={(value) => {
                             console.log('use CallKit:', value);
-                            CallManager.getInstance().useCallKit = value;
+                            this.setState({
+                                useCallKit: value
+                            });
+                            AsyncStorage.setItem('useCallKit', JSON.stringify(value));
                         }}
-                        value={CallManager.getInstance().useCallKit}
+                        value={this.state.useCallKit}
                     />
 
                 </ScrollView>
