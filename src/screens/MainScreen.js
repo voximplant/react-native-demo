@@ -15,7 +15,8 @@ import {
     SafeAreaView,
     StatusBar,
     PermissionsAndroid,
-    Platform
+    Platform,
+    AsyncStorage
 } from 'react-native';
 
 import CallButton from '../components/CallButton';
@@ -101,14 +102,21 @@ export default class MainScreen extends React.Component {
                     return;
                 }
             }
+            const useCallKitString = await AsyncStorage.getItem('useCallKit');
+            const useCallKit = JSON.parse(useCallKitString);
             const callSettings = {
                 video: {
                     sendVideo: isVideoCall,
                     receiveVideo: isVideoCall
-                }
+                },
+                setupCallKit: useCallKit
             };
             let call = await Voximplant.getInstance().call(this.number, callSettings);
-            CallManager.getInstance().addCall(call);
+            let callManager = CallManager.getInstance();
+            callManager.addCall(call);
+            if (useCallKit) {
+                callManager.startOutgoingCallViaCallKit(isVideoCall, this.number);
+            }
             this.props.navigation.navigate('Call', {
                 callId: call.callId,
                 isVideo: isVideoCall,

@@ -68,9 +68,15 @@ export default class CallManager {
         return null;
     }
 
+    startOutgoingCallViaCallKit(isVideo, number) {
+        this.callKitUuid = uuid.v4();
+        this.callKitManager.startOutgoingCall(this.callKitUuid, isVideo, number, this.call.callId);
+        this.call.on(Voximplant.CallEvents.Connected, this._callConnected);
+        this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
+    }
+
     _showIncomingScreenOrNotification(event) {
         if (this.currentAppState !== 'active') {
-            this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
             PushManager.showLocalNotification('');
             this.showIncomingCallScreen = true;
         } else {
@@ -90,15 +96,13 @@ export default class CallManager {
         }
 
         this.addCall(event.call);
-
+        this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
         if (Platform.OS === 'ios') {
             AsyncStorage.getItem('useCallKit')
                 .then((value) => {
                     const useCallKit = JSON.parse(value);
                     if (useCallKit) {
                         console.log('CallManager: incomingCall: CallKit is selected as incoming call screen');
-                        this.addCall(event.call);
-                        this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
                         this.callKitUuid = uuid.v4();
                         this.callKitManager.showIncomingCall(this.callKitUuid, event.video, event.call.getEndpoints()[0].displayName, event.call.callId);
                     } else {
@@ -108,6 +112,11 @@ export default class CallManager {
         } else {
             this._showIncomingScreenOrNotification(event);
         }
+    };
+
+    _callConnected = (event) => {
+        this.call.off(Voximplant.CallEvents.Connected, this._callConnected);
+        this.callKitManager.reportOutgoingCallConnected();
     };
 
     _callDisconnected = (event) => {

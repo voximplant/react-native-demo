@@ -8,7 +8,6 @@ import React from 'react';
 import {Voximplant} from 'react-native-voximplant';
 import RNCallKit from 'react-native-callkit';
 import NavigationService from "../routes/NavigationService";
-import CallManager from "./CallManager";
 
 export default class CallKitManager {
     callKitUuid = undefined;
@@ -40,21 +39,24 @@ export default class CallKitManager {
         RNCallKit.displayIncomingCall(uuid, displayName, 'number', isVideoCall);
     }
 
+    startOutgoingCall(uuid, isVideoCall, displayName, callId) {
+        this.callKitUuid = uuid;
+        this.withVideo = isVideoCall;
+        this.callId = callId;
+        RNCallKit.startCall(uuid, displayName, 'number', isVideoCall);
+    }
+
+    reportOutgoingCallConnected() {
+        RNCallKit.reportConnectedOutgoingCallWithUUID(this.callKitUuid);
+    }
+
     endCall() {
         RNCallKit.endCall(this.callKitUuid);
     }
 
 
     _onRNCallKitDidReceiveStartCallAction = (data) => {
-        /*
-         * Your normal start call action
-         *
-         * ...
-         *
-         */
-
-        // let _uuid = uuid.v4();
-        // RNCallKit.startCall(_uuid, data.handle);
+        RNCallKit.startCall(uuid, displayName, 'number', isVideoCall);
     };
 
     _onRNCallKitPerformAnswerCallAction = (data) => {
@@ -87,13 +89,4 @@ export default class CallKitManager {
          * You can use it to toggle the mic on your custom call UI
          */
     };
-
-
-    // This is a fake function where you make outgoing calls
-    onOutgoingCall() {
-        // Store the generated uuid somewhere
-        // You will need this when calling RNCallKit.endCall()
-        let _uuid = uuid.v4();
-        RNCallKit.startCall(_uuid, "886900000000")
-    }
 }
