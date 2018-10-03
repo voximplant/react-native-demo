@@ -8,6 +8,8 @@ import React from 'react';
 import {Voximplant} from 'react-native-voximplant';
 import RNCallKit from 'react-native-callkit';
 import NavigationService from "../routes/NavigationService";
+import uuid from "uuid";
+import CallManager from './CallManager';
 
 export default class CallKitManager {
     callKitUuid = undefined;
@@ -32,18 +34,18 @@ export default class CallKitManager {
         RNCallKit.addEventListener('didPerformSetMutedCallAction', this._onRNCallKitDidPerformSetMutedCallAction);
     }
 
-    showIncomingCall(uuid, isVideoCall, displayName, callId) {
-        this.callKitUuid = uuid;
+    showIncomingCall(isVideoCall, displayName, callId) {
+        this.callKitUuid = uuid.v4();
         this.withVideo = isVideoCall;
         this.callId = callId;
-        RNCallKit.displayIncomingCall(uuid, displayName, 'number', isVideoCall);
+        RNCallKit.displayIncomingCall(this.callKitUuid, displayName, 'number', isVideoCall);
     }
 
-    startOutgoingCall(uuid, isVideoCall, displayName, callId) {
-        this.callKitUuid = uuid;
+    startOutgoingCall(isVideoCall, displayName, callId) {
+        this.callKitUuid = uuid.v4();
         this.withVideo = isVideoCall;
         this.callId = callId;
-        RNCallKit.startCall(uuid, displayName, 'number', isVideoCall);
+        RNCallKit.startCall(this.callKitUuid, displayName, 'number', isVideoCall);
     }
 
     reportOutgoingCallConnected() {
@@ -56,7 +58,7 @@ export default class CallKitManager {
 
 
     _onRNCallKitDidReceiveStartCallAction = (data) => {
-        RNCallKit.startCall(uuid, displayName, 'number', isVideoCall);
+        console.log('CallKitManager: _onRNCallKitDidReceiveStartCallAction');
     };
 
     _onRNCallKitPerformAnswerCallAction = (data) => {
@@ -71,6 +73,7 @@ export default class CallKitManager {
 
     _onRNCallKitPerformEndCallAction = (data) => {
         console.log('CallKitManager: _onRNCallKitPerformEndCallAction');
+        CallManager.getInstance().endCall();
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitStopAudio();
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitReleaseAudioSession();
     };

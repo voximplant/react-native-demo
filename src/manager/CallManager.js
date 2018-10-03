@@ -26,7 +26,6 @@ export default class CallManager {
     currentAppState = undefined;
     showIncomingCallScreen = false;
     callKitManager = null;
-    callKitUuid = null;
 
     constructor() {
         this.client = Voximplant.getInstance();
@@ -36,7 +35,7 @@ export default class CallManager {
 
     init() {
         this.client.on(Voximplant.ClientEvents.IncomingCall, this._incomingCall);
-        AppState.addEventListener("change", this._handleAppStateChange);
+        AppState.addEventListener('change', this._handleAppStateChange);
     }
 
     static getInstance() {
@@ -47,17 +46,17 @@ export default class CallManager {
     }
 
     addCall(call) {
-        console.log("CallManager: addCall:" + call.callId);
+        console.log(`CallManager: addCall: ${call.callId}`);
         this.call = call;
 
     }
 
     removeCall(call) {
-        console.log("CallManager: removeCall :" + call.callId);
+        console.log(`CallManager: removeCall: ${call.callId}`);
         if (this.call && (this.call.callId === call.callId)) {
             this.call = null;
         } else if (this.call) {
-            console.warn("CallManager: removeCall: call id mismatch");
+            console.warn('CallManager: removeCall: call id mismatch');
         }
     }
 
@@ -69,10 +68,16 @@ export default class CallManager {
     }
 
     startOutgoingCallViaCallKit(isVideo, number) {
-        this.callKitUuid = uuid.v4();
-        this.callKitManager.startOutgoingCall(this.callKitUuid, isVideo, number, this.call.callId);
+        this.callKitManager.startOutgoingCall(isVideo, number, this.call.callId);
         this.call.on(Voximplant.CallEvents.Connected, this._callConnected);
         this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
+    }
+
+    endCall() {
+        console.log('CallManager: endCall');
+        if (this.call !== null && this.call !== undefined) {
+            this.call.hangup();
+        }
     }
 
     _showIncomingScreenOrNotification(event) {
@@ -90,7 +95,7 @@ export default class CallManager {
 
     _incomingCall = (event) => {
         if (this.call !== null) {
-            console.log("CallManager: incomingCall: already have a call, rejecting new call, current call id " + this.call.callId);
+            console.log(`CallManager: incomingCall: already have a call, rejecting new call, current call id: ${this.call.callId}`);
             event.call.decline();
             return;
         }
@@ -103,8 +108,7 @@ export default class CallManager {
                     const useCallKit = JSON.parse(value);
                     if (useCallKit) {
                         console.log('CallManager: incomingCall: CallKit is selected as incoming call screen');
-                        this.callKitUuid = uuid.v4();
-                        this.callKitManager.showIncomingCall(this.callKitUuid, event.video, event.call.getEndpoints()[0].displayName, event.call.callId);
+                        this.callKitManager.showIncomingCall(event.video, event.call.getEndpoints()[0].displayName, event.call.callId);
                     } else {
                         this._showIncomingScreenOrNotification(event);
                     }
@@ -133,7 +137,7 @@ export default class CallManager {
     };
 
     _handleAppStateChange = (newState) => {
-        console.log("CallManager: _handleAppStateChange: Current app state changed to " + newState);
+        console.log(`CallManager: _handleAppStateChange: Current app state changed to ${newState}`);
         this.currentAppState = newState;
         if (this.currentAppState === 'active' && this.showIncomingCallScreen && this.call !== null) {
             this.showIncomingCallScreen = false;

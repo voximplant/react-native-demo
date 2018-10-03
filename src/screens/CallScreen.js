@@ -107,7 +107,7 @@ export default class CallScreen extends React.Component {
         Object.keys(Voximplant.Hardware.AudioDeviceEvents).forEach((eventName) => {
             const callbackName = `_onAudioDevice${eventName}Callback`;
             if (typeof this[callbackName] !== 'undefined') {
-                Voximplant.Hardware.AudioDeviceManager.getInstance().on(eventName, this[callbackName]);
+                Voximplant.Hardware.AudioDeviceManager.getInstance().off(eventName, this[callbackName]);
             }
         });
     }
