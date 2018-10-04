@@ -5,7 +5,7 @@
 'use strict';
 
 import React from "react";
-import { ScrollView, AsyncStorage} from "react-native";
+import {ScrollView, AsyncStorage, Platform} from "react-native";
 import {SafeAreaView, StatusBar} from "react-native";
 import {SettingsSwitch} from 'react-native-settings-components';
 
@@ -39,18 +39,21 @@ export default class SettingsScreen extends React.Component {
             <SafeAreaView style={styles.safearea}>
                 <StatusBar barStyle={COLOR_SCHEME.LIGHT} backgroundColor={COLOR.PRIMARY_DARK} />
                 <ScrollView style={{flex: 1}}>
-                    <SettingsSwitch
-                        title={'Use CallKit'}
-                        onSaveValue={(value) => {
-                            console.log('use CallKit:', value);
-                            this.setState({
-                                useCallKit: value
-                            });
-                            AsyncStorage.setItem('useCallKit', JSON.stringify(value));
-                        }}
-                        value={this.state.useCallKit}
-                    />
-
+                    {Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10 ? (
+                        <SettingsSwitch
+                            title={'Use CallKit'}
+                            onSaveValue={(value) => {
+                                console.log(`SettingsScreen: use CallKit: ${value}`);
+                                this.setState({
+                                    useCallKit: value
+                                });
+                                AsyncStorage.setItem('useCallKit', JSON.stringify(value));
+                            }}
+                            value={this.state.useCallKit}
+                        />
+                    ) : (
+                        null
+                    )}
                 </ScrollView>
 
             </SafeAreaView>

@@ -102,19 +102,20 @@ export default class MainScreen extends React.Component {
                     return;
                 }
             }
-            const useCallKitString = await AsyncStorage.getItem('useCallKit');
-            const useCallKit = JSON.parse(useCallKitString);
             const callSettings = {
                 video: {
                     sendVideo: isVideoCall,
                     receiveVideo: isVideoCall
-                },
-                setupCallKit: useCallKit
+                }
             };
+            if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
+                const useCallKitString = await AsyncStorage.getItem('useCallKit');
+                callSettings.setupCallKit = JSON.parse(useCallKitString);
+            }
             let call = await Voximplant.getInstance().call(this.number, callSettings);
             let callManager = CallManager.getInstance();
             callManager.addCall(call);
-            if (useCallKit) {
+            if (callSettings.setupCallKit) {
                 callManager.startOutgoingCallViaCallKit(isVideoCall, this.number);
             }
             this.props.navigation.navigate('Call', {

@@ -9,7 +9,7 @@
 	"dependencies": {
 		"react": "16.5.0",
 		"react-native": "0.57.1",
-		"react-native-fcm": "^16.0.0",
+		"react-native-fcm": "16.2.3",
 		"react-native-md5": "1.0.0",
 		"react-native-notifications": "1.1.16",
 		"react-native-vector-icons": "^4.6.0",

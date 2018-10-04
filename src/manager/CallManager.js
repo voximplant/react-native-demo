@@ -102,7 +102,7 @@ export default class CallManager {
 
         this.addCall(event.call);
         this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
-        if (Platform.OS === 'ios') {
+        if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
             AsyncStorage.getItem('useCallKit')
                 .then((value) => {
                     const useCallKit = JSON.parse(value);
@@ -127,13 +127,15 @@ export default class CallManager {
         this.call.off(Voximplant.CallEvents.Disconnected, this._callDisconnected);
         this.showIncomingCallScreen = false;
         this.removeCall(event.call);
-        AsyncStorage.getItem('useCallKit')
-            .then((value) => {
-                const useCallKit = JSON.parse(value);
-                if (useCallKit) {
-                    this.callKitManager.endCall();
-                }
-            });
+        if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
+            AsyncStorage.getItem('useCallKit')
+                .then((value) => {
+                    const useCallKit = JSON.parse(value);
+                    if (useCallKit) {
+                        this.callKitManager.endCall();
+                    }
+                });
+        }
     };
 
     _handleAppStateChange = (newState) => {

@@ -23,6 +23,7 @@ const AppStack = createStackNavigator(
         }
     },
     {
+        headerLayoutPreset: "center",
         navigationOptions: {
             headerStyle: {
                 backgroundColor: COLOR.PRIMARY,
