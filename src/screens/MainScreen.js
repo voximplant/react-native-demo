@@ -139,10 +139,9 @@ export default class MainScreen extends React.Component {
                         onChangeText={(text) => { this.number = text }}
                         placeholder="Call to"
                         defaultValue={this.number}
-                        onSubmitEditing={(e) => this.onSubmit(e)}
-                        ref={component => this._thisNumber = component}
                         autoCapitalize='none'
-                        autoCorrect={false} />
+                        autoCorrect={false}
+                        blurOnSubmit={true} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 90 }}>
                         <CallButton icon_name='call' color={COLOR.ACCENT} buttonPressed={() => this.makeCall(false)} />
                         <CallButton icon_name='videocam' color={COLOR.ACCENT} buttonPressed={() => this.makeCall(true)} />

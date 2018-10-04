@@ -86,6 +86,10 @@ export default class LoginScreen extends React.Component {
         LoginManager.getInstance().loginWithOneTimeKey(this.state.username + ".voximplant.com", this.password);
     }
 
+    _focusNextField(nextField) {
+        this.refs[nextField].focus();
+    }
+
     render() {
         return (
             <SafeAreaView style={styles.safearea}>
@@ -99,17 +103,16 @@ export default class LoginScreen extends React.Component {
                                 placeholder="user@app.account"
                                 value={this.state.username}
                                 autoFocus={true}
-                                ref='acc'
+                                returnKeyType = { "next" }
                                 autoCapitalize='none'
                                 autoCorrect={false}
-                                onSubmitEditing={(event) => this.focusNextField('password')}
+                                onSubmitEditing={() => this._focusNextField('password')}
                                 onChangeText={(text) => { this.setState({username: text}) }}
-                                blurOnSubmit={true} />
+                                blurOnSubmit={false} />
                             <TextInput
                                 underlineColorAndroid='transparent'
                                 style={styles.forminput}
                                 placeholder="User password"
-                                defaultValue={this.password}
                                 secureTextEntry={true}
                                 ref='password'
                                 onChangeText={(text) => { this.password = text }}
