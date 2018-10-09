@@ -8,10 +8,10 @@
 	},
 	"dependencies": {
 		"react": "16.5.0",
-		"react-native": "0.57.1",
+		"react-native": "0.57.2",
 		"react-native-fcm": "16.2.3",
 		"react-native-md5": "1.0.0",
-		"react-native-notifications": "1.1.16",
+		"react-native-notifications": "1.1.19",
 		"react-native-vector-icons": "^4.6.0",
 		"react-native-voximplant": "1.1.1",
 		"react-navigation": "2.17.0",
@@ -23,7 +23,7 @@
 		"babel-jest": "23.6.0",
 		"@babel/runtime": "^7.1.2",
 		"jest": "23.6.0",
-		"metro-react-native-babel-preset": "0.47.0",
+		"metro-react-native-babel-preset": "0.48.0",
 		"react-test-renderer": "16.5.0"
 	},
 	"jest": {
