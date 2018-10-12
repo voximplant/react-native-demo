@@ -4,7 +4,7 @@
 
 'use strict';
 
-import { StackNavigator, SwitchNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import LoginScreen from '../screens/LoginScreen';
 import MainScreen from '../screens/MainScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -13,7 +13,7 @@ import IncomingCallScreen from '../screens/IncomingCallScreen';
 
 import COLOR from '../styles/Color';
 
-const AppStack = StackNavigator(
+const AppStack = createStackNavigator(
     {
         Main: {
             screen: MainScreen,
@@ -23,6 +23,7 @@ const AppStack = StackNavigator(
         }
     },
     {
+        headerLayoutPreset: "center",
         navigationOptions: {
             headerStyle: {
                 backgroundColor: COLOR.PRIMARY,
@@ -35,7 +36,7 @@ const AppStack = StackNavigator(
     }
 );
 
-const RootStack = SwitchNavigator(
+const RootStack = createSwitchNavigator(
     {
         Login: LoginScreen,
         App: AppStack,

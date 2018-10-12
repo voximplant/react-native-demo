@@ -21,8 +21,8 @@ target 'VoximplantDemo' do
 
     # Demo project dependencies
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
-    pod 'RNDefaultPreference', path: '../node_modules/react-native-default-preference'
     pod 'react-native-notifications', path: '../node_modules/react-native-notifications'
+    pod 'RNCallKit', path: '../node_modules/react-native-callkit'
 
     # Explicitly include Yoga if you are using RN >= 0.42.0
     pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
@@ -40,40 +40,9 @@ target 'VoximplantDemo' do
         end
     end
     
+    target 'VoximplantDemoTests' do
+    	inherit! :search_paths
+    end
     
-end
-
-target 'VoximplantDemoTests' do
-    # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-     use_frameworks!
-    
-    # Pods for VoximplantDemo
-    pod 'React', :path => '../node_modules/react-native', :subspecs => [
-    'Core',
-    'CxxBridge',
-    'RCTImage',
-    'RCTNetwork',
-    'RCTText',
-    'RCTWebSocket',
-    'DevSupport',
-    'RCTAnimation',
-    'RCTLinkingIOS'
-    # Add any other subspecs you want to use in your project
-    ]
-
-    # Demo project dependencies
-    pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
-    pod 'RNDefaultPreference', path: '../node_modules/react-native-default-preference'
-    pod 'react-native-notifications', path: '../node_modules/react-native-notifications'
-
-    # Explicitly include Yoga if you are using RN >= 0.42.0
-    pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
-
-    # Third party deps podspec link
-    pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
-    pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/GLog.podspec'
-    pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-    
-    inherit! :search_paths
 end
 

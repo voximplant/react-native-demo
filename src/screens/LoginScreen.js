@@ -14,11 +14,11 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     SafeAreaView,
-    StatusBar
+    StatusBar,
+    AsyncStorage
 } from 'react-native';
 
 import LoginManager from '../manager/LoginManager';
-import DefaultPreference from 'react-native-default-preference';
 import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
 import styles from '../styles/Styles';
@@ -38,12 +38,12 @@ export default class LoginScreen extends React.Component {
 
     componentDidMount() {
         _this = this;
-        DefaultPreference.get('usernameValue').then(
-            function(value) {
-              _this.setState({username: value}); 
-        });
+        (async() => {
+            const usernameValue = await AsyncStorage.getItem('usernameValue');
+            _this.setState({username: usernameValue});
+        })();
         LoginManager.getInstance().on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
-        LoginManager.getInstance().on('onLoggedIn', (param) => this.onLoggedIn());
+        LoginManager.getInstance().on('onLoggedIn', (displayName) => this.onLoggedIn(displayName));
         LoginManager.getInstance().on('onLoginFailed', (errorCode) => this.onLoginFailed(errorCode));
     }
 
@@ -67,8 +67,10 @@ export default class LoginScreen extends React.Component {
         }
     }
 
-    onLoggedIn() {
-        DefaultPreference.set('usernameValue', this.state.username);
+    onLoggedIn(displayName) {
+        (async() => {
+            await AsyncStorage.setItem('usernameValue', this.state.username);
+        })();
         this.props.navigation.navigate('App');
     }
 
@@ -84,6 +86,10 @@ export default class LoginScreen extends React.Component {
         LoginManager.getInstance().loginWithOneTimeKey(this.state.username + ".voximplant.com", this.password);
     }
 
+    _focusNextField(nextField) {
+        this.refs[nextField].focus();
+    }
+
     render() {
         return (
             <SafeAreaView style={styles.safearea}>
@@ -97,17 +103,16 @@ export default class LoginScreen extends React.Component {
                                 placeholder="user@app.account"
                                 value={this.state.username}
                                 autoFocus={true}
-                                ref='acc'
+                                returnKeyType = { "next" }
                                 autoCapitalize='none'
                                 autoCorrect={false}
-                                onSubmitEditing={(event) => this.focusNextField('password')}
+                                onSubmitEditing={() => this._focusNextField('password')}
                                 onChangeText={(text) => { this.setState({username: text}) }}
-                                blurOnSubmit={true} />
+                                blurOnSubmit={false} />
                             <TextInput
                                 underlineColorAndroid='transparent'
                                 style={styles.forminput}
                                 placeholder="User password"
-                                defaultValue={this.password}
                                 secureTextEntry={true}
                                 ref='password'
                                 onChangeText={(text) => { this.password = text }}

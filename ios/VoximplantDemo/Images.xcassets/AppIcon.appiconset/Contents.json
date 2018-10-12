@@ -1,44 +1,112 @@
 {
   "images" : [
-    {
-      "idiom" : "iphone",
+	{
       "size" : "20x20",
-      "scale" : "2x"
+      "idiom": "iphone",
+	  "filename" : "voximplant-rn-20@2x.png",
+      "scale": "2x"
     },
-    {
-      "idiom" : "iphone",
+	{
       "size" : "20x20",
-      "scale" : "3x"
+      "idiom": "iphone",
+	  "filename" : "voximplant-rn-20@3x.png",
+      "scale": "3x"
+    },
+	{
+      "size" : "20x20",
+      "idiom": "ipad",
+	  "filename" : "voximplant-rn-20.png",
+      "scale": "1x"
     },
     {
-      "idiom" : "iphone",
+      "size" : "20x20",
+      "idiom": "ipad",
+	  "filename" : "voximplant-rn-20@2x.png",
+      "scale": "2x"
+    },
+    {
       "size" : "29x29",
+      "idiom" : "iphone",
+      "filename" : "voximplant-rn-29@2x.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
       "size" : "29x29",
+      "idiom" : "iphone",
+      "filename" : "voximplant-rn-29@3x.png",
       "scale" : "3x"
     },
     {
-      "idiom" : "iphone",
       "size" : "40x40",
+      "idiom" : "iphone",
+      "filename" : "voximplant-rn-40@2x.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
       "size" : "40x40",
+      "idiom" : "iphone",
+      "filename" : "voximplant-rn-40@3x.png",
       "scale" : "3x"
     },
     {
-      "idiom" : "iphone",
       "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "voximplant-rn-60@2x.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
       "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "voximplant-rn-60@3x.png",
       "scale" : "3x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "voximplant-rn-29.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "voximplant-rn-29@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "voximplant-rn-40.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "voximplant-rn-40@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "voximplant-rn-76.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "voximplant-rn-76@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "83.5x83.5",
+      "idiom" : "ipad",
+      "filename" : "voximplant-rn-83.5@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "voximplant-rn-1024.png",
+      "scale" : "1x"
     }
   ],
   "info" : {

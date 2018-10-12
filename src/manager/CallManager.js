@@ -6,12 +6,16 @@
 
 import React from 'react';
 import {
-    AppState
+    Platform,
+    AppState,
+    AsyncStorage
 } from 'react-native';
 
 import PushManager from './PushManager';
 import { Voximplant } from 'react-native-voximplant';
 import NavigationService from '../routes/NavigationService';
+import CallKitManager from './CallKitManager';
+import uuid from 'uuid';
 
 // Voximplant SDK supports multiple calls at the same time, however
 // this demo app demonstrates only one active call at the moment,
@@ -21,14 +25,17 @@ export default class CallManager {
     call = null;
     currentAppState = undefined;
     showIncomingCallScreen = false;
+    callKitManager = null;
+
     constructor() {
         this.client = Voximplant.getInstance();
         this.currentAppState = AppState.currentState;
+        this.callKitManager = new CallKitManager();
     }
 
     init() {
         this.client.on(Voximplant.ClientEvents.IncomingCall, this._incomingCall);
-        AppState.addEventListener("change", this._handleAppStateChange);
+        AppState.addEventListener('change', this._handleAppStateChange);
     }
 
     static getInstance() {
@@ -39,17 +46,17 @@ export default class CallManager {
     }
 
     addCall(call) {
-        console.log("CallManager: addCall:" + call.callId);
+        console.log(`CallManager: addCall: ${call.callId}`);
         this.call = call;
 
     }
 
     removeCall(call) {
-        console.log("CallManager: removeCall :" + call.callId);
+        console.log(`CallManager: removeCall: ${call.callId}`);
         if (this.call && (this.call.callId === call.callId)) {
             this.call = null;
         } else if (this.call) {
-            console.warn("CallManager: removeCall: call id mismatch");
+            console.warn('CallManager: removeCall: call id mismatch');
         }
     }
 
@@ -60,35 +67,82 @@ export default class CallManager {
         return null;
     }
 
+    startOutgoingCallViaCallKit(isVideo, number) {
+        this.callKitManager.startOutgoingCall(isVideo, number, this.call.callId);
+        this.call.on(Voximplant.CallEvents.Connected, this._callConnected);
+        this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
+    }
+
+    endCall() {
+        console.log('CallManager: endCall');
+        if (this.call !== null && this.call !== undefined) {
+            this.call.hangup();
+        }
+    }
+
+    _showIncomingScreenOrNotification(event) {
+        if (this.currentAppState !== 'active') {
+            PushManager.showLocalNotification('');
+            this.showIncomingCallScreen = true;
+        } else {
+            NavigationService.navigate('IncomingCall', {
+                callId: event.call.callId,
+                isVideo: event.video,
+                from: null
+            });
+        }
+    }
+
     _incomingCall = (event) => {
         if (this.call !== null) {
-            console.log("CallManager: incomingCall: already have a call, rejecting new call, current call id " + this.call.callId);
+            console.log(`CallManager: incomingCall: already have a call, rejecting new call, current call id: ${this.call.callId}`);
             event.call.decline();
-        } else {
-            this.addCall(event.call);
-            if (this.currentAppState !== 'active') {
-                this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
-                PushManager.showLocalNotification('');
-                this.showIncomingCallScreen = true;
-            } else {
-                NavigationService.navigate('IncomingCall', {
-                    callId: event.call.callId,
-                    isVideo: event.video,
-                    from: null
-                });
-            }
+            return;
         }
+
+        this.addCall(event.call);
+        this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
+        if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
+            AsyncStorage.getItem('useCallKit')
+                .then((value) => {
+                    const useCallKit = JSON.parse(value);
+                    if (useCallKit) {
+                        console.log('CallManager: incomingCall: CallKit is selected as incoming call screen');
+                        this.callKitManager.showIncomingCall(event.video, event.call.getEndpoints()[0].displayName, event.call.callId);
+                    } else {
+                        this._showIncomingScreenOrNotification(event);
+                    }
+                });
+        } else {
+            this._showIncomingScreenOrNotification(event);
+        }
+    };
+
+    _callConnected = (event) => {
+        this.call.off(Voximplant.CallEvents.Connected, this._callConnected);
+        this.callKitManager.reportOutgoingCallConnected();
     };
 
     _callDisconnected = (event) => {
         this.call.off(Voximplant.CallEvents.Disconnected, this._callDisconnected);
+        this.showIncomingCallScreen = false;
         this.removeCall(event.call);
+        if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
+            AsyncStorage.getItem('useCallKit')
+                .then((value) => {
+                    const useCallKit = JSON.parse(value);
+                    if (useCallKit) {
+                        this.callKitManager.endCall();
+                    }
+                });
+        }
     };
 
     _handleAppStateChange = (newState) => {
-        console.log("CallManager: _handleAppStateChange: Current app state changed to " + newState);
+        console.log(`CallManager: _handleAppStateChange: Current app state changed to ${newState}`);
         this.currentAppState = newState;
         if (this.currentAppState === 'active' && this.showIncomingCallScreen && this.call !== null) {
+            this.showIncomingCallScreen = false;
             NavigationService.navigate('IncomingCall', {
                 callId: this.call.callId,
                 isVideo: null,

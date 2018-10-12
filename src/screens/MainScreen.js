@@ -15,7 +15,8 @@ import {
     SafeAreaView,
     StatusBar,
     PermissionsAndroid,
-    Platform
+    Platform,
+    AsyncStorage
 } from 'react-native';
 
 import CallButton from '../components/CallButton';
@@ -39,13 +40,14 @@ export default class MainScreen extends React.Component {
                     </Text>
                 </TouchableOpacity>
             ),
-            // headerRight: (
-            //     <TouchableOpacity onPress={params.settingsClick}>
-            //         <Text style={styles.headerButton}>
-            //             Settings
-            //         </Text>
-            //     </TouchableOpacity>
-            // ),
+            headerRight: (
+                <TouchableOpacity onPress={params.settingsClick}>
+                    <Text style={styles.headerButton}>
+                        Settings
+                    </Text>
+                </TouchableOpacity>
+            ),
+            title: LoginManager.getInstance().displayName,
         };
     };
     constructor(props) {
@@ -106,8 +108,16 @@ export default class MainScreen extends React.Component {
                     receiveVideo: isVideoCall
                 }
             };
+            if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
+                const useCallKitString = await AsyncStorage.getItem('useCallKit');
+                callSettings.setupCallKit = JSON.parse(useCallKitString);
+            }
             let call = await Voximplant.getInstance().call(this.number, callSettings);
-            CallManager.getInstance().addCall(call);
+            let callManager = CallManager.getInstance();
+            callManager.addCall(call);
+            if (callSettings.setupCallKit) {
+                callManager.startOutgoingCallViaCallKit(isVideoCall, this.number);
+            }
             this.props.navigation.navigate('Call', {
                 callId: call.callId,
                 isVideo: isVideoCall,
@@ -129,10 +139,9 @@ export default class MainScreen extends React.Component {
                         onChangeText={(text) => { this.number = text }}
                         placeholder="Call to"
                         defaultValue={this.number}
-                        onSubmitEditing={(e) => this.onSubmit(e)}
-                        ref={component => this._thisNumber = component}
                         autoCapitalize='none'
-                        autoCorrect={false} />
+                        autoCorrect={false}
+                        blurOnSubmit={true} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 90 }}>
                         <CallButton icon_name='call' color={COLOR.ACCENT} buttonPressed={() => this.makeCall(false)} />
                         <CallButton icon_name='videocam' color={COLOR.ACCENT} buttonPressed={() => this.makeCall(true)} />

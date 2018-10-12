@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import loginManager from './LoginManager';
+import LoginManager from './LoginManager';
 import NotificationsIOS from 'react-native-notifications';
 
 class PushManager {
@@ -34,17 +34,17 @@ class PushManager {
   }
 
   pushNotificationReceived(notification) {
-    loginManager.getInstance().pushNotificationReceived(notification);
+    LoginManager.getInstance().pushNotificationReceived(notification);
   }
 
   onNotificationReceivedForeground(notification) {
     console.log("Notification Received Foreground: " + notification.getData());
-    loginManager.getInstance().pushNotificationReceived(notification.getData());
+    LoginManager.getInstance().pushNotificationReceived(notification.getData());
   }
 
   onNotificationReceivedBackground(notification) {
     console.log("Notification Received Background: " + notification.getData());
-    loginManager.getInstance().pushNotificationReceived(notification.getData());
+    LoginManager.getInstance().pushNotificationReceived(notification.getData());
   }
 
   showLocalNotification(from) {
