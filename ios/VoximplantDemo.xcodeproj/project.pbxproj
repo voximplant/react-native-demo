@@ -17,6 +17,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* VoximplantDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VoximplantDemoTests.m */; };
 		B20E24FD1F860CC2002552CF /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B20E24FC1F860CC2002552CF /* MaterialIcons.ttf */; };
+		B2BFF775215BDFA6002C1114 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BFF774215BDFA6002C1114 /* CallKit.framework */; };
 		CE36C7921F98B102005B36F1 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE36C7911F98B102005B36F1 /* PushKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +53,7 @@
 		2D02E47B1E0B4A5D006451C7 /* VoximplantDemo-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoximplantDemo-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* VoximplantDemo-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VoximplantDemo-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B20E24FC1F860CC2002552CF /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		B2BFF774215BDFA6002C1114 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		CE36C7911F98B102005B36F1 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		CE36C7931F98CF52005B36F1 /* VoximplantDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = VoximplantDemo.entitlements; path = VoximplantDemo/VoximplantDemo.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2BFF775215BDFA6002C1114 /* CallKit.framework in Frameworks */,
 				CE36C7921F98B102005B36F1 /* PushKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -157,6 +160,7 @@
 		C6B1AB22B8CC55BD794477A8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B2BFF774215BDFA6002C1114 /* CallKit.framework */,
 				CE36C7911F98B102005B36F1 /* PushKit.framework */,
 			);
 			name = Frameworks;
