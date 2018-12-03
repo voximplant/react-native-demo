@@ -90,7 +90,6 @@ export default class IncomingCallScreen extends React.Component {
 
     declineCall() {
         this.call.decline();
-        CallManager.getInstance().removeCall(this.call);
     }
 
     _onCallDisconnected = (event) => {
