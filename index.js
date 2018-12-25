@@ -4,7 +4,12 @@
 
 'use strict';
 
-import { AppRegistry } from 'react-native';
+import { AppRegistry, Platform } from 'react-native';
 import App from './App';
+import PushBackground from './src/manager/PushBackground'
 
 AppRegistry.registerComponent('VoximplantDemo', () => App);
+
+if (Platform.OS === 'android') {
+    AppRegistry.registerHeadlessTask('RNFirebaseBackgroundMessage', () => PushBackground);
+}

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">VoximplantDemo</string>
+    <string name="channel_id">voximplant_channel_id</string>
 </resources>

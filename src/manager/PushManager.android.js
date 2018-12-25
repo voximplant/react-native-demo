@@ -5,10 +5,14 @@
 'use strict';
 
 import React from 'react';
+import {
+    Platform
+} from 'react-native';
 
 import LoginManager from './LoginManager';
 
-import FCM, {FCMEvent} from 'react-native-fcm';
+import firebase from 'react-native-firebase';
+import { Notification } from 'react-native-firebase';
 
 class PushManager {
     pushToken = null;
@@ -16,24 +20,31 @@ class PushManager {
     constructor() { }
 
     init() {
-        FCM.on(FCMEvent.RefreshToken, (token) => {
-            console.log("Refresh token: " + token);
-        });
-        FCM.on(FCMEvent.Notification, async (notif) => {
-            console.log("PushManager: FCM: notification: " + notif.voximplant);
-            let remoteData = {};
-            remoteData.voximplant = notif.voximplant;
-            LoginManager.getInstance().pushNotificationReceived(remoteData);
-        });
-
-        FCM.getFCMToken()
-            .then(token => {
-                console.log(token);
-                this.pushToken = token;
-            })
-            .catch(() => {
-               console.warn('PushManager android: failed to get FCM token');
+        try {
+            firebase.messaging().onTokenRefresh((token) => {
+                console.log('Refresh token: ' + token);
             });
+            firebase.messaging().onMessage(async (message) => {
+                console.log('PushManager: FCM: notification: ' + message.data);
+                LoginManager.getInstance().pushNotificationReceived(message.data);
+            });
+
+            firebase.messaging().getToken()
+                .then(token => {
+                    console.log(token);
+                    this.pushToken = token;
+                })
+                .catch(() => {
+                    console.warn('PushManager android: failed to get FCM token');
+                });
+
+            const channel = new firebase.notifications.Android.Channel('voximplant_channel_id', 'Incoming call channel', firebase.notifications.Android.Importance.Max)
+                .setDescription('Incoming call received');
+            firebase.notifications().android.createChannel(channel);
+        } catch (e) {
+            console.warn('React Native Firebase is not set up. Enable google-services plugin at the bottom of the build.gradle file');
+        }
+
     }
 
     getPushToken() {
@@ -41,14 +52,27 @@ class PushManager {
     }
 
     showLocalNotification(from) {
-        FCM.presentLocalNotification({
-            title: 'Incoming call',
-            body: 'from:' + from,
-            priority: "high",
-            show_in_foreground: false,
-            icon: 'ic_vox_notification',
-            number: 10
-        });
+        console.log('PushManager: showLocalNotification');
+        try {
+            const notification = new firebase.notifications.Notification()
+                .setNotificationId('notificationId')
+                .setTitle('Incoming call');
+            notification.android.setSmallIcon('ic_vox_notification');
+            notification
+                .android.setChannelId('voximplant_channel_id');
+            firebase.notifications().displayNotification(notification);
+        } catch (e) {
+            console.warn('React Native Firebase is not set up. Enable google-services plugin at the bottom of the build.gradle file');
+        }
+
+    }
+
+    removeDeliveredNotification() {
+        try {
+            firebase.notifications().removeAllDeliveredNotifications();
+        } catch (e) {
+            console.warn('React Native Firebase is not set up. Enable google-services plugin at the bottom of the build.gradle file');
+        }
     }
 }
 

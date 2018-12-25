@@ -143,6 +143,9 @@ export default class CallManager {
         this.currentAppState = newState;
         if (this.currentAppState === 'active' && this.showIncomingCallScreen && this.call !== null) {
             this.showIncomingCallScreen = false;
+            if (Platform.OS === 'android') {
+                PushManager.removeDeliveredNotification();
+            }
             NavigationService.navigate('IncomingCall', {
                 callId: this.call.callId,
                 isVideo: null,
