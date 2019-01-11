@@ -98,14 +98,14 @@ export default class CallScreen extends React.Component {
         console.log('CallScreen: componentWillUnmount ' + this.call.callId);
         if (this.call) {
             Object.keys(Voximplant.CallEvents).forEach((eventName) => {
-                const callbackName = `_onCall${eventName}Callback`;
+                const callbackName = `_onCall${eventName}`;
                 if (typeof this[callbackName] !== 'undefined') {
                     this.call.off(eventName, this[callbackName]);
                 }
             });
         }
         Object.keys(Voximplant.Hardware.AudioDeviceEvents).forEach((eventName) => {
-            const callbackName = `_onAudioDevice${eventName}Callback`;
+            const callbackName = `_onAudio${eventName}`;
             if (typeof this[callbackName] !== 'undefined') {
                 Voximplant.Hardware.AudioDeviceManager.getInstance().off(eventName, this[callbackName]);
             }
@@ -201,7 +201,7 @@ export default class CallScreen extends React.Component {
     };
 
     _onCallDisconnected = (event) => {
-        console.log('CallScreen:' + this.call.callId + '_onCallDisconnected: ' + event.call.callId);
+        console.log('CallScreen: _onCallDisconnected: ' + event.call.callId);
         this.setState({
             remoteVideoStreamId: null,
             localVideoStreamId: null,
