@@ -24,6 +24,7 @@ import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
 import CallManager from '../manager/CallManager';
 import styles from '../styles/Styles';
+import VIForegroundService from "@voximplant/react-native-foreground-service";
 
 const CALL_STATES = {
     DISCONNECTED: 'disconnected',
@@ -208,6 +209,11 @@ export default class CallScreen extends React.Component {
         });
         CallManager.getInstance().removeCall(this.call);
         this.callState = CALL_STATES.DISCONNECTED;
+        if (Platform.OS === 'android' && Platform.Version >= 26) {
+            (async () => {
+                await VIForegroundService.stopService();
+            })();
+        }
         this.props.navigation.navigate("App");
     };
 
@@ -215,7 +221,26 @@ export default class CallScreen extends React.Component {
         console.log('CallScreen: _onCallConnected: ' + this.call.callId);
         // this.call.sendMessage('Test message');
         // this.call.sendInfo('rn/info', 'test info');
-        this.callState = CALL_STATES.DISCONNECTED;
+        this.callState = CALL_STATES.CONNECTED;
+        if (Platform.OS === 'android' && Platform.Version >= 26) {
+            const channelConfig = {
+                id: 'ForegroundServiceChannel',
+                name: 'In progress calls',
+                description: 'Notify the call is in progress',
+                enableVibration: false
+            };
+            const notificationConfig = {
+                channelId: 'ForegroundServiceChannel',
+                id: 3456,
+                title: 'Voximplant',
+                text: 'Call in progress',
+                icon: 'ic_vox_notification'
+            };
+            (async() => {
+                await VIForegroundService.createNotificationChannel(channelConfig);
+                await VIForegroundService.startService(notificationConfig);
+            })();
+        }
     };
 
     _onCallLocalVideoStreamAdded = (event) => {

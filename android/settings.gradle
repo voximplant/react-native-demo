@@ -1,4 +1,6 @@
 rootProject.name = 'VoximplantDemo'
+include ':@voximplant_react-native-foreground-service'
+project(':@voximplant_react-native-foreground-service').projectDir = new File(rootProject.projectDir, '../node_modules/@voximplant/react-native-foreground-service/android')
 
 include ':app'
 
