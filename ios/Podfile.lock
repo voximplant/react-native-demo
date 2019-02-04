@@ -16,7 +16,7 @@ PODS:
     - React/Core (= 0.57.3)
   - react-native-notifications (1.1.20):
     - React
-  - react-native-voximplant (1.4.0):
+  - react-native-voximplant (1.5.0):
     - React
     - VoxImplantSDK (= 2.18.0)
   - React/Core (0.57.3):
@@ -118,7 +118,7 @@ SPEC CHECKSUMS:
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
   react-native-notifications: 4626ecc0189e1b0594b1f422c17e64849390e30d
-  react-native-voximplant: 65575c96ccef41bb100b1998e772702969bb941e
+  react-native-voximplant: 3ccdbd2bd96ea2ecd67e8cd89678f874c4fe5781
   RNCallKit: c6fc11d36dbf04273bbc8c696af648040679fcc2
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   VoxImplantSDK: 25a875f9d64e9251a5d83e54d27ecb23355fb487

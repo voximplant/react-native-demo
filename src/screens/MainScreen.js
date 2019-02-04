@@ -124,7 +124,7 @@ export default class MainScreen extends React.Component {
                 isIncoming: false
             });
         } catch (e) {
-            console.warn('MainScreen: makeCall failed' + e);
+            console.warn('MainScreen: makeCall failed: ' + e);
         }
     }
 

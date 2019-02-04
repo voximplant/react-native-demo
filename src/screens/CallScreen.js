@@ -334,14 +334,14 @@ export default class CallScreen extends React.Component {
                            backgroundColor={COLOR.PRIMARY_DARK}/>
                 <View style={styles.useragent}>
                     <View style={styles.videoPanel}>
+                        <Voximplant.VideoView style={styles.remotevideo} videoStreamId={this.state.remoteVideoStreamId}
+                                              scaleType={Voximplant.RenderScaleType.SCALE_FIT}/>
                         {this.state.isVideoSent ? (
                             <Voximplant.VideoView style={styles.selfview} videoStreamId={this.state.localVideoStreamId}
-                                                  scaleType={Voximplant.RenderScaleType.SCALE_FIT}/>
+                                                  scaleType={Voximplant.RenderScaleType.SCALE_FIT} showOnTop={true}/>
                         ) : (
                             null
                         )}
-                        <Voximplant.VideoView style={styles.remotevideo} videoStreamId={this.state.remoteVideoStreamId}
-                                              scaleType={Voximplant.RenderScaleType.SCALE_FIT}/>
                     </View>
 
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
