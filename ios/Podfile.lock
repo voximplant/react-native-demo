@@ -7,52 +7,54 @@ PODS:
   - CocoaLumberjack/Extensions (3.4.2):
     - CocoaLumberjack/Default
   - DoubleConversion (1.1.6)
-  - Folly (2016.10.31.00):
+  - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - React (0.57.3):
-    - React/Core (= 0.57.3)
+  - React (0.58.3):
+    - React/Core (= 0.58.3)
   - react-native-notifications (1.1.20):
     - React
   - react-native-voximplant (1.5.0):
     - React
     - VoxImplantSDK (= 2.18.0)
-  - React/Core (0.57.3):
-    - yoga (= 0.57.3.React)
-  - React/CxxBridge (0.57.3):
-    - Folly (= 2016.10.31.00)
+  - React/Core (0.58.3):
+    - yoga (= 0.58.3.React)
+  - React/CxxBridge (0.58.3):
+    - Folly (= 2018.10.22.00)
     - React/Core
     - React/cxxreact
-  - React/cxxreact (0.57.3):
+    - React/jsiexecutor
+  - React/cxxreact (0.58.3):
     - boost-for-react-native (= 1.63.0)
-    - Folly (= 2016.10.31.00)
-    - React/jschelpers
+    - Folly (= 2018.10.22.00)
     - React/jsinspector
-  - React/DevSupport (0.57.3):
+  - React/DevSupport (0.58.3):
     - React/Core
     - React/RCTWebSocket
-  - React/fishhook (0.57.3)
-  - React/jschelpers (0.57.3):
-    - Folly (= 2016.10.31.00)
-    - React/PrivateDatabase
-  - React/jsinspector (0.57.3)
-  - React/PrivateDatabase (0.57.3)
-  - React/RCTAnimation (0.57.3):
+  - React/fishhook (0.58.3)
+  - React/jsi (0.58.3):
+    - Folly (= 2018.10.22.00)
+  - React/jsiexecutor (0.58.3):
+    - Folly (= 2018.10.22.00)
+    - React/cxxreact
+    - React/jsi
+  - React/jsinspector (0.58.3)
+  - React/RCTAnimation (0.58.3):
     - React/Core
-  - React/RCTBlob (0.57.3):
+  - React/RCTBlob (0.58.3):
     - React/Core
-  - React/RCTImage (0.57.3):
+  - React/RCTImage (0.58.3):
     - React/Core
     - React/RCTNetwork
-  - React/RCTLinkingIOS (0.57.3):
+  - React/RCTLinkingIOS (0.58.3):
     - React/Core
-  - React/RCTNetwork (0.57.3):
+  - React/RCTNetwork (0.58.3):
     - React/Core
-  - React/RCTText (0.57.3):
+  - React/RCTText (0.58.3):
     - React/Core
-  - React/RCTWebSocket (0.57.3):
+  - React/RCTWebSocket (0.58.3):
     - React/Core
     - React/fishhook
     - React/RCTBlob
@@ -64,7 +66,7 @@ PODS:
     - SocketRocket (~> 0.5.1)
     - VoxImplantWebRTC (= 66.0.3)
   - VoxImplantWebRTC (66.0.3)
-  - yoga (0.57.3.React)
+  - yoga (0.58.3.React)
 
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
@@ -114,17 +116,17 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
-  Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
-  glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
-  React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
+  Folly: de497beb10f102453a1afa9edbf8cf8a251890de
+  glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
+  React: 9b873b38b92ed8012d7cdf3b965477095ed364c4
   react-native-notifications: 4626ecc0189e1b0594b1f422c17e64849390e30d
   react-native-voximplant: 3ccdbd2bd96ea2ecd67e8cd89678f874c4fe5781
   RNCallKit: c6fc11d36dbf04273bbc8c696af648040679fcc2
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   VoxImplantSDK: 25a875f9d64e9251a5d83e54d27ecb23355fb487
   VoxImplantWebRTC: 25b4d834b77e42285b11822b5d885431c3411a2b
-  yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
+  yoga: 0885622311729a02c2bc02dca97167787a51488b
 
-PODFILE CHECKSUM: e7822b419f73277d40fb36e1b6adc71cf3a4f388
+PODFILE CHECKSUM: 194ebb00b46334768ba5ceec4669cae9c06d48ee
 
 COCOAPODS: 1.5.3
