@@ -56,6 +56,16 @@ export default class CallManager {
             this.call.off(Voximplant.CallEvents.Connected, this._callConnected);
             this.call.off(Voximplant.CallEvents.Disconnected, this._callDisconnected);
             this.call = null;
+
+            if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
+                AsyncStorage.getItem('useCallKit')
+                    .then((value) => {
+                        const useCallKit = JSON.parse(value);
+                        if (useCallKit) {
+                            this.callKitManager.endCall();
+                        }
+                    });
+            }
         } else if (this.call) {
             console.warn('CallManager: removeCall: call id mismatch');
         }
@@ -127,15 +137,6 @@ export default class CallManager {
     _callDisconnected = (event) => {
         this.showIncomingCallScreen = false;
         this.removeCall(event.call);
-        if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
-            AsyncStorage.getItem('useCallKit')
-                .then((value) => {
-                    const useCallKit = JSON.parse(value);
-                    if (useCallKit) {
-                        this.callKitManager.endCall();
-                    }
-                });
-        }
     };
 
     _handleAppStateChange = (newState) => {
