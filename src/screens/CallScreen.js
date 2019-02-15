@@ -209,7 +209,7 @@ export default class CallScreen extends React.Component {
         });
         CallManager.getInstance().removeCall(this.call);
         this.callState = CALL_STATES.DISCONNECTED;
-        if (Platform.OS === 'android' && Platform.Version >= 26) {
+        if (Platform.OS === 'android' && Platform.Version >= 26 && this.callState === CALL_STATES.CONNECTED) {
             (async () => {
                 await VIForegroundService.stopService();
             })();
