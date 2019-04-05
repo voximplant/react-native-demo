@@ -285,6 +285,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -477,6 +478,7 @@
 				DEVELOPMENT_TEAM = 25S6X4YD96;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = VoximplantDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -499,6 +501,7 @@
 				DEVELOPMENT_TEAM = 25S6X4YD96;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = VoximplantDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

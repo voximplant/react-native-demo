@@ -15,9 +15,10 @@ import {
     SafeAreaView,
     StatusBar,
     PermissionsAndroid,
-    Platform,
-    AsyncStorage
+    Platform
 } from 'react-native';
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 import CallButton from '../components/CallButton';
 import LoginManager from '../manager/LoginManager';

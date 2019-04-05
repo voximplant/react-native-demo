@@ -5,7 +5,7 @@
 'use strict';
 
 import React from 'react';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { Voximplant } from 'react-native-voximplant';
 import PushManager from './PushManager';

@@ -5,7 +5,8 @@
 'use strict';
 
 import React from "react";
-import {ScrollView, AsyncStorage, Platform} from "react-native";
+import {ScrollView, Platform} from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import {SafeAreaView, StatusBar} from "react-native";
 import {SettingsSwitch} from 'react-native-settings-components';
 

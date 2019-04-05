@@ -2,9 +2,6 @@
 platform :ios, '9.0'
 
 target 'VoximplantDemo' do
-    # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-     use_frameworks!
-    
     # Pods for VoximplantDemo
     pod 'React', :path => '../node_modules/react-native', :subspecs => [
     'Core',
@@ -21,6 +18,7 @@ target 'VoximplantDemo' do
 
     # Demo project dependencies
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
+    pod 'react-native-async-storage', path: '../node_modules/@react-native-community/async-storage'
     pod 'react-native-notifications', path: '../node_modules/react-native-notifications'
     pod 'RNCallKit', path: '../node_modules/react-native-callkit'
 
@@ -34,14 +32,6 @@ target 'VoximplantDemo' do
     
     post_install do |installer|
         installer.pods_project.targets.each do |target|
-            if target.name == 'React'
-                target.build_configurations.each do |config|
-                    xcconfig_path = config.base_configuration_reference.real_path
-                    xcconfig = File.read(xcconfig_path)
-                    new_xcconfig = xcconfig.sub('HEADER_SEARCH_PATHS = $(inherited)', 'HEADER_SEARCH_PATHS = $(inherited) "$(PODS_TARGET_SRCROOT)/ReactCommon/jsiexecutor"')
-                    File.open(xcconfig_path, "w") { |file| file << new_xcconfig }
-                end
-            end
             target.build_configurations.each do |config|
                 config.build_settings['ENABLE_BITCODE'] = 'NO'
             end

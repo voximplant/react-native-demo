@@ -8,9 +8,9 @@ import React from 'react';
 import {
     Platform,
     AppState,
-    AsyncStorage
 } from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import PushManager from './PushManager';
 import { Voximplant } from 'react-native-voximplant';
 import NavigationService from '../routes/NavigationService';
