@@ -38,7 +38,7 @@ export default class CallKitManager {
         this.callKitUuid = uuid.v4();
         this.withVideo = isVideoCall;
         this.callId = callId;
-        RNCallKit.displayIncomingCall(this.callKitUuid, displayName, 'number', isVideoCall);
+        RNCallKit.displayIncomingCall(this.callKitUuid, displayName, 'generic', isVideoCall);
     }
 
     startOutgoingCall(isVideoCall, displayName, callId) {
