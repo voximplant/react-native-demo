@@ -152,6 +152,7 @@ dependencies {
     implementation project(':react-native-firebase')
     implementation project(':react-native-vector-icons')
     implementation project(':@voximplant_react-native-foreground-service')
+    implementation project(':@react-native-community_async-storage')
 
     // Firebase dependencies
     implementation "com.google.android.gms:play-services-base:16.0.1"

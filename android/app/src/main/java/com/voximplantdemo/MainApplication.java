@@ -6,6 +6,7 @@ import com.voximplant.reactnative.VoxImplantReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.voximplant.foregroundservice.VIForegroundServicePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+        new AsyncStoragePackage(),
         new VIForegroundServicePackage(),
         new VoxImplantReactPackage(),
         new RNFirebasePackage(),
