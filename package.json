@@ -8,7 +8,7 @@
 	},
 	"dependencies": {
 		"react": "16.8.3",
-		"react-native": "0.59.3",
+		"react-native": "0.59.8",
 		"react-native-firebase": "5.1.1",
 		"react-native-md5": "1.0.0",
 		"react-native-notifications": "1.1.20",
@@ -22,11 +22,11 @@
 		"@react-native-community/async-storage": "1.2.3"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.4.3",
-		"@babel/runtime": "^7.4.3",
-		"babel-jest": "^24.7.1",
-		"jest": "^24.7.1",
-		"metro-react-native-babel-preset": "^0.53.1",
+		"@babel/core": "^7.4.5",
+		"@babel/runtime": "^7.4.5",
+		"babel-jest": "^24.8.0",
+		"jest": "^24.8.0",
+		"metro-react-native-babel-preset": "^0.54.1",
 		"react-test-renderer": "16.8.3"
 	},
 	"jest": {
