@@ -8,7 +8,7 @@
 	},
 	"dependencies": {
 		"react": "16.8.3",
-		"react-native": "0.59.8",
+		"react-native": "0.59.9",
 		"react-native-firebase": "5.1.1",
 		"react-native-md5": "1.0.0",
 		"react-native-notifications": "1.1.20",
