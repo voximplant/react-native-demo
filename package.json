@@ -9,17 +9,17 @@
 	"dependencies": {
 		"react": "16.8.3",
 		"react-native": "0.59.9",
-		"react-native-firebase": "5.1.1",
+		"react-native-firebase": "5.5.3",
 		"react-native-md5": "1.0.0",
 		"react-native-notifications": "1.1.20",
 		"react-native-vector-icons": "6.1.0",
-		"react-native-voximplant": "1.7.0",
+		"react-native-voximplant": "1.8.0",
 		"react-navigation": "2.18.2",
 		"react-native-settings-components": "0.0.1",
 		"react-native-callkit": "1.3.4",
-		"@voximplant/react-native-foreground-service": "1.0.1",
+		"@voximplant/react-native-foreground-service": "1.1.0",
 		"uuid": "3.3.2",
-		"@react-native-community/async-storage": "1.2.3"
+		"@react-native-community/async-storage": "1.5.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.4.5",

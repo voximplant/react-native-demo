@@ -18,7 +18,7 @@ target 'VoximplantDemo' do
 
     # Demo project dependencies
     pod 'react-native-voximplant', path: '../node_modules/react-native-voximplant'
-    pod 'react-native-async-storage', path: '../node_modules/@react-native-community/async-storage'
+    pod 'RNCAsyncStorage', path: '../node_modules/@react-native-community/async-storage/'
     pod 'react-native-notifications', path: '../node_modules/react-native-notifications'
     pod 'RNCallKit', path: '../node_modules/react-native-callkit'
 

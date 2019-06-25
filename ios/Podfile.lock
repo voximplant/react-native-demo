@@ -8,13 +8,11 @@ PODS:
   - glog (0.3.5)
   - React (0.59.9):
     - React/Core (= 0.59.9)
-  - react-native-async-storage (1.2.3):
-    - React
   - react-native-notifications (1.1.20):
     - React
-  - react-native-voximplant (1.7.0):
+  - react-native-voximplant (1.8.0):
     - React
-    - VoxImplantSDK (= 2.20.3)
+    - VoxImplantSDK (= 2.20.6)
   - React/Core (0.59.9):
     - yoga (= 0.59.9.React)
   - React/CxxBridge (0.59.9):
@@ -62,9 +60,11 @@ PODS:
     - React/RCTBlob
   - RNCallKit (1.3.4):
     - React/Core
-  - VoxImplantSDK (2.20.3):
-    - VoxImplantSDK/Core (= 2.20.3)
-  - VoxImplantSDK/Core (2.20.3):
+  - RNCAsyncStorage (1.5.0):
+    - React
+  - VoxImplantSDK (2.20.6):
+    - VoxImplantSDK/Core (= 2.20.6)
+  - VoxImplantSDK/Core (2.20.6):
     - VoxImplantWebRTC (= 66.0.3)
   - VoxImplantWebRTC (66.0.3)
   - yoga (0.59.9.React)
@@ -73,7 +73,6 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/GLog.podspec`)
-  - "react-native-async-storage (from `../node_modules/@react-native-community/async-storage`)"
   - react-native-notifications (from `../node_modules/react-native-notifications`)
   - react-native-voximplant (from `../node_modules/react-native-voximplant`)
   - React/Core (from `../node_modules/react-native`)
@@ -86,6 +85,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNCallKit (from `../node_modules/react-native-callkit`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage/`)"
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -103,14 +103,14 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/GLog.podspec"
   React:
     :path: "../node_modules/react-native"
-  react-native-async-storage:
-    :path: "../node_modules/@react-native-community/async-storage"
   react-native-notifications:
     :path: "../node_modules/react-native-notifications"
   react-native-voximplant:
     :path: "../node_modules/react-native-voximplant"
   RNCallKit:
     :path: "../node_modules/react-native-callkit"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage/"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -120,14 +120,14 @@ SPEC CHECKSUMS:
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   React: a86b92f00edbe1873a63e4a212c29b7a7ad5224f
-  react-native-async-storage: 009f3f23f0b38dbdf607039a0fef00a6730113b3
   react-native-notifications: b2fdc7dd3a3f027ff90d04d555136cfd35247ddc
-  react-native-voximplant: 66c34ce61d53111c09e3715d95865a729d55973d
+  react-native-voximplant: 8d3f33124c62855070eb84201074af9d44f370db
   RNCallKit: 9e9b151af7a33edcb50c353eadfe350f9095dd92
-  VoxImplantSDK: 1eb8272b06e9c9e6e086fa1d13a027dafbede2e7
+  RNCAsyncStorage: 63407ea82f1b5ac8fc53a0b8c569b08e0516a9e0
+  VoxImplantSDK: 313c158ef06e8d939f93a03a075b250163a50663
   VoxImplantWebRTC: 25b4d834b77e42285b11822b5d885431c3411a2b
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: de26833aa8037b89c7f0300e5668fefad6b32435
+PODFILE CHECKSUM: c9e06e26c5d0ef9d99cb0da4f25df038df70b645
 
 COCOAPODS: 1.6.1
