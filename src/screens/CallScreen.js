@@ -93,6 +93,25 @@ export default class CallScreen extends React.Component {
             this.call.answer(callSettings);
         }
         this.callState = CALL_STATES.CONNECTING;
+
+        (async() => {
+            let currentAudioDevice = await Voximplant.Hardware.AudioDeviceManager.getInstance().getActiveDevice();
+            switch (currentAudioDevice) {
+                case Voximplant.Hardware.AudioDevice.BLUETOOTH:
+                    this.setState({audioDeviceIcon: 'bluetooth-audio'});
+                    break;
+                case Voximplant.Hardware.AudioDevice.SPEAKER:
+                    this.setState({audioDeviceIcon: 'volume-up'});
+                    break;
+                case Voximplant.Hardware.AudioDevice.WIRED_HEADSET:
+                    this.setState({audioDeviceIcon: 'headset'});
+                    break;
+                case Voximplant.Hardware.AudioDevice.EARPIECE:
+                default:
+                    this.setState({audioDeviceIcon: 'hearing'});
+                    break;
+            }
+        })();
     }
 
     componentWillUnmount() {
@@ -208,12 +227,12 @@ export default class CallScreen extends React.Component {
             localVideoStreamId: null,
         });
         CallManager.getInstance().removeCall(this.call);
-        this.callState = CALL_STATES.DISCONNECTED;
         if (Platform.OS === 'android' && Platform.Version >= 26 && this.callState === CALL_STATES.CONNECTED) {
             (async () => {
                 await VIForegroundService.stopService();
             })();
         }
+        this.callState = CALL_STATES.DISCONNECTED;
         this.props.navigation.navigate("App");
     };
 
@@ -259,13 +278,17 @@ export default class CallScreen extends React.Component {
     };
 
     _onEndpointRemoteVideoStreamAdded = (event) => {
-        console.log('CallScreen: _onEndpointRemoteVideoStreamAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
+        console.log('CallScreen: _onEndpointRemoteVideoStreamAdded: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id +
+            ', video stream id: ' + event.videoStream.id);
         this.setState({remoteVideoStreamId: event.videoStream.id});
     };
 
     _onEndpointRemoteVideoStreamRemoved = (event) => {
-        console.log('CallScreen: _onEndpointRemoteVideoStreamRemoved: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id);
-        this.setState({remoteVideoStreamId: null});
+        console.log('CallScreen: _onEndpointRemoteVideoStreamRemoved: callid: ' + this.call.callId + ' endpoint id: ' + event.endpoint.id +
+            ', video stream id: ' + event.videoStream.id);
+        if (this.state.remoteVideoStreamId === event.videoStream.id) {
+            this.setState({remoteVideoStreamId: null});
+        }
     };
 
     _onEndpointRemoved = (event) => {
