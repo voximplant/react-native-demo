@@ -10,9 +10,9 @@ PODS:
     - React/Core (= 0.59.9)
   - react-native-notifications (1.1.20):
     - React
-  - react-native-voximplant (1.8.0):
+  - react-native-voximplant (1.9.0):
     - React
-    - VoxImplantSDK (= 2.20.6)
+    - VoxImplantSDK (= 2.20.7)
   - React/Core (0.59.9):
     - yoga (= 0.59.9.React)
   - React/CxxBridge (0.59.9):
@@ -62,9 +62,9 @@ PODS:
     - React/Core
   - RNCAsyncStorage (1.5.0):
     - React
-  - VoxImplantSDK (2.20.6):
-    - VoxImplantSDK/Core (= 2.20.6)
-  - VoxImplantSDK/Core (2.20.6):
+  - VoxImplantSDK (2.20.7):
+    - VoxImplantSDK/Core (= 2.20.7)
+  - VoxImplantSDK/Core (2.20.7):
     - VoxImplantWebRTC (= 66.0.3)
   - VoxImplantWebRTC (66.0.3)
   - yoga (0.59.9.React)
@@ -121,10 +121,10 @@ SPEC CHECKSUMS:
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   React: a86b92f00edbe1873a63e4a212c29b7a7ad5224f
   react-native-notifications: b2fdc7dd3a3f027ff90d04d555136cfd35247ddc
-  react-native-voximplant: 8d3f33124c62855070eb84201074af9d44f370db
+  react-native-voximplant: a2ec8eb170d9c87c5b7cb02b156375ef886bddff
   RNCallKit: 9e9b151af7a33edcb50c353eadfe350f9095dd92
   RNCAsyncStorage: 63407ea82f1b5ac8fc53a0b8c569b08e0516a9e0
-  VoxImplantSDK: 313c158ef06e8d939f93a03a075b250163a50663
+  VoxImplantSDK: 014d3bbd46958bc083741c667d7f77128d908ebc
   VoxImplantWebRTC: 25b4d834b77e42285b11822b5d885431c3411a2b
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
