@@ -4,11 +4,6 @@
 
 'use strict';
 
-import React from 'react';
-import {
-    Platform
-} from 'react-native';
-
 import LoginManager from './LoginManager';
 
 import firebase from 'react-native-firebase';

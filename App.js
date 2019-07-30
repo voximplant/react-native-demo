@@ -4,13 +4,7 @@
 
 'use strict';
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React from 'react';
 
 import RootStack from './src/routes/routes';
 import NavigationService from './src/routes/NavigationService';
@@ -19,9 +13,9 @@ import NavigationService from './src/routes/NavigationService';
 export default class App extends React.Component {
   render() {
     return <RootStack
-      ref={navigatorRef => {
-        NavigationService.setTopLevelNavigator(navigatorRef);
-      }}
+        ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
     />;
   }
 }

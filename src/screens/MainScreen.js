@@ -15,7 +15,8 @@ import {
     SafeAreaView,
     StatusBar,
     PermissionsAndroid,
-    Platform
+    Platform,
+    YellowBox,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -56,8 +57,12 @@ export default class MainScreen extends React.Component {
         this.number = '';
         this.state = {
             isModalOpen: false,
-            modalText: ''
-        }
+            modalText: '',
+        };
+        YellowBox.ignoreWarnings([
+            'Warning: componentWillMount is deprecated',
+            'Warning: componentWillReceiveProps is deprecated',
+        ]);
     }
 
     componentDidMount() {
@@ -70,16 +75,16 @@ export default class MainScreen extends React.Component {
     }
 
     _goToSettings = () => {
-        this.props.navigation.navigate('Settings')
+        this.props.navigation.navigate('Settings');
     };
 
     _goToLogin = () => {
         LoginManager.getInstance().logout();
-        this.props.navigation.navigate("Login");
+        this.props.navigation.navigate('Login');
     };
 
     _connectionClosed = () => {
-        this.props.navigation.navigate("Login");
+        this.props.navigation.navigate('Login');
     };
 
     async makeCall(isVideoCall) {
@@ -106,8 +111,8 @@ export default class MainScreen extends React.Component {
             const callSettings = {
                 video: {
                     sendVideo: isVideoCall,
-                    receiveVideo: isVideoCall
-                }
+                    receiveVideo: isVideoCall,
+                },
             };
             if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
                 const useCallKitString = await AsyncStorage.getItem('useCallKit');
@@ -122,7 +127,7 @@ export default class MainScreen extends React.Component {
             this.props.navigation.navigate('Call', {
                 callId: call.callId,
                 isVideo: isVideoCall,
-                isIncoming: false
+                isIncoming: false,
             });
         } catch (e) {
             console.warn('MainScreen: makeCall failed: ' + e);
@@ -135,21 +140,21 @@ export default class MainScreen extends React.Component {
                 <StatusBar barStyle={COLOR_SCHEME.LIGHT} backgroundColor={COLOR.PRIMARY_DARK} />
                 <View style={styles.useragent}>
                     <TextInput
-                        underlineColorAndroid='transparent'
+                        underlineColorAndroid="transparent"
                         style={[styles.forminput, styles.margin]}
-                        onChangeText={(text) => { this.number = text }}
+                        onChangeText={(text) => { this.number = text;}}
                         placeholder="Call to"
                         defaultValue={this.number}
-                        autoCapitalize='none'
+                        autoCapitalize="none"
                         autoCorrect={false}
                         blurOnSubmit={true} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 90 }}>
-                        <CallButton icon_name='call' color={COLOR.ACCENT} buttonPressed={() => this.makeCall(false)} />
-                        <CallButton icon_name='videocam' color={COLOR.ACCENT} buttonPressed={() => this.makeCall(true)} />
+                        <CallButton icon_name="call" color={COLOR.ACCENT} buttonPressed={() => this.makeCall(false)} />
+                        <CallButton icon_name="videocam" color={COLOR.ACCENT} buttonPressed={() => this.makeCall(true)} />
                     </View>
 
                     <Modal
-                        animationType='fade'
+                        animationType="fade"
                         transparent={true}
                         visible={this.state.isModalOpen}
                         onRequestClose={() => { }}>

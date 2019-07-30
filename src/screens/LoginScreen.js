@@ -14,7 +14,7 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     SafeAreaView,
-    StatusBar
+    StatusBar,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -23,8 +23,6 @@ import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
 import styles from '../styles/Styles';
 
-let _this;
-
 export default class LoginScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -32,16 +30,15 @@ export default class LoginScreen extends React.Component {
         this.state = {
             username: '',
             isModalOpen: false,
-            modalText: ''
-        }
+            modalText: '',
+        };
     }
 
     componentDidMount() {
-        _this = this;
-        (async() => {
-            const usernameValue = await AsyncStorage.getItem('usernameValue');
-            _this.setState({username: usernameValue});
-        })();
+        AsyncStorage.getItem('usernameValue')
+            .then((username) => {
+                this.setState({username: username});
+            });
         LoginManager.getInstance().on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
         LoginManager.getInstance().on('onLoggedIn', (displayName) => this.onLoggedIn(displayName));
         LoginManager.getInstance().on('onLoginFailed', (errorCode) => this.onLoginFailed(errorCode));
@@ -79,11 +76,11 @@ export default class LoginScreen extends React.Component {
     }
 
     loginClicked() {
-        LoginManager.getInstance().loginWithPassword(this.state.username + ".voximplant.com", this.password);
+        LoginManager.getInstance().loginWithPassword(this.state.username + '.voximplant.com', this.password);
     }
 
     loginWithOneTimeKeyClicked() {
-        LoginManager.getInstance().loginWithOneTimeKey(this.state.username + ".voximplant.com", this.password);
+        LoginManager.getInstance().loginWithOneTimeKey(this.state.username + '.voximplant.com', this.password);
     }
 
     _focusNextField(nextField) {
@@ -98,24 +95,24 @@ export default class LoginScreen extends React.Component {
                     <View>
                         <View style={styles.loginform}>
                             <TextInput
-                                underlineColorAndroid='transparent'
+                                underlineColorAndroid="transparent"
                                 style={styles.forminput}
                                 placeholder="user@app.account"
                                 value={this.state.username}
                                 autoFocus={true}
-                                returnKeyType = { "next" }
-                                autoCapitalize='none'
+                                returnKeyType = { 'next' }
+                                autoCapitalize="none"
                                 autoCorrect={false}
                                 onSubmitEditing={() => this._focusNextField('password')}
-                                onChangeText={(text) => { this.setState({username: text}) }}
+                                onChangeText={(text) => { this.setState({username: text}); }}
                                 blurOnSubmit={false} />
                             <TextInput
-                                underlineColorAndroid='transparent'
+                                underlineColorAndroid="transparent"
                                 style={styles.forminput}
                                 placeholder="User password"
                                 secureTextEntry={true}
                                 ref='password'
-                                onChangeText={(text) => { this.password = text }}
+                                onChangeText={(text) => { this.password = text; }}
                                 blurOnSubmit={true} />
                             <TouchableOpacity onPress={() => this.loginClicked()} style={{ width: 220, alignSelf: 'center' }}>
                                 <Text style={styles.loginbutton}>
@@ -130,10 +127,9 @@ export default class LoginScreen extends React.Component {
                         </View>
                     </View>
                     <Modal
-                        animationType='fade'
+                        animationType="fade"
                         transparent={true}
-                        visible={this.state.isModalOpen}
-                        onRequestClose={() => { }}>
+                        visible={this.state.isModalOpen}>
                         <TouchableHighlight
                             onPress={(e) => this.setState({ isModalOpen: false })}
                             style={styles.container}>

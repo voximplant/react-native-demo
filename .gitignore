@@ -1,8 +1,6 @@
 # OSX
 #
 .DS_Store
-.vscode/*
-jsconfig.json
 
 # Xcode
 #
@@ -23,9 +21,6 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-ios/Pods/*
-VoxImplantDemo.xcworkspace
-VoximplantDemo.xcworkspace
 
 # Android/IntelliJ
 #
@@ -34,12 +29,6 @@ build/
 .gradle
 local.properties
 *.iml
-android/.project
-android/.settings/*
-android/app/.classpath
-android/app/.project
-android/app/.settings/
-android/captures/*
 
 # node.js
 #
@@ -57,10 +46,18 @@ buck-out/
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
 # screenshots whenever they are needed.
 # For more information about the recommended setup visit:
-# https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
+# https://docs.fastlane.tools/best-practices/source-control/
 
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
+
+# Bundle artifact
+*.jsbundle
+
+# CocoaPods
+/ios/Pods/
+VoxImplantDemo.xcworkspace
+VoximplantDemo.xcworkspace
 
 android/app/google-services.json

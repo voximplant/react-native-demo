@@ -4,13 +4,12 @@
 
 'use strict';
 
-import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { Voximplant } from 'react-native-voximplant';
 import PushManager from './PushManager';
 import CallManager from './CallManager';
-import md5 from "react-native-md5";
+import md5 from 'react-native-md5';
 
 const handlersGlobal = {};
 
@@ -33,7 +32,7 @@ export default class LoginManager {
     constructor() {
         this.client = Voximplant.getInstance();
         // Connection to the Voximplant Cloud is stayed alive on reloading of the app's
-        // JavaScript code. Calling "disconnect" API here makes the SDK and app states 
+        // JavaScript code. Calling "disconnect" API here makes the SDK and app states
         // synchronized.
         PushManager.init();
         (async() => {
@@ -87,8 +86,8 @@ export default class LoginManager {
                     break;
                 case Voximplant.ClientEvents.AuthResult:
                     if (e.code === 302) {
-                        let hash = md5.hex_md5(e.key + "|"
-                            + md5.hex_md5(this.myuser + ":voximplant.com:"
+                        let hash = md5.hex_md5(e.key + '|'
+                            + md5.hex_md5(this.myuser + ':voximplant.com:'
                                 + this.password));
                         try {
                             let authResult = await this.client.loginWithOneTimeKey(this.fullUserName, hash);
@@ -146,7 +145,9 @@ export default class LoginManager {
     }
 
     on(event, handler) {
-        if (!handlersGlobal[event]) handlersGlobal[event] = [];
+        if (!handlersGlobal[event]) {
+            handlersGlobal[event] = [];
+        }
         handlersGlobal[event].push(handler);
     }
 
@@ -182,7 +183,7 @@ export default class LoginManager {
             await AsyncStorage.setItem('accessExpire', loginTokens.accessExpire.toString());
             await AsyncStorage.setItem('refreshExpire', loginTokens.refreshExpire.toString());
         } else {
-            console.error("LoginSuccessful: login tokens are invalid");
+            console.error('LoginSuccessful: login tokens are invalid');
         }
         this.registerPushToken();
         CallManager.getInstance().init();

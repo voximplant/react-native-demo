@@ -5,7 +5,7 @@
 'use strict';
 
 import { StyleSheet } from 'react-native';
-import COLOR from "./Color";
+import COLOR from './Color';
 
 export default StyleSheet.create({
     safearea: {
@@ -14,39 +14,39 @@ export default StyleSheet.create({
     },
     aligncenter: {
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'stretch'
+        alignItems: 'stretch',
     },
     modalBackground: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        padding: 20
+        padding: 20,
     },
     innerContainer: {
         borderRadius: 10,
     },
     innerContainerTransparent: {
         backgroundColor: COLOR.WHITE,
-        padding: 20
+        padding: 20,
     },
     appheader: {
         resizeMode: 'contain',
         height: 60,
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     loginform: {
         paddingHorizontal: 20,
-        alignItems: 'stretch'
+        alignItems: 'stretch',
     },
     loginbutton: {
         color: COLOR.BUTTON,
         fontSize: 16,
         alignSelf: 'center',
         paddingTop: 20,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     forminput: {
         padding: 5,
@@ -73,17 +73,17 @@ export default StyleSheet.create({
     },
     videoPanel: {
         flex: 1,
-        position: 'relative'
+        position: 'relative',
     },
     call_controls: {
         height: 70,
     },
     margin: {
-        margin: 10
+        margin: 10,
     },
     call_connecting_label: {
         fontSize: 18,
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     headerButton: {
         color: COLOR.WHITE,
@@ -92,11 +92,11 @@ export default StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         paddingBottom: 5,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     incoming_call: {
         justifyContent: 'center',
         alignSelf: 'center',
         fontSize: 22,
-    }
+    },
 });

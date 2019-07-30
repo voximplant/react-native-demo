@@ -10,7 +10,7 @@ import {
     View,
     SafeAreaView,
     PermissionsAndroid,
-    Platform
+    Platform,
 } from 'react-native';
 import CallButton from '../components/CallButton';
 import CallManager from '../manager/CallManager';
@@ -30,8 +30,8 @@ export default class IncomingCallScreen extends React.Component {
         this.call = CallManager.getInstance().getCallById(callId);
 
         this.state = {
-            displayName: null
-        }
+            displayName: null,
+        };
     }
 
     componentDidMount() {
@@ -84,7 +84,7 @@ export default class IncomingCallScreen extends React.Component {
         this.props.navigation.navigate('Call', {
             callId: this.call.callId,
             isVideo: withVideo,
-            isIncoming: true
+            isIncoming: true,
         });
     }
 
@@ -94,7 +94,7 @@ export default class IncomingCallScreen extends React.Component {
 
     _onCallDisconnected = (event) => {
         CallManager.getInstance().removeCall(event.call);
-        this.props.navigation.navigate("App");
+        this.props.navigation.navigate('App');
     };
 
     _onCallEndpointAdded = (event) => {
@@ -108,9 +108,9 @@ export default class IncomingCallScreen extends React.Component {
                 <Text style={styles.incoming_call}>Incoming call from:</Text>
                 <Text style={styles.incoming_call}>{this.state.displayName}</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 90 }}>
-                    <CallButton icon_name='call' color={COLOR.ACCENT} buttonPressed={() => this.answerCall(false)} />
-                    <CallButton icon_name='videocam' color={COLOR.ACCENT} buttonPressed={() => this.answerCall(true)} />
-                    <CallButton icon_name='call-end' color={COLOR.RED} buttonPressed={() => this.declineCall()} />
+                    <CallButton icon_name="call" color={COLOR.ACCENT} buttonPressed={() => this.answerCall(false)} />
+                    <CallButton icon_name="videocam" color={COLOR.ACCENT} buttonPressed={() => this.answerCall(true)} />
+                    <CallButton icon_name="call-end" color={COLOR.RED} buttonPressed={() => this.declineCall()} />
                 </View>
             </SafeAreaView>
         );

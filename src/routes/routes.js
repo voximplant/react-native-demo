@@ -20,10 +20,10 @@ const AppStack = createStackNavigator(
         },
         Settings: {
             screen: SettingsScreen,
-        }
+        },
     },
     {
-        headerLayoutPreset: "center",
+        headerLayoutPreset: 'center',
         navigationOptions: {
             headerStyle: {
                 backgroundColor: COLOR.PRIMARY,
@@ -31,8 +31,8 @@ const AppStack = createStackNavigator(
             headerTintColor: COLOR.WHITE,
             headerTitleStyle: {
                 fontWeight: 'bold',
-            }
-        }
+            },
+        },
     }
 );
 
@@ -41,7 +41,7 @@ const RootStack = createSwitchNavigator(
         Login: LoginScreen,
         App: AppStack,
         Call: CallScreen,
-        IncomingCall: IncomingCallScreen
+        IncomingCall: IncomingCallScreen,
     },
     {
         initialRouteName: 'Login',
@@ -49,5 +49,3 @@ const RootStack = createSwitchNavigator(
 );
 
 export default RootStack;
-
-

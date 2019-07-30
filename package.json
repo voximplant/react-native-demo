@@ -1,35 +1,38 @@
 {
-	"name": "VoximplantDemo",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest"
-	},
-	"dependencies": {
-		"react": "16.8.3",
-		"react-native": "0.59.9",
-		"react-native-firebase": "5.5.3",
-		"react-native-md5": "1.0.0",
-		"react-native-notifications": "1.1.20",
-		"react-native-vector-icons": "6.1.0",
-		"react-native-voximplant": "1.9.0",
-		"react-navigation": "2.18.2",
-		"react-native-settings-components": "0.0.1",
-		"react-native-callkit": "1.3.4",
-		"@voximplant/react-native-foreground-service": "1.1.0",
-		"uuid": "3.3.2",
-		"@react-native-community/async-storage": "1.5.0"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.4.5",
-		"@babel/runtime": "^7.4.5",
-		"babel-jest": "^24.8.0",
-		"jest": "^24.8.0",
-		"metro-react-native-babel-preset": "^0.54.1",
-		"react-test-renderer": "16.8.3"
-	},
-	"jest": {
-		"preset": "react-native"
-	}
+  "name": "VoximplantDemo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "16.8.6",
+    "react-native": "0.60.4",
+    "@react-native-community/async-storage": "1.5.1",
+    "@voximplant/react-native-foreground-service": "2.0.0",
+    "react-native-callkit": "1.3.4",
+    "react-native-firebase": "5.5.5",
+    "react-native-md5": "1.0.0",
+    "react-native-settings-components": "0.0.1",
+    "react-native-vector-icons": "6.6.0",
+    "react-native-voximplant": "1.9.0",
+    "react-navigation": "2.18.2",
+    "react-native-notifications": "2.0.2",
+    "uuid": "3.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/runtime": "^7.5.5",
+    "@react-native-community/eslint-config": "^0.0.5",
+    "babel-jest": "^24.8.0",
+    "eslint": "^6.1.0",
+    "jest": "^24.8.0",
+    "metro-react-native-babel-preset": "^0.55.0",
+    "react-test-renderer": "16.8.6"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
 }

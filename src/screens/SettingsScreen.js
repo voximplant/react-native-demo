@@ -4,25 +4,27 @@
 
 'use strict';
 
-import React from "react";
-import {ScrollView, Platform} from "react-native";
+import React from 'react';
+import {ScrollView,
+    Platform,
+    SafeAreaView,
+    StatusBar} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {SafeAreaView, StatusBar} from "react-native";
 import {SettingsSwitch} from 'react-native-settings-components';
 
-import styles from "../styles/Styles";
-import COLOR_SCHEME from "../styles/ColorScheme";
-import COLOR from "../styles/Color";
+import styles from '../styles/Styles';
+import COLOR_SCHEME from '../styles/ColorScheme';
+import COLOR from '../styles/Color';
 
 export default class SettingsScreen extends React.Component {
     static navigationOptions = {
-        title: "Settings"
+        title: 'Settings',
     };
 
     constructor() {
         super();
         this.state = {
-            useCallKit: false
+            useCallKit: false,
         };
     }
 
@@ -30,13 +32,13 @@ export default class SettingsScreen extends React.Component {
         AsyncStorage.getItem('useCallKit')
             .then((value) => {
                 this.setState({
-                    useCallKit: JSON.parse(value)
-                })
+                    useCallKit: JSON.parse(value),
+                });
             });
     }
 
     render() {
-        return(
+        return (
             <SafeAreaView style={styles.safearea}>
                 <StatusBar barStyle={COLOR_SCHEME.LIGHT} backgroundColor={COLOR.PRIMARY_DARK} />
                 <ScrollView style={{flex: 1}}>
@@ -46,15 +48,13 @@ export default class SettingsScreen extends React.Component {
                             onSaveValue={(value) => {
                                 console.log(`SettingsScreen: use CallKit: ${value}`);
                                 this.setState({
-                                    useCallKit: value
+                                    useCallKit: value,
                                 });
                                 AsyncStorage.setItem('useCallKit', JSON.stringify(value));
                             }}
                             value={this.state.useCallKit}
                         />
-                    ) : (
-                        null
-                    )}
+                    ) : null}
                 </ScrollView>
 
             </SafeAreaView>

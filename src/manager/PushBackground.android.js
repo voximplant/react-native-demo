@@ -4,11 +4,10 @@
 
 'use strict';
 
-import { RemoteMessage } from 'react-native-firebase';
-import LoginManager from "./LoginManager";
+import LoginManager from './LoginManager';
 
 export default async (message) => {
-    console.log("PushBackground android: notification: " + JSON.stringify(message));
+    console.log('PushBackground android: notification: ' + JSON.stringify(message));
     LoginManager.getInstance().pushNotificationReceived(message.data);
     return Promise.resolve();
-}
+};

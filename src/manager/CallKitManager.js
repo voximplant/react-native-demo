@@ -4,11 +4,10 @@
 
 'use strict';
 
-import React from 'react';
 import {Voximplant} from 'react-native-voximplant';
 import RNCallKit from 'react-native-callkit';
-import NavigationService from "../routes/NavigationService";
-import uuid from "uuid";
+import NavigationService from '../routes/NavigationService';
+import uuid from 'uuid';
 import CallManager from './CallManager';
 
 export default class CallKitManager {
@@ -67,7 +66,7 @@ export default class CallKitManager {
         NavigationService.navigate('Call', {
             callId: this.callId,
             isVideo: this.withVideo,
-            isIncoming: true
+            isIncoming: true,
         });
     };
 

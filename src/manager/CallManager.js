@@ -4,7 +4,6 @@
 
 'use strict';
 
-import React from 'react';
 import {
     Platform,
     AppState,
@@ -18,7 +17,7 @@ import CallKitManager from './CallKitManager';
 
 // Voximplant SDK supports multiple calls at the same time, however
 // this demo app demonstrates only one active call at the moment,
-// so it rejects new incoming call if there is already a call. 
+// so it rejects new incoming call if there is already a call.
 export default class CallManager {
     static myInstance = null;
     call = null;
@@ -99,7 +98,7 @@ export default class CallManager {
             NavigationService.navigate('IncomingCall', {
                 callId: event.call.callId,
                 isVideo: event.video,
-                from: null
+                from: null,
             });
         }
     }
@@ -150,7 +149,7 @@ export default class CallManager {
             NavigationService.navigate('IncomingCall', {
                 callId: this.call.callId,
                 isVideo: null,
-                from: null
+                from: null,
             });
         }
     };
