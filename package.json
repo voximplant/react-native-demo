@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
+    "postinstall": "sed -i '' 's/\\/Core//g' ./node_modules/react-native-callkit/RNCallKit.podspec",
     "test": "jest",
     "lint": "eslint ."
   },
@@ -17,7 +18,7 @@
     "react-native-md5": "1.0.0",
     "react-native-settings-components": "0.0.1",
     "react-native-vector-icons": "6.6.0",
-    "react-native-voximplant": "1.9.0",
+    "react-native-voximplant": "1.9.1",
     "react-navigation": "2.18.2",
     "react-native-notifications": "2.0.2",
     "uuid": "3.3.2"
