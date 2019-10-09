@@ -4,10 +4,10 @@
 
 'use strict';
 
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import LoginScreen from '../screens/LoginScreen';
 import MainScreen from '../screens/MainScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 import CallScreen from '../screens/CallScreen';
 import IncomingCallScreen from '../screens/IncomingCallScreen';
 
@@ -17,22 +17,19 @@ const AppStack = createStackNavigator(
     {
         Main: {
             screen: MainScreen,
-        },
-        Settings: {
-            screen: SettingsScreen,
+            navigationOptions: {
+                headerStyle: {
+                    backgroundColor: COLOR.PRIMARY,
+                },
+                headerTintColor: COLOR.WHITE,
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                },
+            },
         },
     },
     {
         headerLayoutPreset: 'center',
-        navigationOptions: {
-            headerStyle: {
-                backgroundColor: COLOR.PRIMARY,
-            },
-            headerTintColor: COLOR.WHITE,
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
-        },
     }
 );
 
@@ -48,4 +45,4 @@ const RootStack = createSwitchNavigator(
     }
 );
 
-export default RootStack;
+export default createAppContainer(RootStack);

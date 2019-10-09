@@ -5,63 +5,74 @@
 'use strict';
 
 import {Voximplant} from 'react-native-voximplant';
-import RNCallKit from 'react-native-callkit';
+import RNCallKeep from 'react-native-callkeep';
 import NavigationService from '../routes/NavigationService';
 import uuid from 'uuid';
 import CallManager from './CallManager';
 
 export default class CallKitManager {
+    static myInstance = null;
     callKitUuid = undefined;
     withVideo = false;
     callId = undefined;
 
-    constructor() {
-        let options = {
-            appName: 'VoximplantDemo',
-        };
-        try {
-            RNCallKit.setup(options);
-        } catch (err) {
-            console.log('CallKitManager: CallKit setup error:', err.message);
+    static getInstance() {
+        if (this.myInstance === null) {
+            this.myInstance = new CallKitManager();
         }
+        return this.myInstance;
+    }
 
-        RNCallKit.addEventListener('didReceiveStartCallAction', this._onRNCallKitDidReceiveStartCallAction);
-        RNCallKit.addEventListener('answerCall', this._onRNCallKitPerformAnswerCallAction);
-        RNCallKit.addEventListener('endCall', this._onRNCallKitPerformEndCallAction);
-        RNCallKit.addEventListener('didActivateAudioSession', this._onRNCallKitDidActivateAudioSession);
-        RNCallKit.addEventListener('didDisplayIncomingCall', this._onRNCallKitDidDisplayIncomingCall);
-        RNCallKit.addEventListener('didPerformSetMutedCallAction', this._onRNCallKitDidPerformSetMutedCallAction);
+    constructor() {
+        const options = {
+            ios: {
+                appName: 'VoximplantDemo',
+            },
+        };
+        RNCallKeep.setup(options);
+
+        RNCallKeep.addEventListener('didReceiveStartCallAction', this._onRNCallKeepDidReceiveStartCallAction);
+        RNCallKeep.addEventListener('answerCall', this._onRNCallKeepPerformAnswerCallAction);
+        RNCallKeep.addEventListener('endCall', this._onRNCallKeepPerformEndCallAction);
+        RNCallKeep.addEventListener('didActivateAudioSession', this._onRNCallKeepDidActivateAudioSession);
+        RNCallKeep.addEventListener('didDisplayIncomingCall', this._onRNCallKeepDidDisplayIncomingCall);
+        RNCallKeep.addEventListener('didPerformSetMutedCallAction', this._onRNCallKeepDidPerformSetMutedCallAction);
     }
 
     showIncomingCall(isVideoCall, displayName, callId) {
         this.callKitUuid = uuid.v4();
         this.withVideo = isVideoCall;
         this.callId = callId;
-        RNCallKit.displayIncomingCall(this.callKitUuid, displayName, 'generic', isVideoCall);
+        RNCallKeep.displayIncomingCall(this.callKitUuid, displayName, displayName, 'generic', isVideoCall);
     }
 
     startOutgoingCall(isVideoCall, displayName, callId) {
         this.callKitUuid = uuid.v4();
         this.withVideo = isVideoCall;
         this.callId = callId;
-        RNCallKit.startCall(this.callKitUuid, displayName, 'number', isVideoCall);
+        RNCallKeep.startCall(this.callKitUuid, displayName, displayName, 'generic', isVideoCall);
     }
 
     reportOutgoingCallConnected() {
-        RNCallKit.reportConnectedOutgoingCallWithUUID(this.callKitUuid);
+        RNCallKeep.reportConnectedOutgoingCallWithUUID(this.callKitUuid);
     }
 
     endCall() {
-        RNCallKit.endCall(this.callKitUuid);
+        RNCallKeep.endCall(this.callKitUuid);
     }
 
-
-    _onRNCallKitDidReceiveStartCallAction = (data) => {
-        console.log('CallKitManager: _onRNCallKitDidReceiveStartCallAction');
+    _onRNCallKeepDidReceiveStartCallAction = (event) => {
+        console.log('CallKitManager: _onRNCallKeepDidReceiveStartCallAction');
+        if (!this.callKitUuid) {
+            this.callKitUuid = event.callUUID;
+        }
     };
 
-    _onRNCallKitPerformAnswerCallAction = (data) => {
-        console.log('CallKitManager: _onRNCallKitPerformAnswerCallAction' + this.callId);
+    _onRNCallKeepPerformAnswerCallAction = (event) => {
+        console.log('CallKitManager: _onRNCallKeepPerformAnswerCallAction' + this.callId);
+        if (!this.callKitUuid) {
+            this.callKitUuid = event.callUUID;
+        }
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitConfigureAudioSession();
         NavigationService.navigate('Call', {
             callId: this.callId,
@@ -70,23 +81,27 @@ export default class CallKitManager {
         });
     };
 
-    _onRNCallKitPerformEndCallAction = (data) => {
-        console.log('CallKitManager: _onRNCallKitPerformEndCallAction');
+    _onRNCallKeepPerformEndCallAction = (event) => {
+        console.log('CallKitManager: _onRNCallKeepPerformEndCallAction');
+        if (!this.callKitUuid) {
+            this.callKitUuid = event.callUUID;
+        }
         CallManager.getInstance().endCall();
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitStopAudio();
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitReleaseAudioSession();
     };
 
-    _onRNCallKitDidActivateAudioSession = (data) => {
-        console.log('CallKitManager: _onRNCallKitDidActivateAudioSession');
+    _onRNCallKeepDidActivateAudioSession = () => {
+        console.log('CallKitManager: _onRNCallKeepDidActivateAudioSession');
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitStartAudio();
     };
 
-    _onRNCallKitDidDisplayIncomingCall = (error) => {
-        console.log('CallKitManager: _onRNCallKitDidDisplayIncomingCall: error: ' + error);
+    _onRNCallKeepDidDisplayIncomingCall = (event) => {
+        console.log('CallKitManager: _onRNCallKeepDidDisplayIncomingCall');
+        this.callKitUuid = event.callUUID;
     };
 
-    _onRNCallKitDidPerformSetMutedCallAction = (muted) => {
+    _onRNCallKeepDidPerformSetMutedCallAction = (muted, callUUID) => {
         /* You will get this event after the system or the user mutes a call
          * You can use it to toggle the mic on your custom call UI
          */

@@ -15,7 +15,6 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* VoximplantDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* VoximplantDemoTests.m */; };
-		B26F1D1A22EB251800535E6F /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B26F1D1922EB251800535E6F /* MaterialIcons.ttf */; };
 		B26F1D1D22EB278100535E6F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B26F1D1B22EB278100535E6F /* LaunchScreen.xib */; };
 		B26F1D1F22EB3FAB00535E6F /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B26F1D1E22EB3FAA00535E6F /* PushKit.framework */; };
 		B26F1D2122EB3FB200535E6F /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B26F1D2022EB3FB200535E6F /* CallKit.framework */; };
@@ -328,7 +327,6 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				B26F1D1D22EB278100535E6F /* LaunchScreen.xib in Resources */,
-				B26F1D1A22EB251800535E6F /* MaterialIcons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,7 +360,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -533,6 +531,7 @@
 				DEVELOPMENT_TEAM = W9BHJBL635;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = VoximplantDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -555,6 +554,7 @@
 				DEVELOPMENT_TEAM = W9BHJBL635;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = VoximplantDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

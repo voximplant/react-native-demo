@@ -9,7 +9,6 @@ import {
     AppState,
 } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
 import PushManager from './PushManager';
 import { Voximplant } from 'react-native-voximplant';
 import NavigationService from '../routes/NavigationService';
@@ -23,12 +22,13 @@ export default class CallManager {
     call = null;
     currentAppState = undefined;
     showIncomingCallScreen = false;
-    callKitManager = null;
 
     constructor() {
         this.client = Voximplant.getInstance();
         this.currentAppState = AppState.currentState;
-        this.callKitManager = new CallKitManager();
+        if (Platform.OS === 'ios') {
+            this.callKitManager = CallKitManager.getInstance();
+        }
     }
 
     init() {
@@ -56,14 +56,8 @@ export default class CallManager {
             this.call.off(Voximplant.CallEvents.Disconnected, this._callDisconnected);
             this.call = null;
 
-            if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
-                AsyncStorage.getItem('useCallKit')
-                    .then((value) => {
-                        const useCallKit = JSON.parse(value);
-                        if (useCallKit) {
-                            this.callKitManager.endCall();
-                        }
-                    });
+            if (Platform.OS === 'ios') {
+                this.callKitManager.endCall();
             }
         } else if (this.call) {
             console.warn('CallManager: removeCall: call id mismatch');
@@ -112,17 +106,15 @@ export default class CallManager {
 
         this.addCall(event.call);
         this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
-        if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
-            AsyncStorage.getItem('useCallKit')
-                .then((value) => {
-                    const useCallKit = JSON.parse(value);
-                    if (useCallKit) {
-                        console.log('CallManager: incomingCall: CallKit is selected as incoming call screen');
-                        this.callKitManager.showIncomingCall(event.video, event.call.getEndpoints()[0].displayName, event.call.callId);
-                    } else {
-                        this._showIncomingScreenOrNotification(event);
-                    }
-                });
+        if (Platform.OS === 'ios') {
+            if (this.currentAppState === 'active') {
+                console.log('CallManager: _incomingCall: report incoming call to CallKit');
+                this.callKitManager.showIncomingCall(event.video, event.call.getEndpoints()[0].displayName, event.call.callId);
+            } else {
+                console.log('CallManager: _incomingCall: application is in the background, incoming call is already reported in AppDelegate');
+                this.callKitManager.callId = event.call.callId;
+                this.callKitManager.withVideo = event.video;
+            }
         } else {
             this._showIncomingScreenOrNotification(event);
         }

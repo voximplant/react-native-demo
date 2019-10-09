@@ -5,7 +5,7 @@ module.exports = {
                 ios: null,
             },
         },
-        'react-native-notifications': {
+        'react-native-callkeep': {
             platforms: {
                 android: null,
             },

@@ -42,13 +42,6 @@ export default class MainScreen extends React.Component {
                     </Text>
                 </TouchableOpacity>
             ),
-            headerRight: (
-                <TouchableOpacity onPress={params.settingsClick}>
-                    <Text style={styles.headerButton}>
-                        Settings
-                    </Text>
-                </TouchableOpacity>
-            ),
             title: LoginManager.getInstance().displayName,
         };
     };
@@ -114,9 +107,8 @@ export default class MainScreen extends React.Component {
                     receiveVideo: isVideoCall,
                 },
             };
-            if (Platform.OS === 'ios' && parseInt(Platform.Version, 10) >= 10) {
-                const useCallKitString = await AsyncStorage.getItem('useCallKit');
-                callSettings.setupCallKit = JSON.parse(useCallKitString);
+            if (Platform.OS === 'ios') {
+                callSettings.setupCallKit = true;
             }
             let call = await Voximplant.getInstance().call(this.number, callSettings);
             let callManager = CallManager.getInstance();
