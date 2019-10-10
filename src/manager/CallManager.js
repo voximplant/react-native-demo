@@ -65,7 +65,7 @@ export default class CallManager {
     }
 
     getCallById(callId) {
-        if (callId === this.call.callId) {
+        if (this.call && callId === this.call.callId) {
             return this.call;
         }
         return null;

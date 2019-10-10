@@ -37,6 +37,7 @@ export default class CallScreen extends React.Component {
         super(props);
         const params = this.props.navigation.state.params;
 
+        this.callTo = params ? params.callTo : null;
         this.callId = params ? params.callId : null;
         this.isVideoCall = params ? params.isVideo : false;
         this.isIncoming = params ? params.isIncoming : false;
@@ -63,19 +64,6 @@ export default class CallScreen extends React.Component {
     }
 
     componentDidMount() {
-        if (this.call) {
-            Object.keys(Voximplant.CallEvents).forEach((eventName) => {
-                const callbackName = `_onCall${eventName}`;
-                if (typeof this[callbackName] !== 'undefined') {
-                    this.call.on(eventName, this[callbackName]);
-                }
-            });
-            if (this.isIncoming) {
-                this.call.getEndpoints().forEach(endpoint => {
-                    this._setupEndpointListeners(endpoint, true);
-                });
-            }
-        }
         Object.keys(Voximplant.Hardware.AudioDeviceEvents).forEach((eventName) => {
             const callbackName = `_onAudio${eventName}`;
             if (typeof this[callbackName] !== 'undefined') {
@@ -83,14 +71,28 @@ export default class CallScreen extends React.Component {
             }
         });
 
+        const callSettings = {
+            video: {
+                sendVideo: this.isVideoCall,
+                receiveVideo: this.isVideoCall,
+            },
+        };
         if (this.isIncoming) {
-            const callSettings = {
-                video: {
-                    sendVideo: this.isVideoCall,
-                    receiveVideo: this.isVideoCall,
-                },
-            };
             this.call.answer(callSettings);
+            this.setupListeners();
+        } else {
+            if (Platform.OS === 'ios') {
+                callSettings.setupCallKit = true;
+            }
+            (async() => {
+                this.call = await Voximplant.getInstance().call(this.callTo, callSettings);
+                this.setupListeners();
+                let callManager = CallManager.getInstance();
+                callManager.addCall(this.call);
+                if (callSettings.setupCallKit) {
+                    callManager.startOutgoingCallViaCallKit(this.isVideoCall, this.callTo);
+                }
+            })();
         }
         this.callState = CALL_STATES.CONNECTING;
 
@@ -130,6 +132,22 @@ export default class CallScreen extends React.Component {
                 Voximplant.Hardware.AudioDeviceManager.getInstance().off(eventName, this[callbackName]);
             }
         });
+    }
+
+    setupListeners() {
+        if (this.call) {
+            Object.keys(Voximplant.CallEvents).forEach((eventName) => {
+                const callbackName = `_onCall${eventName}`;
+                if (typeof this[callbackName] !== 'undefined') {
+                    this.call.on(eventName, this[callbackName]);
+                }
+            });
+            if (this.isIncoming) {
+                this.call.getEndpoints().forEach(endpoint => {
+                    this._setupEndpointListeners(endpoint, true);
+                });
+            }
+        }
     }
 
     muteAudio() {

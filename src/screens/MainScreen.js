@@ -101,25 +101,11 @@ export default class MainScreen extends React.Component {
                     return;
                 }
             }
-            const callSettings = {
-                video: {
-                    sendVideo: isVideoCall,
-                    receiveVideo: isVideoCall,
-                },
-            };
-            if (Platform.OS === 'ios') {
-                callSettings.setupCallKit = true;
-            }
-            let call = await Voximplant.getInstance().call(this.number, callSettings);
-            let callManager = CallManager.getInstance();
-            callManager.addCall(call);
-            if (callSettings.setupCallKit) {
-                callManager.startOutgoingCallViaCallKit(isVideoCall, this.number);
-            }
             this.props.navigation.navigate('Call', {
-                callId: call.callId,
+                callId: null,
                 isVideo: isVideoCall,
                 isIncoming: false,
+                callTo: this.number,
             });
         } catch (e) {
             console.warn('MainScreen: makeCall failed: ' + e);
