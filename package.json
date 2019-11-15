@@ -17,7 +17,7 @@
     "react-native-firebase": "5.5.6",
     "react-native-md5": "1.0.0",
     "react-native-vector-icons": "6.6.0",
-    "react-native-voximplant": "1.13.0",
+    "react-native-voximplant": "1.14.0",
     "react-navigation": "4.0.6",
     "react-native-voip-push-notification": "1.1.4",
     "uuid": "3.3.2",
