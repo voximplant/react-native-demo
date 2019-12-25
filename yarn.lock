@@ -5298,10 +5298,10 @@ react-native-voip-push-notification@1.1.4:
   resolved "https://registry.yarnpkg.com/react-native-voip-push-notification/-/react-native-voip-push-notification-1.1.4.tgz#576043165e1049510bb8ff70fe450b7c2de17cb4"
   integrity sha512-spimH6lKEPs2J0Nmsh0eb2ymoJdfTK6aPUm3+j/LWHxKUUeejQGRjdjAm/mNa4r/g3HhB2qV5cvICnWxILZU5A==
 
-react-native-voximplant@1.14.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/react-native-voximplant/-/react-native-voximplant-1.14.0.tgz#6d2107ee5bdeb578f5a2b174153abb7804cc3f9a"
-  integrity sha512-RYx4FhZ/MFY12MSOhLWBecbrGHnUonjv1s5DDtWttRDowwMAoiQztrWFBzU8BPy/Qr+W5xA2H7w3Uagszix5IQ==
+react-native-voximplant@1.15.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/react-native-voximplant/-/react-native-voximplant-1.15.0.tgz#a12d8c9bc6237012f5be7200fc7b48cf94c8b8b9"
+  integrity sha512-5u5fGAqfSErnVnB1ceaAcnnUl03LkwjsTQP7ge88cStPVbim+M/35sIBomf3M601o2pvpZC89Dd1/wLNasd9XQ==
 
 react-native@0.60.5:
   version "0.60.5"
