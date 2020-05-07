@@ -11,18 +11,21 @@
   "dependencies": {
     "react": "16.11.0",
     "react-native": "0.62.2",
-    "@react-native-community/async-storage": "1.5.1",
+    "@react-native-community/async-storage": "1.10.0",
     "@voximplant/react-native-foreground-service": "2.0.0",
-    "react-native-callkeep": "3.0.3",
-    "react-native-firebase": "5.5.6",
+    "react-native-callkeep": "3.0.12",
+    "react-native-firebase": "5.6.0",
     "react-native-md5": "1.0.0",
     "react-native-vector-icons": "6.6.0",
     "react-native-voximplant": "1.18.0",
-    "react-navigation": "4.0.6",
-    "react-native-voip-push-notification": "1.1.4",
+    "react-navigation": "4.3.9",
+    "react-native-voip-push-notification": "2.1.0",
     "uuid": "3.3.2",
-    "react-native-gesture-handler": "1.4.1",
-    "react-navigation-stack": "1.8.0"
+    "react-native-gesture-handler": "1.6.1",
+    "react-navigation-stack": "2.4.0",
+    "@react-native-community/masked-view": "0.1.10",
+    "react-native-safe-area-context": "0.7.3",
+    "react-native-screens": "2.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

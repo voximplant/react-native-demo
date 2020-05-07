@@ -3,6 +3,8 @@ package com.voximplantdemo;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.multidex.MultiDexApplication;
+
 import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
@@ -16,7 +18,7 @@ import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override

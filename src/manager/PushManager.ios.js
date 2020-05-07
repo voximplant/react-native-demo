@@ -11,7 +11,7 @@ class PushManager {
     pushToken = '';
     constructor() {
         console.log('Push manager ios');
-        VoipPushNotification.requestPermissions();
+        VoipPushNotification.registerVoipToken();
         VoipPushNotification.addEventListener('register', (token) => {
             this.pushToken = token;
         });

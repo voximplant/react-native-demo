@@ -42,16 +42,31 @@
   [RNVoipPushNotificationManager didUpdatePushCredentials:credentials forType:(NSString *)type];
 }
 
+- (void)pushRegistry:(PKPushRegistry *)registry didInvalidatePushTokenForType:(PKPushType)type
+{
+  // --- The system calls this method when a previously provided push token is no longer valid for use. No action is necessary on your part to reregister the push type. Instead, use this method to notify your server not to send push notifications using the matching push token.
+}
+
+
+// --- Handle incoming pushes (for ios <= 10)
+- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type {
+  [RNVoipPushNotificationManager didReceiveIncomingPushWithPayload:payload forType:(NSString *)type];
+}
+
 // Handle incoming pushes
-- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type {
+- (void)pushRegistry:(PKPushRegistry *)registry
+didReceiveIncomingPushWithPayload:(PKPushPayload *)payload
+                          forType:(PKPushType)type
+            withCompletionHandler:(void (^)(void))completion {
   // Process the received push
   [RNVoipPushNotificationManager didReceiveIncomingPushWithPayload:payload forType:(NSString *)type];
   
   if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
     NSString *uuid = [[NSUUID UUID] UUIDString];
     NSString *callerName = [[payload.dictionaryPayload valueForKey:@"voximplant"] valueForKey:@"display_name"];
-    [RNCallKeep reportNewIncomingCall:uuid handle:callerName handleType:@"generic" hasVideo:YES localizedCallerName:callerName fromPushKit:YES];
+    [RNCallKeep reportNewIncomingCall:uuid handle:callerName handleType:@"generic" hasVideo:YES localizedCallerName:callerName fromPushKit:YES payload:payload.dictionaryPayload];
   }
+  completion();
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

@@ -53,6 +53,10 @@ export default class LoginManager {
             if (state === Voximplant.ClientState.DISCONNECTED) {
                 await this.client.connect();
             }
+            if (state === Voximplant.ClientState.CONNECTING || state === Voximplant.ClientState.LOGGING_IN) {
+                console.log('LoginManager: loginWithPassword: login is in progress');
+                return;
+            }
             let authResult = await this.client.login(user, password);
             await this._processLoginSuccess(authResult);
         } catch (e) {
@@ -76,6 +80,10 @@ export default class LoginManager {
             let state = await this.client.getClientState();
             if (state === Voximplant.ClientState.DISCONNECTED) {
                 await this.client.connect();
+            }
+            if (state === Voximplant.ClientState.CONNECTING || state === Voximplant.ClientState.LOGGING_IN) {
+                console.log('LoginManager: loginWithPassword: login is in progress');
+                return;
             }
             await this.client.requestOneTimeLoginKey(user);
         } catch (e) {
