@@ -4,7 +4,7 @@ The demo application that uses `react-native-voximplant` and [Voximplant cloud p
 
 ## Getting started
 
-To get started, you'll need to [register](https://voximplant.com) a free Voximplant developer account.
+To get started, you'll need to [register](https://manage.voximplant.com/auth/sign_up) a free Voximplant developer account.
 
 You'll need the following:
 * Voximplant application
@@ -12,8 +12,8 @@ You'll need the following:
 * VoxEngine scenario
 * routing setup
 * push certificates:
-  * ios: VoIP services certificate. Follow [this tutorial](https://voximplant.com/docs/references/iossdk/push-notifications-for-ios) to upload the certificate to the Voximplant Control Panel
-  * android: Firebase certificate. Follow [this tutorial](https://voximplant.com/docs/references/androidsdk/push-notifications-for-android) to upload the certificate to the Voximplant Control Panel
+  * ios: VoIP services certificate. Follow [this tutorial](https://voximplant.com/docs/introduction/integration/adding_sdks/push_notifications/ios_sdk) to upload the certificate to the Voximplant Control Panel
+  * android: Firebase certificate. Follow [this tutorial](https://voximplant.com/docs/introduction/integration/adding_sdks/push_notifications/android_sdk) to upload the certificate to the Voximplant Control Panel
 
 ### Automatic
 We've implemented a special template to enable you to quickly use the demo – just 
@@ -21,7 +21,7 @@ install [SDK tutorial](https://manage.voximplant.com/marketplace/sdk_tutorial) f
 
 ### Manual
 
-You can set up it manually using our [quickstart guide](https://voximplant.com/docs/references/articles/quickstart) and tutorials
+You can set up it manually using our [Getting started](https://voximplant.com/docs/introduction) page and tutorials
 
 #### VoxEngine scenario example:
   ```
@@ -56,7 +56,7 @@ You can set up it manually using our [quickstart guide](https://voximplant.com/d
         
     Note: 
     To enable android push notifications in the demo project:
-    1. Follow [the instructions](http://voximplant.com/blog/push-notifications-for-android/) to add the certificates to the Voximplant Cloud 
+    1. Follow [the instructions](https://voximplant.com/docs/introduction/integration/adding_sdks/push_notifications/android_sdk) to add the certificates to the Voximplant Cloud 
     2. Add `google-services.json` file to android/app folder
     3. Open `app/build.gradle` file and uncomment the `//apply plugin: 'com.google.gms.google-services'` line
 
@@ -65,7 +65,7 @@ You can set up it manually using our [quickstart guide](https://voximplant.com/d
 
 ## Useful links
 Official guides:
-- [Using React Native SDK guide](https://voximplant.com/blog/using-react-native-sdk)
+- [Installing React Native SDK guide](https://voximplant.com/docs/introduction/integration/adding_sdks/installing/react_native_sdk)
 
 ## Have a question
 
