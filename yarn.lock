@@ -5805,10 +5805,9 @@ react-native-vector-icons@6.6.0:
     prop-types "^15.6.2"
     yargs "^13.2.2"
 
-react-native-voip-push-notification@2.1.0:
+react-native-voip-push-notification@YuliaGrigorieva/react-native-voip-push-notification#620e2aaf3361c9dd67b49f1d88e5915931c4ba42:
   version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-voip-push-notification/-/react-native-voip-push-notification-2.1.0.tgz#3a580be2da72cf1a4834d2a491c1789a8f72c541"
-  integrity sha512-ihR/E5iRD+4NM6DL5wcVLC8wn+Oo6TErTwQdIuO1ZeWpIOLp6X4baNJ+fwxiuT9oIHqfMOJWUGQ9TRESOcTOoQ==
+  resolved "https://codeload.github.com/YuliaGrigorieva/react-native-voip-push-notification/tar.gz/620e2aaf3361c9dd67b49f1d88e5915931c4ba42"
 
 react-native-voximplant@1.18.0:
   version "1.18.0"
