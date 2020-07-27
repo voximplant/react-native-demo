@@ -7,7 +7,6 @@
 import {Voximplant} from 'react-native-voximplant';
 import RNCallKeep from 'react-native-callkeep';
 import NavigationService from '../routes/NavigationService';
-import uuid from 'uuid';
 import CallManager from './CallManager';
 
 export default class CallKitManager {
@@ -39,15 +38,15 @@ export default class CallKitManager {
         RNCallKeep.addEventListener('didPerformSetMutedCallAction', this._onRNCallKeepDidPerformSetMutedCallAction);
     }
 
-    showIncomingCall(isVideoCall, displayName, callId) {
-        this.callKitUuid = uuid.v4();
+    showIncomingCall(isVideoCall, displayName, callId, callKitUUID) {
+        this.callKitUuid = callKitUUID;
         this.withVideo = isVideoCall;
         this.callId = callId;
         RNCallKeep.displayIncomingCall(this.callKitUuid, displayName, displayName, 'generic', isVideoCall);
     }
 
-    startOutgoingCall(isVideoCall, displayName, callId) {
-        this.callKitUuid = uuid.v4();
+    startOutgoingCall(isVideoCall, displayName, callId, callKitUUID) {
+        this.callKitUuid = callKitUUID;
         this.withVideo = isVideoCall;
         this.callId = callId;
         RNCallKeep.startCall(this.callKitUuid, displayName, displayName, 'generic', isVideoCall);
@@ -63,16 +62,10 @@ export default class CallKitManager {
 
     _onRNCallKeepDidReceiveStartCallAction = (event) => {
         console.log('CallKitManager: _onRNCallKeepDidReceiveStartCallAction');
-        if (!this.callKitUuid) {
-            this.callKitUuid = event.callUUID;
-        }
     };
 
     _onRNCallKeepPerformAnswerCallAction = (event) => {
         console.log('CallKitManager: _onRNCallKeepPerformAnswerCallAction' + this.callId);
-        if (!this.callKitUuid) {
-            this.callKitUuid = event.callUUID;
-        }
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitConfigureAudioSession();
         NavigationService.navigate('Call', {
             callId: this.callId,
@@ -83,9 +76,6 @@ export default class CallKitManager {
 
     _onRNCallKeepPerformEndCallAction = (event) => {
         console.log('CallKitManager: _onRNCallKeepPerformEndCallAction');
-        if (!this.callKitUuid) {
-            this.callKitUuid = event.callUUID;
-        }
         CallManager.getInstance().endCall();
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitStopAudio();
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitReleaseAudioSession();
@@ -98,7 +88,6 @@ export default class CallKitManager {
 
     _onRNCallKeepDidDisplayIncomingCall = (event) => {
         console.log('CallKitManager: _onRNCallKeepDidDisplayIncomingCall');
-        this.callKitUuid = event.callUUID;
     };
 
     _onRNCallKeepDidPerformSetMutedCallAction = (muted, callUUID) => {

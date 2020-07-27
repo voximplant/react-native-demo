@@ -13,6 +13,7 @@ import PushManager from './PushManager';
 import { Voximplant } from 'react-native-voximplant';
 import NavigationService from '../routes/NavigationService';
 import CallKitManager from './CallKitManager';
+import uuid from 'uuid';
 
 // Voximplant SDK supports multiple calls at the same time, however
 // this demo app demonstrates only one active call at the moment,
@@ -72,7 +73,8 @@ export default class CallManager {
     }
 
     startOutgoingCallViaCallKit(isVideo, number) {
-        this.callKitManager.startOutgoingCall(isVideo, number, this.call.callId);
+        this.call.callKitUUID = uuid.v4();
+        this.callKitManager.startOutgoingCall(isVideo, number, this.call.callId, this.call.callKitUUID);
         this.call.on(Voximplant.CallEvents.Connected, this._callConnected);
         this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
     }
@@ -109,9 +111,10 @@ export default class CallManager {
         if (Platform.OS === 'ios') {
             if (this.currentAppState === 'active') {
                 console.log('CallManager: _incomingCall: report incoming call to CallKit');
-                this.callKitManager.showIncomingCall(event.video, event.call.getEndpoints()[0].displayName, event.call.callId);
+                this.callKitManager.showIncomingCall(event.video, event.call.getEndpoints()[0].displayName, event.call.callId, event.call.callKitUUID);
             } else {
                 console.log('CallManager: _incomingCall: application is in the background, incoming call is already reported in AppDelegate');
+                this.callKitManager.callKitUuid = event.call.callKitUUID;
                 this.callKitManager.callId = event.call.callId;
                 this.callKitManager.withVideo = event.video;
             }

@@ -14,6 +14,7 @@
 #import <UIKit/UIKit.h>
 #import "RNVoipPushNotificationManager.h"
 #import "RNCallKeep.h"
+#import "VIClientModule.h"
 
 
 @implementation AppDelegate
@@ -61,8 +62,19 @@ didReceiveIncomingPushWithPayload:(PKPushPayload *)payload
   // Process the received push
   [RNVoipPushNotificationManager didReceiveIncomingPushWithPayload:payload forType:(NSString *)type];
   
-  if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
-    NSString *uuid = [[NSUUID UUID] UUIDString];
+  
+  NSString *uuid = [VIClientModule uuidForPushNotification:payload.dictionaryPayload].UUIDString;
+  
+  if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+    NSLog(@"AppDelegate: didReceiveIncomingPush: application is in active state");
+  }
+  
+  if ([RNCallKeep isCallActive:uuid]){
+    NSLog(@"AppDelegate: didReceiveIncomingPush: call is already been reported");
+  }
+  
+  if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive && ![RNCallKeep isCallActive:uuid]) {
+    NSLog(@"AppDelegate: didReceiveIncomingPush: report new incoming call to CallKit");
     NSString *callerName = [[payload.dictionaryPayload valueForKey:@"voximplant"] valueForKey:@"display_name"];
     [RNCallKeep reportNewIncomingCall:uuid handle:callerName handleType:@"generic" hasVideo:YES localizedCallerName:callerName fromPushKit:YES payload:payload.dictionaryPayload];
   }

@@ -5746,10 +5746,10 @@ react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
 
-react-native-callkeep@3.0.12:
-  version "3.0.12"
-  resolved "https://registry.yarnpkg.com/react-native-callkeep/-/react-native-callkeep-3.0.12.tgz#9e75a075358dcecba68423b6f59b4eea426376d4"
-  integrity sha512-O92ru1dR3RcaX51Zpopl7zub35dXOX92SVg59lR97QgoMRIGK7wtBh2dSCl2UnC0Qj0ZOrXbdAV4WzC0WTXUXQ==
+react-native-callkeep@3.0.15:
+  version "3.0.15"
+  resolved "https://registry.yarnpkg.com/react-native-callkeep/-/react-native-callkeep-3.0.15.tgz#36e331c4fe4090254c9137137df7e6dc9508b0ae"
+  integrity sha512-LD8Tcy4EiZRd3ktiA7yuPwDV8E4BVxtL+PSlfaHFV58QUWU8RQPYleHpT/xT7+h/OtGz/xckPaR3xDFwhtgLIQ==
 
 react-native-firebase@5.6.0:
   version "5.6.0"
@@ -5809,10 +5809,10 @@ react-native-voip-push-notification@YuliaGrigorieva/react-native-voip-push-notif
   version "2.1.0"
   resolved "https://codeload.github.com/YuliaGrigorieva/react-native-voip-push-notification/tar.gz/620e2aaf3361c9dd67b49f1d88e5915931c4ba42"
 
-react-native-voximplant@1.18.0:
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/react-native-voximplant/-/react-native-voximplant-1.18.0.tgz#0d3046b7e89fa854252954f06fe0b229c99b0178"
-  integrity sha512-VLZAudfVe/xl5KuUZx7gjP0x8GjjHJUijalQGVYgZXiCHu4SdX0i8Ib8fSmMt1WPQuD0x8HyVOkTVAL1J3DfWQ==
+react-native-voximplant@1.21.0:
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/react-native-voximplant/-/react-native-voximplant-1.21.0.tgz#ee44685322503d4ebf2f4f1e60c064e385ac8e5a"
+  integrity sha512-Bt8RkdF+eudw8ZAZSAzZOaebBauGy1ycwbgboKa1Q1cK+MMFHHWVoo0fmyEX4T0v4wEMEeJzfLHvVUsDOmAgFQ==
 
 react-native@0.62.2:
   version "0.62.2"

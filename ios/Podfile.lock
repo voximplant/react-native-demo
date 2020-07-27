@@ -184,9 +184,9 @@ PODS:
   - React-jsinspector (0.62.2)
   - react-native-safe-area-context (0.7.3):
     - React
-  - react-native-voximplant (1.18.0):
+  - react-native-voximplant (1.21.0):
     - React
-    - VoxImplantSDK (= 2.29.0)
+    - VoxImplantSDK (= 2.32.1)
   - React-RCTActionSheet (0.62.2):
     - React-Core/RCTActionSheetHeaders (= 0.62.2)
   - React-RCTAnimation (0.62.2):
@@ -246,7 +246,7 @@ PODS:
     - React-cxxreact (= 0.62.2)
     - React-jsi (= 0.62.2)
     - ReactCommon/callinvoker (= 0.62.2)
-  - RNCallKeep (3.0.12):
+  - RNCallKeep (3.0.15):
     - React
   - RNCAsyncStorage (1.10.0):
     - React
@@ -260,11 +260,11 @@ PODS:
     - React
   - RNVoipPushNotification (2.1.0):
     - React-Core
-  - VoxImplantSDK (2.29.0):
-    - VoxImplantSDK/Core (= 2.29.0)
-  - VoxImplantSDK/Core (2.29.0):
-    - VoxImplantWebRTC (= 78.2.0)
-  - VoxImplantWebRTC (78.2.0)
+  - VoxImplantSDK (2.32.1):
+    - VoxImplantSDK/Core (= 2.32.1)
+  - VoxImplantSDK/Core (2.32.1):
+    - VoxImplantWebRTC (= 78.3.0)
+  - VoxImplantWebRTC (78.3.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -399,7 +399,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
-  react-native-voximplant: 580209469a5755fd3316f71144e338d2ebf48b29
+  react-native-voximplant: b883a2677d9f7d84bec6e00ba39c3f1ecb7125dd
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
   React-RCTBlob: a332773f0ebc413a0ce85942a55b064471587a71
@@ -410,15 +410,15 @@ SPEC CHECKSUMS:
   React-RCTText: fae545b10cfdb3d247c36c56f61a94cfd6dba41d
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
-  RNCallKeep: 99a56dc650bba1af3eaad0ab9bbc83ce0bc58e32
+  RNCallKeep: 2b70b24726b485f580fab4b5abb79660a850a36d
   RNCAsyncStorage: 6d99641f8e6f15d169d695d8ef184bf187903f11
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RNVoipPushNotification: 6b38227bbbb2359dc11cbf826044f8ed4bd8de36
-  VoxImplantSDK: 9ade22fdad95b2cc247cf8831097fed900115d8f
-  VoxImplantWebRTC: 0f59be5f7362ed7af3de6718c9ed50735691ee99
+  VoxImplantSDK: 5641af9a30c0eaf5cf17ed86fd197919c9637445
+  VoxImplantWebRTC: b708efa4326db85a2cafe13b2e36bbdc614fc984
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
 
 PODFILE CHECKSUM: 80f3cd2f481ffa2bbeba4c0adc7c9a4fab8f75cd
