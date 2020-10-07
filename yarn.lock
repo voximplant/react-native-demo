@@ -5809,10 +5809,10 @@ react-native-voip-push-notification@YuliaGrigorieva/react-native-voip-push-notif
   version "2.1.0"
   resolved "https://codeload.github.com/YuliaGrigorieva/react-native-voip-push-notification/tar.gz/620e2aaf3361c9dd67b49f1d88e5915931c4ba42"
 
-react-native-voximplant@1.21.0:
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/react-native-voximplant/-/react-native-voximplant-1.21.0.tgz#ee44685322503d4ebf2f4f1e60c064e385ac8e5a"
-  integrity sha512-Bt8RkdF+eudw8ZAZSAzZOaebBauGy1ycwbgboKa1Q1cK+MMFHHWVoo0fmyEX4T0v4wEMEeJzfLHvVUsDOmAgFQ==
+react-native-voximplant@1.23.0:
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/react-native-voximplant/-/react-native-voximplant-1.23.0.tgz#9503da4ae9323ad8b66ff760ea07dbe9072f8149"
+  integrity sha512-I95EVlhbg3DZgjIILJVOvLq1I23FCqFsRg7dlLNRqYTCngWqJAYveqe/1z2r6NXvziY90Eouo3Gq4SgvWwpNsg==
 
 react-native@0.62.2:
   version "0.62.2"

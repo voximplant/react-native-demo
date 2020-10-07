@@ -22,7 +22,7 @@
     "react-native-screens": "2.7.0",
     "react-native-vector-icons": "6.6.0",
     "react-native-voip-push-notification": "YuliaGrigorieva/react-native-voip-push-notification#620e2aaf3361c9dd67b49f1d88e5915931c4ba42",
-    "react-native-voximplant": "1.21.0",
+    "react-native-voximplant": "1.23.0",
     "react-navigation": "4.3.9",
     "react-navigation-stack": "2.4.0",
     "uuid": "3.3.2"
