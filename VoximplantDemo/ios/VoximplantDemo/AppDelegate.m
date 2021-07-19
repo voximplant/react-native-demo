@@ -7,6 +7,8 @@
 #import "RNCallKeep.h"
 #import "VIClientModule.h"
 
+#import <PushKit/PushKit.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -70,7 +72,18 @@ didReceiveIncomingPushWithPayload:(PKPushPayload *)payload
   if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive && ![RNCallKeep isCallActive:uuid]) {
     NSLog(@"AppDelegate: didReceiveIncomingPush: report new incoming call to CallKit");
     NSString *callerName = [[payload.dictionaryPayload valueForKey:@"voximplant"] valueForKey:@"display_name"];
-    [RNCallKeep reportNewIncomingCall:uuid handle:callerName handleType:@"generic" hasVideo:YES localizedCallerName:callerName fromPushKit:YES payload:payload.dictionaryPayload];
+    [RNCallKeep reportNewIncomingCall:uuid
+                               handle:callerName
+                           handleType:@"generic"
+                             hasVideo:YES
+                  localizedCallerName:callerName
+                      supportsHolding:YES
+                         supportsDTMF:YES
+                     supportsGrouping:NO
+                   supportsUngrouping:NO
+                          fromPushKit:YES
+                              payload:payload.dictionaryPayload
+                withCompletionHandler:completion];
   }
   completion();
 }
