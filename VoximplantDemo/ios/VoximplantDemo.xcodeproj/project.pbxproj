@@ -12,6 +12,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		F2FF905326A6021700CC95AF /* current_us_can.wav in Resources */ = {isa = PBXBuildFile; fileRef = F2FF905226A6021700CC95AF /* current_us_can.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F2FF904F268E3F4E00CC95AF /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		F2FF9051268F1BA100CC95AF /* VoximplantDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = VoximplantDemo.entitlements; path = VoximplantDemo/VoximplantDemo.entitlements; sourceTree = "<group>"; };
+		F2FF905226A6021700CC95AF /* current_us_can.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = current_us_can.wav; path = VoximplantDemo/current_us_can.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F2FF905226A6021700CC95AF /* current_us_can.wav */,
 				F2FF904F268E3F4E00CC95AF /* MaterialIcons.ttf */,
 				13B07FAE1A68108700A75B9A /* VoximplantDemo */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -224,6 +227,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2FF905326A6021700CC95AF /* current_us_can.wav in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);

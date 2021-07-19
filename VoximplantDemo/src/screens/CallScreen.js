@@ -42,7 +42,7 @@ export default class CallScreen extends React.Component {
         this.isVideoCall = params ? params.isVideo : false;
         this.isIncoming = params ? params.isIncoming : false;
         this.callState = CALL_STATES.DISCONNECTED;
-
+        this.audioFile = null;
 
         this.state = {
             isAudioMuted: false,
@@ -251,6 +251,12 @@ export default class CallScreen extends React.Component {
             })();
         }
         this.callState = CALL_STATES.DISCONNECTED;
+        if (this.audioFile) {
+            (async () => {
+                await this.audioFile.stop();
+                this.audioFile.releaseResources();
+            })();
+        }
         this.props.navigation.navigate('Main');
     };
 
@@ -279,6 +285,25 @@ export default class CallScreen extends React.Component {
             })();
         }
     };
+
+    _onCallProgressToneStart = (event) => {
+        console.log('CallScreen: _onCallProgressToneStart: ' + this.call.callId);
+        this.audioFile = new Voximplant.Hardware.AudioFile();
+        (async () => {
+            await this.audioFile.initWithLocalFile('current_us_can', '.wav');
+            await this.audioFile.play(true);
+        })();
+    }
+
+    _onCallProgressToneStop = (event) => {
+        console.log('CallScreen: _onCallProgressToneStop: ' + this.call.callId);
+        if (this.audioFile) {
+            (async () => {
+                await this.audioFile.stop();
+                this.audioFile.releaseResources();
+            })();
+        }
+    }
 
     _onCallLocalVideoStreamAdded = (event) => {
         console.log('CallScreen: _onCallLocalVideoStreamAdded: ' + this.call.callId + ', video stream id: ' + event.videoStream.id);

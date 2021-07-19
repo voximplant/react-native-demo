@@ -38,6 +38,9 @@ You can set up it manually using our [Getting started](https://voximplant.com/do
   });
   ```
 
+## Audio file license
+This demo project uses the following audio file to demonstrate how to play a local audio file for pregress tone:
+- https://freesound.org/people/tt_runscript/sounds/337655/ by tt_runscript licensed under the Creative Commons 0 License.
 
 ## Build and run the app
 

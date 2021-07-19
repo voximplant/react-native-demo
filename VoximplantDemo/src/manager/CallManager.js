@@ -77,6 +77,7 @@ export default class CallManager {
         this.callKitManager.startOutgoingCall(isVideo, number, this.call.callId, this.call.callKitUUID);
         this.call.on(Voximplant.CallEvents.Connected, this._callConnected);
         this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
+        Voximplant.Hardware.AudioDeviceManager.getInstance().selectAudioDevice(Voximplant.Hardware.AudioDevice.SPEAKER);
     }
 
     endCall() {
