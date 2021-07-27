@@ -91,6 +91,7 @@ export default class CallManager {
             PushManager.showLocalNotification('');
             this.showIncomingCallScreen = true;
         } else {
+            console.log(`CallManager: _showIncomingScreenOrNotification: ${event.call.callId}`);
             RootNavigation.navigate('IncomingCall', {
                 callId: event.call.callId,
                 isVideo: event.video,
@@ -105,7 +106,7 @@ export default class CallManager {
             event.call.decline();
             return;
         }
-
+        console.log(`CallManager: _incomingCall: callId: ${event.call.callId}`);
         this.addCall(event.call);
         this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
         if (Platform.OS === 'ios') {
@@ -137,14 +138,15 @@ export default class CallManager {
         console.log(`CallManager: _handleAppStateChange: Current app state changed to ${newState}`);
         this.currentAppState = newState;
         if (this.currentAppState === 'active' && this.showIncomingCallScreen && this.call !== null) {
-            this.showIncomingCallScreen = false;
+            console.log('CallManager: _handleAppStateChange: will navigate to incoming call');
+            // this.showIncomingCallScreen = false;
             if (Platform.OS === 'android') {
                 PushManager.removeDeliveredNotification();
             }
             RootNavigation.navigate('IncomingCall', {
                 callId: this.call.callId,
                 isVideo: null,
-                from: null,
+                from: CallManager.getInstance().call.getEndpoints()[0].displayName,
             });
         }
     };

@@ -22,6 +22,7 @@ import LoginManager from '../manager/LoginManager';
 import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
 import styles from '../styles/Styles';
+import CallManager from '../manager/CallManager';
 
 export default class LoginScreen extends React.Component {
     constructor(props) {
@@ -42,6 +43,17 @@ export default class LoginScreen extends React.Component {
         LoginManager.getInstance().on('onConnectionFailed', (reason) => this.onConnectionFailed(reason));
         LoginManager.getInstance().on('onLoggedIn', (displayName) => this.onLoggedIn(displayName));
         LoginManager.getInstance().on('onLoginFailed', (errorCode) => this.onLoginFailed(errorCode));
+
+        // Workaround to navigate to the IncomingCallScreen if a push notification was received in 'killed' state
+        if (Platform.OS === 'android') {
+            if (CallManager.getInstance().showIncomingCallScreen) {
+                this.props.navigation.navigate('IncomingCall', {
+                    callId: CallManager.getInstance().call.callId,
+                    isVideo: null,
+                    from: CallManager.getInstance().call.getEndpoints()[0].displayName,
+                });
+            }
+        }
     }
 
     onLoginFailed(errorCode) {
