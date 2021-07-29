@@ -22,7 +22,7 @@ class PushManager {
             if (VoipPushNotification.wakeupByPush) {
                 VoipPushNotification.wakeupByPush = false;
             }
-            LoginManager.getInstance().pushNotificationReceived(notification.getData());
+            LoginManager.getInstance().pushNotificationReceived(notification);
         });
     }
 
