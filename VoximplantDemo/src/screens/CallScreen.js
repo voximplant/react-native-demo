@@ -118,20 +118,6 @@ export default class CallScreen extends React.Component {
 
     componentWillUnmount() {
         console.log('CallScreen: componentWillUnmount ' + this.call.callId);
-        if (this.call) {
-            Object.keys(Voximplant.CallEvents).forEach((eventName) => {
-                const callbackName = `_onCall${eventName}`;
-                if (typeof this[callbackName] !== 'undefined') {
-                    this.call.off(eventName, this[callbackName]);
-                }
-            });
-        }
-        Object.keys(Voximplant.Hardware.AudioDeviceEvents).forEach((eventName) => {
-            const callbackName = `_onAudio${eventName}`;
-            if (typeof this[callbackName] !== 'undefined') {
-                Voximplant.Hardware.AudioDeviceManager.getInstance().off(eventName, this[callbackName]);
-            }
-        });
     }
 
     setupListeners() {
@@ -148,6 +134,23 @@ export default class CallScreen extends React.Component {
                 });
             }
         }
+    }
+
+    removeListeners() {
+        if (this.call) {
+            Object.keys(Voximplant.CallEvents).forEach((eventName) => {
+                const callbackName = `_onCall${eventName}`;
+                if (typeof this[callbackName] !== 'undefined') {
+                    this.call.off(eventName, this[callbackName]);
+                }
+            });
+        }
+        Object.keys(Voximplant.Hardware.AudioDeviceEvents).forEach((eventName) => {
+            const callbackName = `_onAudio${eventName}`;
+            if (typeof this[callbackName] !== 'undefined') {
+                Voximplant.Hardware.AudioDeviceManager.getInstance().off(eventName, this[callbackName]);
+            }
+        });
     }
 
     muteAudio() {
@@ -229,6 +232,7 @@ export default class CallScreen extends React.Component {
 
     _onCallFailed = (event) => {
         this.callState = CALL_STATES.DISCONNECTED;
+        this.removeListeners();
         CallManager.getInstance().removeCall(this.call);
         this.setState({
             isModalOpen: true,
@@ -244,6 +248,7 @@ export default class CallScreen extends React.Component {
             remoteVideoStreamId: null,
             localVideoStreamId: null,
         });
+        this.removeListeners();
         CallManager.getInstance().removeCall(this.call);
         if (Platform.OS === 'android' && Platform.Version >= 26 && this.callState === CALL_STATES.CONNECTED) {
             (async () => {

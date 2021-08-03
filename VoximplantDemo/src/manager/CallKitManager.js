@@ -57,7 +57,10 @@ export default class CallKitManager {
     }
 
     endCall() {
-        RNCallKeep.endCall(this.callKitUuid);
+        if (this.callKitUuid) {
+            RNCallKeep.endCall(this.callKitUuid);
+            this.callKitUuid = null;
+        }
     }
 
     _onRNCallKeepDidReceiveStartCallAction = (event) => {
@@ -77,6 +80,7 @@ export default class CallKitManager {
     _onRNCallKeepPerformEndCallAction = (event) => {
         console.log('CallKitManager: _onRNCallKeepPerformEndCallAction');
         CallManager.getInstance().endCall();
+        this.callKitUuid = null;
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitStopAudio();
         Voximplant.Hardware.AudioDeviceManager.getInstance().callKitReleaseAudioSession();
     };

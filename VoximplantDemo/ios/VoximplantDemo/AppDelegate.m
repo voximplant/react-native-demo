@@ -85,8 +85,9 @@ didReceiveIncomingPushWithPayload:(PKPushPayload *)payload
                           fromPushKit:YES
                               payload:payload.dictionaryPayload
                 withCompletionHandler:completion];
+  } else {
+    completion();
   }
-  completion();
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
