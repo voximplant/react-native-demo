@@ -16,7 +16,6 @@ import {
     StatusBar,
     PermissionsAndroid,
     Platform,
-    YellowBox,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -52,10 +51,6 @@ export default class MainScreen extends React.Component {
             isModalOpen: false,
             modalText: '',
         };
-        YellowBox.ignoreWarnings([
-            'Warning: componentWillMount is deprecated',
-            'Warning: componentWillReceiveProps is deprecated',
-        ]);
     }
 
     componentDidMount() {
