@@ -13,6 +13,7 @@ import PushManager from './PushManager';
 import { Voximplant } from 'react-native-voximplant';
 import * as RootNavigation from '../routes/routes';
 import CallKitManager from './CallKitManager';
+import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
 // Voximplant SDK supports multiple calls at the same time, however
