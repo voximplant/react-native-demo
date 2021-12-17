@@ -17,7 +17,7 @@ import {
     StatusBar,
 } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginManager from '../manager/LoginManager';
 import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
