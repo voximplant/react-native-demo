@@ -1,0 +1,15 @@
+export const COLORS = {
+  PRIMARY: 'rgb(165, 50, 245)',
+  WHITE: 'white',
+  RED: 'red',
+  BLUE: '#662EFF',
+  BLACK: 'black',
+}
+
+export const STORAGE = {
+  USERNAME: 'VOXUSERNAME',
+  A_TOKEN: 'VOXACCESSTOKEN',
+  R_TOKEN: 'VOXREFRESHTOKEN',
+  A_TOKEN_EXP: 'VOXACCESSTOKENEXPIRED',
+  R_TOKEN_EXP: 'VOXREFRESHTOKENEXPIRED',
+}
