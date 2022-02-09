@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
+ */
+
 export const COLORS = {
   PRIMARY: 'rgb(165, 50, 245)',
   WHITE: 'white',
@@ -7,9 +11,7 @@ export const COLORS = {
 }
 
 export const STORAGE = {
-  USERNAME: 'VOXUSERNAME',
-  A_TOKEN: 'VOXACCESSTOKEN',
-  R_TOKEN: 'VOXREFRESHTOKEN',
-  A_TOKEN_EXP: 'VOXACCESSTOKENEXPIRED',
-  R_TOKEN_EXP: 'VOXREFRESHTOKENEXPIRED',
+  USER_NAME: 'VOX_USER_NAME',
+  ACCESS_TOKEN: 'VOX_ACCESS_TOKEN',
+  REFRESH_TOKEN: 'VOX_REFRESH_TOKEN',
 }

@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
-import { RefObject } from 'react';
+/*
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
+ */
+
+import React from 'react';
 import { Text, View, TextInput } from 'react-native';
 
 import styles from './styles';
 
 interface IProps {
-  refer?: RefObject<TextInput>;
   title: string;
   value: string;
   setValue: (value: string) => void;
   isPassword?: boolean;
   isLogin?: boolean;
+  validationText?: string;
   placeholder: string;
   styleFromProps?: {
     mainWrapper?: object,
@@ -19,21 +22,20 @@ interface IProps {
   }
 }
 const CustomInput = ({
-  refer,
   title,
   value,
   setValue,
   isPassword,
   isLogin,
+  validationText,
   styleFromProps,
   placeholder,
 }: IProps) => {
   return(
     <View style={[styles.inputWrapper, styleFromProps?.mainWrapper]}>
       <Text style={[styles.inputTitle, styleFromProps?.title]}>{title}</Text>
-      <View style={styles.inputWrapperWithSuffix}>
+      <View style={[styles.inputWrapperWithSuffix, !!validationText && {borderColor: 'red'}]}>
         <TextInput
-          ref={refer}
           value={value}
           autoCapitalize={'none'}
           autoCorrect={false}
@@ -45,6 +47,7 @@ const CustomInput = ({
         />
         {isLogin && <Text style={styles.suffixText}>.voximplant.com</Text>}
       </View>
+      {!!validationText && <Text style={styles.errorText}>{validationText}</Text>}
     </View>
   );
 };

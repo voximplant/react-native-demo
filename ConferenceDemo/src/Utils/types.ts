@@ -1,7 +1,11 @@
-import { RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+/*
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
+ */
+
 import { RefObject } from 'react';
 import { TextInput } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -43,3 +47,8 @@ export interface IAuthError {
 }
 
 export type TextInputRefType = RefObject<TextInput>;
+
+export interface IReduxAction {
+  type: string;
+  payload?: any;
+}

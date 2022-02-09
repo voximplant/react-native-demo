@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
+ */
+
 import { StyleSheet } from "react-native";
 
 import { COLORS } from "../../Utils/constants";
@@ -7,6 +11,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
     marginVertical: 10,
     width: '100%',
+    height: 80,
   },
   inputTitle: {
     lineHeight: 20,

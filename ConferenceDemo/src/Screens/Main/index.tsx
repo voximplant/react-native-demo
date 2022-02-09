@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
+ */
+
 import React, { useLayoutEffect, useState } from 'react';
 import { View, Switch, Text } from 'react-native';
 
@@ -9,15 +13,13 @@ import { IScreenProps } from '../../Utils/types';
 
 import styles from './styles';
 
-const MainScreen = ({ navigation, route }: IScreenProps<'Main'>) => {
-  const [room, setRoom] = useState('');
+const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
+  const [conference, setConference] = useState('');
   const [isSendVideo, setSendVideo] = useState(false);
-
-  const displayName = route.params?.displayName;
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      header: () => <Header displayName={displayName} navigation={navigation} />
+      header: () => <Header />
     })
   }, []);
 
@@ -25,9 +27,9 @@ const MainScreen = ({ navigation, route }: IScreenProps<'Main'>) => {
     <View style={styles.container}>
       <CustomInput
         title={"Conference name"}
-        value={room}
+        value={conference}
         placeholder={'.....'}
-        setValue={setRoom}
+        setValue={setConference}
       />
       <View style={styles.settingsWrapper}>
         <Text style={styles.settingsText}>Send local video:</Text>

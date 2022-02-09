@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
+ */
+
 #import "AppDelegate.h"
 
 #import <React/RCTBridge.h>

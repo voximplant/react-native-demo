@@ -1,50 +1,50 @@
-import React, { createRef, useEffect, useState } from 'react';
-import { TextInput, View } from 'react-native';
+/*
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
+ */
+
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CustomButton from '../../Components/CustomButton';
 import CustomInput from '../../Components/CustomInput';
 
-import { COLORS } from '../../Utils/constants';
-import { IScreenProps } from '../../Utils/types';
-import { useAuth } from '../../Utils/useAuth';
+import { RootReducer } from '../../Core/Store';
+import { clearErrors } from '../../Core/Store/global/actions';
+import { loginWithPass } from '../../Core/Store/login/actions';
 import { useUtils } from '../../Utils/useUtils';
 
 import styles from './styles';
 
-const LoginScreen = ({ navigation }: IScreenProps<'Login'>) => {
-  const { loginWithPassword } = useAuth();
-  const { convertError, showAllert } = useUtils();
+const LoginScreen = () => {
+  const dispatch = useDispatch();
+  const { showAllert } = useUtils();
 
-  const usernameRef = createRef<TextInput>();
-  const passwordRef = createRef<TextInput>();
-
+  const error = useSelector((store: RootReducer) =>  store.loginReducer.error);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    usernameRef.current?.setNativeProps({ borderColor: COLORS.BLUE })
-    passwordRef.current?.setNativeProps({ borderColor: COLORS.BLUE })
-  }, [usernameRef, passwordRef]);
-
-  const login = async () => {
-    try {
-      const result = await loginWithPassword(userName, password);
-      navigation.navigate('Main', { displayName: result });
-    } catch (error) {
-      const message = convertError(error, usernameRef, passwordRef);
-      if (message) {
-        showAllert(message);
-      }
-    }
+  const login = () => {
+    dispatch(loginWithPass(userName, password));
   };
+
+  useEffect(() => {
+    if (error?.other) {
+      showAllert(error.other);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    dispatch(clearErrors());
+  }, [userName, password]);
 
   return (
     <View style={styles.container}>
       <CustomInput
-        refer={usernameRef}
         title={'Login'}
         value={userName}
         isLogin
+        validationText={error?.login}
         setValue={setUserName}
         placeholder={'user@app.account'}
         styleFromProps={{
@@ -52,10 +52,10 @@ const LoginScreen = ({ navigation }: IScreenProps<'Login'>) => {
         }}
       />
       <CustomInput
-        refer={passwordRef}
         title={'Password'}
         value={password}
         isPassword
+        validationText={error?.password}
         placeholder={'password'}
         setValue={setPassword}
       />
