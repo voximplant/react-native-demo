@@ -12,7 +12,7 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     justifyContent: "center",
-    backgroundColor: 'rgba(192,192,192, 0.75)',
+    backgroundColor: 'rgba(228,232,240, 0.8)',
   },
   loaderWrapper: {
     width: 100,

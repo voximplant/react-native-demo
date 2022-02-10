@@ -8,7 +8,6 @@ import {Voximplant} from 'react-native-voximplant';
 import { StorageService } from './StorageService';
 
 import { STORAGE } from '../../Utils/constants';
-import { IAuthResult } from '../../Utils/types';
 
 export const AuthService = () => {
   const client = Voximplant.getInstance();
@@ -27,8 +26,8 @@ export const AuthService = () => {
       `${username.toLowerCase()}.voximplant.com`,
       password,
     );
-    setStorageItem(STORAGE.USER_NAME, username);
-    setStorageItems(result);
+    await setStorageItem(STORAGE.USER_NAME, username);
+    await setStorageItems(result);
     return result.displayName;
   }
 
@@ -43,19 +42,19 @@ export const AuthService = () => {
       `${username?.toLowerCase()}.voximplant.com`,
       token,
     );
-    setStorageItems(result);
+    await setStorageItems(result);
     return result.displayName;
   };
 
-// 701: token expired
-  const refreshToken = async (): Promise<IAuthResult> => {
+  const refreshToken = async (): Promise<string> => {
     let username = await getStorageItem(STORAGE.USER_NAME);
     let rToken = await getStorageItem(STORAGE.REFRESH_TOKEN);
     const result = await client.tokenRefresh(
       `${username?.toLowerCase()}.voximplant.com`,
       rToken,
     );
-    return result;
+    await setStorageItems(result);
+    return result.displayName;
   };
 
   const logOut = async (): Promise<void> => {
@@ -67,5 +66,6 @@ export const AuthService = () => {
     loginWithPassword,
     loginWithToken,
     logOut,
+    refreshToken,
   }
 };
