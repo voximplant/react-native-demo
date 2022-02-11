@@ -6,9 +6,10 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+
+import TouchableOpacity from '../TouchableOpacity';
 
 import { logOutApp } from '../../Core/Store/login/actions';
 import { RootReducer } from '../../Core/Store';
@@ -16,8 +17,7 @@ import { RootReducer } from '../../Core/Store';
 import Logout from '../../Assets/Icons/Logout.svg';
 import styles from './styles';
 
-
-const Header = () => {
+const MainHeader = () => {
   const dispatch = useDispatch()
   
   const displayName = useSelector((state: RootReducer) => state.loginReducer.user);
@@ -36,4 +36,4 @@ const Header = () => {
     </View>
 )};
 
-export default Header;
+export default MainHeader;

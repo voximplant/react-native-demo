@@ -10,6 +10,8 @@ import LoginScreen from '../../Screens/Login';
 import MainScreen from '../../Screens/Main';
 import ConferenceScreen from '../../Screens/Conference';
 import Loader from '../../Components/Loader';
+import MainHeader from '../../Components/MainHeader';
+import ConferenceHeader from '../../Components/ConferenceHeader';
 
 import { RootReducer } from '../Store';
 import { loginWithToken } from '../Store/login/actions';
@@ -49,13 +51,15 @@ const RootNavigator = () => {
               name={"Main"}
               component={MainScreen}
               options={{
-                header: () => null,
+                header: () => <MainHeader />,
               }}
             />
             <RootStack.Screen
               name={"Conference"}
               component={ConferenceScreen}
-              options={defaultOptions}
+              options={{
+                header: () => <ConferenceHeader />,
+              }}
             />
           </>)}
       </RootStack.Navigator>

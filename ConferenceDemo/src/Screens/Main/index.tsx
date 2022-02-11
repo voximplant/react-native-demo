@@ -7,7 +7,6 @@ import { View, Switch, Text } from 'react-native';
 
 import CustomInput from '../../Components/CustomInput';
 import CustomButton from '../../Components/CustomButton';
-import Header from './header';
 
 import { IScreenProps } from '../../Utils/types';
 
@@ -16,12 +15,6 @@ import styles from './styles';
 const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
   const [conference, setConference] = useState('');
   const [isSendVideo, setSendVideo] = useState(false);
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      header: () => <Header />
-    })
-  }, []);
 
   return (
     <View style={styles.container}>
