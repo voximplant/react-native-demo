@@ -2,6 +2,10 @@ import { StyleSheet } from "react-native";
 import { COLORS } from "../../Utils/constants";
 
 export default StyleSheet.create({
+  firstArea: {
+    flex: 0,
+    backgroundColor: COLORS.BLACK,
+  },
   container: {
     flex: 1,
     backgroundColor: COLORS.WHITE,

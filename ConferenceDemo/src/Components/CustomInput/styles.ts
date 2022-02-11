@@ -26,7 +26,7 @@ export default StyleSheet.create({
     height: 48,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: COLORS.BLUE,
+    borderColor: COLORS.PURPLE,
   },
   input: {
     paddingLeft: 10,

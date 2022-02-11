@@ -3,11 +3,11 @@
  */
 
 export const COLORS = {
-  PRIMARY: 'rgb(165, 50, 245)',
-  WHITE: 'white',
-  RED: 'red',
-  BLUE: '#662EFF',
-  BLACK: 'black',
+  PRIMARY: '#A432F5',
+  WHITE: '#FFFFFF',
+  RED: '#FF0000',
+  PURPLE: '#662EFF',
+  BLACK: '#000000',
 }
 
 export const STORAGE = {
