@@ -34,32 +34,15 @@ const RootNavigator = () => {
 
   return (
     <>
-      <RootStack.Navigator initialRouteName='Login'>
+      <RootStack.Navigator initialRouteName='Login' screenOptions={defaultOptions}>
         {!user ? (
-          <>
-            <RootStack.Screen
-              name={"Login"}
-              component={LoginScreen}
-              options={defaultOptions}
-            />
-          </>
+            <RootStack.Screen name={"Login"} component={LoginScreen} />
           ) : (
           <>
-            <RootStack.Screen
-              name={"Main"}
-              component={MainScreen}
-              options={{
-                header: () => null,
-              }}
-            />
-            <RootStack.Screen
-              name={"Conference"}
-              component={ConferenceScreen}
-              options={{
-                header: () => null,
-              }}
-            />
-          </>)}
+            <RootStack.Screen name={"Main"} component={MainScreen} />
+            <RootStack.Screen name={"Conference"} component={ConferenceScreen} />
+          </>
+        )}
       </RootStack.Navigator>
       {loading && <Loader />}
     </>

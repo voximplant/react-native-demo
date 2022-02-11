@@ -3,7 +3,8 @@
  */
 
 import React from 'react';
-import { SafeAreaView, StatusBar, View } from 'react-native';
+import { StatusBar, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import ControlButton from '../../Components/ControlButton';
 import ConferenceHeader from '../../Components/ConferenceHeader';
@@ -17,40 +18,37 @@ import styles from './styles';
 
 const ConferenceScreen = () => {
   return (
-    <>
-      <SafeAreaView style={styles.firstArea} />
-      <SafeAreaView style={styles.container}>
-        <StatusBar barStyle={'light-content'} backgroundColor={COLORS.BLACK} />
-        <ConferenceHeader />
-        <View style={styles.videoContainer}>
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <StatusBar barStyle={'light-content'} backgroundColor={COLORS.BLACK} />
+      <ConferenceHeader />
+      <View style={styles.videoContainer}>
+      </View>
+      <View style={styles.bottomControlBar}>
+        <View style={styles.buttonsWrapper}>
+          <ControlButton
+            Icon={VideocameraIcon}
+            onPress={() => {}}
+            styleFromProps={{
+              wrapper: styles.controlButtonWrapper,
+            }}
+          />
+          <ControlButton
+            Icon={MicrophoneIcon}
+            onPress={() => {}}
+            styleFromProps={{
+              wrapper: styles.controlButtonWrapper,
+            }}
+          />
+          <ControlButton
+            Icon={PhoneIcon}
+            onPress={() => {}}
+            styleFromProps={{
+              wrapper: styles.controlButtonWrapperHangup,
+            }}
+          />
         </View>
-        <View style={styles.bottomControlBar}>
-          <View style={styles.buttonsWrapper}>
-            <ControlButton
-              Icon={VideocameraIcon}
-              onPress={() => {}}
-              styleFromProps={{
-                wrapper: styles.controlButtonWrapper,
-              }}
-            />
-            <ControlButton
-              Icon={MicrophoneIcon}
-              onPress={() => {}}
-              styleFromProps={{
-                wrapper: styles.controlButtonWrapper,
-              }}
-            />
-            <ControlButton
-              Icon={PhoneIcon}
-              onPress={() => {}}
-              styleFromProps={{
-                wrapper: styles.controlButtonWrapperHangup,
-              }}
-            />
-          </View>
-        </View>
-      </SafeAreaView>
-    </>
+      </View>
+    </SafeAreaView>
   );
 };
 
