@@ -33,6 +33,7 @@ export default StyleSheet.create({
     lineHeight: 20,
     fontSize: 16,
     width: '100%',
+    color: COLORS.BLACK,
   },
   errorText: {
     color: COLORS.RED,

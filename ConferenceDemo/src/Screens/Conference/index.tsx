@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import ControlButton from '../../Components/ControlButton';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
@@ -13,7 +13,7 @@ import styles from './styles';
 
 const ConferenceScreen = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.videoContainer}>
       </View>
       <View style={styles.bottomControlBar}>
@@ -41,7 +41,7 @@ const ConferenceScreen = () => {
           />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

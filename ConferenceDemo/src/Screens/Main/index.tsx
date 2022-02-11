@@ -2,8 +2,8 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import React, { useLayoutEffect, useState } from 'react';
-import { View, Switch, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Switch, Text, SafeAreaView } from 'react-native';
 
 import CustomInput from '../../Components/CustomInput';
 import CustomButton from '../../Components/CustomButton';
@@ -17,26 +17,28 @@ const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
   const [isSendVideo, setSendVideo] = useState(false);
 
   return (
-    <View style={styles.container}>
-      <CustomInput
-        title={"Conference name"}
-        value={conference}
-        placeholder={'.....'}
-        setValue={setConference}
-      />
-      <View style={styles.settingsWrapper}>
-        <Text style={styles.settingsText}>Send local video:</Text>
-        <Switch
-          trackColor={{ false: "#767577", true: "#54FF00" }}
-          onValueChange={setSendVideo}
-          value={isSendVideo}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.contentWrapper}>
+        <CustomInput
+          title={"Conference name"}
+          value={conference}
+          placeholder={'.....'}
+          setValue={setConference}
+        />
+        <View style={styles.settingsWrapper}>
+          <Text style={styles.settingsText}>Send local video:</Text>
+          <Switch
+            trackColor={{ false: "#767577", true: "#54FF00" }}
+            onValueChange={setSendVideo}
+            value={isSendVideo}
+          />
+        </View>
+        <CustomButton
+          title={'Start conference'}
+          onPress={() => {}}
         />
       </View>
-      <CustomButton
-        title={'Start conference'}
-        onPress={() => {}}
-      />
-    </View>
+    </SafeAreaView>
   );
 };
 

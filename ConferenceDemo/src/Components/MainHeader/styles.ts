@@ -2,18 +2,18 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 import { COLORS } from "../../Utils/constants";
 
 export default StyleSheet.create({
   headerWrapper: {
-    height: 70,
-    paddingHorizontal: 20,
-    paddingTop: 30,
+    height: 52,
+    paddingHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: COLORS.PRIMARY,
+    marginTop: Platform.OS === "ios" ? 34 : 0
   },
   headerTitle: {
     lineHeight: 30,
@@ -26,6 +26,8 @@ export default StyleSheet.create({
     width: 30,
     height: 30,
     alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   logoutButtonIcon: {
     minWidth: 25,

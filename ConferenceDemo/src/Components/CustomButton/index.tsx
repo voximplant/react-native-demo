@@ -3,9 +3,7 @@
  */
 
 import React from 'react';
-import { Text } from 'react-native';
-
-import TouchableOpacity from '../TouchableOpacity';
+import { Text, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 

@@ -6,10 +6,9 @@ import React from 'react';
 import {
   View,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-
-import TouchableOpacity from '../TouchableOpacity';
 
 import { logOutApp } from '../../Core/Store/login/actions';
 import { RootReducer } from '../../Core/Store';

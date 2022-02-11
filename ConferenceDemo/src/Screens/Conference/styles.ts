@@ -4,6 +4,7 @@ import { COLORS } from "../../Utils/constants";
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.WHITE,
   },
   videoContainer: {
     flex: 1,
@@ -11,7 +12,7 @@ export default StyleSheet.create({
   },
   bottomControlBar: {
     backgroundColor: 'white',
-    height: 80,
+    height: 77,
     flexDirection: 'row',
     justifyContent: 'center', 
   },

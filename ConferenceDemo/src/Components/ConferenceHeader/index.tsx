@@ -6,9 +6,8 @@ import React from 'react';
 import {
   View,
   Text,
+  TouchableOpacity,
 } from 'react-native';
-
-import TouchableOpacity from '../TouchableOpacity';
 
 import SwitchCameraIcon from '../../Assets/Icons/SwitchCamera.svg';
 import SelectAudioIcon from '../../Assets/Icons/SelectAudio.svg';

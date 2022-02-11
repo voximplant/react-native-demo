@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import TouchableOpacity from '../TouchableOpacity';
+import { TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 
