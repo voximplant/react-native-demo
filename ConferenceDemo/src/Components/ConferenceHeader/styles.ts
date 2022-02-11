@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 import { COLORS } from "../../Utils/constants";
 
@@ -13,7 +13,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: COLORS.BLACK,
-    marginTop: Platform.OS === "ios" ? 34 : 0
   },
   headerTitle: {
     lineHeight: 20,

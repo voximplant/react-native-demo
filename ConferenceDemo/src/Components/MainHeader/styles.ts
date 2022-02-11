@@ -13,7 +13,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: COLORS.PRIMARY,
-    marginTop: Platform.OS === "ios" ? 34 : 0
   },
   headerTitle: {
     lineHeight: 30,

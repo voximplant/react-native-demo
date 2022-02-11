@@ -3,8 +3,12 @@
  */
 
 import React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, StatusBar, View } from 'react-native';
+
 import ControlButton from '../../Components/ControlButton';
+import ConferenceHeader from '../../Components/ConferenceHeader';
+
+import { COLORS } from '../../Utils/constants';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
 import MicrophoneIcon from '../../Assets/Icons/Microphone.svg';
@@ -13,35 +17,40 @@ import styles from './styles';
 
 const ConferenceScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.videoContainer}>
-      </View>
-      <View style={styles.bottomControlBar}>
-        <View style={styles.buttonsWrapper}>
-          <ControlButton
-            Icon={VideocameraIcon}
-            onPress={() => {}}
-            styleFromProps={{
-              wrapper: styles.controlButtonWrapper,
-            }}
-          />
-          <ControlButton
-            Icon={MicrophoneIcon}
-            onPress={() => {}}
-            styleFromProps={{
-              wrapper: styles.controlButtonWrapper,
-            }}
-          />
-          <ControlButton
-            Icon={PhoneIcon}
-            onPress={() => {}}
-            styleFromProps={{
-              wrapper: styles.controlButtonWrapperHangup,
-            }}
-          />
+    <>
+      <SafeAreaView style={styles.firstArea} />
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle={'light-content'} backgroundColor={COLORS.BLACK} />
+        <ConferenceHeader />
+        <View style={styles.videoContainer}>
         </View>
-      </View>
-    </SafeAreaView>
+        <View style={styles.bottomControlBar}>
+          <View style={styles.buttonsWrapper}>
+            <ControlButton
+              Icon={VideocameraIcon}
+              onPress={() => {}}
+              styleFromProps={{
+                wrapper: styles.controlButtonWrapper,
+              }}
+            />
+            <ControlButton
+              Icon={MicrophoneIcon}
+              onPress={() => {}}
+              styleFromProps={{
+                wrapper: styles.controlButtonWrapper,
+              }}
+            />
+            <ControlButton
+              Icon={PhoneIcon}
+              onPress={() => {}}
+              styleFromProps={{
+                wrapper: styles.controlButtonWrapperHangup,
+              }}
+            />
+          </View>
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 
