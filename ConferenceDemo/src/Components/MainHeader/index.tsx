@@ -16,8 +16,7 @@ import { RootReducer } from '../../Core/Store';
 import Logout from '../../Assets/Icons/Logout.svg';
 import styles from './styles';
 
-
-const Header = () => {
+const MainHeader = () => {
   const dispatch = useDispatch()
   
   const displayName = useSelector((state: RootReducer) => state.loginReducer.user);
@@ -36,4 +35,4 @@ const Header = () => {
     </View>
 )};
 
-export default Header;
+export default MainHeader;

@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
 import styles from './styles';

@@ -16,6 +16,7 @@ export const loginWithPass = (username: string, password: string) => async (disp
     const result = await AuthService().loginWithPassword(username, password);
     dispatch(loginSuccess(result));
   } catch (error) {
+    
     const converted = convertError(error);
     dispatch(loginFailure(converted));
   }
@@ -30,12 +31,20 @@ export const loginWithToken = () => async (dispatch: AppDispatch) => {
   } catch (error) {
     //@ts-ignore
     if (error?.code === 701) {
-      const result = await AuthService().refreshToken();
-      dispatch(loginSuccess(result));
-    } else {
-      const converted = convertError(error);
-      dispatch(loginFailure(converted));
+      refreshToken();
     }
+  }
+  dispatch(toggleLoading());
+}
+
+export const refreshToken = () => async (dispatch: AppDispatch) => {
+  dispatch(toggleLoading());
+  try {
+    const result = await AuthService().refreshToken();
+    dispatch(loginSuccess(result));
+  } catch (error) {
+    const converted = convertError(error);
+    dispatch(loginFailure(converted));
   }
   dispatch(toggleLoading());
 }

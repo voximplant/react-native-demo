@@ -26,13 +26,14 @@ export default StyleSheet.create({
     height: 48,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: COLORS.BLUE,
+    borderColor: COLORS.PURPLE,
   },
   input: {
     paddingLeft: 10,
     lineHeight: 20,
     fontSize: 16,
     width: '100%',
+    color: COLORS.BLACK,
   },
   errorText: {
     color: COLORS.RED,
