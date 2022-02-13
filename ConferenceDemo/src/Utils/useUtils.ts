@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { Alert } from 'react-native';
+import { Alert, PermissionsAndroid, Platform } from 'react-native';
 
 import { IAuthError } from "./types";
 
@@ -13,6 +13,8 @@ type convertedErrorType = {
 };
 
 export const useUtils = () => {
+  const isIOS = Platform.OS === 'ios';
+
   const convertError = (error: IAuthError | any): convertedErrorType => {
     let convertedError = {
       other: '',
@@ -40,12 +42,31 @@ export const useUtils = () => {
     return convertedError;
   };
 
+  const checkAndroidMicrophonePermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        {
+          title: "Microphone Permission",
+          message: "Conference needs access to microphone",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK"
+        }
+      );
+      return (granted === PermissionsAndroid.RESULTS.GRANTED)
+    } catch (err) {
+      throw err;
+    }
+  };
+
   const showAllert = (message: string) => {
     Alert.alert('Login error', message, [{ text: 'OK' }]);
   };
 
   return {
+    isIOS,
     convertError,
     showAllert,
+    checkAndroidMicrophonePermission,
   };
 };

@@ -7,18 +7,15 @@ import { StyleSheet } from "react-native";
 import { COLORS } from "../../Utils/constants";
 
 export default StyleSheet.create({
-  firstArea: {
-    flex: 0,
-    backgroundColor: COLORS.PRIMARY,
-  },
   container: {
     flex: 1,
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: COLORS.PRIMARY,
   },
   contentWrapper: {
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 16,
+    backgroundColor: COLORS.WHITE,
   },
   settingsWrapper: {
     marginTop: 10,
