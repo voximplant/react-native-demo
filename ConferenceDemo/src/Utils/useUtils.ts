@@ -59,6 +59,23 @@ export const useUtils = () => {
     }
   };
 
+  const checkAndroidCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: "Camera Permission",
+          message: "Conference needs access to camera",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK"
+        }
+      );
+      return (granted === PermissionsAndroid.RESULTS.GRANTED)
+    } catch (err) {
+      throw err;
+    }
+  };
+
   const showAllert = (message: string) => {
     Alert.alert('Login error', message, [{ text: 'OK' }]);
   };
@@ -68,5 +85,6 @@ export const useUtils = () => {
     convertError,
     showAllert,
     checkAndroidMicrophonePermission,
+    checkAndroidCameraPermission,
   };
 };
