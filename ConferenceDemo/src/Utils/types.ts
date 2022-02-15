@@ -10,11 +10,16 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 export type RootStackParamList = {
   Login: undefined;
   Main: MainParamList;
-  Conference: undefined;
+  Conference: ConferenceParamList;
 };
 
 export type MainParamList = {
   displayName: string;
+}
+
+export type ConferenceParamList = {
+  conference: string;
+  localVideo: boolean;
 }
 
 export type ScreenNavigationProp<T extends keyof RootStackParamList> = 

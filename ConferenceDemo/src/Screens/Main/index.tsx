@@ -17,7 +17,7 @@ import { useUtils } from '../../Utils/useUtils';
 import styles from './styles';
 
 const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
-  const { isIOS, checkAndroidMicrophonePermission } = useUtils();
+  const { isIOS, checkAndroidMicrophonePermission , checkAndroidCameraPermission} = useUtils();
 
   const [conference, setConference] = useState('');
   const [isSendVideo, setSendVideo] = useState(false);
@@ -25,11 +25,12 @@ const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
   const startConference = async () => {
     try {
       if (isIOS) {
-        navigation.navigate('Conference');
+        navigation.navigate('Conference', { localVideo: isSendVideo, conference });
       } else {
-        const result = await checkAndroidMicrophonePermission();
-        if (result) {
-          navigation.navigate('Conference');
+        const result1 = await checkAndroidMicrophonePermission();
+        const result2 = await checkAndroidCameraPermission();
+        if (result1 && result2) { // result && isIOS
+          navigation.navigate('Conference', { localVideo: isSendVideo, conference });
         }
       }
     } catch (error) {

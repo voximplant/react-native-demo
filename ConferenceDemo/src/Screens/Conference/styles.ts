@@ -10,6 +10,8 @@ export default StyleSheet.create({
   videoContainer: {
     flex: 1,
     backgroundColor: '#1F1C28',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   bottomControlBar: {
     backgroundColor: 'white',
@@ -39,7 +41,15 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E3E4EB',
   },
+  controlButtonWrapperDisable: {
+    borderColor: 'red',
+    borderWidth: 2,
+  },
   controlButtonWrapperHangup: {
     backgroundColor: '#FF7875',
   },
+  selfview: {
+    width: 150,
+    height: 250,
+  }
 });
