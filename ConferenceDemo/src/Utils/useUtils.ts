@@ -43,37 +43,29 @@ export const useUtils = () => {
   };
 
   const checkAndroidMicrophonePermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-        {
-          title: "Microphone Permission",
-          message: "Conference needs access to microphone",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      return (granted === PermissionsAndroid.RESULTS.GRANTED)
-    } catch (err) {
-      throw err;
-    }
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      {
+        title: "Microphone Permission",
+        message: "Conference needs access to microphone",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+      }
+    );
+    return (granted === PermissionsAndroid.RESULTS.GRANTED)
   };
 
   const checkAndroidCameraPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: "Camera Permission",
-          message: "Conference needs access to camera",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      return (granted === PermissionsAndroid.RESULTS.GRANTED)
-    } catch (err) {
-      throw err;
-    }
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      {
+        title: "Camera Permission",
+        message: "Conference needs access to camera",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+      }
+    );
+    return (granted === PermissionsAndroid.RESULTS.GRANTED)
   };
 
   const showAllert = (message: string) => {

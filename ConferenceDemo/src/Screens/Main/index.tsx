@@ -24,13 +24,12 @@ const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
 
   const startConference = async () => {
     try {
-      if (isIOS) {
+      let result;
+      if (!isIOS) {
+        result = await checkAndroidMicrophonePermission();
+      }
+      if (result || isIOS) {
         navigation.navigate('Conference');
-      } else {
-        const result = await checkAndroidMicrophonePermission();
-        if (result) {
-          navigation.navigate('Conference');
-        }
       }
     } catch (error) {
       console.warn('Something was wrong with android permissions...');
