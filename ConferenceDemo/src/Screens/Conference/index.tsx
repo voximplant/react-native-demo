@@ -7,13 +7,15 @@ import { StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //@ts-ignore
 import {Voximplant} from 'react-native-voximplant';
+import { useSelector } from 'react-redux';
 
 import ControlButton from '../../Components/ControlButton';
 import ConferenceHeader from '../../Components/ConferenceHeader';
 
 import { COLORS } from '../../Utils/constants';
 import { IScreenProps } from '../../Utils/types';
-import { CallService } from '../../Core/Services/CallService';
+import { ConferenceService } from '../../Core/Services/ConferenceService';
+import { RootReducer } from '../../Core/Store';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
 import MicrophoneIcon from '../../Assets/Icons/Microphone.svg';
@@ -22,43 +24,34 @@ import styles from './styles';
 
 const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const { localVideo, conference } = route.params;
-  const { localVideoStreamId, remoteVideoStreamIds, startConference, endConference, muteAudio, isMuted, sendVideo } = CallService();
 
+  const participants = useSelector((state: RootReducer) => state.conferenceReducer.participants);
+  const { startConference, endConference, muteAudio, isMuted } = ConferenceService();
   
   useEffect(() => {
     startConference(conference, localVideo);
   }, []);
 
-  console.log('remoteVideoStreamIds', remoteVideoStreamIds);
-  
-  const renderRemote = () => {
-    remoteVideoStreamIds.forEach((el) =>{
-      <Voximplant.VideoView
-        style={styles.selfview}
-        videoStreamId={el}
-        scaleType={Voximplant.RenderScaleType.SCALE_FIT}
-      />
-    })
-  };
-
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar barStyle={'light-content'} backgroundColor={COLORS.BLACK} />
       <ConferenceHeader />
-      <View style={styles.videoContainer}>
-          {renderRemote()}
-          <Voximplant.VideoView
-            style={styles.selfview}
-            videoStreamId={localVideoStreamId}
-            scaleType={Voximplant.RenderScaleType.SCALE_FIT}
-            showOnTop={true}
-          />
+       <View style={styles.videoContainer}>
+        {participants?.map((el) => (
+           <Voximplant.VideoView
+           key={el.id}
+           style={styles.selfview}
+           videoStreamId={el.streamId}
+           scaleType={Voximplant.RenderScaleType.SCALE_FIT}
+           showOnTop={true}
+         />
+        ))}
       </View>
       <View style={styles.bottomControlBar}> 
         <View style={styles.buttonsWrapper}>
           <ControlButton
             Icon={VideocameraIcon}
-            onPress={() => sendVideo(localVideo)}
+            onPress={() => {}}
             styleFromProps={{
               wrapper: styles.controlButtonWrapper,
             }}
@@ -75,7 +68,7 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
           />
           <ControlButton
             Icon={PhoneIcon}
-            onPress={() => endConference()}
+            onPress={endConference}
             styleFromProps={{
               wrapper: styles.controlButtonWrapperHangup,
             }}

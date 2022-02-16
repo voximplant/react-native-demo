@@ -4,7 +4,7 @@
 
 import { Alert, PermissionsAndroid, Platform } from 'react-native';
 
-import { IAuthError } from "./types";
+import { IAuthError, IParticipant } from "./types";
 
 type convertedErrorType = {
   other: string;
@@ -80,11 +80,20 @@ export const useUtils = () => {
     Alert.alert('Login error', message, [{ text: 'OK' }]);
   };
 
+  const convertParticitantModel = ({id, name, streamId }: IParticipant) => {
+    return {
+      id,
+      name: name ?? '',
+      streamId,
+    }
+  };
+
   return {
     isIOS,
     convertError,
     showAllert,
     checkAndroidMicrophonePermission,
     checkAndroidCameraPermission,
+    convertParticitantModel,
   };
 };

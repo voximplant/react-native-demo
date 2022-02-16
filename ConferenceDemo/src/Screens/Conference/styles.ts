@@ -11,7 +11,7 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: '#1F1C28',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
   bottomControlBar: {
     backgroundColor: 'white',
@@ -50,6 +50,9 @@ export default StyleSheet.create({
   },
   selfview: {
     width: 150,
-    height: 250,
+    height: 200,
+    backgroundColor: COLORS.BLACK,
+    borderWidth: 3,
+    borderColor: COLORS.PRIMARY,
   }
 });
