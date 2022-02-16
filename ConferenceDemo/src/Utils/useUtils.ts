@@ -47,7 +47,7 @@ export const useUtils = () => {
       PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
       {
         title: "Microphone Permission",
-        message: "Conference needs access to microphone",
+        message: "To join a conference call, please allow access to the microphone",
         buttonNegative: "Cancel",
         buttonPositive: "OK"
       }
@@ -60,7 +60,7 @@ export const useUtils = () => {
       PermissionsAndroid.PERMISSIONS.CAMERA,
       {
         title: "Camera Permission",
-        message: "Conference needs access to camera",
+        message: "To enable video in a conference call, please allow access to the camera",
         buttonNegative: "Cancel",
         buttonPositive: "OK"
       }
