@@ -3,7 +3,8 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { StatusBar, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CustomButton from '../../Components/CustomButton';
@@ -12,6 +13,7 @@ import CustomInput from '../../Components/CustomInput';
 import { RootReducer } from '../../Core/Store';
 import { clearErrors } from '../../Core/Store/global/actions';
 import { loginWithPass } from '../../Core/Store/login/actions';
+import { COLORS } from '../../Utils/constants';
 import { useUtils } from '../../Utils/useUtils';
 
 import styles from './styles';
@@ -39,31 +41,34 @@ const LoginScreen = () => {
   }, [userName, password]);
 
   return (
-    <View style={styles.container}>
-      <CustomInput
-        title={'Login'}
-        value={userName}
-        isLogin
-        validationText={error?.login}
-        setValue={setUserName}
-        placeholder={'user@app.account'}
-        styleFromProps={{
-          input: styles.usernameInput,
-        }}
-      />
-      <CustomInput
-        title={'Password'}
-        value={password}
-        isPassword
-        validationText={error?.password}
-        placeholder={'password'}
-        setValue={setPassword}
-      />
-      <CustomButton
-        title={"Login"}
-        onPress={login}
-      />
-    </View>
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <View style={styles.contentWrapper}>
+        <StatusBar barStyle={'light-content'} backgroundColor={COLORS.PRIMARY} />
+        <CustomInput
+          title={'Login'}
+          value={userName}
+          isLogin
+          validationText={error?.login}
+          setValue={setUserName}
+          placeholder={'user@app.account'}
+          styleFromProps={{
+            input: styles.usernameInput,
+          }}
+        />
+        <CustomInput
+          title={'Password'}
+          value={password}
+          isPassword
+          validationText={error?.password}
+          placeholder={'password'}
+          setValue={setPassword}
+        />
+        <CustomButton
+          title={"Login"}
+          onPress={login}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 

@@ -40,7 +40,7 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
 
   const toggleMuteAudio = () => {
     dispatch(toggleIsMuted());
-    muteAudio(!isMuted);
+    muteAudio(isMuted);
   };
 
   const toggleLocalVideo = async () => {

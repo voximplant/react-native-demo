@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { IParticipant } from "../../../Utils/types";
+import { ICallFailed, IParticipant } from "../../../Utils/types";
 import { conferenceActions } from "./actionTypes";
 
 export const toggleIsMuted = () => ({
@@ -18,12 +18,12 @@ export const changeCallState = (payload: string) => ({
   payload,
 });
 
-export const addParticipant = (payload: IParticipant) => ({
-  type: conferenceActions.ADD_PARTICIPANT,
+export const callFailed = (payload: ICallFailed) => ({
+  type: conferenceActions.CALL_FAILED,
   payload,
 });
 
-export const updateParticipant = (payload: IParticipant) => ({
+export const updateParticipants = (payload: IParticipant) => ({
   type: conferenceActions.UPDATE_PARTICIPANTS,
   payload,
 });

@@ -40,7 +40,7 @@ const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
       }
     }
     if (result || isIOS) {
-      navigation.navigate('Conference', { localVideo: sendVideo, conference });
+      navigation.navigate('Conference', { conference });
     }
   };
 

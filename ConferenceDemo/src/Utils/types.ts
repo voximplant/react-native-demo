@@ -19,7 +19,6 @@ export type MainParamList = {
 
 export type ConferenceParamList = {
   conference: string;
-  localVideo: boolean;
 }
 
 export type ScreenNavigationProp<T extends keyof RootStackParamList> = 
@@ -62,4 +61,9 @@ export type IParticipant = {
   id: string;
   name?: string;
   streamId?: string;
+}
+
+export type ICallFailed = {
+  reason: string;
+  callState: string;
 }
