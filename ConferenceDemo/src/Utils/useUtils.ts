@@ -14,6 +14,7 @@ type convertedErrorType = {
 
 export const useUtils = () => {
   const isIOS = Platform.OS === 'ios';
+  const isAndroid = Platform.OS === 'android';
 
   const convertError = (error: IAuthError | any): convertedErrorType => {
     let convertedError = {
@@ -43,37 +44,29 @@ export const useUtils = () => {
   };
 
   const checkAndroidMicrophonePermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-        {
-          title: "Microphone Permission",
-          message: "Conference needs access to microphone",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      return (granted === PermissionsAndroid.RESULTS.GRANTED)
-    } catch (err) {
-      throw err;
-    }
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      {
+        title: "Microphone Permission",
+        message: "To join a conference call, please allow access to the microphone",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+      }
+    );
+    return (granted === PermissionsAndroid.RESULTS.GRANTED)
   };
 
   const checkAndroidCameraPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: "Camera Permission",
-          message: "Conference needs access to camera",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      return (granted === PermissionsAndroid.RESULTS.GRANTED)
-    } catch (err) {
-      throw err;
-    }
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      {
+        title: "Camera Permission",
+        message: "To enable video in a conference call, please allow access to the camera",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+      }
+    );
+    return (granted === PermissionsAndroid.RESULTS.GRANTED)
   };
 
   const showAllert = (message: string) => {
@@ -90,6 +83,7 @@ export const useUtils = () => {
 
   return {
     isIOS,
+    isAndroid,
     convertError,
     showAllert,
     checkAndroidMicrophonePermission,

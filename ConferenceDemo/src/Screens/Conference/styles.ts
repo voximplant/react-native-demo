@@ -19,7 +19,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     ...Platform.select({
       ios: {
-        height: 101, // bad for ios below 10
+        height: 101, // TODO: change styles for ios below 10
       },
       android: {
         height: 77,
