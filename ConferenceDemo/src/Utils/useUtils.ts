@@ -14,6 +14,7 @@ type convertedErrorType = {
 
 export const useUtils = () => {
   const isIOS = Platform.OS === 'ios';
+  const isAndroid = Platform.OS === 'android';
 
   const convertError = (error: IAuthError | any): convertedErrorType => {
     let convertedError = {
@@ -74,6 +75,7 @@ export const useUtils = () => {
 
   return {
     isIOS,
+    isAndroid,
     convertError,
     showAllert,
     checkAndroidMicrophonePermission,

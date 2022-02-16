@@ -17,22 +17,22 @@ import { useUtils } from '../../Utils/useUtils';
 import styles from './styles';
 
 const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
-  const { isIOS, checkAndroidMicrophonePermission } = useUtils();
+  const { isIOS, isAndroid, checkAndroidMicrophonePermission } = useUtils();
 
   const [conference, setConference] = useState('');
   const [isSendVideo, setSendVideo] = useState(false);
 
   const startConference = async () => {
-    try {
-      let result;
-      if (!isIOS) {
+    let result;
+    if (isAndroid) {
+      try {
         result = await checkAndroidMicrophonePermission();
+      } catch (error) {
+        console.warn('Something was wrong with android permissions...');
       }
-      if (result || isIOS) {
-        navigation.navigate('Conference');
-      }
-    } catch (error) {
-      console.warn('Something was wrong with android permissions...');
+    }
+    if (result || isIOS) {
+      navigation.navigate('Conference');
     }
   };
 
