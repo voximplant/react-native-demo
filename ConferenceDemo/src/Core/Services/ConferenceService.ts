@@ -3,7 +3,7 @@
  */
 
 import { useNavigation } from '@react-navigation/native';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 //@ts-ignore
 import {Voximplant} from 'react-native-voximplant';
 import { useDispatch } from 'react-redux';
@@ -15,14 +15,11 @@ import { addParticipant, changeCallState, removeParticipant, updateParticipant }
 
 export const ConferenceService = () => {
   const client = Voximplant.getInstance();
-
   const dispatch = useDispatch();
   const { convertParticitantModel } = useUtils();
 
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
   const currentConference = useRef<Voximplant.Call>();
-
-  const [isMuted, setIsMuted] = useState(false);
 
   const startConference = async (conference: string, localVideo: boolean) => {
     const callSettings = {
@@ -35,23 +32,31 @@ export const ConferenceService = () => {
     subscribeToConferenceEvents();
   }
 
-
   const subscribeToConferenceEvents = () => {
     currentConference.current?.on(Voximplant.CallEvents.Connected, (callEvent: any) => {
+      const model = convertParticitantModel({id: callEvent.call.callId});
+      dispatch(updateParticipant(model));
       dispatch(changeCallState('Connected'));
     });
     currentConference.current?.on(Voximplant.CallEvents.Disconnected, (callEvent: any) => {
-      endConference();
+      const model = convertParticitantModel({id: callEvent.call.callId});
+      dispatch(removeParticipant(model));
+      dispatch(changeCallState('Disconnected'));
+      unsubscribeToConferenceEvents();
+      currentConference.current = null;
     });
     currentConference.current?.on(Voximplant.CallEvents.Failed, (callEvent: any) => {
+      console.log('==================FAILED==================');
       unsubscribeToConferenceEvents();
       // TODO: dispatch(callFailed(callEvent.reason));
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamAdded, (callEvent: any) => {
+      console.log('==================LocalVideoStreamAdded==================');
       const model = convertParticitantModel({id: callEvent.call.callId, streamId: callEvent.videoStream.id});
-      dispatch(addParticipant(model));
+      dispatch(updateParticipant(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamRemoved, (callEvent: any) => {
+      console.log('==================LocalVideoStreamRemoved==================');
       const model = convertParticitantModel({id: callEvent.call.callId, streamId: ''});
       dispatch(updateParticipant(model));
     });
@@ -67,13 +72,13 @@ export const ConferenceService = () => {
       Voximplant.EndpointEvents.RemoteVideoStreamAdded,
       (endpointEvent: any) => {
         const model = convertParticitantModel({id: endpointEvent.endpoint.id, streamId: endpointEvent.videoStream.id});
-        dispatch(addParticipant(model));
+        dispatch(updateParticipant(model));
       },
     );
     endpoint.on(
       Voximplant.EndpointEvents.RemoteVideoStreamRemoved,
       (endpointEvent: any) => {
-        const model = convertParticitantModel({id: endpointEvent.endpoint.id, streamId: endpointEvent.videoStream.id});
+        const model = convertParticitantModel({id: endpointEvent.endpoint.id, streamId: ''});
         dispatch(updateParticipant(model));
       },
     );
@@ -97,8 +102,6 @@ export const ConferenceService = () => {
 
   const endConference = () => {
     hangUp();
-    unsubscribeToConferenceEvents();
-    currentConference.current = null;
     navigation.navigate('Main');
   };
 
@@ -106,9 +109,12 @@ export const ConferenceService = () => {
     currentConference.current?.hangup();
   };
 
-  const muteAudio = () => {
+  const muteAudio = (isMuted: boolean) => {
     currentConference.current.sendAudio(isMuted);
-    setIsMuted(!isMuted);
+  };
+
+  const sendLocalVideo = async (isSendVideo: boolean) => {
+    await currentConference.current.sendVideo(isSendVideo);
   };
 
   return {
@@ -116,6 +122,6 @@ export const ConferenceService = () => {
     endConference,
     currentConference,
     muteAudio,
-    isMuted,
+    sendLocalVideo,
   };
 };

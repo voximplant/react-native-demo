@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { View, Switch, Text, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CustomInput from '../../Components/CustomInput';
 import CustomButton from '../../Components/CustomButton';
@@ -13,24 +14,31 @@ import MainHeader from '../../Components/MainHeader';
 import { IScreenProps } from '../../Utils/types';
 import { COLORS } from '../../Utils/constants';
 import { useUtils } from '../../Utils/useUtils';
+import { toggleIsLocalVideo } from '../../Core/Store/conference/actions';
 
 import styles from './styles';
+import { RootReducer } from '../../Core/Store';
 
 const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
+  const dispatch = useDispatch();
   const { isIOS, checkAndroidMicrophonePermission , checkAndroidCameraPermission} = useUtils();
+  const sendVideo = useSelector((state: RootReducer) => state.conferenceReducer.sendLocalVideo);
 
-  const [conference, setConference] = useState('');
-  const [isSendVideo, setSendVideo] = useState(false);
+  const [conference, setConference] = useState('myconf1');
+
+  const toggleVideo = () => {
+    dispatch(toggleIsLocalVideo());
+  };
 
   const startConference = async () => {
     try {
       if (isIOS) {
-        navigation.navigate('Conference', { localVideo: isSendVideo, conference });
+        navigation.navigate('Conference', { localVideo: sendVideo, conference });
       } else {
         const result1 = await checkAndroidMicrophonePermission();
         const result2 = await checkAndroidCameraPermission();
         if (result1 && result2) { // result && isIOS
-          navigation.navigate('Conference', { localVideo: isSendVideo, conference });
+          navigation.navigate('Conference', { localVideo: sendVideo, conference });
         }
       }
     } catch (error) {
@@ -53,8 +61,8 @@ const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
           <Text style={styles.settingsText}>Send local video:</Text>
           <Switch
             trackColor={{ false: "#767577", true: "#54FF00" }}
-            onValueChange={setSendVideo}
-            value={isSendVideo}
+            onValueChange={toggleVideo}
+            value={sendVideo}
           />
         </View>
         <CustomButton

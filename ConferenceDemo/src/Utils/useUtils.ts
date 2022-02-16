@@ -84,7 +84,7 @@ export const useUtils = () => {
     return {
       id,
       name: name ?? '',
-      streamId,
+      streamId: streamId ?? '',
     }
   };
 

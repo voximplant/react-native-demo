@@ -41,10 +41,6 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E3E4EB',
   },
-  controlButtonWrapperDisable: {
-    borderColor: 'red',
-    borderWidth: 2,
-  },
   controlButtonWrapperHangup: {
     backgroundColor: '#FF7875',
   },
@@ -54,5 +50,12 @@ export default StyleSheet.create({
     backgroundColor: COLORS.BLACK,
     borderWidth: 3,
     borderColor: COLORS.PRIMARY,
-  }
+  },
+  withoutLocalVideo: {
+    width: 150,
+    height: 200,
+    backgroundColor: COLORS.PURPLE,
+    borderWidth: 3,
+    borderColor: COLORS.PRIMARY,
+  },
 });
