@@ -31,7 +31,7 @@ const conferenceReducer = (state = initialState, action: IReduxAction): IConfere
       return { ...state, sendLocalVideo: !state.sendLocalVideo };
     }
     case conferenceActions.CHANGE_CALL_STATE: {
-      return { ...state, callState: payload, error: '' }
+      return { ...state, callState: payload.callState, participants: payload?.participants, error: '' }
     }
     case conferenceActions.CALL_FAILED:
       return { ...state, callState: payload.callState, error: payload.reason }
