@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
+ */
+
 import React from "react";
 import { View, Text } from "react-native";
 //@ts-ignore
@@ -22,13 +26,15 @@ const ParticipantCard = ({participant, containerHeight, containerWidth, particip
   const isActiveVoice = true;
 
   return (
-    <View style={[
-      styles.participantWrapper,
-      isActiveVoice && styles.activeVoice,
-      dynamicComputeStyles(containerHeight, containerWidth, participantsCount, index)
-    ]}>
+    <View 
+      key={participant.id}
+      style={[
+        styles.participantWrapper,
+        isActiveVoice && styles.activeVoice,
+        dynamicComputeStyles(containerHeight, containerWidth, participantsCount, index)
+      ]}
+    >
       <Voximplant.VideoView
-        key={participant.id}
         style={styles.selfview}
         videoStreamId={participant.streamId}
         scaleType={Voximplant.RenderScaleType.SCALE_FIT} // TODO: need to think about SCALE_FILL

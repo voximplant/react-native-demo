@@ -7,14 +7,28 @@ import { useRef } from 'react';
 //@ts-ignore
 import {Voximplant} from 'react-native-voximplant';
 import { useDispatch } from 'react-redux';
+
 import { ScreenNavigationProp } from '../../Utils/types';
-
 import { useUtils } from '../../Utils/useUtils';
+import { store } from '../Store';
 
-import { callFailed, changeCallState, removeParticipant, updateParticipants } from '../Store/conference/actions';
+import {
+  callFailed,
+  changeCallState,
+  removeParticipant,
+  removeVideoStreamAdded,
+  removeVideoStreamRemoved,
+  addParticipant,
+  localVideoStreamAdded,
+  localVideoStreamRemoved,
+  endpointAdded,
+  endpointRemoved,
+} from '../Store/conference/actions';
 
 export const ConferenceService = () => {
   const client = Voximplant.getInstance();
+  const userName = store.getState().loginReducer?.user;
+
   const dispatch = useDispatch();
   const { convertParticitantModel } = useUtils();
 
@@ -34,10 +48,9 @@ export const ConferenceService = () => {
 
   const subscribeToConferenceEvents = () => {
     currentConference.current?.on(Voximplant.CallEvents.Connected, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId});
-      dispatch(updateParticipants(model));
       dispatch(changeCallState('Connected'));
-      // TODO: bug localvideo is active before call started, and streamId rewrited empty string
+      const model = convertParticitantModel({id: callEvent.call.callId, name: userName, streamId: ''});
+      dispatch(addParticipant(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.Disconnected, (callEvent: any) => {
       const model = convertParticitantModel({id: callEvent.call.callId});
@@ -51,15 +64,17 @@ export const ConferenceService = () => {
       unsubscribeToConferenceEvents();
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamAdded, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId, streamId: callEvent.videoStream.id});
-      dispatch(updateParticipants(model));
+      const model = convertParticitantModel({id: callEvent.call.callId, name: userName, streamId: callEvent.videoStream.id});
+      dispatch(localVideoStreamAdded(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamRemoved, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId, streamId: ''});
-      dispatch(updateParticipants(model));
+      const model = convertParticitantModel({id: callEvent.call.callId, name: userName, streamId: ''});
+      dispatch(localVideoStreamRemoved(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.EndpointAdded, (callEvent: any) => {
       if (currentConference.current?.callId !== callEvent.endpoint.id) {
+        const model = convertParticitantModel({id: callEvent.endpoint.id, name: callEvent.displayName, streamId: ''});
+        dispatch(endpointAdded(model))
         subscribeToEndpointEvents(callEvent.endpoint);
       }
     });
@@ -69,22 +84,20 @@ export const ConferenceService = () => {
     endpoint.on(
       Voximplant.EndpointEvents.RemoteVideoStreamAdded,
       (endpointEvent: any) => {
-        const model = convertParticitantModel({id: endpointEvent.endpoint.id, streamId: endpointEvent.videoStream.id});
-        dispatch(updateParticipants(model));
+        dispatch(removeVideoStreamAdded({id: endpointEvent.endpoint.id, streamId: endpointEvent.videoStream.id}));
       },
     );
     endpoint.on(
       Voximplant.EndpointEvents.RemoteVideoStreamRemoved,
       (endpointEvent: any) => {
-        const model = convertParticitantModel({id: endpointEvent.endpoint.id, streamId: ''});
-        dispatch(updateParticipants(model));
+        dispatch(removeVideoStreamRemoved({id: endpointEvent.endpoint.id}));
       },
     );
     endpoint.on(
       Voximplant.EndpointEvents.Removed,
       (endpointEvent: any) => {
         const model = convertParticitantModel({ id: endpointEvent.endpoint.id });
-        dispatch(removeParticipant(model));
+        dispatch(endpointRemoved(model));
       },
     );
   }
@@ -118,7 +131,6 @@ export const ConferenceService = () => {
   return {
     startConference,
     endConference,
-    currentConference,
     muteAudio,
     sendLocalVideo,
   };
