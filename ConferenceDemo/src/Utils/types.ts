@@ -67,3 +67,8 @@ export type ICallFailed = {
   reason: string;
   callState: string;
 }
+
+export type ICallDisconnected = {
+  callState: string;
+  participants?: [];
+}

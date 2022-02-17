@@ -6,16 +6,17 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import ControlButton from '../../Components/ControlButton';
 import ConferenceHeader from '../../Components/ConferenceHeader';
 import ParticipantCard from '../../Components/ParticipantCard';
 
 import { COLORS } from '../../Utils/constants';
-import { IScreenProps } from '../../Utils/types';
+import { IScreenProps, ScreenNavigationProp } from '../../Utils/types';
 import { ConferenceService } from '../../Core/Services/ConferenceService';
 import { RootReducer } from '../../Core/Store';
-import { toggleIsLocalVideo, toggleIsMuted } from '../../Core/Store/conference/actions';
+import { toggleIsMuted } from '../../Core/Store/conference/actions';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
 import MicrophoneIcon from '../../Assets/Icons/Microphone.svg';
@@ -27,11 +28,13 @@ import styles from './styles';
 const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const { conference } = route.params;
   const dispatch = useDispatch();
+  const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
+  const { startConference, endConference, muteAudio, sendLocalVideo } = ConferenceService();
+
   const isSendVideo = useSelector((state: RootReducer) => state.conferenceReducer.sendLocalVideo);
   const isMuted = useSelector((state: RootReducer) => state.conferenceReducer.isMuted);
-
+  const callState = useSelector((state: RootReducer) => state.conferenceReducer.callState);
   const participants = useSelector((state: RootReducer) => state.conferenceReducer.participants);
-  const { startConference, endConference, muteAudio, sendLocalVideo } = ConferenceService();
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
 
@@ -39,14 +42,19 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
     startConference(conference, isSendVideo);
   }, []);
 
+  useEffect(() => {
+    if (callState === 'Disconnected') {
+      navigation.navigate('Main');
+    }
+  }, [callState]);
+
   const toggleMuteAudio = () => {
     dispatch(toggleIsMuted());
     muteAudio(isMuted);
   };
 
   const toggleLocalVideo = async () => {
-    dispatch(toggleIsLocalVideo());
-    await sendLocalVideo(!isSendVideo);
+    await sendLocalVideo(isSendVideo);
   };
 
   return (

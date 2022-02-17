@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { ICallFailed, IParticipant } from "../../../Utils/types";
+import { ICallDisconnected, ICallFailed, IParticipant } from "../../../Utils/types";
 import { conferenceActions } from "./actionTypes";
 
 export const toggleIsMuted = () => ({
@@ -13,7 +13,7 @@ export const toggleIsLocalVideo = () => ({
   type: conferenceActions.TOGGLE_LOCAL_VIDEO,
 });
 
-export const changeCallState = (payload: string) => ({
+export const changeCallState = (payload: ICallDisconnected) => ({
   type: conferenceActions.CHANGE_CALL_STATE,
   payload,
 });
