@@ -81,6 +81,46 @@ export const useUtils = () => {
     }
   };
 
+  const dynamicComputeStyles = (
+    containerHeight: number,
+    containerWidth: number,
+    participantsCount: number,
+    index: number,
+  ) => {
+    const forOne = {height: containerHeight, width: containerWidth};
+    const forTwo = {height: containerHeight / 2, width: containerWidth};
+    const forThreePartOne = {height: containerHeight / 2, width: containerWidth / 2};
+    const forFour = {height: containerHeight / 2, width: containerWidth / 2};
+    const forFivePartOne = {height: containerHeight / 2, width: containerWidth / 3};
+  
+    if (participantsCount === 1) {
+      return forOne;
+    }
+    if (participantsCount === 2) {
+      return forTwo;
+    }
+    if (participantsCount === 3) {
+      if (index === 0 || index === 1) {
+        return forThreePartOne;
+      } else {
+        return forTwo;
+      }
+    }
+    if (participantsCount === 4) {
+      return forFour;
+    }
+    if (participantsCount === 5) {
+      if (index <= 2) {
+        return forFivePartOne;
+      } else {
+        return forFour;
+      }
+    }
+    if (participantsCount >= 6) {
+      return forFivePartOne;
+    }
+  };
+
   return {
     isIOS,
     isAndroid,
@@ -89,5 +129,6 @@ export const useUtils = () => {
     checkAndroidMicrophonePermission,
     checkAndroidCameraPermission,
     convertParticitantModel,
+    dynamicComputeStyles,
   };
 };

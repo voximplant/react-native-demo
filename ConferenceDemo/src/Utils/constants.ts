@@ -8,6 +8,7 @@ export const COLORS = {
   RED: '#FF0000',
   PURPLE: '#662EFF',
   BLACK: '#000000',
+  MINT: '#B4F8C8',
 }
 
 export const STORAGE = {
