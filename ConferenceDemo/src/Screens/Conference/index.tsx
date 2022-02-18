@@ -35,7 +35,6 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const isMuted = useSelector((state: RootReducer) => state.conferenceReducer.isMuted);
   const callState = useSelector((state: RootReducer) => state.conferenceReducer.callState);
   const participants = useSelector((state: RootReducer) => state.conferenceReducer.participants);
-
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
 
