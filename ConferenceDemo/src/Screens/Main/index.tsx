@@ -14,7 +14,7 @@ import MainHeader from '../../Components/MainHeader';
 import { IScreenProps } from '../../Utils/types';
 import { COLORS } from '../../Utils/constants';
 import { useUtils } from '../../Utils/useUtils';
-import { toggleIsLocalVideo } from '../../Core/Store/conference/actions';
+import { changeCallState, toggleIsLocalVideo } from '../../Core/Store/conference/actions';
 
 import styles from './styles';
 import { RootReducer } from '../../Core/Store';
@@ -40,6 +40,7 @@ const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
       }
     }
     if (result || isIOS) {
+      dispatch(changeCallState({callState: 'Connecting...', participants: []}));
       navigation.navigate('Conference', { conference });
     }
   };

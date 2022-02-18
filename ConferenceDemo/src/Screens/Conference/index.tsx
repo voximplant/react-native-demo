@@ -16,7 +16,7 @@ import { COLORS } from '../../Utils/constants';
 import { IScreenProps, ScreenNavigationProp } from '../../Utils/types';
 import { ConferenceService } from '../../Core/Services/ConferenceService';
 import { RootReducer } from '../../Core/Store';
-import { toggleIsMuted } from '../../Core/Store/conference/actions';
+import { toggleIsLocalVideo, toggleIsMuted } from '../../Core/Store/conference/actions';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
 import MicrophoneIcon from '../../Assets/Icons/Microphone.svg';
@@ -27,7 +27,8 @@ import styles from './styles';
 
 const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const { conference } = route.params;
-  const dispatch = useDispatch();  const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
+  const dispatch = useDispatch();
+  const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
   const { startConference, endConference, muteAudio, sendLocalVideo } = ConferenceService();
 
   const isSendVideo = useSelector((state: RootReducer) => state.conferenceReducer.sendLocalVideo);
@@ -43,7 +44,7 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   }, []);
 
   useEffect(() => {
-    if (callState === 'Disconnected') {
+    if (callState === 'Disconnected' || callState === 'Failed') {
       navigation.navigate('Main');
     }
   }, [callState]);
@@ -54,7 +55,12 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   };
 
   const toggleLocalVideo = async () => {
-    await sendLocalVideo(isSendVideo);
+    try {
+      await sendLocalVideo(!isSendVideo);
+      dispatch(toggleIsLocalVideo());
+    } catch (error) {
+      console.log('[ConferenceService]:[ERROR] => sendLocalVideo method');
+    }
   };
 
   return (

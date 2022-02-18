@@ -13,7 +13,6 @@ import { store } from '../Store';
 import {
   callFailed,
   changeCallState,
-  removeParticipant,
   removeVideoStreamAdded,
   removeVideoStreamRemoved,
   addParticipant,
@@ -46,13 +45,11 @@ export const ConferenceService = () => {
 
   const subscribeToConferenceEvents = () => {
     currentConference.current?.on(Voximplant.CallEvents.Connected, (callEvent: any) => {
-      dispatch(changeCallState({callState: 'Connected'}));
+      dispatch(changeCallState({callState: 'Connected', participants: []}));
       const model = convertParticitantModel({id: callEvent.call.callId, name: userName, streamId: ''});
       dispatch(addParticipant(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.Disconnected, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId});
-      dispatch(removeParticipant(model)); // remove?
       dispatch(changeCallState({callState: 'Disconnected', participants: []}));
       unsubscribeFromConferenceEvents();
       currentConference.current = null;
@@ -122,12 +119,7 @@ export const ConferenceService = () => {
   };
 
   const sendLocalVideo = async (isSendVideo: boolean) => {
-    try {
-      await currentConference.current.sendVideo(isSendVideo);
-      dispatch(toggleIsLocalVideo());
-    } catch (error) {
-      console.log('[ConferenceService]:[ERROR] => sendLocalVideo method');
-    }
+    await currentConference.current.sendVideo(isSendVideo);
   };
 
   return {
