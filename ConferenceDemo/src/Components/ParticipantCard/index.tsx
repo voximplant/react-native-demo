@@ -21,16 +21,21 @@ interface IProps {
   index: number;
 };
 
-const ParticipantCard = ({participant, containerHeight, containerWidth, participantsCount, index}: IProps) => {
+const ParticipantCard = ({
+  participant,
+  containerHeight,
+  containerWidth,
+  participantsCount,
+  index,
+}: IProps) => {
   const  { dynamicComputeStyles } = useUtils();
-  const isActiveVoice = true;
 
   return (
     <View 
       key={participant.id}
       style={[
         styles.participantWrapper,
-        isActiveVoice && styles.activeVoice,
+        participant.isActiveVoice && styles.activeVoice,
         dynamicComputeStyles(containerHeight, containerWidth, participantsCount, index)
       ]}
     >

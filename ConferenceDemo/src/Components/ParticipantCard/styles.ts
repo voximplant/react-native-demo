@@ -14,7 +14,7 @@ export default StyleSheet.create({
     borderColor: COLORS.PRIMARY,
   },
   activeVoice: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: COLORS.MINT,
   },
   selfview: {
