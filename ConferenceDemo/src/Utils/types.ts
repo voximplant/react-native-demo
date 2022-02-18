@@ -9,12 +9,16 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Login: undefined;
-  Main: MainParamList;
-  Conference: undefined;
+  Main: MainParamList | undefined;
+  Conference: ConferenceParamList;
 };
 
 export type MainParamList = {
   displayName: string;
+}
+
+export type ConferenceParamList = {
+  conference: string;
 }
 
 export type ScreenNavigationProp<T extends keyof RootStackParamList> = 
@@ -51,4 +55,20 @@ export type TextInputRefType = RefObject<TextInput>;
 export interface IReduxAction {
   type: string;
   payload?: any;
+}
+
+export type IParticipant = {
+  id: string;
+  name?: string;
+  streamId?: string;
+}
+
+export type ICallFailed = {
+  reason: string;
+  callState: string;
+}
+
+export type ICallDisconnected = {
+  callState: string;
+  participants?: [];
 }

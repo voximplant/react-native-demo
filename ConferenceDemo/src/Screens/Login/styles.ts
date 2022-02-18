@@ -9,9 +9,13 @@ import { COLORS } from "../../Utils/constants";
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.PRIMARY,
+  },
+  contentWrapper: {
+    flex: 1,
     justifyContent: 'center',
-    backgroundColor: COLORS.WHITE,
     paddingHorizontal: 16,
+    backgroundColor: COLORS.WHITE,
   },
   usernameInput: {
     width: '60%',

@@ -10,6 +10,8 @@ export default StyleSheet.create({
   videoContainer: {
     flex: 1,
     backgroundColor: '#1F1C28',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   bottomControlBar: {
     backgroundColor: 'white',
@@ -41,5 +43,19 @@ export default StyleSheet.create({
   },
   controlButtonWrapperHangup: {
     backgroundColor: '#FF7875',
+  },
+  selfview: {
+    width: 150,
+    height: 200,
+    backgroundColor: COLORS.BLACK,
+    borderWidth: 3,
+    borderColor: COLORS.PRIMARY,
+  },
+  withoutLocalVideo: {
+    width: 150,
+    height: 200,
+    backgroundColor: COLORS.PURPLE,
+    borderWidth: 3,
+    borderColor: COLORS.PRIMARY,
   },
 });
