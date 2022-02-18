@@ -40,7 +40,7 @@ const MainScreen = ({ navigation }: IScreenProps<'Main'>) => {
       }
     }
     if (result || isIOS) {
-      dispatch(changeCallState({callState: 'Connecting...', participants: []}));
+      dispatch(changeCallState('Connecting...'));
       navigation.navigate('Conference', { conference });
     }
   };

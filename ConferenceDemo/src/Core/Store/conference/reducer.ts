@@ -31,32 +31,22 @@ const conferenceReducer = (state = initialState, action: IReduxAction): IConfere
       return { ...state, sendLocalVideo: !state.sendLocalVideo };
     }
     case conferenceActions.CHANGE_CALL_STATE: {
-      return { ...state, callState: payload.callState, participants: payload.participants, error: '' }
+      return { ...state, callState: payload }
     }
-    case conferenceActions.CALL_FAILED:
-      return { ...state, callState: payload.callState, error: payload.reason }
     case conferenceActions.ADD_PARTICIPANT: {
-      const target = state.participants.findIndex((el: IParticipant) => el.id === "_");
-      if (target !== -1) {
-        state.participants[target] = {...state.participants[target], id: payload.id}
-        return state;
-      } else {
-        return { ...state, participants: [ ...state.participants, payload ]};
-      }
+      return { ...state, participants: [ ...state.participants, payload ]};
     }
     case conferenceActions.LOCAL_VIDEO_STREAM_ADDED: {
-      const targetCreated = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      if (targetCreated !== -1) {
-        state.participants[targetCreated] = {...state.participants[targetCreated], streamId: payload.streamId}
-        return state;
-      } else {
-        return { ...state, participants: [ ...state.participants, {...payload, id: "_"} ]};
-      }
+      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
+      const newTarget = {...(state.participants as IParticipant[])[index], streamId: payload.streamId}
+      state.participants.splice(index, 1);
+      return {...state, participants: [...state.participants, newTarget]}
     }
     case conferenceActions.LOCAL_VIDEO_STREAM_REMOVED: {
-      const targetSearched = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      state.participants[targetSearched] = {...state.participants[targetSearched], streamId: ''}
-      return state;
+      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
+      const newTarget = {...(state.participants as IParticipant[])[index], streamId: ''}
+      state.participants.splice(index, 1);
+      return {...state, participants: [...state.participants, newTarget]}
     }
     case conferenceActions.REMOVE_PARTICIPANT: {
       const filtred = state.participants.filter((item: IParticipant) => item.id !== payload.id);
@@ -69,18 +59,26 @@ const conferenceReducer = (state = initialState, action: IReduxAction): IConfere
       }
     }
     case conferenceActions.REMOTE_VIDEO_STREAM_ADDED: {
-      const target = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      state.participants[target] = {...state.participants[target], streamId: payload.streamId}
-      return state;
+      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
+      const newTarget =  {...(state.participants as IParticipant[])[index], streamId: payload.streamId}
+      state.participants.splice(index, 1);
+      return {...state, participants: [...state.participants, newTarget]}
     }
     case conferenceActions.REMOTE_VIDEO_STREAM_REMOVED: {
-      const target = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      state.participants[target] = {...state.participants[target], streamId: ''}
-      return state;
+      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
+      const newTarget =  {...(state.participants as IParticipant[])[index], streamId: ''}
+      state.participants.splice(index, 1);
+      return {...state, participants: [...state.participants, newTarget]}
     }
     case conferenceActions.ENDPOINT_REMOVED: {
       const filtred = state.participants.filter((item: IParticipant) => item.id !== payload.id);
       return { ...state, participants: filtred };
+    }
+    case conferenceActions.SET_ERROR: {
+      return { ...state, error: payload }
+    }
+    case conferenceActions.REMOVE_ALL_PARTICIPANTS: {
+      return { ...state, participants: [] }
     }
     default:
       return state;

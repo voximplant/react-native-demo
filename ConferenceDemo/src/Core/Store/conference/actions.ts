@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { ICallDisconnected, ICallFailed, IParticipant } from "../../../Utils/types";
+import { IParticipant } from "../../../Utils/types";
 import { conferenceActions } from "./actionTypes";
 
 export const toggleIsMuted = () => ({
@@ -13,13 +13,13 @@ export const toggleIsLocalVideo = () => ({
   type: conferenceActions.TOGGLE_LOCAL_VIDEO,
 });
 
-export const changeCallState = (payload: ICallDisconnected) => ({
+export const changeCallState = (payload: string) => ({
   type: conferenceActions.CHANGE_CALL_STATE,
   payload,
 });
 
-export const callFailed = (payload: ICallFailed) => ({
-  type: conferenceActions.CALL_FAILED,
+export const setError = (payload: any) => ({
+  type: conferenceActions.SET_ERROR,
   payload,
 });
 
@@ -61,4 +61,8 @@ export const removeVideoStreamRemoved = (payload: any) => ({
 export const endpointRemoved = (payload: any) => ({
   type: conferenceActions.ENDPOINT_REMOVED,
   payload,
+});
+
+export const removeAllParticipants = () => ({
+  type: conferenceActions.REMOVE_ALL_PARTICIPANTS,
 });

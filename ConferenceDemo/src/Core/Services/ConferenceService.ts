@@ -8,10 +8,9 @@ import {Voximplant} from 'react-native-voximplant';
 import { useDispatch } from 'react-redux';
 
 import { useUtils } from '../../Utils/useUtils';
-import { store } from '../Store';
+import { RootReducer, store } from '../Store';
 
 import {
-  callFailed,
   changeCallState,
   removeVideoStreamAdded,
   removeVideoStreamRemoved,
@@ -20,12 +19,13 @@ import {
   localVideoStreamRemoved,
   endpointAdded,
   endpointRemoved,
-  toggleIsLocalVideo,
+  setError,
+  removeAllParticipants,
 } from '../Store/conference/actions';
 
 export const ConferenceService = () => {
   const client = Voximplant.getInstance();
-  const userName = store.getState().loginReducer?.user;
+  const { loginReducer: { user } }: RootReducer = store.getState();
 
   const dispatch = useDispatch();
   const { convertParticitantModel } = useUtils();
@@ -40,30 +40,32 @@ export const ConferenceService = () => {
       },
     };
     currentConference.current = await client.callConference(conference, callSettings);
+    const model = convertParticitantModel({id: currentConference.current?.callId, name: user, streamId: ''});
+    dispatch(addParticipant(model));
     subscribeToConferenceEvents();
   }
 
   const subscribeToConferenceEvents = () => {
     currentConference.current?.on(Voximplant.CallEvents.Connected, (callEvent: any) => {
-      dispatch(changeCallState({callState: 'Connected', participants: []}));
-      const model = convertParticitantModel({id: callEvent.call.callId, name: userName, streamId: ''});
-      dispatch(addParticipant(model));
+      dispatch(changeCallState('Connected'));
     });
     currentConference.current?.on(Voximplant.CallEvents.Disconnected, (callEvent: any) => {
-      dispatch(changeCallState({callState: 'Disconnected', participants: []}));
+      dispatch(changeCallState('Disconnected'));
+      dispatch(removeAllParticipants());
       unsubscribeFromConferenceEvents();
       currentConference.current = null;
     });
     currentConference.current?.on(Voximplant.CallEvents.Failed, (callEvent: any) => {
-      dispatch(callFailed({callState: 'Failed', reason: callEvent.reason}));
+      dispatch(changeCallState('Failed'));
+      dispatch(setError(callEvent.reason));
       unsubscribeFromConferenceEvents();
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamAdded, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId, name: userName, streamId: callEvent.videoStream.id});
+      const model = convertParticitantModel({id: callEvent.call.callId, name: user, streamId: callEvent.videoStream.id});
       dispatch(localVideoStreamAdded(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamRemoved, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId, name: userName, streamId: ''});
+      const model = convertParticitantModel({id: callEvent.call.callId, name: user, streamId: ''});
       dispatch(localVideoStreamRemoved(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.EndpointAdded, (callEvent: any) => {
@@ -93,6 +95,7 @@ export const ConferenceService = () => {
       (endpointEvent: any) => {
         const model = convertParticitantModel({ id: endpointEvent.endpoint.id });
         dispatch(endpointRemoved(model));
+        // unsubscribeFromEndpointEvents(endpointEvent.enpoint) // ?? check endpoint instance
       },
     );
   }
@@ -104,6 +107,12 @@ export const ConferenceService = () => {
     currentConference.current?.off(Voximplant.CallEvents.ProgressToneStart);
     currentConference.current?.off(Voximplant.CallEvents.LocalVideoStreamAdded);
     currentConference.current?.off(Voximplant.CallEvents.EndpointAdded);
+  };
+
+  const unsubscribeFromEndpointEvents = (endpoint: Voximplant.Endpoint) => {
+    endpoint.off(Voximplant.EndpointEvents.RemoteVideoStreamAdded);
+    endpoint.off(Voximplant.EndpointEvents.RemoteVideoStreamRemoved);
+    endpoint.off(Voximplant.EndpointEvents.Removed);
   };
 
   const endConference = () => {
