@@ -92,6 +92,15 @@ const conferenceReducer = (state = initialState, action: IReduxAction): IConfere
       state.participants.splice(index, 1);
       return {...state, participants: [...state.participants, newTarget]}
     }
+    case conferenceActions.ENDPOINT_MUTED: {
+      // TODO: change method for add isMuted property
+      console.log('BEFORE===============', state.participants);
+      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
+      const newTarget =  {...(state.participants as IParticipant[])[index], ...payload}
+      state.participants.splice(index, 1);
+      console.log('AFTER===============', [...state.participants, newTarget]);
+      return {...state, participants: [...state.participants, newTarget]}
+    }
     default:
       return state;
   }

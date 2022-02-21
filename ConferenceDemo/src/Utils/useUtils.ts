@@ -73,12 +73,13 @@ export const useUtils = () => {
     Alert.alert('Login error', message, [{ text: 'OK' }]);
   };
 
-  const convertParticitantModel = ({id, name, streamId }: IParticipant) => {
+  const convertParticitantModel = ({id, name, streamId, isMuted }: IParticipant) => {
     return {
       id,
       name: name ?? '',
       streamId: streamId ?? '',
       isActiveVoice: false,
+      isMuted: false,
     }
   };
 

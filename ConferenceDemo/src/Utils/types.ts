@@ -2,10 +2,11 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { RefObject } from 'react';
+import { FC, RefObject } from 'react';
 import { TextInput } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SvgProps } from 'react-native-svg';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -59,7 +60,17 @@ export interface IReduxAction {
 
 export type IParticipant = {
   id: string;
-  name?: string | null;
+  name?: string;
   streamId?: string;
   isActiveVoice?: boolean;
+  isMuted?: boolean;
 }
+
+export interface IAvailableDeivces {
+  [key: string]: {
+    id: number;
+    text: string;
+    Icon: FC<SvgProps>;
+    IconActive: FC<SvgProps>;
+  }
+};

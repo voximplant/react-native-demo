@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import ControlButton from '../../Components/ControlButton';
 import ConferenceHeader from '../../Components/ConferenceHeader';
 import ParticipantCard from '../../Components/ParticipantCard';
+import ModalAudioDevices from '../../Components/ModalAudioDevices';
 
 import { COLORS } from '../../Utils/constants';
 import { IScreenProps, ScreenNavigationProp } from '../../Utils/types';
@@ -38,6 +39,8 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   useEffect(() => {
     startConference(conference, isSendVideo);
   }, []);
@@ -62,10 +65,14 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
     }
   };
 
+  const toggleModalAudioDevices = () => {
+    setModalVisible(!modalVisible);
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar barStyle={'light-content'} backgroundColor={COLORS.BLACK} />
-      <ConferenceHeader />
+      <ConferenceHeader toggleModalAudioDevices={toggleModalAudioDevices} />
       <View style={styles.videoContainer} onLayout={({ nativeEvent }) => {
           const { width, height } = nativeEvent.layout;
           setContainerHeight(height);
@@ -75,6 +82,7 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
           const participantsCount = participants.length;
           return index <= 5 && (
             <ParticipantCard
+              key={el.id}
               participant={el}
               containerHeight={containerHeight}
               containerWidth={containerWidth}
@@ -109,6 +117,7 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
           />
         </View>
       </View>
+      <ModalAudioDevices modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </SafeAreaView>
   );
 };

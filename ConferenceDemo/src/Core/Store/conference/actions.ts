@@ -76,3 +76,8 @@ export const endpointVoiceActivityStopped = (payload: IParticipant) => ({
   type: conferenceActions.ENDPOINT_VOICE_ACTIVITY_STOPPED,
   payload,
 });
+
+export const endpointMuted = (payload: IParticipant) => ({
+  type: conferenceActions.ENDPOINT_MUTED,
+  payload,
+});

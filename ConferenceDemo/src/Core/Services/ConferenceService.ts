@@ -23,10 +23,18 @@ import {
   removeAllParticipants,
   endpointVoiceActivityStarted,
   endpointVoiceActivityStopped,
+  endpointMuted,
 } from '../Store/conference/actions';
 
 export const ConferenceService = () => {
   const client = Voximplant.getInstance();
+  const CameraManager = Voximplant.Hardware.CameraManager.getInstance();
+  const AudioDeviceManager = Voximplant.Hardware.AudioDeviceManager.getInstance();
+  const AudioDeviceEvents = Voximplant.Hardware.AudioDeviceEvents;
+
+  const cameraTypeFront = Voximplant.Hardware.CameraType.FRONT;
+  const cameraTypeBack = Voximplant.Hardware.CameraType.BACK;
+
   const { loginReducer: { user } }: RootReducer = store.getState();
 
   const dispatch = useDispatch();
@@ -42,7 +50,7 @@ export const ConferenceService = () => {
       },
     };
     currentConference.current = await client.callConference(conference, callSettings);
-    const model = convertParticitantModel({id: currentConference.current?.callId, name: user});
+    const model = convertParticitantModel({id: currentConference.current?.callId, name: user, isMuted: false});
     dispatch(addParticipant(model));
     subscribeToConferenceEvents();
   }
@@ -72,9 +80,19 @@ export const ConferenceService = () => {
     });
     currentConference.current?.on(Voximplant.CallEvents.EndpointAdded, (callEvent: any) => {
       if (currentConference.current?.callId !== callEvent.endpoint.id) {
-        const model = convertParticitantModel({id: callEvent.endpoint.id, name: callEvent.displayName, streamId: ''});
+        const model = convertParticitantModel({id: callEvent.endpoint.id, name: callEvent.displayName, streamId: '', isMuted: false});
         dispatch(endpointAdded(model))
         subscribeToEndpointEvents(callEvent.endpoint);
+      }
+    });
+    currentConference.current?.on(Voximplant.CallEvents.MessageReceived, (callEvent: any) => {
+      try {
+        const message = JSON.parse(callEvent.text);
+        const model = convertParticitantModel({id: message.id, isMuted: message.isMuted});
+        console.log('MessageReceived======>', message);
+        dispatch(endpointMuted(model))
+      } catch (error) {
+        console.log('JSON.parse[ERROR]: text =>', callEvent.text);
       }
     });
   }
@@ -142,7 +160,8 @@ export const ConferenceService = () => {
   };
 
   const muteAudio = (isMuted: boolean) => {
-    currentConference.current.sendAudio(isMuted);
+    currentConference.current?.sendAudio(isMuted);
+    currentConference.current?.sendMessage(JSON.stringify({muted: !isMuted}));
   };
 
   const sendLocalVideo = async (isSendVideo: boolean) => {
@@ -154,5 +173,10 @@ export const ConferenceService = () => {
     endConference,
     muteAudio,
     sendLocalVideo,
+    CameraManager,
+    cameraTypeFront,
+    cameraTypeBack,
+    AudioDeviceManager,
+    AudioDeviceEvents,
   };
 };

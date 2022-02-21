@@ -46,10 +46,12 @@ const ParticipantCard = ({
         showOnTop={true}
       />
       <View style={styles.participantWrapperInfo}>
-        <Text style={styles.participantText}>{participant.name || 'Username'}</Text>
-        <View style={styles.participantIconWrapper}>
-          <MicrophoneIconDisable />
-        </View>
+        <Text style={styles.participantText}>{participant.name}</Text>
+        {participant.isMuted && (
+          <View style={styles.participantIconWrapper}>
+            <MicrophoneIconDisable />
+          </View>
+        )}
       </View>
     </View>
   );
