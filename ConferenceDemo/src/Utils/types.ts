@@ -59,16 +59,6 @@ export interface IReduxAction {
 
 export type IParticipant = {
   id: string;
-  name?: string;
+  name?: string | null;
   streamId?: string;
-}
-
-export type ICallFailed = {
-  reason: string;
-  callState: string;
-}
-
-export type ICallDisconnected = {
-  callState: string;
-  participants?: [];
 }

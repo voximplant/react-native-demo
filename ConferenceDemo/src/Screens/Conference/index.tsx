@@ -16,7 +16,7 @@ import { COLORS } from '../../Utils/constants';
 import { IScreenProps, ScreenNavigationProp } from '../../Utils/types';
 import { ConferenceService } from '../../Core/Services/ConferenceService';
 import { RootReducer } from '../../Core/Store';
-import { toggleIsMuted } from '../../Core/Store/conference/actions';
+import { toggleSendVideo, toggleMute } from '../../Core/Store/conference/actions';
 import { useUtils } from '../../Utils/useUtils';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
@@ -45,18 +45,23 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   }, []);
 
   useEffect(() => {
-    if (callState === 'Disconnected') {
+    if (callState === 'Disconnected' || callState === 'Failed') {
       navigation.navigate('Main');
     }
   }, [callState]);
 
   const toggleMuteAudio = () => {
-    dispatch(toggleIsMuted());
+    dispatch(toggleMute());
     muteAudio(isMuted);
   };
 
   const toggleLocalVideo = async () => {
-    await sendLocalVideo(isSendVideo);
+    try {
+      await sendLocalVideo(!isSendVideo);
+      dispatch(toggleSendVideo());
+    } catch (error) {
+      console.log('[ConferenceService]:[ERROR] => sendLocalVideo method');
+    }
   };
 
   return (

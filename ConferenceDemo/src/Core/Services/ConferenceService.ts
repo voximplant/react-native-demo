@@ -8,11 +8,25 @@ import {Voximplant} from 'react-native-voximplant';
 import { useDispatch } from 'react-redux';
 
 import { useUtils } from '../../Utils/useUtils';
+import { RootReducer, store } from '../Store';
 
-import { callFailed, changeCallState, removeParticipant, toggleIsLocalVideo, updateParticipants } from '../Store/conference/actions';
+import {
+  changeCallState,
+  removeVideoStreamAdded,
+  removeVideoStreamRemoved,
+  addParticipant,
+  localVideoStreamAdded,
+  localVideoStreamRemoved,
+  endpointAdded,
+  endpointRemoved,
+  setError,
+  removeAllParticipants,
+} from '../Store/conference/actions';
 
 export const ConferenceService = () => {
   const client = Voximplant.getInstance();
+  const { loginReducer: { user } }: RootReducer = store.getState();
+
   const dispatch = useDispatch();
   const { convertParticitantModel } = useUtils();
 
@@ -26,36 +40,38 @@ export const ConferenceService = () => {
       },
     };
     currentConference.current = await client.callConference(conference, callSettings);
+    const model = convertParticitantModel({id: currentConference.current?.callId, name: user, streamId: ''});
+    dispatch(addParticipant(model));
     subscribeToConferenceEvents();
   }
 
   const subscribeToConferenceEvents = () => {
     currentConference.current?.on(Voximplant.CallEvents.Connected, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId});
-      dispatch(updateParticipants(model));
-      dispatch(changeCallState({callState: 'Connected'}));
-      // TODO: bug localvideo is active before call started, and streamId rewrited empty string
+      dispatch(changeCallState('Connected'));
     });
     currentConference.current?.on(Voximplant.CallEvents.Disconnected, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId});
-      dispatch(changeCallState({callState: 'Disconnected', participants: []}));
+      dispatch(changeCallState('Disconnected'));
+      dispatch(removeAllParticipants());
       unsubscribeFromConferenceEvents();
       currentConference.current = null;
     });
     currentConference.current?.on(Voximplant.CallEvents.Failed, (callEvent: any) => {
-      dispatch(callFailed({callState: 'Failed', reason: callEvent.reason}));
+      dispatch(changeCallState('Failed'));
+      dispatch(setError(callEvent.reason));
       unsubscribeFromConferenceEvents();
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamAdded, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId, streamId: callEvent.videoStream.id});
-      dispatch(updateParticipants(model));
+      const model = convertParticitantModel({id: callEvent.call.callId, name: user, streamId: callEvent.videoStream.id});
+      dispatch(localVideoStreamAdded(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamRemoved, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId, streamId: ''});
-      dispatch(updateParticipants(model));
+      const model = convertParticitantModel({id: callEvent.call.callId, name: user, streamId: ''});
+      dispatch(localVideoStreamRemoved(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.EndpointAdded, (callEvent: any) => {
       if (currentConference.current?.callId !== callEvent.endpoint.id) {
+        const model = convertParticitantModel({id: callEvent.endpoint.id, name: callEvent.displayName, streamId: ''});
+        dispatch(endpointAdded(model))
         subscribeToEndpointEvents(callEvent.endpoint);
       }
     });
@@ -65,22 +81,21 @@ export const ConferenceService = () => {
     endpoint.on(
       Voximplant.EndpointEvents.RemoteVideoStreamAdded,
       (endpointEvent: any) => {
-        const model = convertParticitantModel({id: endpointEvent.endpoint.id, streamId: endpointEvent.videoStream.id});
-        dispatch(updateParticipants(model));
+        dispatch(removeVideoStreamAdded({id: endpointEvent.endpoint.id, streamId: endpointEvent.videoStream.id}));
       },
     );
     endpoint.on(
       Voximplant.EndpointEvents.RemoteVideoStreamRemoved,
       (endpointEvent: any) => {
-        const model = convertParticitantModel({id: endpointEvent.endpoint.id, streamId: ''});
-        dispatch(updateParticipants(model));
+        dispatch(removeVideoStreamRemoved({id: endpointEvent.endpoint.id}));
       },
     );
     endpoint.on(
       Voximplant.EndpointEvents.Removed,
       (endpointEvent: any) => {
         const model = convertParticitantModel({ id: endpointEvent.endpoint.id });
-        dispatch(removeParticipant(model));
+        dispatch(endpointRemoved(model));
+        // unsubscribeFromEndpointEvents(endpointEvent.enpoint) // ?? check endpoint instance
       },
     );
   }
@@ -92,6 +107,12 @@ export const ConferenceService = () => {
     currentConference.current?.off(Voximplant.CallEvents.ProgressToneStart);
     currentConference.current?.off(Voximplant.CallEvents.LocalVideoStreamAdded);
     currentConference.current?.off(Voximplant.CallEvents.EndpointAdded);
+  };
+
+  const unsubscribeFromEndpointEvents = (endpoint: Voximplant.Endpoint) => {
+    endpoint.off(Voximplant.EndpointEvents.RemoteVideoStreamAdded);
+    endpoint.off(Voximplant.EndpointEvents.RemoteVideoStreamRemoved);
+    endpoint.off(Voximplant.EndpointEvents.Removed);
   };
 
   const endConference = () => {
@@ -107,18 +128,12 @@ export const ConferenceService = () => {
   };
 
   const sendLocalVideo = async (isSendVideo: boolean) => {
-    try {
-      await currentConference.current.sendVideo(isSendVideo);
-      dispatch(toggleIsLocalVideo());
-    } catch (error) {
-      console.log('[ConferenceService]:[ERROR] => sendLocalVideo method');
-    }
+    await currentConference.current.sendVideo(isSendVideo);
   };
 
   return {
     startConference,
     endConference,
-    currentConference,
     muteAudio,
     sendLocalVideo,
   };
