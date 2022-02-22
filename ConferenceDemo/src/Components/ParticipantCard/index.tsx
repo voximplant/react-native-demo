@@ -11,27 +11,23 @@ import styles from "./styles";
 
 interface IProps {
   participant: IParticipant,
-  containerHeight: number;
-  containerWidth: number;
-  participantsCount: number;
-  index: number;
+  stylesForCard: object;
 };
 
-const ParticipantCard = ({participant, containerHeight, containerWidth, participantsCount, index}: IProps) => {
-  const  { dynamicComputeStyles } = useUtils();
+const ParticipantCard = ({participant, stylesForCard}: IProps) => {
   const isActiveVoice = true;
 
   return (
     <View style={[
       styles.participantWrapper,
       isActiveVoice && styles.activeVoice,
-      dynamicComputeStyles(containerHeight, containerWidth, participantsCount, index)
+      stylesForCard
     ]}>
       <Voximplant.VideoView
         key={participant.id}
         style={styles.selfview}
         videoStreamId={participant.streamId}
-        scaleType={Voximplant.RenderScaleType.SCALE_FIT} // TODO: need to think about SCALE_FILL
+        scaleType={Voximplant.RenderScaleType.SCALE_FILL}
         showOnTop={true}
       />
       <View style={styles.participantWrapperInfo}>

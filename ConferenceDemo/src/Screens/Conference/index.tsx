@@ -17,6 +17,7 @@ import { IScreenProps, ScreenNavigationProp } from '../../Utils/types';
 import { ConferenceService } from '../../Core/Services/ConferenceService';
 import { RootReducer } from '../../Core/Store';
 import { toggleIsMuted } from '../../Core/Store/conference/actions';
+import { useUtils } from '../../Utils/useUtils';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
 import MicrophoneIcon from '../../Assets/Icons/Microphone.svg';
@@ -30,6 +31,7 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const dispatch = useDispatch();
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
   const { startConference, endConference, muteAudio, sendLocalVideo } = ConferenceService();
+  const  { dynamicComputeStyles } = useUtils();
 
   const isSendVideo = useSelector((state: RootReducer) => state.conferenceReducer.sendLocalVideo);
   const isMuted = useSelector((state: RootReducer) => state.conferenceReducer.isMuted);
@@ -68,13 +70,12 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
       }}>
         {participants?.map((el, index) => {
           const participantsCount = participants.length;
+          const stylesForCard = dynamicComputeStyles(containerWidth, containerHeight, participantsCount, index)
           return index <= 5 && (
             <ParticipantCard
+              key={el.id}
               participant={el}
-              containerHeight={containerHeight}
-              containerWidth={containerWidth}
-              participantsCount={participantsCount}
-              index={index}
+              stylesForCard={stylesForCard}
             />
           )
         })}

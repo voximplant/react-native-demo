@@ -82,16 +82,15 @@ export const useUtils = () => {
   };
 
   const dynamicComputeStyles = (
-    containerHeight: number,
     containerWidth: number,
+    containerHeight: number,
     participantsCount: number,
     index: number,
   ) => {
-    const forOne = {height: containerHeight, width: containerWidth};
-    const forTwo = {height: containerHeight / 2, width: containerWidth};
-    const forThreePartOne = {height: containerHeight / 2, width: containerWidth / 2};
-    const forFour = {height: containerHeight / 2, width: containerWidth / 2};
-    const forFivePartOne = {height: containerHeight / 2, width: containerWidth / 3};
+    const forOne = {width: containerWidth, height: containerHeight};
+    const forTwo = {width: containerWidth, height: containerHeight / 2};
+    const forThreeTopOrFour = {width: containerWidth / 2, height: containerHeight / 2};
+    const forFiveTopOrMore = {width: containerWidth / 3, height: containerHeight / 2};
   
     switch (participantsCount) {
       case 1: {
@@ -102,23 +101,23 @@ export const useUtils = () => {
       }
       case 3: {
         if (index === 0 || index === 1) {
-          return forThreePartOne;
+          return forThreeTopOrFour;
         } else {
           return forTwo;
         }
       }
       case 4: {
-        return forFour;
+        return forThreeTopOrFour;
       }
       case 5: {
         if (index <= 2) {
-          return forFivePartOne;
+          return forFiveTopOrMore;
         } else {
-          return forFour;
+          return forThreeTopOrFour;
         }
       }
       default: {
-        return forFivePartOne;
+        return forFiveTopOrMore;
       }
     }
   };
