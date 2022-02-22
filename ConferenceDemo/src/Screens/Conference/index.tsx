@@ -18,6 +18,7 @@ import { IScreenProps, ScreenNavigationProp } from '../../Utils/types';
 import { ConferenceService } from '../../Core/Services/ConferenceService';
 import { RootReducer } from '../../Core/Store';
 import { toggleIsLocalVideo, toggleIsMuted } from '../../Core/Store/conference/actions';
+import { useUtils } from '../../Utils/useUtils';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
 import MicrophoneIcon from '../../Assets/Icons/Microphone.svg';
@@ -29,6 +30,7 @@ import styles from './styles';
 const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const { conference } = route.params;
   const dispatch = useDispatch();
+  const { isAndroid, isIOS, checkAndroidCameraPermission } = useUtils();
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
   const { startConference, endConference, muteAudio, sendLocalVideo } = ConferenceService();
 
@@ -57,11 +59,17 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   };
 
   const toggleLocalVideo = async () => {
-    try {
+    let result;
+    if (isAndroid) {
+      try {
+        result = await checkAndroidCameraPermission();
+      } catch (error) {
+        console.warn('Something was wrong with android permissions...');
+      }
+    }
+    if (result || isIOS) {
       await sendLocalVideo(!isSendVideo);
       dispatch(toggleIsLocalVideo());
-    } catch (error) {
-      console.log('[ConferenceService]:[ERROR] => sendLocalVideo method');
     }
   };
 

@@ -53,7 +53,7 @@ interface IProps {
 };
 
 const ModalAudioDevices = ({modalVisible, setModalVisible}: IProps) => {
-  const { AudioDeviceManager, AudioDeviceEvents } = ConferenceService();
+  const { AudioDeviceManager } = ConferenceService();
   const [currentDevice, setCurrentDevice] = useState<string>();
   const [listDevices, setListDevices] = useState<Array<string>>();
 
@@ -63,22 +63,18 @@ const ModalAudioDevices = ({modalVisible, setModalVisible}: IProps) => {
   };
 
   useEffect(() => {
+    getActiveAudioDevice();
     getListAudioDevices();
-    AudioDeviceManager.on(AudioDeviceEvents.DeviceChanged, (event: any) => {
-      console.log('DeviceChanged=============>', event);
-    })
-    return () => AudioDeviceManager.off();
   }, [modalVisible]);
 
   const getListAudioDevices = async () => {
-    const device = await getActiveAudioDevice();
     const list = await AudioDeviceManager.getAudioDevices();
-    setCurrentDevice(device);
     setListDevices(list);
   };
 
   const getActiveAudioDevice = async () => {
-    return await AudioDeviceManager.getActiveDevice();
+    const device = await AudioDeviceManager.getActiveDevice();
+    setCurrentDevice(device);
   };
 
   return (

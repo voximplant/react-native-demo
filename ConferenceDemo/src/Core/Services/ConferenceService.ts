@@ -27,13 +27,11 @@ import {
 } from '../Store/conference/actions';
 
 export const ConferenceService = () => {
-  const client = Voximplant.getInstance();
+  const Client = Voximplant.getInstance();
   const CameraManager = Voximplant.Hardware.CameraManager.getInstance();
   const AudioDeviceManager = Voximplant.Hardware.AudioDeviceManager.getInstance();
-  const AudioDeviceEvents = Voximplant.Hardware.AudioDeviceEvents;
 
-  const cameraTypeFront = Voximplant.Hardware.CameraType.FRONT;
-  const cameraTypeBack = Voximplant.Hardware.CameraType.BACK;
+  const cameraType = Voximplant.Hardware.CameraType;
 
   const { loginReducer: { user } }: RootReducer = store.getState();
 
@@ -49,7 +47,7 @@ export const ConferenceService = () => {
         receiveVideo: true,
       },
     };
-    currentConference.current = await client.callConference(conference, callSettings);
+    currentConference.current = await Client.callConference(conference, callSettings);
     const model = convertParticitantModel({id: currentConference.current?.callId, name: user, isMuted: false});
     dispatch(addParticipant(model));
     subscribeToConferenceEvents();
@@ -89,10 +87,9 @@ export const ConferenceService = () => {
       try {
         const message = JSON.parse(callEvent.text);
         const model = convertParticitantModel({id: message.id, isMuted: message.isMuted});
-        console.log('MessageReceived======>', message);
         dispatch(endpointMuted(model))
       } catch (error) {
-        console.log('JSON.parse[ERROR]: text =>', callEvent.text);
+        console.log('JSON.parse [ERROR]: MessageReceived text =>', callEvent.text);
       }
     });
   }
@@ -131,24 +128,17 @@ export const ConferenceService = () => {
       (endpointEvent: any) => {
         const model = convertParticitantModel({ id: endpointEvent.endpoint.id });
         dispatch(endpointRemoved(model));
-        // unsubscribeFromEndpointEvents(endpointEvent.enpoint) // ?? check endpoint instance
+        unsubscribeFromEndpointEvents(endpointEvent.enpoint)
       },
     );
   }
 
   const unsubscribeFromConferenceEvents = () => {
-    currentConference.current?.off(Voximplant.CallEvents.Connected);
-    currentConference.current?.off(Voximplant.CallEvents.Disconnected);
-    currentConference.current?.off(Voximplant.CallEvents.Failed);
-    currentConference.current?.off(Voximplant.CallEvents.ProgressToneStart);
-    currentConference.current?.off(Voximplant.CallEvents.LocalVideoStreamAdded);
-    currentConference.current?.off(Voximplant.CallEvents.EndpointAdded);
+    currentConference.current?.off();
   };
 
   const unsubscribeFromEndpointEvents = (endpoint: Voximplant.Endpoint) => {
-    endpoint.off(Voximplant.EndpointEvents.RemoteVideoStreamAdded);
-    endpoint.off(Voximplant.EndpointEvents.RemoteVideoStreamRemoved);
-    endpoint.off(Voximplant.EndpointEvents.Removed);
+    endpoint?.off();
   };
 
   const endConference = () => {
@@ -174,9 +164,7 @@ export const ConferenceService = () => {
     muteAudio,
     sendLocalVideo,
     CameraManager,
-    cameraTypeFront,
-    cameraTypeBack,
+    cameraType,
     AudioDeviceManager,
-    AudioDeviceEvents,
   };
 };

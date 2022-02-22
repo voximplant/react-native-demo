@@ -21,16 +21,16 @@ interface IProps {
 };
 
 const ConferenceHeader = ({toggleModalAudioDevices}: IProps) => {
-  const {CameraManager, cameraTypeFront, cameraTypeBack} = ConferenceService();
-  const [cameraState, setCameraState] = useState(cameraTypeFront);
+  const {CameraManager, cameraType} = ConferenceService();
+  const [cameraState, setCameraState] = useState(cameraType.FRONT);
   
   const toggleCameraMode = () => {
-    if (cameraState === cameraTypeFront) {
-      CameraManager.switchCamera(cameraTypeBack);
-      setCameraState(cameraTypeBack);
+    if (cameraState === cameraType.FRONT) {
+      CameraManager.switchCamera(cameraType.BACK);
+      setCameraState(cameraType.BACK);
     } else {
-      CameraManager.switchCamera(cameraTypeFront);
-      setCameraState(cameraTypeFront);
+      CameraManager.switchCamera(cameraType.FRONT);
+      setCameraState(cameraType.FRONT);
     }
   };
 

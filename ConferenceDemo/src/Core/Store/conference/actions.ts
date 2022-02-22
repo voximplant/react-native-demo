@@ -38,11 +38,6 @@ export const localVideoStreamRemoved = (payload: any) => ({
   payload,
 });
 
-export const removeParticipant = (payload: IParticipant) => ({
-  type: conferenceActions.REMOVE_PARTICIPANT,
-  payload,
-});
-
 export const endpointAdded = (payload: any) => ({
   type: conferenceActions.ENDPOINT_ADDED,
   payload,

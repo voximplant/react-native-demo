@@ -37,42 +37,27 @@ const conferenceReducer = (state = initialState, action: IReduxAction): IConfere
       return { ...state, participants: [ ...state.participants, payload ]};
     }
     case conferenceActions.LOCAL_VIDEO_STREAM_ADDED: {
-      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      const newTarget = {...(state.participants as IParticipant[])[index], streamId: payload.streamId}
-      state.participants.splice(index, 1);
-      return {...state, participants: [...state.participants, newTarget]}
+      return {...state, participants: 
+        state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, streamId: payload.streamId} : el)}
     }
     case conferenceActions.LOCAL_VIDEO_STREAM_REMOVED: {
-      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      const newTarget = {...(state.participants as IParticipant[])[index], streamId: ''}
-      state.participants.splice(index, 1);
-      return {...state, participants: [...state.participants, newTarget]}
-    }
-    case conferenceActions.REMOVE_PARTICIPANT: {
-      const filtred = state.participants.filter((item: IParticipant) => item.id !== payload.id);
-      return { ...state, participants: filtred };
+      return {...state, participants: 
+        state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, streamId: ''} : el)}
     }
     case conferenceActions.ENDPOINT_ADDED: {
-      const targetEndpoint = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      if (targetEndpoint === -1) {
-        return { ...state, participants: [ ...state.participants, payload ]};
-      }
+      return { ...state, participants: [ ...state.participants, payload ]};
     }
     case conferenceActions.REMOTE_VIDEO_STREAM_ADDED: {
-      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      const newTarget =  {...(state.participants as IParticipant[])[index], streamId: payload.streamId}
-      state.participants.splice(index, 1);
-      return {...state, participants: [...state.participants, newTarget]}
+      return {...state, participants: 
+        state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, streamId: payload.streamId} : el)}
     }
     case conferenceActions.REMOTE_VIDEO_STREAM_REMOVED: {
-      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      const newTarget =  {...(state.participants as IParticipant[])[index], streamId: ''}
-      state.participants.splice(index, 1);
-      return {...state, participants: [...state.participants, newTarget]}
+      return {...state, participants: 
+        state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, streamId: ''} : el)}
     }
     case conferenceActions.ENDPOINT_REMOVED: {
-      const filtred = state.participants.filter((item: IParticipant) => item.id !== payload.id);
-      return { ...state, participants: filtred };
+      return { ...state, participants: 
+        state.participants.filter((item: IParticipant) => item.id !== payload.id) };
     }
     case conferenceActions.SET_ERROR: {
       return { ...state, error: payload }
@@ -81,25 +66,16 @@ const conferenceReducer = (state = initialState, action: IReduxAction): IConfere
       return { ...state, participants: [] }
     }
     case conferenceActions.ENDPOINT_VOICE_ACTIVITY_STARTED: {
-      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      const newTarget =  {...(state.participants as IParticipant[])[index], isActiveVoice: true}
-      state.participants.splice(index, 1);
-      return {...state, participants: [...state.participants, newTarget]}
+      return {...state, participants: 
+        state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, isActiveVoice: true} : el)}
     }
     case conferenceActions.ENDPOINT_VOICE_ACTIVITY_STOPPED: {
-      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      const newTarget =  {...(state.participants as IParticipant[])[index], isActiveVoice: false}
-      state.participants.splice(index, 1);
-      return {...state, participants: [...state.participants, newTarget]}
+      return {...state, participants: 
+        state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, isActiveVoice: false} : el)}
     }
     case conferenceActions.ENDPOINT_MUTED: {
-      // TODO: change method for add isMuted property
-      console.log('BEFORE===============', state.participants);
-      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
-      const newTarget =  {...(state.participants as IParticipant[])[index], ...payload}
-      state.participants.splice(index, 1);
-      console.log('AFTER===============', [...state.participants, newTarget]);
-      return {...state, participants: [...state.participants, newTarget]}
+      return {...state, participants: 
+        state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, isMuted: payload.isMuted} : el)}
     }
     default:
       return state;

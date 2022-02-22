@@ -76,10 +76,10 @@ export const useUtils = () => {
   const convertParticitantModel = ({id, name, streamId, isMuted }: IParticipant) => {
     return {
       id,
-      name: name ?? '',
+      name: name ?? null,
       streamId: streamId ?? '',
       isActiveVoice: false,
-      isMuted: false,
+      isMuted: isMuted ?? false,
     }
   };
 
