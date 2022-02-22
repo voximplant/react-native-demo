@@ -78,6 +78,7 @@ export const useUtils = () => {
       id,
       name: name ?? '',
       streamId: streamId ?? '',
+      isActiveVoice: false,
     }
   };
 

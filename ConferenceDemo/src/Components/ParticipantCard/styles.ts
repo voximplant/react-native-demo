@@ -15,7 +15,7 @@ export default StyleSheet.create({
     margin: 2,
   },
   activeVoice: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: COLORS.MINT,
   },
   selfview: {

@@ -21,6 +21,8 @@ import {
   endpointRemoved,
   setError,
   removeAllParticipants,
+  endpointVoiceActivityStarted,
+  endpointVoiceActivityStopped,
 } from '../Store/conference/actions';
 
 export const ConferenceService = () => {
@@ -40,7 +42,7 @@ export const ConferenceService = () => {
       },
     };
     currentConference.current = await client.callConference(conference, callSettings);
-    const model = convertParticitantModel({id: currentConference.current?.callId, name: user, streamId: ''});
+    const model = convertParticitantModel({id: currentConference.current?.callId, name: user});
     dispatch(addParticipant(model));
     subscribeToConferenceEvents();
   }
@@ -81,14 +83,30 @@ export const ConferenceService = () => {
     endpoint.on(
       Voximplant.EndpointEvents.RemoteVideoStreamAdded,
       (endpointEvent: any) => {
-        dispatch(removeVideoStreamAdded({id: endpointEvent.endpoint.id, streamId: endpointEvent.videoStream.id}));
+        const model = convertParticitantModel({id: endpointEvent.endpoint.id, streamId: endpointEvent.videoStream.id});
+        dispatch(removeVideoStreamAdded(model));
       },
     );
     endpoint.on(
       Voximplant.EndpointEvents.RemoteVideoStreamRemoved,
       (endpointEvent: any) => {
-        dispatch(removeVideoStreamRemoved({id: endpointEvent.endpoint.id}));
+        const model = convertParticitantModel({id: endpointEvent.endpoint.id});
+        dispatch(removeVideoStreamRemoved(model));
       },
+    );
+    endpoint.on(
+      Voximplant.EndpointEvents.VoiceActivityStarted,
+      (endpointEvent: any) => {
+        const model = convertParticitantModel({id: endpointEvent.endpoint.id});
+        dispatch(endpointVoiceActivityStarted(model));
+      }
+    );
+    endpoint.on(
+      Voximplant.EndpointEvents.VoiceActivityStopped,
+      (endpointEvent: any) => {
+        const model = convertParticitantModel({id: endpointEvent.endpoint.id});
+        dispatch(endpointVoiceActivityStopped(model));
+      }
     );
     endpoint.on(
       Voximplant.EndpointEvents.Removed,

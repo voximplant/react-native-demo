@@ -61,4 +61,5 @@ export type IParticipant = {
   id: string;
   name?: string | null;
   streamId?: string;
+  isActiveVoice?: boolean;
 }

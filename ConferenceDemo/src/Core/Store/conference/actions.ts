@@ -66,3 +66,13 @@ export const endpointRemoved = (payload: any) => ({
 export const removeAllParticipants = () => ({
   type: conferenceActions.REMOVE_ALL_PARTICIPANTS,
 });
+
+export const endpointVoiceActivityStarted = (payload: IParticipant) => ({
+  type: conferenceActions.ENDPOINT_VOICE_ACTIVITY_STARTED,
+  payload,
+});
+
+export const endpointVoiceActivityStopped = (payload: IParticipant) => ({
+  type: conferenceActions.ENDPOINT_VOICE_ACTIVITY_STOPPED,
+  payload,
+});

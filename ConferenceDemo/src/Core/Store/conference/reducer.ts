@@ -80,6 +80,18 @@ const conferenceReducer = (state = initialState, action: IReduxAction): IConfere
     case conferenceActions.REMOVE_ALL_PARTICIPANTS: {
       return { ...state, participants: [] }
     }
+    case conferenceActions.ENDPOINT_VOICE_ACTIVITY_STARTED: {
+      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
+      const newTarget =  {...(state.participants as IParticipant[])[index], isActiveVoice: true}
+      state.participants.splice(index, 1);
+      return {...state, participants: [...state.participants, newTarget]}
+    }
+    case conferenceActions.ENDPOINT_VOICE_ACTIVITY_STOPPED: {
+      const index = state.participants.findIndex((el: IParticipant) => el.id === payload.id);
+      const newTarget =  {...(state.participants as IParticipant[])[index], isActiveVoice: false}
+      state.participants.splice(index, 1);
+      return {...state, participants: [...state.participants, newTarget]}
+    }
     default:
       return state;
   }

@@ -8,7 +8,6 @@ import { View, Text } from "react-native";
 import {Voximplant} from 'react-native-voximplant';
 
 import { IParticipant } from "../../Utils/types";
-import { useUtils } from "../../Utils/useUtils";
 
 import MicrophoneIconDisable from '../../Assets/Icons/MicrophoneDisable.svg';
 import styles from "./styles";
