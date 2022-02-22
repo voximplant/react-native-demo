@@ -84,43 +84,45 @@ export const useUtils = () => {
   };
 
   const dynamicComputeStyles = (
-    containerHeight: number,
     containerWidth: number,
+    containerHeight: number,
     participantsCount: number,
     index: number,
   ) => {
-    const forOne = {height: containerHeight, width: containerWidth};
-    const forTwo = {height: containerHeight / 2, width: containerWidth};
-    const forThreePartOne = {height: containerHeight / 2, width: containerWidth / 2};
-    const forFour = {height: containerHeight / 2, width: containerWidth / 2};
-    const forFivePartOne = {height: containerHeight / 2, width: containerWidth / 3};
-  
+    const marginParticipants = 4;
+    const forOneInRow = containerWidth - marginParticipants;
+    const forTwoInRow = containerWidth / 2 - marginParticipants;
+
+    const forOneInColumn = containerHeight - marginParticipants;
+    const forTwoInColumn = containerHeight / 2 - marginParticipants;
+    const forThreeInColumn = containerHeight / 3 - marginParticipants;
+
     switch (participantsCount) {
       case 1: {
-        return forOne;
+        return {width: forOneInRow, height: forOneInColumn};
       }
       case 2: {
-        return forTwo;
+        return {width: forOneInRow, height: forTwoInColumn};
       }
       case 3: {
         if (index === 0 || index === 1) {
-          return forThreePartOne;
+          return {width: forTwoInRow, height: forTwoInColumn};
         } else {
-          return forTwo;
+          return {width: forOneInRow, height: forTwoInColumn};
         }
       }
       case 4: {
-        return forFour;
+        return {width: forTwoInRow, height: forTwoInColumn};
       }
       case 5: {
         if (index <= 2) {
-          return forFivePartOne;
+          return {width: forTwoInRow, height: forThreeInColumn};
         } else {
-          return forFour;
+          return {width: forTwoInRow, height: forThreeInColumn};
         }
       }
       default: {
-        return forFivePartOne;
+        return {width: forTwoInRow, height: forThreeInColumn};
       }
     }
   };

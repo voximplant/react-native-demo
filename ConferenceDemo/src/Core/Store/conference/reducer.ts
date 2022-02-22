@@ -24,10 +24,10 @@ const initialState = {
 const conferenceReducer = (state = initialState, action: IReduxAction): IConferenceReducer => {
   const { type, payload } = action;
   switch(type) {
-    case conferenceActions.TOGGLE_IS_MUTED: {
+    case conferenceActions.TOGGLE_MUTE: {
       return { ...state, isMuted: !state.isMuted };
     }
-    case conferenceActions.TOGGLE_LOCAL_VIDEO: {
+    case conferenceActions.TOGGLE_SEND_VIDEO: {
       return { ...state, sendLocalVideo: !state.sendLocalVideo };
     }
     case conferenceActions.CHANGE_CALL_STATE: {

@@ -12,6 +12,7 @@ export default StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: COLORS.PRIMARY,
+    margin: 2,
   },
   activeVoice: {
     borderWidth: 2,

@@ -8,41 +8,30 @@ import { View, Text } from "react-native";
 import {Voximplant} from 'react-native-voximplant';
 
 import { IParticipant } from "../../Utils/types";
-import { useUtils } from "../../Utils/useUtils";
 
 import MicrophoneIconDisable from '../../Assets/Icons/MicrophoneDisable.svg';
 import styles from "./styles";
 
 interface IProps {
   participant: IParticipant,
-  containerHeight: number;
-  containerWidth: number;
-  participantsCount: number;
-  index: number;
+  stylesForCard: object;
+  stylesForLastCard: object;
 };
 
-const ParticipantCard = ({
-  participant,
-  containerHeight,
-  containerWidth,
-  participantsCount,
-  index,
-}: IProps) => {
-  const  { dynamicComputeStyles } = useUtils();
+const ParticipantCard = ({participant, stylesForCard, stylesForLastCard}: IProps) => {
+  const isActiveVoice = true;
 
   return (
-    <View 
-      key={participant.id}
-      style={[
-        styles.participantWrapper,
-        participant.isActiveVoice && styles.activeVoice,
-        dynamicComputeStyles(containerHeight, containerWidth, participantsCount, index)
-      ]}
-    >
+    <View style={[
+      styles.participantWrapper,
+      isActiveVoice && styles.activeVoice,
+      stylesForCard,
+      stylesForLastCard,
+    ]}>
       <Voximplant.VideoView
         style={styles.selfview}
         videoStreamId={participant.streamId}
-        scaleType={Voximplant.RenderScaleType.SCALE_FIT} // TODO: need to think about SCALE_FILL
+        scaleType={Voximplant.RenderScaleType.SCALE_FILL}
         showOnTop={true}
       />
       <View style={styles.participantWrapperInfo}>

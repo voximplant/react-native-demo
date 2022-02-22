@@ -5,12 +5,12 @@
 import { IParticipant } from "../../../Utils/types";
 import { conferenceActions } from "./actionTypes";
 
-export const toggleIsMuted = () => ({
-  type: conferenceActions.TOGGLE_IS_MUTED,
+export const toggleMute = () => ({
+  type: conferenceActions.TOGGLE_MUTE,
 });
 
-export const toggleIsLocalVideo = () => ({
-  type: conferenceActions.TOGGLE_LOCAL_VIDEO,
+export const toggleSendVideo = () => ({
+  type: conferenceActions.TOGGLE_SEND_VIDEO,
 });
 
 export const changeCallState = (payload: string) => ({
