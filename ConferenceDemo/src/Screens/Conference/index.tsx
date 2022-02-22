@@ -71,11 +71,13 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
         {participants?.map((el, index) => {
           const participantsCount = participants.length;
           const stylesForCard = dynamicComputeStyles(containerWidth, containerHeight, participantsCount, index)
+          const stylesForLastCard = (index === 4 && participantsCount === 5) ? {marginLeft: containerWidth / 4} : {};
           return index <= 5 && (
             <ParticipantCard
               key={el.id}
               participant={el}
               stylesForCard={stylesForCard}
+              stylesForLastCard={stylesForLastCard}
             />
           )
         })}

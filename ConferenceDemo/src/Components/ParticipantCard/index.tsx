@@ -12,16 +12,18 @@ import styles from "./styles";
 interface IProps {
   participant: IParticipant,
   stylesForCard: object;
+  stylesForLastCard: object;
 };
 
-const ParticipantCard = ({participant, stylesForCard}: IProps) => {
+const ParticipantCard = ({participant, stylesForCard, stylesForLastCard}: IProps) => {
   const isActiveVoice = true;
 
   return (
     <View style={[
       styles.participantWrapper,
       isActiveVoice && styles.activeVoice,
-      stylesForCard
+      stylesForCard,
+      stylesForLastCard,
     ]}>
       <Voximplant.VideoView
         key={participant.id}

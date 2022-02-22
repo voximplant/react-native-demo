@@ -87,37 +87,40 @@ export const useUtils = () => {
     participantsCount: number,
     index: number,
   ) => {
-    const forOne = {width: containerWidth, height: containerHeight};
-    const forTwo = {width: containerWidth, height: containerHeight / 2};
-    const forThreeTopOrFour = {width: containerWidth / 2, height: containerHeight / 2};
-    const forFiveTopOrMore = {width: containerWidth / 3, height: containerHeight / 2};
-  
+    const marginParticipants = 4;
+    const forOneInRow = containerWidth - marginParticipants;
+    const forTwoInRow = containerWidth / 2 - marginParticipants;
+
+    const forOneInColumn = containerHeight - marginParticipants;
+    const forTwoInColumn = containerHeight / 2 - marginParticipants;
+    const forThreeInColumn = containerHeight / 3 - marginParticipants;
+
     switch (participantsCount) {
       case 1: {
-        return forOne;
+        return {width: forOneInRow, height: forOneInColumn};
       }
       case 2: {
-        return forTwo;
+        return {width: forOneInRow, height: forTwoInColumn};
       }
       case 3: {
         if (index === 0 || index === 1) {
-          return forThreeTopOrFour;
+          return {width: forTwoInRow, height: forTwoInColumn};
         } else {
-          return forTwo;
+          return {width: forOneInRow, height: forTwoInColumn};
         }
       }
       case 4: {
-        return forThreeTopOrFour;
+        return {width: forTwoInRow, height: forTwoInColumn};
       }
       case 5: {
         if (index <= 2) {
-          return forFiveTopOrMore;
+          return {width: forTwoInRow, height: forThreeInColumn};
         } else {
-          return forThreeTopOrFour;
+          return {width: forTwoInRow, height: forThreeInColumn};
         }
       }
       default: {
-        return forFiveTopOrMore;
+        return {width: forTwoInRow, height: forThreeInColumn};
       }
     }
   };
