@@ -16,7 +16,8 @@ import { COLORS } from '../../Utils/constants';
 import { IScreenProps, ScreenNavigationProp } from '../../Utils/types';
 import { ConferenceService } from '../../Core/Services/ConferenceService';
 import { RootReducer } from '../../Core/Store';
-import { toggleIsLocalVideo, toggleIsMuted } from '../../Core/Store/conference/actions';
+import { toggleSendVideo, toggleMute } from '../../Core/Store/conference/actions';
+import { useUtils } from '../../Utils/useUtils';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
 import MicrophoneIcon from '../../Assets/Icons/Microphone.svg';
@@ -30,6 +31,7 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const dispatch = useDispatch();
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
   const { startConference, endConference, muteAudio, sendLocalVideo } = ConferenceService();
+  const  { dynamicComputeStyles } = useUtils();
 
   const isSendVideo = useSelector((state: RootReducer) => state.conferenceReducer.sendLocalVideo);
   const isMuted = useSelector((state: RootReducer) => state.conferenceReducer.isMuted);
@@ -49,14 +51,14 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   }, [callState]);
 
   const toggleMuteAudio = () => {
-    dispatch(toggleIsMuted());
+    dispatch(toggleMute());
     muteAudio(isMuted);
   };
 
   const toggleLocalVideo = async () => {
     try {
       await sendLocalVideo(!isSendVideo);
-      dispatch(toggleIsLocalVideo());
+      dispatch(toggleSendVideo());
     } catch (error) {
       console.log('[ConferenceService]:[ERROR] => sendLocalVideo method');
     }
@@ -73,13 +75,14 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
       }}>
         {participants?.map((el, index) => {
           const participantsCount = participants.length;
+          const stylesForCard = dynamicComputeStyles(containerWidth, containerHeight, participantsCount, index)
+          const stylesForLastCard = (index === 4 && participantsCount === 5) ? {marginLeft: containerWidth / 4} : {};
           return index <= 5 && (
             <ParticipantCard
+              key={el.id}
               participant={el}
-              containerHeight={containerHeight}
-              containerWidth={containerWidth}
-              participantsCount={participantsCount}
-              index={index}
+              stylesForCard={stylesForCard}
+              stylesForLastCard={stylesForLastCard}
             />
           )
         })}
