@@ -81,6 +81,50 @@ export const useUtils = () => {
     }
   };
 
+  const dynamicComputeStyles = (
+    containerWidth: number,
+    containerHeight: number,
+    participantsCount: number,
+    index: number,
+  ) => {
+    const marginParticipants = 4;
+    const forOneInRow = containerWidth - marginParticipants;
+    const forTwoInRow = containerWidth / 2 - marginParticipants;
+
+    const forOneInColumn = containerHeight - marginParticipants;
+    const forTwoInColumn = containerHeight / 2 - marginParticipants;
+    const forThreeInColumn = containerHeight / 3 - marginParticipants;
+
+    switch (participantsCount) {
+      case 1: {
+        return {width: forOneInRow, height: forOneInColumn};
+      }
+      case 2: {
+        return {width: forOneInRow, height: forTwoInColumn};
+      }
+      case 3: {
+        if (index === 0 || index === 1) {
+          return {width: forTwoInRow, height: forTwoInColumn};
+        } else {
+          return {width: forOneInRow, height: forTwoInColumn};
+        }
+      }
+      case 4: {
+        return {width: forTwoInRow, height: forTwoInColumn};
+      }
+      case 5: {
+        if (index <= 2) {
+          return {width: forTwoInRow, height: forThreeInColumn};
+        } else {
+          return {width: forTwoInRow, height: forThreeInColumn};
+        }
+      }
+      default: {
+        return {width: forTwoInRow, height: forThreeInColumn};
+      }
+    }
+  };
+
   return {
     isIOS,
     isAndroid,
@@ -89,5 +133,6 @@ export const useUtils = () => {
     checkAndroidMicrophonePermission,
     checkAndroidCameraPermission,
     convertParticitantModel,
+    dynamicComputeStyles,
   };
 };

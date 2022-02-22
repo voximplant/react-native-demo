@@ -2,22 +2,22 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-//@ts-ignore
-import {Voximplant} from 'react-native-voximplant';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import ControlButton from '../../Components/ControlButton';
 import ConferenceHeader from '../../Components/ConferenceHeader';
+import ParticipantCard from '../../Components/ParticipantCard';
 
 import { COLORS } from '../../Utils/constants';
 import { IScreenProps, ScreenNavigationProp } from '../../Utils/types';
 import { ConferenceService } from '../../Core/Services/ConferenceService';
 import { RootReducer } from '../../Core/Store';
 import { toggleIsMuted } from '../../Core/Store/conference/actions';
+import { useUtils } from '../../Utils/useUtils';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
 import MicrophoneIcon from '../../Assets/Icons/Microphone.svg';
@@ -31,12 +31,15 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const dispatch = useDispatch();
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
   const { startConference, endConference, muteAudio, sendLocalVideo } = ConferenceService();
+  const  { dynamicComputeStyles } = useUtils();
 
   const isSendVideo = useSelector((state: RootReducer) => state.conferenceReducer.sendLocalVideo);
   const isMuted = useSelector((state: RootReducer) => state.conferenceReducer.isMuted);
   const callState = useSelector((state: RootReducer) => state.conferenceReducer.callState);
   const participants = useSelector((state: RootReducer) => state.conferenceReducer.participants);
-  
+  const [containerHeight, setContainerHeight] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
+
   useEffect(() => {
     startConference(conference, isSendVideo);
   }, []);
@@ -60,19 +63,24 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar barStyle={'light-content'} backgroundColor={COLORS.BLACK} />
       <ConferenceHeader />
-       <View style={styles.videoContainer}>
-        {participants?.map((el) => {
-          return el.streamId ? (
-          <Voximplant.VideoView
-            key={el.id}
-            style={styles.selfview}
-            videoStreamId={el.streamId}
-            scaleType={Voximplant.RenderScaleType.SCALE_FIT}
-            showOnTop={true}
-          />
-          ) : (
-          <View key={el.id} style={styles.withoutLocalVideo} />
-        )})}
+      <View style={styles.videoContainer} onLayout={({ nativeEvent }) => {
+          const { width, height } = nativeEvent.layout;
+          setContainerHeight(height);
+          setContainerWidth(width);
+      }}>
+        {participants?.map((el, index) => {
+          const participantsCount = participants.length;
+          const stylesForCard = dynamicComputeStyles(containerWidth, containerHeight, participantsCount, index)
+          const stylesForLastCard = (index === 4 && participantsCount === 5) ? {marginLeft: containerWidth / 4} : {};
+          return index <= 5 && (
+            <ParticipantCard
+              key={el.id}
+              participant={el}
+              stylesForCard={stylesForCard}
+              stylesForLastCard={stylesForLastCard}
+            />
+          )
+        })}
       </View>
       <View style={styles.bottomControlBar}> 
         <View style={styles.buttonsWrapper}>
