@@ -48,7 +48,7 @@ export const ConferenceService = () => {
       },
     };
     currentConference.current = await Client.callConference(conference, callSettings);
-    const model = convertParticitantModel({id: currentConference.current?.callId, name: user, isMuted: false});
+    const model = convertParticitantModel({id: currentConference.current?.callId, name: user});
     dispatch(addParticipant(model));
     subscribeToConferenceEvents();
   }
@@ -73,12 +73,12 @@ export const ConferenceService = () => {
       dispatch(localVideoStreamAdded(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamRemoved, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId, name: user, streamId: ''});
+      const model = convertParticitantModel({id: callEvent.call.callId});
       dispatch(localVideoStreamRemoved(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.EndpointAdded, (callEvent: any) => {
       if (currentConference.current?.callId !== callEvent.endpoint.id) {
-        const model = convertParticitantModel({id: callEvent.endpoint.id, name: callEvent.displayName, streamId: '', isMuted: false});
+        const model = convertParticitantModel({id: callEvent.endpoint.id, name: callEvent.displayName});
         dispatch(endpointAdded(model))
         subscribeToEndpointEvents(callEvent.endpoint);
       }
@@ -89,7 +89,7 @@ export const ConferenceService = () => {
         const model = convertParticitantModel({id: message.id, isMuted: message.isMuted});
         dispatch(endpointMuted(model))
       } catch (error) {
-        console.log('JSON.parse [ERROR]: MessageReceived text =>', callEvent.text);
+        console.log('JSON.parse [ERROR]: MessageReceived =>', callEvent.text);
       }
     });
   }

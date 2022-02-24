@@ -9,6 +9,9 @@ export const COLORS = {
   PURPLE: '#662EFF',
   BLACK: '#000000',
   MINT: '#B4F8C8',
+  GRAY: '#E3E4EB',
+  DARK_GRAY: '#1F1C28',
+  LIGHT_GRAY: '#F2F2F5',
 }
 
 export const STORAGE = {

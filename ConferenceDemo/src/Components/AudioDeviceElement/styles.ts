@@ -4,10 +4,15 @@
 
 import { StyleSheet } from "react-native";
 
+import { COLORS } from "../../Utils/constants";
+
 export default StyleSheet.create({
   wrapper: {
     width: '100%',
     height: 56,
+  },
+  wrapperActive: {
+    backgroundColor: COLORS.LIGHT_GRAY,
   },
   contentWrapper: {
     flexDirection: 'row',
@@ -19,8 +24,11 @@ export default StyleSheet.create({
     width: 252,
     lineHeight: 20,
     fontSize: 16,
-    color: '#1F1C28',
+    color: COLORS.DARK_GRAY,
     alignSelf: 'center',
+  },
+  audioDeviceTextActive: {
+    color: COLORS.PURPLE,
   },
   iconDevice: {
     minWidth: 25,

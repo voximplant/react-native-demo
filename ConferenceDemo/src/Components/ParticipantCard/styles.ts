@@ -3,6 +3,7 @@
  */
 
 import { StyleSheet } from "react-native";
+
 import { COLORS } from "../../Utils/constants";
 
 export default StyleSheet.create({
@@ -42,8 +43,11 @@ export default StyleSheet.create({
     borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#E3E4EB',
     marginLeft: 10,
+  },
+  participantIcon: {
+    minHeight: 25,
+    minWidth: 25,
+    alignSelf: 'center',
   },
 });

@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   videoContainer: {
     flex: 1,
-    backgroundColor: '#1F1C28',
+    backgroundColor: COLORS.DARK_GRAY,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
@@ -43,9 +43,9 @@ export default StyleSheet.create({
   },
   controlButtonWrapper: {
     borderWidth: 1,
-    borderColor: '#E3E4EB',
+    borderColor: COLORS.GRAY,
   },
   controlButtonWrapperHangup: {
-    backgroundColor: '#FF7875',
+    backgroundColor: COLORS.RED,
   },
 });

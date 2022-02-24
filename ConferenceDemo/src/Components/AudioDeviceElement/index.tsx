@@ -24,12 +24,12 @@ const AudioDeviceElement = ({Icon, IconActive, isActive, text, typeForSelect, on
 
   return (
     <TouchableOpacity
-      style={[styles.wrapper, isActive && {backgroundColor: '#F2F2F5'}]}
+      style={[styles.wrapper, isActive && styles.wrapperActive]}
       onPress={selectNewAudioDevice}
     >
         <View style={styles.contentWrapper}>
           {isActive ? <IconActive style={styles.iconDevice} /> : <Icon style={styles.iconDevice} />}
-          <Text style={styles.audioDeviceText}>{text}</Text>
+          <Text style={[styles.audioDeviceText, isActive && styles.audioDeviceTextActive]}>{text}</Text>
           {isActive ? <MarkIcon style={styles.markIcon} /> : <View style={styles.markIcon} />}
         </View>
     </TouchableOpacity>

@@ -3,6 +3,7 @@
  */
 
 import { StyleSheet } from "react-native";
+
 import { COLORS } from "../../Utils/constants";
 
 export default StyleSheet.create({
@@ -23,6 +24,6 @@ export default StyleSheet.create({
     marginBottom: 16,
     fontSize: 24,
     fontWeight: '500',
-    color: '#2E283D',
+    color: COLORS.DARK_GRAY,
   }
 });

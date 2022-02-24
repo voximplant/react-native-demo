@@ -9,7 +9,7 @@ import {Voximplant} from 'react-native-voximplant';
 
 import { IParticipant } from "../../Utils/types";
 
-import MicrophoneIconDisable from '../../Assets/Icons/MicrophoneDisable.svg';
+import MicrophoneIconDisable from '../../Assets/Icons/endpointMuteIcon.svg';
 import styles from "./styles";
 
 interface IProps {
@@ -19,12 +19,10 @@ interface IProps {
 };
 
 const ParticipantCard = ({participant, stylesForCard, stylesForLastCard}: IProps) => {
-  const isActiveVoice = true;
-
   return (
     <View style={[
       styles.participantWrapper,
-      isActiveVoice && styles.activeVoice,
+      participant.isActiveVoice && styles.activeVoice,
       stylesForCard,
       stylesForLastCard,
     ]}>
@@ -38,7 +36,7 @@ const ParticipantCard = ({participant, stylesForCard, stylesForLastCard}: IProps
         <Text style={styles.participantText}>{participant.name}</Text>
         {participant.isMuted && (
           <View style={styles.participantIconWrapper}>
-            <MicrophoneIconDisable />
+            <MicrophoneIconDisable style={styles.participantIcon} />
           </View>
         )}
       </View>
