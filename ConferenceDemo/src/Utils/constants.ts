@@ -12,10 +12,10 @@ export const COLORS = {
   GRAY: '#E3E4EB',
   DARK_GRAY: '#1F1C28',
   LIGHT_GRAY: '#F2F2F5',
-}
+};
 
 export const STORAGE = {
   USER_NAME: 'VOX_USER_NAME',
   ACCESS_TOKEN: 'VOX_ACCESS_TOKEN',
   REFRESH_TOKEN: 'VOX_REFRESH_TOKEN',
-}
+};

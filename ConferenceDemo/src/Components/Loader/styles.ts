@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -11,7 +11,7 @@ export default StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    justifyContent: "center",
+    justifyContent: 'center',
     backgroundColor: 'rgba(228,232,240, 0.8)',
   },
   loaderWrapper: {

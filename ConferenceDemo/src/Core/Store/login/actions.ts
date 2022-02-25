@@ -2,28 +2,29 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { AppDispatch } from "..";
-import { useUtils } from "../../../Utils/useUtils";
-import { AuthService } from "../../Services/AuthService";
-import { resetState, toggleLoading } from "../global/actions";
-import { loginActions } from "./actionTypes";
+import {AppDispatch} from '..';
+import {useUtils} from '../../../Utils/useUtils';
+import {AuthService} from '../../Services/AuthService';
+import {resetState, toggleLoading} from '../global/actions';
+import {loginActions} from './actionTypes';
 
-const  { convertError } = useUtils();
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const {convertError} = useUtils();
 
-export const loginWithPass = (username: string, password: string) => async (dispatch: AppDispatch) => {
-  dispatch(toggleLoading());
-  try {
-    const result = await AuthService().loginWithPassword(username, password);
-    dispatch(loginSuccess(result));
-  } catch (error) {
-    
-    const converted = convertError(error);
-    dispatch(loginFailure(converted));
-  }
-  dispatch(toggleLoading());
-}
+export const loginWithPass =
+  (username: string, password: string) => async (dispatch: AppDispatch) => {
+    dispatch(toggleLoading());
+    try {
+      const result = await AuthService().loginWithPassword(username, password);
+      dispatch(loginSuccess(result));
+    } catch (error) {
+      const converted = convertError(error);
+      dispatch(loginFailure(converted));
+    }
+    dispatch(toggleLoading());
+  };
 
-export const loginWithToken = () => async (dispatch: AppDispatch) => {
+export const loginWithToken = () => async (dispatch: AppDispatch | any) => {
   dispatch(toggleLoading());
   try {
     const result = await AuthService().loginWithToken();
@@ -35,7 +36,7 @@ export const loginWithToken = () => async (dispatch: AppDispatch) => {
     }
   }
   dispatch(toggleLoading());
-}
+};
 
 export const refreshToken = () => async (dispatch: AppDispatch) => {
   dispatch(toggleLoading());
@@ -48,7 +49,7 @@ export const refreshToken = () => async (dispatch: AppDispatch) => {
     await AuthService().logOut();
   }
   dispatch(toggleLoading());
-}
+};
 
 export const logOutApp = () => async (dispatch: AppDispatch) => {
   dispatch(toggleLoading());
@@ -63,10 +64,10 @@ export const logOutApp = () => async (dispatch: AppDispatch) => {
 
 export const loginSuccess = (payload: string) => ({
   type: loginActions.LOGIN_SUCCESS,
-  payload
+  payload,
 });
 
 export const loginFailure = (payload: any) => ({
   type: loginActions.LOGIN_FAILURE,
-  payload
+  payload,
 });

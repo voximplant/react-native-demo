@@ -2,9 +2,9 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { Platform, StyleSheet } from "react-native";
+import {Platform, StyleSheet} from 'react-native';
 
-import { COLORS } from "../../Utils/constants";
+import {COLORS} from '../../Utils/constants';
 
 export default StyleSheet.create({
   container: {
@@ -28,7 +28,7 @@ export default StyleSheet.create({
       android: {
         height: 77,
       },
-    })
+    }),
   },
   buttonsWrapper: {
     width: 215,
@@ -39,7 +39,7 @@ export default StyleSheet.create({
       ios: {
         marginBottom: 24,
       },
-    })
+    }),
   },
   controlButtonWrapper: {
     borderWidth: 1,

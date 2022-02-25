@@ -2,9 +2,9 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
-import { COLORS } from "../../Utils/constants";
+import {COLORS} from '../../Utils/constants';
 
 export default StyleSheet.create({
   wrapperContent: {
@@ -25,5 +25,5 @@ export default StyleSheet.create({
     fontSize: 24,
     fontWeight: '500',
     color: COLORS.DARK_GRAY,
-  }
+  },
 });

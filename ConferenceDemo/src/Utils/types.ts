@@ -2,11 +2,11 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { FC, RefObject } from 'react';
-import { TextInput } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { SvgProps } from 'react-native-svg';
+import {FC, RefObject} from 'react';
+import {TextInput} from 'react-native';
+import {RouteProp} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {SvgProps} from 'react-native-svg';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -16,17 +16,19 @@ export type RootStackParamList = {
 
 export type MainParamList = {
   displayName: string;
-}
+};
 
 export type ConferenceParamList = {
   conference: string;
-}
+};
 
-export type ScreenNavigationProp<T extends keyof RootStackParamList> = 
-NativeStackNavigationProp<RootStackParamList, T>;
+export type ScreenNavigationProp<T extends keyof RootStackParamList> =
+  NativeStackNavigationProp<RootStackParamList, T>;
 
-export type ScreenRouteProp<T extends keyof RootStackParamList> = 
-RouteProp<RootStackParamList, T>;
+export type ScreenRouteProp<T extends keyof RootStackParamList> = RouteProp<
+  RootStackParamList,
+  T
+>;
 
 export type IScreenProps<T extends keyof RootStackParamList> = {
   route: ScreenRouteProp<T>;
@@ -42,7 +44,7 @@ export interface IAuthResult {
     accessToken: string;
     refreshExpire: number;
     refreshToken: string;
-  }
+  };
 }
 
 export interface IAuthError {
@@ -64,7 +66,7 @@ export type IParticipant = {
   streamId?: string;
   isActiveVoice?: boolean;
   isMuted?: boolean;
-}
+};
 
 export interface IAvailableDeivces {
   [key: string]: {
@@ -72,5 +74,5 @@ export interface IAvailableDeivces {
     text: string;
     Icon: FC<SvgProps>;
     IconActive: FC<SvgProps>;
-  }
-};
+  };
+}

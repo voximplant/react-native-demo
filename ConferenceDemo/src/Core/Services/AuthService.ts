@@ -5,19 +5,23 @@
 //@ts-ignore
 import {Voximplant} from 'react-native-voximplant';
 
-import { StorageService } from './StorageService';
+import {StorageService} from './StorageService';
 
-import { STORAGE } from '../../Utils/constants';
+import {STORAGE} from '../../Utils/constants';
 
 export const AuthService = () => {
   const client = Voximplant.getInstance();
-  const  {setStorageItem, getStorageItem, setStorageItems, clearStorageItems } = StorageService();
+  const {setStorageItem, getStorageItem, setStorageItems, clearStorageItems} =
+    StorageService();
 
   const connectToVox = async () => {
     await client.connect();
   };
 
-  const loginWithPassword = async (username: string, password: string): Promise<string> => {
+  const loginWithPassword = async (
+    username: string,
+    password: string,
+  ): Promise<string> => {
     let clientState = await client.getClientState();
     if (clientState === Voximplant.ClientState.DISCONNECTED) {
       await connectToVox();
@@ -29,7 +33,7 @@ export const AuthService = () => {
     await setStorageItem(STORAGE.USER_NAME, username);
     await setStorageItems(result);
     return result.displayName;
-  }
+  };
 
   const loginWithToken = async (): Promise<string> => {
     let username = await getStorageItem(STORAGE.USER_NAME);
@@ -67,5 +71,5 @@ export const AuthService = () => {
     loginWithToken,
     logOut,
     refreshToken,
-  }
+  };
 };

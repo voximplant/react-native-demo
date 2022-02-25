@@ -6,4 +6,4 @@ export const globalActions = {
   CLEAR_ERRORS: 'CLEAR_ERRORS',
   TOGGLE_LOADING: 'TOGGLE_LOADING',
   RESET_STATE: 'RESET_STATE',
-}
+};

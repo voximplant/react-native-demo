@@ -2,8 +2,8 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { IParticipant } from "../../../Utils/types";
-import { conferenceActions } from "./actionTypes";
+import {IParticipant} from '../../../Utils/types';
+import {conferenceActions} from './actionTypes';
 
 export const toggleMute = () => ({
   type: conferenceActions.TOGGLE_MUTE,
