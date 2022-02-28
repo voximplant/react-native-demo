@@ -23,11 +23,6 @@ export const setError = (payload: any) => ({
   payload,
 });
 
-export const addParticipant = (payload: any) => ({
-  type: conferenceActions.ADD_PARTICIPANT,
-  payload,
-});
-
 export const videoStreamAdded = (payload: any) => ({
   type: conferenceActions.VIDEO_STREAM_ADDED,
   payload,

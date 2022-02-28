@@ -2,8 +2,8 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import React, { useState } from "react";
-import { View, Text, Modal, TouchableOpacity} from "react-native";
+import React from "react";
+import { View, Text, TouchableOpacity} from "react-native";
 
 import MarkIcon from '../../Assets/Icons/markIcon.svg';
 import styles from "./styles";

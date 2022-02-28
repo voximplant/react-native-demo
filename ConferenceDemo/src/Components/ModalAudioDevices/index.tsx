@@ -20,8 +20,7 @@ interface IProps {
 };
 
 const ModalAudioDevices = ({modalVisible, setModalVisible}: IProps) => {
-  const selectedAudioDevice = useSelector((state: RootReducer) => state.conferenceReducer.selectedAudioDevice);
-  const listAudioDevices = useSelector((state: RootReducer) => state.conferenceReducer.listAudioDevices);
+  const {selectedAudioDevice, listAudioDevices} = useSelector((state: RootReducer) => state.conferenceReducer);
 
   const {selectAudioDevice} = ConferenceService();
 

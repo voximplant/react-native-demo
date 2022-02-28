@@ -31,6 +31,7 @@ export const loginWithToken = () => async (dispatch: AppDispatch) => {
   } catch (error) {
     //@ts-ignore
     if (error?.code === 701) {
+    //@ts-ignore
       dispatch(refreshToken());
     }
   }

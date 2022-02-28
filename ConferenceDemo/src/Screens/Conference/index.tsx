@@ -32,16 +32,24 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const dispatch = useDispatch();
   const { isAndroid, isIOS, checkAndroidCameraPermission } = useUtils();
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
-  const { startConference, endConference, muteAudio, sendLocalVideo, getAudioDevices, getActiveDevice } = ConferenceService();
+  const {
+    startConference,
+    endConference,
+    muteAudio,
+    sendLocalVideo,
+    getAudioDevices,
+    getActiveDevice,
+  } = ConferenceService();
   const  { dynamicComputeStyles } = useUtils();
 
-  const isSendVideo = useSelector((state: RootReducer) => state.conferenceReducer.sendLocalVideo);
-  const isMuted = useSelector((state: RootReducer) => state.conferenceReducer.isMuted);
-  const callState = useSelector((state: RootReducer) => state.conferenceReducer.callState);
-  const participants = useSelector((state: RootReducer) => state.conferenceReducer.participants);
+  const {
+    isMuted,
+    callState,
+    participants,
+    isSendVideo,
+  } = useSelector((state: RootReducer) => state.conferenceReducer);
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
-
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {

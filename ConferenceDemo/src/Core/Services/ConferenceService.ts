@@ -15,7 +15,6 @@ import {
   changeCallState,
   videoStreamAdded,
   videoStreamRemoved,
-  addParticipant,
   endpointAdded,
   endpointRemoved,
   setError,
@@ -51,7 +50,7 @@ export const ConferenceService = () => {
     };
     currentConference.current = await Client.callConference(conference, callSettings);
     const model = convertParticitantModel({id: currentConference.current?.callId, name: user});
-    dispatch(addParticipant(model));
+    dispatch(endpointAdded(model));
     subscribeToConferenceEvents();
     subscribeDeviceChangedEvent();
   }

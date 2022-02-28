@@ -9,7 +9,7 @@ export interface IConferenceReducer {
   participants: IParticipant[];
   callState: string;
   isMuted: boolean;
-  sendLocalVideo: boolean;
+  isSendVideo: boolean;
   selectedAudioDevice: AvailableDevice | null;
   listAudioDevices: Array<string>;
   error: string;
@@ -19,7 +19,7 @@ const initialState = {
   participants: [],
   callState: 'Disconnected',
   isMuted: false,
-  sendLocalVideo: false,
+  isSendVideo: false,
   selectedAudioDevice: null,
   listAudioDevices: [],
   error: '',
@@ -32,13 +32,10 @@ const conferenceReducer = (state = initialState, action: IReduxAction): IConfere
       return { ...state, isMuted: !state.isMuted };
     }
     case conferenceActions.TOGGLE_SEND_VIDEO: {
-      return { ...state, sendLocalVideo: !state.sendLocalVideo };
+      return { ...state, isSendVideo: !state.isSendVideo };
     }
     case conferenceActions.CHANGE_CALL_STATE: {
       return { ...state, callState: payload }
-    }
-    case conferenceActions.ADD_PARTICIPANT: {
-      return { ...state, participants: [ ...state.participants, payload ]};
     }
     case conferenceActions.VIDEO_STREAM_ADDED: {
       return {...state, participants: 
