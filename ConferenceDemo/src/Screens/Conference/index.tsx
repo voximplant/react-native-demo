@@ -32,7 +32,7 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const dispatch = useDispatch();
   const { isAndroid, isIOS, checkAndroidCameraPermission } = useUtils();
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
-  const { startConference, endConference, muteAudio, sendLocalVideo } = ConferenceService();
+  const { startConference, endConference, muteAudio, sendLocalVideo, getAudioDevices, getActiveDevice } = ConferenceService();
   const  { dynamicComputeStyles } = useUtils();
 
   const isSendVideo = useSelector((state: RootReducer) => state.conferenceReducer.sendLocalVideo);
@@ -46,6 +46,8 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
 
   useEffect(() => {
     startConference(conference, isSendVideo);
+    getAudioDevices();
+    getActiveDevice();
   }, []);
 
   useEffect(() => {

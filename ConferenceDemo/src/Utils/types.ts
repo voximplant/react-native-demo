@@ -67,10 +67,13 @@ export type IParticipant = {
 }
 
 export interface IAvailableDeivces {
-  [key: string]: {
-    id: number;
-    text: string;
-    Icon: FC<SvgProps>;
-    IconActive: FC<SvgProps>;
-  }
+  [key: string]: AvailableDevice;
+};
+
+export type AvailableDevice = {
+  key: string;
+  text: string;
+  Icon: FC<SvgProps>;
+  IconWhite: FC<SvgProps>;
+  IconActive: FC<SvgProps>;
 };

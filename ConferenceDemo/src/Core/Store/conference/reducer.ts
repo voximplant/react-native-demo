@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { IParticipant, IReduxAction } from "../../../Utils/types";
+import { AvailableDevice, IParticipant, IReduxAction } from "../../../Utils/types";
 import { conferenceActions } from "./actionTypes";
 
 export interface IConferenceReducer {
@@ -10,6 +10,8 @@ export interface IConferenceReducer {
   callState: string;
   isMuted: boolean;
   sendLocalVideo: boolean;
+  selectedAudioDevice: AvailableDevice | null;
+  listAudioDevices: Array<string>;
   error: string;
 }
 
@@ -18,6 +20,8 @@ const initialState = {
   callState: 'Disconnected',
   isMuted: false,
   sendLocalVideo: false,
+  selectedAudioDevice: null,
+  listAudioDevices: [],
   error: '',
 };
 
@@ -36,24 +40,16 @@ const conferenceReducer = (state = initialState, action: IReduxAction): IConfere
     case conferenceActions.ADD_PARTICIPANT: {
       return { ...state, participants: [ ...state.participants, payload ]};
     }
-    case conferenceActions.LOCAL_VIDEO_STREAM_ADDED: {
+    case conferenceActions.VIDEO_STREAM_ADDED: {
       return {...state, participants: 
         state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, streamId: payload.streamId} : el)}
     }
-    case conferenceActions.LOCAL_VIDEO_STREAM_REMOVED: {
+    case conferenceActions.VIDEO_STREAM_REMOVED: {
       return {...state, participants: 
         state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, streamId: ''} : el)}
     }
     case conferenceActions.ENDPOINT_ADDED: {
       return { ...state, participants: [ ...state.participants, payload ]};
-    }
-    case conferenceActions.REMOTE_VIDEO_STREAM_ADDED: {
-      return {...state, participants: 
-        state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, streamId: payload.streamId} : el)}
-    }
-    case conferenceActions.REMOTE_VIDEO_STREAM_REMOVED: {
-      return {...state, participants: 
-        state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, streamId: ''} : el)}
     }
     case conferenceActions.ENDPOINT_REMOVED: {
       return { ...state, participants: 
@@ -76,6 +72,12 @@ const conferenceReducer = (state = initialState, action: IReduxAction): IConfere
     case conferenceActions.ENDPOINT_MUTED: {
       return {...state, participants: 
         state.participants.map((el: IParticipant) => el.id === payload.id ? {...el, isMuted: payload.isMuted} : el)}
+    }
+    case conferenceActions.SET_SELECTED_AUDIO_DEVICE: {
+      return {...state, selectedAudioDevice: payload}
+    }
+    case conferenceActions.SET_LIST_AUDIO_DEVICES: {
+      return {...state, listAudioDevices: payload}
     }
     default:
       return state;
