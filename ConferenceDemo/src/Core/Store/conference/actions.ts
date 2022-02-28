@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { IParticipant } from "../../../Utils/types";
+import { AvailableDevice, IParticipant } from "../../../Utils/types";
 import { conferenceActions } from "./actionTypes";
 
 export const toggleMute = () => ({
@@ -23,38 +23,18 @@ export const setError = (payload: any) => ({
   payload,
 });
 
-export const addParticipant = (payload: any) => ({
-  type: conferenceActions.ADD_PARTICIPANT,
+export const videoStreamAdded = (payload: any) => ({
+  type: conferenceActions.VIDEO_STREAM_ADDED,
   payload,
 });
 
-export const localVideoStreamAdded = (payload: any) => ({
-  type: conferenceActions.LOCAL_VIDEO_STREAM_ADDED,
-  payload,
-});
-
-export const localVideoStreamRemoved = (payload: any) => ({
-  type: conferenceActions.LOCAL_VIDEO_STREAM_REMOVED,
-  payload,
-});
-
-export const removeParticipant = (payload: IParticipant) => ({
-  type: conferenceActions.REMOVE_PARTICIPANT,
+export const videoStreamRemoved = (payload: any) => ({
+  type: conferenceActions.VIDEO_STREAM_REMOVED,
   payload,
 });
 
 export const endpointAdded = (payload: any) => ({
   type: conferenceActions.ENDPOINT_ADDED,
-  payload,
-});
-
-export const removeVideoStreamAdded = (payload: any) => ({
-  type: conferenceActions.REMOTE_VIDEO_STREAM_ADDED,
-  payload,
-});
-
-export const removeVideoStreamRemoved = (payload: any) => ({
-  type: conferenceActions.REMOTE_VIDEO_STREAM_REMOVED,
   payload,
 });
 
@@ -74,5 +54,20 @@ export const endpointVoiceActivityStarted = (payload: IParticipant) => ({
 
 export const endpointVoiceActivityStopped = (payload: IParticipant) => ({
   type: conferenceActions.ENDPOINT_VOICE_ACTIVITY_STOPPED,
+  payload,
+});
+
+export const endpointMuted = (payload: IParticipant) => ({
+  type: conferenceActions.ENDPOINT_MUTED,
+  payload,
+});
+
+export const setSelectedDevice = (payload: AvailableDevice) => ({
+  type: conferenceActions.SET_SELECTED_AUDIO_DEVICE,
+  payload,
+});
+
+export const setListDevices = (payload: Array<string>) => ({
+  type: conferenceActions.SET_LIST_AUDIO_DEVICES,
   payload,
 });

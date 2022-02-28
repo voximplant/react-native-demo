@@ -31,7 +31,8 @@ export const loginWithToken = () => async (dispatch: AppDispatch) => {
   } catch (error) {
     //@ts-ignore
     if (error?.code === 701) {
-      refreshToken();
+    //@ts-ignore
+      dispatch(refreshToken());
     }
   }
   dispatch(toggleLoading());
@@ -45,6 +46,7 @@ export const refreshToken = () => async (dispatch: AppDispatch) => {
   } catch (error) {
     const converted = convertError(error);
     dispatch(loginFailure(converted));
+    await AuthService().logOut();
   }
   dispatch(toggleLoading());
 }

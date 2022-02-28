@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import ControlButton from '../../Components/ControlButton';
 import ConferenceHeader from '../../Components/ConferenceHeader';
 import ParticipantCard from '../../Components/ParticipantCard';
+import ModalAudioDevices from '../../Components/ModalAudioDevices';
 
 import { COLORS } from '../../Utils/constants';
 import { IScreenProps, ScreenNavigationProp } from '../../Utils/types';
@@ -29,19 +30,32 @@ import styles from './styles';
 const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   const { conference } = route.params;
   const dispatch = useDispatch();
+  const { isAndroid, isIOS, checkAndroidCameraPermission } = useUtils();
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
-  const { startConference, endConference, muteAudio, sendLocalVideo } = ConferenceService();
+  const {
+    startConference,
+    endConference,
+    muteAudio,
+    sendLocalVideo,
+    getAudioDevices,
+    getActiveDevice,
+  } = ConferenceService();
   const  { dynamicComputeStyles } = useUtils();
 
-  const isSendVideo = useSelector((state: RootReducer) => state.conferenceReducer.sendLocalVideo);
-  const isMuted = useSelector((state: RootReducer) => state.conferenceReducer.isMuted);
-  const callState = useSelector((state: RootReducer) => state.conferenceReducer.callState);
-  const participants = useSelector((state: RootReducer) => state.conferenceReducer.participants);
+  const {
+    isMuted,
+    callState,
+    participants,
+    isSendVideo,
+  } = useSelector((state: RootReducer) => state.conferenceReducer);
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     startConference(conference, isSendVideo);
+    getAudioDevices();
+    getActiveDevice();
   }, []);
 
   useEffect(() => {
@@ -56,18 +70,28 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
   };
 
   const toggleLocalVideo = async () => {
-    try {
+    let result;
+    if (isAndroid) {
+      try {
+        result = await checkAndroidCameraPermission();
+      } catch (error) {
+        console.warn('Something was wrong with android permissions...');
+      }
+    }
+    if (result || isIOS) {
       await sendLocalVideo(!isSendVideo);
       dispatch(toggleSendVideo());
-    } catch (error) {
-      console.log('[ConferenceService]:[ERROR] => sendLocalVideo method');
     }
+  };
+
+  const toggleModalAudioDevices = () => {
+    setModalVisible(!modalVisible);
   };
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar barStyle={'light-content'} backgroundColor={COLORS.BLACK} />
-      <ConferenceHeader />
+      <ConferenceHeader toggleModalAudioDevices={toggleModalAudioDevices} />
       <View style={styles.videoContainer} onLayout={({ nativeEvent }) => {
           const { width, height } = nativeEvent.layout;
           setContainerHeight(height);
@@ -112,6 +136,7 @@ const ConferenceScreen = ({ route }: IScreenProps<'Conference'>) => {
           />
         </View>
       </View>
+      <ModalAudioDevices modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </SafeAreaView>
   );
 };

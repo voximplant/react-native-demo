@@ -7,44 +7,52 @@ import { useRef } from 'react';
 import {Voximplant} from 'react-native-voximplant';
 import { useDispatch } from 'react-redux';
 
+import { availableDevices } from '../../Utils/constants';
 import { useUtils } from '../../Utils/useUtils';
 import { RootReducer, store } from '../Store';
 
 import {
   changeCallState,
-  removeVideoStreamAdded,
-  removeVideoStreamRemoved,
-  addParticipant,
-  localVideoStreamAdded,
-  localVideoStreamRemoved,
+  videoStreamAdded,
+  videoStreamRemoved,
   endpointAdded,
   endpointRemoved,
   setError,
   removeAllParticipants,
   endpointVoiceActivityStarted,
   endpointVoiceActivityStopped,
+  endpointMuted,
+  setListDevices,
+  setSelectedDevice,
 } from '../Store/conference/actions';
 
 export const ConferenceService = () => {
-  const client = Voximplant.getInstance();
+  const Client = Voximplant.getInstance();
+  const CameraManager = Voximplant.Hardware.CameraManager.getInstance();
+
+  const cameraType = Voximplant.Hardware.CameraType;
+
   const { loginReducer: { user } }: RootReducer = store.getState();
 
   const dispatch = useDispatch();
   const { convertParticitantModel } = useUtils();
 
   const currentConference = useRef<Voximplant.Call>();
+  const AudioDeviceManager = useRef(Voximplant.Hardware.AudioDeviceManager.getInstance());
 
   const startConference = async (conference: string, localVideo: boolean) => {
     const callSettings = {
+      enableSimulcast: true,
       video: {
         sendVideo: localVideo,
         receiveVideo: true,
       },
     };
-    currentConference.current = await client.callConference(conference, callSettings);
+    currentConference.current = await Client.callConference(conference, callSettings);
     const model = convertParticitantModel({id: currentConference.current?.callId, name: user});
-    dispatch(addParticipant(model));
+    dispatch(endpointAdded(model));
     subscribeToConferenceEvents();
+    subscribeDeviceChangedEvent();
   }
 
   const subscribeToConferenceEvents = () => {
@@ -64,17 +72,26 @@ export const ConferenceService = () => {
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamAdded, (callEvent: any) => {
       const model = convertParticitantModel({id: callEvent.call.callId, name: user, streamId: callEvent.videoStream.id});
-      dispatch(localVideoStreamAdded(model));
+      dispatch(videoStreamAdded(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.LocalVideoStreamRemoved, (callEvent: any) => {
-      const model = convertParticitantModel({id: callEvent.call.callId, name: user, streamId: ''});
-      dispatch(localVideoStreamRemoved(model));
+      const model = convertParticitantModel({id: callEvent.call.callId});
+      dispatch(videoStreamRemoved(model));
     });
     currentConference.current?.on(Voximplant.CallEvents.EndpointAdded, (callEvent: any) => {
       if (currentConference.current?.callId !== callEvent.endpoint.id) {
-        const model = convertParticitantModel({id: callEvent.endpoint.id, name: callEvent.displayName, streamId: ''});
+        const model = convertParticitantModel({id: callEvent.endpoint.id, name: callEvent.displayName});
         dispatch(endpointAdded(model))
         subscribeToEndpointEvents(callEvent.endpoint);
+      }
+    });
+    currentConference.current?.on(Voximplant.CallEvents.MessageReceived, (callEvent: any) => {
+      try {
+        const message = JSON.parse(callEvent.text);
+        const model = convertParticitantModel({id: message.id, isMuted: message.isMuted});
+        dispatch(endpointMuted(model))
+      } catch (error) {
+        console.log('JSON.parse [ERROR]: MessageReceived =>', callEvent.text);
       }
     });
   }
@@ -84,14 +101,14 @@ export const ConferenceService = () => {
       Voximplant.EndpointEvents.RemoteVideoStreamAdded,
       (endpointEvent: any) => {
         const model = convertParticitantModel({id: endpointEvent.endpoint.id, streamId: endpointEvent.videoStream.id});
-        dispatch(removeVideoStreamAdded(model));
+        dispatch(videoStreamAdded(model));
       },
     );
     endpoint.on(
       Voximplant.EndpointEvents.RemoteVideoStreamRemoved,
       (endpointEvent: any) => {
         const model = convertParticitantModel({id: endpointEvent.endpoint.id});
-        dispatch(removeVideoStreamRemoved(model));
+        dispatch(videoStreamRemoved(model));
       },
     );
     endpoint.on(
@@ -113,24 +130,17 @@ export const ConferenceService = () => {
       (endpointEvent: any) => {
         const model = convertParticitantModel({ id: endpointEvent.endpoint.id });
         dispatch(endpointRemoved(model));
-        // unsubscribeFromEndpointEvents(endpointEvent.enpoint) // ?? check endpoint instance
+        unsubscribeFromEndpointEvents(endpointEvent.enpoint)
       },
     );
   }
 
   const unsubscribeFromConferenceEvents = () => {
-    currentConference.current?.off(Voximplant.CallEvents.Connected);
-    currentConference.current?.off(Voximplant.CallEvents.Disconnected);
-    currentConference.current?.off(Voximplant.CallEvents.Failed);
-    currentConference.current?.off(Voximplant.CallEvents.ProgressToneStart);
-    currentConference.current?.off(Voximplant.CallEvents.LocalVideoStreamAdded);
-    currentConference.current?.off(Voximplant.CallEvents.EndpointAdded);
+    currentConference.current?.off();
   };
 
   const unsubscribeFromEndpointEvents = (endpoint: Voximplant.Endpoint) => {
-    endpoint.off(Voximplant.EndpointEvents.RemoteVideoStreamAdded);
-    endpoint.off(Voximplant.EndpointEvents.RemoteVideoStreamRemoved);
-    endpoint.off(Voximplant.EndpointEvents.Removed);
+    endpoint?.off();
   };
 
   const endConference = () => {
@@ -142,11 +152,32 @@ export const ConferenceService = () => {
   };
 
   const muteAudio = (isMuted: boolean) => {
-    currentConference.current.sendAudio(isMuted);
+    currentConference.current?.sendAudio(isMuted);
+    currentConference.current?.sendMessage(JSON.stringify({muted: !isMuted}));
   };
 
   const sendLocalVideo = async (isSendVideo: boolean) => {
     await currentConference.current.sendVideo(isSendVideo);
+  };
+
+  const selectAudioDevice = async (device: string) => {
+    await AudioDeviceManager.current?.selectAudioDevice(device);
+  };
+
+  const getActiveDevice = async () => {
+    const device = await AudioDeviceManager.current?.getActiveDevice();
+    dispatch(setSelectedDevice(availableDevices[device]))
+  };
+
+  const getAudioDevices = async () => {
+    const list = await AudioDeviceManager.current?.getAudioDevices();
+    dispatch(setListDevices(list));
+  };
+
+  const subscribeDeviceChangedEvent = () => {
+    AudioDeviceManager.current?.on(Voximplant.Hardware.AudioDeviceEvents.DeviceChanged, (event: any) => {
+      dispatch(setSelectedDevice(availableDevices[event.currentDevice]))
+    })
   };
 
   return {
@@ -154,5 +185,11 @@ export const ConferenceService = () => {
     endConference,
     muteAudio,
     sendLocalVideo,
+    CameraManager,
+    cameraType,
+    AudioDeviceManager,
+    selectAudioDevice,
+    getAudioDevices,
+    getActiveDevice,
   };
 };

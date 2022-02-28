@@ -2,10 +2,11 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { RefObject } from 'react';
+import { FC, RefObject } from 'react';
 import { TextInput } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SvgProps } from 'react-native-svg';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -62,4 +63,17 @@ export type IParticipant = {
   name?: string | null;
   streamId?: string;
   isActiveVoice?: boolean;
+  isMuted?: boolean;
 }
+
+export interface IAvailableDeivces {
+  [key: string]: AvailableDevice;
+};
+
+export type AvailableDevice = {
+  key: string;
+  text: string;
+  Icon: FC<SvgProps>;
+  IconWhite: FC<SvgProps>;
+  IconActive: FC<SvgProps>;
+};
