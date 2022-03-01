@@ -22,15 +22,15 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
   },
   buttonWrapper: {
-    width: 30,
-    height: 30,
+    maxWidth: 30,
+    maxHeight: 30,
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
   },
   buttonIcon: {
-    minWidth: 25,
-    minHeight: 25,
+    minWidth: 29,
+    minHeight: 29,
     alignSelf: 'center',
   },
 });

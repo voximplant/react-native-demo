@@ -2,14 +2,20 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import {IParticipant, IReduxAction} from '../../../Utils/types';
+import {
+  AvailableDevice,
+  IParticipant,
+  IReduxAction,
+} from '../../../Utils/types';
 import {conferenceActions} from './actionTypes';
 
 export interface IConferenceReducer {
   participants: IParticipant[];
   callState: string;
   isMuted: boolean;
-  sendLocalVideo: boolean;
+  isSendVideo: boolean;
+  selectedAudioDevice: AvailableDevice | null;
+  listAudioDevices: Array<string>;
   error: string;
 }
 
@@ -17,7 +23,9 @@ const initialState = {
   participants: [],
   callState: 'Disconnected',
   isMuted: false,
-  sendLocalVideo: false,
+  isSendVideo: false,
+  selectedAudioDevice: null,
+  listAudioDevices: [],
   error: '',
 };
 
@@ -31,15 +39,12 @@ const conferenceReducer = (
       return {...state, isMuted: !state.isMuted};
     }
     case conferenceActions.TOGGLE_SEND_VIDEO: {
-      return {...state, sendLocalVideo: !state.sendLocalVideo};
+      return {...state, isSendVideo: !state.isSendVideo};
     }
     case conferenceActions.CHANGE_CALL_STATE: {
       return {...state, callState: payload};
     }
-    case conferenceActions.ADD_PARTICIPANT: {
-      return {...state, participants: [...state.participants, payload]};
-    }
-    case conferenceActions.LOCAL_VIDEO_STREAM_ADDED: {
+    case conferenceActions.VIDEO_STREAM_ADDED: {
       return {
         ...state,
         participants: state.participants.map((el: IParticipant) =>
@@ -47,7 +52,7 @@ const conferenceReducer = (
         ),
       };
     }
-    case conferenceActions.LOCAL_VIDEO_STREAM_REMOVED: {
+    case conferenceActions.VIDEO_STREAM_REMOVED: {
       return {
         ...state,
         participants: state.participants.map((el: IParticipant) =>
@@ -57,22 +62,6 @@ const conferenceReducer = (
     }
     case conferenceActions.ENDPOINT_ADDED: {
       return {...state, participants: [...state.participants, payload]};
-    }
-    case conferenceActions.REMOTE_VIDEO_STREAM_ADDED: {
-      return {
-        ...state,
-        participants: state.participants.map((el: IParticipant) =>
-          el.id === payload.id ? {...el, streamId: payload.streamId} : el,
-        ),
-      };
-    }
-    case conferenceActions.REMOTE_VIDEO_STREAM_REMOVED: {
-      return {
-        ...state,
-        participants: state.participants.map((el: IParticipant) =>
-          el.id === payload.id ? {...el, streamId: ''} : el,
-        ),
-      };
     }
     case conferenceActions.ENDPOINT_REMOVED: {
       return {
@@ -111,6 +100,12 @@ const conferenceReducer = (
           el.id === payload.id ? {...el, isMuted: payload.isMuted} : el,
         ),
       };
+    }
+    case conferenceActions.SET_SELECTED_AUDIO_DEVICE: {
+      return {...state, selectedAudioDevice: payload};
+    }
+    case conferenceActions.SET_LIST_AUDIO_DEVICES: {
+      return {...state, listAudioDevices: payload};
     }
     default:
       return state;

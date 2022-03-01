@@ -26,7 +26,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
   const dispatch = useDispatch();
   const {isIOS, isAndroid, checkAndroidMicrophonePermission} = useUtils();
   const sendVideo = useSelector(
-    (state: RootReducer) => state.conferenceReducer.sendLocalVideo,
+    (state: RootReducer) => state.conferenceReducer.isSendVideo,
   );
 
   const [conference, setConference] = useState('myconf1');
