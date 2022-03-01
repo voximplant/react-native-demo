@@ -3,23 +3,21 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 
-import { logOutApp } from '../../Core/Store/login/actions';
-import { RootReducer } from '../../Core/Store';
+import {logOutApp} from '../../Core/Store/login/actions';
+import {RootReducer} from '../../Core/Store';
 
 import Logout from '../../Assets/Icons/Logout.svg';
 import styles from './styles';
 
 const MainHeader = () => {
-  const dispatch = useDispatch()
-  
-  const displayName = useSelector((state: RootReducer) => state.loginReducer.user);
+  const dispatch = useDispatch();
+
+  const displayName = useSelector(
+    (state: RootReducer) => state.loginReducer.user,
+  );
 
   const logout = () => {
     dispatch(logOutApp());
@@ -33,6 +31,7 @@ const MainHeader = () => {
       <Text style={styles.headerTitle}>{displayName}</Text>
       <View style={styles.emptyView} />
     </View>
-)};
+  );
+};
 
 export default MainHeader;

@@ -2,9 +2,9 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
-import { COLORS } from "../../Utils/constants";
+import {COLORS} from '../../Utils/constants';
 
 export default StyleSheet.create({
   inputWrapper: {
@@ -46,4 +46,4 @@ export default StyleSheet.create({
     fontSize: 16,
     paddingRight: 10,
   },
-})
+});

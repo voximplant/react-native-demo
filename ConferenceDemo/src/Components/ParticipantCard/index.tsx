@@ -2,30 +2,35 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import React from "react";
-import { View, Text } from "react-native";
+import React from 'react';
+import {View, Text} from 'react-native';
 //@ts-ignore
 import {Voximplant} from 'react-native-voximplant';
 
-import { IParticipant } from "../../Utils/types";
+import {IParticipant} from '../../Utils/types';
 
 import MicrophoneIconDisable from '../../Assets/Icons/endpointMuteIcon.svg';
-import styles from "./styles";
+import styles from './styles';
 
 interface IProps {
-  participant: IParticipant,
+  participant: IParticipant;
   stylesForCard: object;
   stylesForLastCard: object;
-};
+}
 
-const ParticipantCard = ({participant, stylesForCard, stylesForLastCard}: IProps) => {
+const ParticipantCard = ({
+  participant,
+  stylesForCard,
+  stylesForLastCard,
+}: IProps) => {
   return (
-    <View style={[
-      styles.participantWrapper,
-      participant.isActiveVoice && styles.activeVoice,
-      stylesForCard,
-      stylesForLastCard,
-    ]}>
+    <View
+      style={[
+        styles.participantWrapper,
+        participant.isActiveVoice && styles.activeVoice,
+        stylesForCard,
+        stylesForLastCard,
+      ]}>
       <Voximplant.VideoView
         style={styles.selfview}
         videoStreamId={participant.streamId}

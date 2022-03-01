@@ -2,10 +2,10 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { IAuthResult } from "../../Utils/types";
-import { STORAGE } from "../../Utils/constants";
+import {IAuthResult} from '../../Utils/types';
+import {STORAGE} from '../../Utils/constants';
 
 export const StorageService = () => {
   const getStorageItem = async (key: string) => {
@@ -23,7 +23,10 @@ export const StorageService = () => {
   const setStorageItems = async (authResult: IAuthResult) => {
     if (authResult?.tokens) {
       await setStorageItem(STORAGE.ACCESS_TOKEN, authResult.tokens.accessToken);
-      await setStorageItem(STORAGE.REFRESH_TOKEN, authResult.tokens.refreshToken);
+      await setStorageItem(
+        STORAGE.REFRESH_TOKEN,
+        authResult.tokens.refreshToken,
+      );
     }
   };
 

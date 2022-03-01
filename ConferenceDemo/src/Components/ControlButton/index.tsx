@@ -3,24 +3,29 @@
  */
 
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import {SvgProps} from 'react-native-svg';
+
+import {TouchableOpacity} from 'react-native';
 
 import styles from './styles';
 
 interface IProps {
-  Icon: any;
+  Icon: React.FC<SvgProps>;
   onPress: () => void;
   styleFromProps?: {
     wrapper?: object;
-    icon?: object; 
-  }
-};
+    icon?: object;
+  };
+}
 
-const ControlButton = ({ Icon, onPress, styleFromProps }: IProps) => {
+const ControlButton = ({Icon, onPress, styleFromProps}: IProps) => {
   return (
-  <TouchableOpacity style={[styles.iconWrapper, styleFromProps?.wrapper]} onPress={onPress}>
-    <Icon style={[styles.icon, styleFromProps?.icon]} />
-  </TouchableOpacity>
-)};
+    <TouchableOpacity
+      style={[styles.iconWrapper, styleFromProps?.wrapper]}
+      onPress={onPress}>
+      <Icon style={[styles.icon, styleFromProps?.icon]} />
+    </TouchableOpacity>
+  );
+};
 
 export default ControlButton;

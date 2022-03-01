@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Text, View, TextInput } from 'react-native';
+import {Text, View, TextInput} from 'react-native';
 
 import styles from './styles';
 
@@ -16,10 +16,10 @@ interface IProps {
   validationText?: string;
   placeholder: string;
   styleFromProps?: {
-    mainWrapper?: object,
-    title?: object,
-    input?: object,
-  }
+    mainWrapper?: object;
+    title?: object;
+    input?: object;
+  };
 }
 const CustomInput = ({
   title,
@@ -31,10 +31,14 @@ const CustomInput = ({
   styleFromProps,
   placeholder,
 }: IProps) => {
-  return(
+  return (
     <View style={[styles.inputWrapper, styleFromProps?.mainWrapper]}>
       <Text style={[styles.inputTitle, styleFromProps?.title]}>{title}</Text>
-      <View style={[styles.inputWrapperWithSuffix, !!validationText && {borderColor: 'red'}]}>
+      <View
+        style={[
+          styles.inputWrapperWithSuffix,
+          !!validationText && {borderColor: 'red'},
+        ]}>
         <TextInput
           value={value}
           autoCapitalize={'none'}
@@ -42,12 +46,14 @@ const CustomInput = ({
           secureTextEntry={isPassword}
           style={[styles.input, styleFromProps?.input]}
           placeholder={placeholder}
-          placeholderTextColor='gray'
-          onChangeText={(text) => setValue(text)}
+          placeholderTextColor="gray"
+          onChangeText={text => setValue(text)}
         />
         {isLogin && <Text style={styles.suffixText}>.voximplant.com</Text>}
       </View>
-      {!!validationText && <Text style={styles.errorText}>{validationText}</Text>}
+      {!!validationText && (
+        <Text style={styles.errorText}>{validationText}</Text>
+      )}
     </View>
   );
 };
