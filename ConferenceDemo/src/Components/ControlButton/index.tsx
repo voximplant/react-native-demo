@@ -3,12 +3,14 @@
  */
 
 import React from 'react';
+import {SvgProps} from 'react-native-svg';
+
 import {TouchableOpacity} from 'react-native';
 
 import styles from './styles';
 
 interface IProps {
-  Icon: any;
+  Icon: React.FC<SvgProps>;
   onPress: () => void;
   styleFromProps?: {
     wrapper?: object;

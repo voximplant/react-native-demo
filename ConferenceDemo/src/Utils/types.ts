@@ -57,7 +57,7 @@ export type TextInputRefType = RefObject<TextInput>;
 
 export interface IReduxAction {
   type: string;
-  payload?: any;
+  payload?: string | IParticipant | AvailableDevice | Array<string> | any;
 }
 
 export type IParticipant = {

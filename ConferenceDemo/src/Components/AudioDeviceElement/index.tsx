@@ -4,13 +4,14 @@
 
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import {SvgProps} from 'react-native-svg';
 
 import MarkIcon from '../../Assets/Icons/markIcon.svg';
 import styles from './styles';
 
 interface IProps {
-  Icon: any;
-  IconActive: any;
+  Icon: React.FC<SvgProps>;
+  IconActive: React.FC<SvgProps>;
   isActive: boolean;
   text: string;
   typeForSelect: string;

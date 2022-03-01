@@ -66,21 +66,15 @@ export const ConferenceService = () => {
   };
 
   const subscribeToConferenceEvents = () => {
-    currentConference.current?.on(
-      Voximplant.CallEvents.Connected,
-      (callEvent: any) => {
-        dispatch(changeCallState('Connected'));
-      },
-    );
-    currentConference.current?.on(
-      Voximplant.CallEvents.Disconnected,
-      (callEvent: any) => {
-        dispatch(changeCallState('Disconnected'));
-        dispatch(removeAllParticipants());
-        unsubscribeFromConferenceEvents();
-        currentConference.current = null;
-      },
-    );
+    currentConference.current?.on(Voximplant.CallEvents.Connected, () => {
+      dispatch(changeCallState('Connected'));
+    });
+    currentConference.current?.on(Voximplant.CallEvents.Disconnected, () => {
+      dispatch(changeCallState('Disconnected'));
+      dispatch(removeAllParticipants());
+      unsubscribeFromConferenceEvents();
+      currentConference.current = null;
+    });
     currentConference.current?.on(
       Voximplant.CallEvents.Failed,
       (callEvent: any) => {

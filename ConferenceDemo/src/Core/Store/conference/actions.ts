@@ -2,72 +2,80 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import {AvailableDevice, IParticipant} from '../../../Utils/types';
+import {
+  AvailableDevice,
+  IParticipant,
+  IReduxAction,
+} from '../../../Utils/types';
 import {conferenceActions} from './actionTypes';
 
-export const toggleMute = () => ({
+export const toggleMute = (): IReduxAction => ({
   type: conferenceActions.TOGGLE_MUTE,
 });
 
-export const toggleSendVideo = () => ({
+export const toggleSendVideo = (): IReduxAction => ({
   type: conferenceActions.TOGGLE_SEND_VIDEO,
 });
 
-export const changeCallState = (payload: string) => ({
+export const changeCallState = (payload: string): IReduxAction => ({
   type: conferenceActions.CHANGE_CALL_STATE,
   payload,
 });
 
-export const setError = (payload: any) => ({
+export const setError = (payload: string): IReduxAction => ({
   type: conferenceActions.SET_ERROR,
   payload,
 });
 
-export const videoStreamAdded = (payload: any) => ({
+export const videoStreamAdded = (payload: IParticipant): IReduxAction => ({
   type: conferenceActions.VIDEO_STREAM_ADDED,
   payload,
 });
 
-export const videoStreamRemoved = (payload: any) => ({
+export const videoStreamRemoved = (payload: IParticipant): IReduxAction => ({
   type: conferenceActions.VIDEO_STREAM_REMOVED,
   payload,
 });
 
-export const endpointAdded = (payload: any) => ({
+export const endpointAdded = (payload: IParticipant): IReduxAction => ({
   type: conferenceActions.ENDPOINT_ADDED,
   payload,
 });
 
-export const endpointRemoved = (payload: any) => ({
+export const endpointRemoved = (payload: IParticipant): IReduxAction => ({
   type: conferenceActions.ENDPOINT_REMOVED,
   payload,
 });
 
-export const removeAllParticipants = () => ({
+export const removeAllParticipants = (): IReduxAction => ({
   type: conferenceActions.REMOVE_ALL_PARTICIPANTS,
 });
 
-export const endpointVoiceActivityStarted = (payload: IParticipant) => ({
+export const endpointVoiceActivityStarted = (
+  payload: IParticipant,
+): IReduxAction => ({
   type: conferenceActions.ENDPOINT_VOICE_ACTIVITY_STARTED,
   payload,
 });
 
-export const endpointVoiceActivityStopped = (payload: IParticipant) => ({
+export const endpointVoiceActivityStopped = (
+  payload: IParticipant,
+): IReduxAction => ({
   type: conferenceActions.ENDPOINT_VOICE_ACTIVITY_STOPPED,
   payload,
 });
 
-export const endpointMuted = (payload: IParticipant) => ({
+export const endpointMuted = (payload: IParticipant): IReduxAction => ({
   type: conferenceActions.ENDPOINT_MUTED,
   payload,
 });
 
-export const setSelectedDevice = (payload: AvailableDevice) => ({
+export const setSelectedDevice = (payload: AvailableDevice): IReduxAction => ({
   type: conferenceActions.SET_SELECTED_AUDIO_DEVICE,
   payload,
 });
 
-export const setListDevices = (payload: Array<string>) => ({
+export const setListDevices = (payload: Array<string>): IReduxAction => ({
   type: conferenceActions.SET_LIST_AUDIO_DEVICES,
   payload,
 });
