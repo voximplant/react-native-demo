@@ -6,7 +6,7 @@ import React, {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 
-import {ConferenceService} from '../../Core/Services/ConferenceService';
+import {HardwareService} from '../../Core/Services/HardwareService';
 import {RootReducer} from '../../Core/Store';
 
 import SwitchCameraIcon from '../../Assets/Icons/SwitchCamera.svg';
@@ -18,7 +18,7 @@ interface IProps {
 }
 
 const ConferenceHeader = ({toggleModalAudioDevices}: IProps) => {
-  const {CameraManager, cameraType} = ConferenceService();
+  const {CameraManager, cameraType} = HardwareService();
   const [cameraState, setCameraState] = useState(cameraType.FRONT);
   const SelectedDeviceIcon = useSelector(
     (state: RootReducer) =>

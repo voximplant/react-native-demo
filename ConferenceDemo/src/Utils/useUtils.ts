@@ -81,6 +81,7 @@ export const useUtils = () => {
     streamId,
     isActiveVoice,
     isMuted,
+    isEnabledStream,
   }: IParticipant) => {
     return {
       id,
@@ -88,6 +89,7 @@ export const useUtils = () => {
       streamId: streamId ?? '',
       isActiveVoice: isActiveVoice ?? false,
       isMuted: isMuted ?? false,
+      isEnabledStream: isEnabledStream ?? true,
     };
   };
 

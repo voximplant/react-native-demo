@@ -3,6 +3,7 @@
  */
 
 import {AppDispatch} from '..';
+import {IReduxAction} from '../../../Utils/types';
 import {useUtils} from '../../../Utils/useUtils';
 import {AuthService} from '../../Services/AuthService';
 import {resetState, toggleLoading} from '../global/actions';
@@ -62,12 +63,12 @@ export const logOutApp = () => async (dispatch: AppDispatch) => {
   dispatch(toggleLoading());
 };
 
-export const loginSuccess = (payload: string) => ({
+export const loginSuccess = (payload: string): IReduxAction => ({
   type: loginActions.LOGIN_SUCCESS,
   payload,
 });
 
-export const loginFailure = (payload: any) => ({
+export const loginFailure = (payload: any): IReduxAction => ({
   type: loginActions.LOGIN_FAILURE,
   payload,
 });

@@ -79,3 +79,10 @@ export const setListDevices = (payload: Array<string>): IReduxAction => ({
   type: conferenceActions.SET_LIST_AUDIO_DEVICES,
   payload,
 });
+
+export const manageParticipantStream = (
+  payload: IParticipant,
+): IReduxAction => ({
+  type: conferenceActions.MANAGE_PARTICIPANT_STREAM,
+  payload,
+});
