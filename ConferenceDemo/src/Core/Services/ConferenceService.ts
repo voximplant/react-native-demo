@@ -77,6 +77,78 @@ export const ConferenceService = () => {
     endpoint.requestVideoSize(streamId, width, height);
   };
 
+  const unsubscribeFromConferenceEvents = () => {
+    currentConference.current?.off();
+  };
+
+  const unsubscribeFromEndpointEvents = (endpoint: Voximplant.Endpoint) => {
+    endpoint?.off();
+  };
+
+  const endConference = () => {
+    hangUp();
+  };
+
+  const hangUp = () => {
+    currentConference.current?.hangup();
+  };
+
+  const muteAudio = (isMuted: boolean) => {
+    currentConference.current?.sendAudio(isMuted);
+    currentConference.current?.sendMessage(JSON.stringify({muted: !isMuted}));
+  };
+
+  const sendLocalVideo = async (isSendVideo: boolean) => {
+    await currentConference.current.sendVideo(isSendVideo);
+  };
+
+  const streamManager = (
+    count: number,
+    participant: IParticipant,
+    index: number,
+  ) => {
+    const endpoints = currentConference.current?.getEndpoints();
+    const findedEndoint = endpoints?.find(
+      (endpoint: Voximplant.Endpoint) => endpoint.id === participant.id,
+    );
+    if (!findedEndoint || !participant.streamId) {
+      return;
+    }
+    if (currentConference.current.callId !== participant.id) {
+      if (count === 2) {
+        requestVideoSize(findedEndoint, participant.streamId, 1280, 720);
+      }
+      if (count === 3 || count === 4) {
+        requestVideoSize(findedEndoint, participant.streamId, 640, 360);
+      }
+      if (count === 5 || count === 6) {
+        requestVideoSize(findedEndoint, participant.streamId, 360, 180);
+      }
+      if (count > 6) {
+        if (index <= 5) {
+          if (!participant.isEnabledStream) {
+            enableRemoteStream(findedEndoint, participant.streamId);
+            const model = convertParticitantModel({
+              id: participant.id,
+              isEnabledStream: true,
+            });
+            dispatch(manageParticipantStream(model));
+          }
+          requestVideoSize(findedEndoint, participant.streamId, 360, 180);
+        } else {
+          if (participant.isEnabledStream) {
+            disableRemoteStream(findedEndoint, participant.streamId);
+            const model = convertParticitantModel({
+              id: participant.id,
+              isEnabledStream: false,
+            });
+            dispatch(manageParticipantStream(model));
+          }
+        }
+      }
+    }
+  };
+
   const subscribeToConferenceEvents = () => {
     currentConference.current?.on(Voximplant.CallEvents.Connected, () => {
       dispatch(changeCallState('Connected'));
@@ -143,53 +215,6 @@ export const ConferenceService = () => {
     );
   };
 
-  const streamManager = (
-    count: number,
-    participant: IParticipant,
-    index: number,
-  ) => {
-    const endpoints = currentConference.current?.getEndpoints();
-    const findedEndoint = endpoints?.find(
-      (endpoint: any) => endpoint.id === participant.id,
-    );
-    if (!findedEndoint || !participant.streamId) {
-      return;
-    }
-    if (currentConference.current.callId !== participant.id) {
-      if (count === 2) {
-        requestVideoSize(findedEndoint, participant.streamId!, 1280, 720);
-      }
-      if (count === 3 || count === 4) {
-        requestVideoSize(findedEndoint, participant.streamId, 640, 360);
-      }
-      if (count === 5 || count === 6) {
-        requestVideoSize(findedEndoint, participant.streamId, 360, 180);
-      }
-      if (count > 6) {
-        if (index <= 5) {
-          if (!participant.isEnabledStream) {
-            enableRemoteStream(findedEndoint, participant.streamId);
-            const model = convertParticitantModel({
-              id: participant.id,
-              isEnabledStream: true,
-            });
-            dispatch(manageParticipantStream(model));
-          }
-          requestVideoSize(findedEndoint, participant.streamId, 360, 180);
-        } else {
-          if (participant.isEnabledStream) {
-            disableRemoteStream(findedEndoint, participant.streamId);
-            const model = convertParticitantModel({
-              id: participant.id,
-              isEnabledStream: false,
-            });
-            dispatch(manageParticipantStream(model));
-          }
-        }
-      }
-    }
-  };
-
   const subscribeToEndpointEvents = (endpoint: Voximplant.Endpoint) => {
     endpoint.on(
       Voximplant.EndpointEvents.RemoteVideoStreamAdded,
@@ -227,31 +252,6 @@ export const ConferenceService = () => {
       dispatch(endpointRemoved(model));
       unsubscribeFromEndpointEvents(endpointEvent.enpoint);
     });
-  };
-
-  const unsubscribeFromConferenceEvents = () => {
-    currentConference.current?.off();
-  };
-
-  const unsubscribeFromEndpointEvents = (endpoint: Voximplant.Endpoint) => {
-    endpoint?.off();
-  };
-
-  const endConference = () => {
-    hangUp();
-  };
-
-  const hangUp = () => {
-    currentConference.current?.hangup();
-  };
-
-  const muteAudio = (isMuted: boolean) => {
-    currentConference.current?.sendAudio(isMuted);
-    currentConference.current?.sendMessage(JSON.stringify({muted: !isMuted}));
-  };
-
-  const sendLocalVideo = async (isSendVideo: boolean) => {
-    await currentConference.current.sendVideo(isSendVideo);
   };
 
   return {
