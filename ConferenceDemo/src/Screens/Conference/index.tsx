@@ -20,7 +20,6 @@ import {RootReducer} from '../../Core/Store';
 import {toggleSendVideo, toggleMute} from '../../Core/Store/conference/actions';
 import {useUtils} from '../../Utils/useUtils';
 import {HardwareService} from '../../Core/Services/HardwareService';
-import {ForegroudService} from '../../Core/Services/ForegroundService';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
 import MicrophoneIcon from '../../Assets/Icons/Microphone.svg';
@@ -37,15 +36,8 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
   const {startConference, hangUp, muteAudio, sendLocalVideo, streamManager} =
     ConferenceService();
-  const {
-    getAudioDevices,
-    getActiveDevice,
-    CameraManager,
-    subscribeDeviceChangedEvent,
-    unsubscribeFromDeviceChangedEvent,
-  } = HardwareService();
-  const {createForegroundConfig, startForegroundService, stopForegroudService} =
-    ForegroudService();
+  const {getAudioDevices, getActiveDevice, subscribeDeviceChangedEvent} =
+    HardwareService();
 
   const {isMuted, callState, participants, isSendVideo} = useSelector(
     (state: RootReducer) => state.conferenceReducer,
@@ -55,16 +47,11 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    if (isAndroid) {
-      createForegroundConfig();
-      startForegroundService();
-    }
     getAudioDevices();
     getActiveDevice();
-    CameraManager.setCameraResolution(720, 480);
-    startConference(conference, isSendVideo);
     subscribeDeviceChangedEvent();
-    return () => unsubscribeFromDeviceChangedEvent();
+    startConference(conference, isSendVideo);
+    return () => console.log('UNMOUNT');
   }, []);
 
   useEffect(() => {
@@ -74,9 +61,6 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   }, [callState]);
 
   const endConference = () => {
-    if (isAndroid) {
-      stopForegroudService();
-    }
     hangUp();
   };
 

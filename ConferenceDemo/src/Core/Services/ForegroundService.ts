@@ -1,16 +1,21 @@
 // @ts-ignore
 import VIForegroundService from '@voximplant/react-native-foreground-service';
+import { useRef } from 'react';
 
 export const ForegroudService = () => {
+  const service = useRef(VIForegroundService.getInstance());
+
   const createForegroundConfig = async () => {
     try {
       const channelConfig = {
         id: 'conferenceChannel',
         name: 'Conference Demo',
       };
-      await VIForegroundService.createNotificationChannel(channelConfig);
+      await service.current?.createNotificationChannel(
+        channelConfig,
+      );
     } catch (error) {
-      console.warn('method createConfigChannel:[ERROR] ===>', error);
+      console.warn('method createForegroundConfig:[ERROR] ===>', error);
     }
   };
 
@@ -20,10 +25,11 @@ export const ForegroudService = () => {
         channelId: 'conferenceChannel',
         id: 444,
         title: 'Conference Demo',
-        text: 'Conference Demo call in progress...',
-        icon: 'ic_launcher',
+        text: 'Conference call is in progress...',
+        icon: 'ic_vox_notification',
+        button: 'Hangup',
       };
-      await VIForegroundService.startService(notificationConfig);
+      await service.current?.startService(notificationConfig);
     } catch (error) {
       console.warn('method startForegroundService:[ERROR] ===>', error);
     }
@@ -31,15 +37,22 @@ export const ForegroudService = () => {
 
   const stopForegroudService = async () => {
     try {
-      await VIForegroundService.stopService();
+      await service.current?.stopService();
     } catch (error) {
       console.warn('method stopForegroudService:[ERROR] ===>', error);
     }
+  };
+
+  const subscribeForegroundServiceEvent = (hangUp: () => void) => {
+    service.current?.on('VIForegroundServiceButtonPressed', () => {
+      hangUp();
+    });
   };
 
   return {
     createForegroundConfig,
     startForegroundService,
     stopForegroudService,
+    subscribeForegroundServiceEvent,
   };
 };

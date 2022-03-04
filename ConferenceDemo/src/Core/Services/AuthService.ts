@@ -18,11 +18,13 @@ export const AuthService = () => {
     await client.connect();
   };
 
+  const getClientState = async () => await client.getClientState();
+
   const loginWithPassword = async (
     username: string,
     password: string,
   ): Promise<string> => {
-    let clientState = await client.getClientState();
+    const clientState = await getClientState();
     if (clientState === Voximplant.ClientState.DISCONNECTED) {
       await connectToVox();
     }
@@ -36,9 +38,12 @@ export const AuthService = () => {
   };
 
   const loginWithToken = async (): Promise<string> => {
-    let username = await getStorageItem(STORAGE.USER_NAME);
-    let token = await getStorageItem(STORAGE.ACCESS_TOKEN);
-    let clientState = await client.getClientState();
+    const username = await getStorageItem(STORAGE.USER_NAME);
+    const token = await getStorageItem(STORAGE.ACCESS_TOKEN);
+    const clientState = await getClientState();
+    if (clientState === Voximplant.ClientState.LOGGED_IN && username) {
+      return username?.split('@')[0];
+    }
     if (clientState === Voximplant.ClientState.DISCONNECTED) {
       await connectToVox();
     }
@@ -51,8 +56,8 @@ export const AuthService = () => {
   };
 
   const refreshToken = async (): Promise<string> => {
-    let username = await getStorageItem(STORAGE.USER_NAME);
-    let rToken = await getStorageItem(STORAGE.REFRESH_TOKEN);
+    const username = await getStorageItem(STORAGE.USER_NAME);
+    const rToken = await getStorageItem(STORAGE.REFRESH_TOKEN);
     const result = await client.tokenRefresh(
       `${username?.toLowerCase()}.voximplant.com`,
       rToken,
@@ -71,5 +76,6 @@ export const AuthService = () => {
     loginWithToken,
     logOut,
     refreshToken,
+    getClientState,
   };
 };

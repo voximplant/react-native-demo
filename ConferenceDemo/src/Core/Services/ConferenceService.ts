@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {IParticipant} from '../../Utils/types';
 import {useUtils} from '../../Utils/useUtils';
 import {RootReducer} from '../Store';
+import {ForegroudService} from './ForegroundService';
 
 import {
   changeCallState,
@@ -24,17 +25,31 @@ import {
   endpointMuted,
   manageParticipantStream,
 } from '../Store/conference/actions';
+import {HardwareService} from './HardwareService';
 
 export const ConferenceService = () => {
   const Client = Voximplant.getInstance();
 
   const user = useSelector((state: RootReducer) => state.loginReducer.user);
   const dispatch = useDispatch();
-  const {convertParticitantModel} = useUtils();
+  const {convertParticitantModel, isAndroid} = useUtils();
+  const {
+    createForegroundConfig,
+    startForegroundService,
+    stopForegroudService,
+    subscribeForegroundServiceEvent,
+  } = ForegroudService();
+  const {unsubscribeFromDeviceChangedEvent, CameraManager} = HardwareService();
 
   const currentConference = useRef<Voximplant.Call>();
 
   const startConference = async (conference: string, localVideo: boolean) => {
+    if (isAndroid) {
+      await createForegroundConfig();
+      await startForegroundService();
+      subscribeForegroundServiceEvent(hangUp);
+    }
+    CameraManager.setCameraResolution(1280, 720);
     const callSettings = {
       enableSimulcast: true,
       video: {
@@ -107,41 +122,51 @@ export const ConferenceService = () => {
     const findedEndoint = endpoints?.find(
       (endpoint: Voximplant.Endpoint) => endpoint.id === participant.id,
     );
-    if (!findedEndoint || !participant.streamId) {
+    if (
+      !findedEndoint ||
+      !participant.streamId ||
+      currentConference.current.callId === participant.id
+    ) {
       return;
     }
-    if (currentConference.current.callId !== participant.id) {
-      if (count === 2) {
-        requestVideoSize(findedEndoint, participant.streamId, 1280, 720);
-      }
-      if (count === 3 || count === 4) {
-        requestVideoSize(findedEndoint, participant.streamId, 640, 360);
-      }
-      if (count === 5 || count === 6) {
+    if (count === 2) {
+      requestVideoSize(findedEndoint, participant.streamId, 1280, 720);
+    }
+    if (count === 3 || count === 4) {
+      requestVideoSize(findedEndoint, participant.streamId, 640, 360);
+    }
+    if (count === 5 || count === 6) {
+      requestVideoSize(findedEndoint, participant.streamId, 360, 180);
+    }
+    if (count > 6) {
+      if (index <= 5) {
+        if (!participant.isEnabledStream) {
+          enableRemoteStream(findedEndoint, participant.streamId);
+          const model = convertParticitantModel({
+            id: participant.id,
+            isEnabledStream: true,
+          });
+          dispatch(manageParticipantStream(model));
+        }
         requestVideoSize(findedEndoint, participant.streamId, 360, 180);
-      }
-      if (count > 6) {
-        if (index <= 5) {
-          if (!participant.isEnabledStream) {
-            enableRemoteStream(findedEndoint, participant.streamId);
-            const model = convertParticitantModel({
-              id: participant.id,
-              isEnabledStream: true,
-            });
-            dispatch(manageParticipantStream(model));
-          }
-          requestVideoSize(findedEndoint, participant.streamId, 360, 180);
-        } else {
-          if (participant.isEnabledStream) {
-            disableRemoteStream(findedEndoint, participant.streamId);
-            const model = convertParticitantModel({
-              id: participant.id,
-              isEnabledStream: false,
-            });
-            dispatch(manageParticipantStream(model));
-          }
+      } else {
+        if (participant.isEnabledStream) {
+          disableRemoteStream(findedEndoint, participant.streamId);
+          const model = convertParticitantModel({
+            id: participant.id,
+            isEnabledStream: false,
+          });
+          dispatch(manageParticipantStream(model));
         }
       }
+    }
+  };
+
+  const afterConferenceAction = () => {
+    unsubscribeFromConferenceEvents();
+    unsubscribeFromDeviceChangedEvent();
+    if (isAndroid) {
+      stopForegroudService();
     }
   };
 
@@ -152,7 +177,7 @@ export const ConferenceService = () => {
     currentConference.current?.on(Voximplant.CallEvents.Disconnected, () => {
       dispatch(changeCallState('Disconnected'));
       dispatch(removeAllParticipants());
-      unsubscribeFromConferenceEvents();
+      afterConferenceAction();
       currentConference.current = null;
     });
     currentConference.current?.on(
@@ -160,7 +185,7 @@ export const ConferenceService = () => {
       (callEvent: any) => {
         dispatch(changeCallState('Failed'));
         dispatch(setError(callEvent.reason));
-        unsubscribeFromConferenceEvents();
+        afterConferenceAction();
       },
     );
     currentConference.current?.on(
