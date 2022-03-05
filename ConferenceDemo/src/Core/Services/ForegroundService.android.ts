@@ -1,8 +1,12 @@
-// @ts-ignore
-import VIForegroundService from '@voximplant/react-native-foreground-service';
-import { useRef } from 'react';
+/*
+ * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
+ */
 
-export const ForegroudService = () => {
+import {useRef} from 'react';
+//@ts-ignore
+import VIForegroundService from '@voximplant/react-native-foreground-service';
+
+export default () => {
   const service = useRef(VIForegroundService.getInstance());
 
   const createForegroundConfig = async () => {
@@ -11,9 +15,7 @@ export const ForegroudService = () => {
         id: 'conferenceChannel',
         name: 'Conference Demo',
       };
-      await service.current?.createNotificationChannel(
-        channelConfig,
-      );
+      await service.current?.createNotificationChannel(channelConfig);
     } catch (error) {
       console.warn('method createForegroundConfig:[ERROR] ===>', error);
     }

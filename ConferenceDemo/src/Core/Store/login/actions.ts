@@ -4,7 +4,7 @@
 
 import {AppDispatch} from '..';
 import {IReduxAction} from '../../../Utils/types';
-import {useUtils} from '../../../Utils/useUtils';
+import {convertedErrorType, useUtils} from '../../../Utils/useUtils';
 import {AuthService} from '../../Services/AuthService';
 import {resetState, toggleLoading} from '../global/actions';
 import {loginActions} from './actionTypes';
@@ -68,7 +68,7 @@ export const loginSuccess = (payload: string): IReduxAction => ({
   payload,
 });
 
-export const loginFailure = (payload: any): IReduxAction => ({
+export const loginFailure = (payload: convertedErrorType): IReduxAction => ({
   type: loginActions.LOGIN_FAILURE,
   payload,
 });

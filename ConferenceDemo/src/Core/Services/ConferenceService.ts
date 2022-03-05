@@ -10,7 +10,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {IParticipant} from '../../Utils/types';
 import {useUtils} from '../../Utils/useUtils';
 import {RootReducer} from '../Store';
-import {ForegroudService} from './ForegroundService';
+//@ts-ignore
+import ForegroundService from './ForegroundService';
 
 import {
   changeCallState,
@@ -38,7 +39,8 @@ export const ConferenceService = () => {
     startForegroundService,
     stopForegroudService,
     subscribeForegroundServiceEvent,
-  } = ForegroudService();
+  } = ForegroundService();
+
   const {unsubscribeFromDeviceChangedEvent, CameraManager} = HardwareService();
 
   const currentConference = useRef<Voximplant.Call>();

@@ -51,7 +51,6 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
     getActiveDevice();
     subscribeDeviceChangedEvent();
     startConference(conference, isSendVideo);
-    return () => console.log('UNMOUNT');
   }, []);
 
   useEffect(() => {
@@ -149,10 +148,12 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
           />
         </View>
       </View>
-      <ModalAudioDevices
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
+      {modalVisible && (
+        <ModalAudioDevices
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </SafeAreaView>
   );
 };
