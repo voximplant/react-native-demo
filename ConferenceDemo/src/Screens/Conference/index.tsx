@@ -49,6 +49,7 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   useEffect(() => {
     getAudioDevices();
     getActiveDevice();
+    startConference(conference, isSendVideo);
     subscribeDeviceChangedEvent();
     startConference(conference, isSendVideo);
   }, []);
@@ -141,7 +142,7 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
           />
           <ControlButton
             Icon={PhoneIcon}
-            onPress={endConference}
+            onPress={hangUp}
             styleFromProps={{
               wrapper: styles.controlButtonWrapperHangup,
             }}

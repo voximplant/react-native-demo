@@ -24,7 +24,12 @@ import {RootReducer} from '../../Core/Store';
 
 const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
   const dispatch = useDispatch();
-  const {isIOS, isAndroid, checkAndroidMicrophonePermission} = useUtils();
+  const {
+    isIOS,
+    isAndroid,
+    checkAndroidMicrophonePermission,
+    checkAndroidCameraPermission,
+  } = useUtils();
   const sendVideo = useSelector(
     (state: RootReducer) => state.conferenceReducer.isSendVideo,
   );
@@ -36,15 +41,20 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
   };
 
   const startConference = async () => {
-    let result;
+    let resultAudio;
+    let resultVideo;
     if (isAndroid) {
       try {
-        result = await checkAndroidMicrophonePermission();
+        resultAudio = await checkAndroidMicrophonePermission();
+        if (sendVideo) {
+          resultVideo = await checkAndroidCameraPermission();
+          !resultVideo && dispatch(toggleSendVideo());
+        }
       } catch (error) {
         console.warn('Something was wrong with android permissions...');
       }
     }
-    if (result || isIOS) {
+    if (resultAudio || isIOS) {
       dispatch(changeCallState('Connecting...'));
       navigation.navigate('Conference', {conference});
     }

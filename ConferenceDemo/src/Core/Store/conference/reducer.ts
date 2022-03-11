@@ -112,7 +112,7 @@ const conferenceReducer = (
         ...state,
         participants: state.participants.map((el: IParticipant) =>
           el.id === payload.id
-            ? {...el, isEnabledStream: payload.isEnabledStream}
+            ? {...el, hasEnabledStream: payload.hasEnabledStream}
             : el,
         ),
       };
