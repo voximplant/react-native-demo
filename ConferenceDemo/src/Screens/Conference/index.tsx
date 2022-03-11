@@ -34,13 +34,8 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   const {isAndroid, isIOS, checkAndroidCameraPermission, dynamicComputeStyles} =
     useUtils();
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
-  const {
-    startConference,
-    endConference,
-    muteAudio,
-    sendLocalVideo,
-    streamManager,
-  } = ConferenceService();
+  const {startConference, hangUp, muteAudio, sendLocalVideo, streamManager} =
+    ConferenceService();
   const {
     getAudioDevices,
     getActiveDevice,
@@ -149,7 +144,7 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
           />
           <ControlButton
             Icon={PhoneIcon}
-            onPress={endConference}
+            onPress={hangUp}
             styleFromProps={{
               wrapper: styles.controlButtonWrapperHangup,
             }}

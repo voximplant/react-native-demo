@@ -76,10 +76,6 @@ export const ConferenceService = () => {
     endpoint?.off();
   };
 
-  const endConference = () => {
-    hangUp();
-  };
-
   const hangUp = () => {
     currentConference.current?.hangup();
   };
@@ -239,7 +235,7 @@ export const ConferenceService = () => {
 
   return {
     startConference,
-    endConference,
+    hangUp,
     muteAudio,
     sendLocalVideo,
     streamManager,
