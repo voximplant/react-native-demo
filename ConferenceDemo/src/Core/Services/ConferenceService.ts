@@ -54,27 +54,18 @@ export const ConferenceService = () => {
     subscribeToConferenceEvents();
   };
 
-  const disableRemoteStream = (
+  const disableRemoteStream = async (
     endpoint: Voximplant.Endpoint,
     streamId: string,
   ) => {
-    endpoint.stopReceiving(streamId);
+    await endpoint.stopReceiving(streamId);
   };
 
-  const enableRemoteStream = (
+  const enableRemoteStream = async (
     endpoint: Voximplant.Endpoint,
     streamId: string,
   ) => {
-    endpoint.startReceiving(streamId);
-  };
-
-  const requestVideoSize = (
-    endpoint: Voximplant.Endpoint,
-    streamId: string,
-    width: number,
-    height: number,
-  ) => {
-    endpoint.requestVideoSize(streamId, width, height);
+    await endpoint.startReceiving(streamId);
   };
 
   const unsubscribeFromConferenceEvents = () => {
@@ -102,7 +93,7 @@ export const ConferenceService = () => {
     await currentConference.current.sendVideo(isSendVideo);
   };
 
-  const streamManager = (
+  const streamManager = async (
     count: number,
     participant: IParticipant,
     index: number,
@@ -111,39 +102,31 @@ export const ConferenceService = () => {
     const findedEndoint = endpoints?.find(
       (endpoint: Voximplant.Endpoint) => endpoint.id === participant.id,
     );
-    if (!findedEndoint || !participant.streamId) {
+    if (
+      !findedEndoint ||
+      !participant.streamId ||
+      currentConference.current.callId === participant.id
+    ) {
       return;
     }
-    if (currentConference.current.callId !== participant.id) {
-      if (count === 2) {
-        requestVideoSize(findedEndoint, participant.streamId, 1280, 720);
-      }
-      if (count === 3 || count === 4) {
-        requestVideoSize(findedEndoint, participant.streamId, 640, 360);
-      }
-      if (count === 5 || count === 6) {
-        requestVideoSize(findedEndoint, participant.streamId, 360, 180);
-      }
-      if (count > 6) {
-        if (index <= 5) {
-          if (!participant.isEnabledStream) {
-            enableRemoteStream(findedEndoint, participant.streamId);
-            const model = convertParticitantModel({
-              id: participant.id,
-              isEnabledStream: true,
-            });
-            dispatch(manageParticipantStream(model));
-          }
-          requestVideoSize(findedEndoint, participant.streamId, 360, 180);
-        } else {
-          if (participant.isEnabledStream) {
-            disableRemoteStream(findedEndoint, participant.streamId);
-            const model = convertParticitantModel({
-              id: participant.id,
-              isEnabledStream: false,
-            });
-            dispatch(manageParticipantStream(model));
-          }
+    if (count >= 6) {
+      if (index <= 5) {
+        if (!participant.isEnabledStream) {
+          await enableRemoteStream(findedEndoint, participant.streamId);
+          const model = convertParticitantModel({
+            id: participant.id,
+            isEnabledStream: true,
+          });
+          dispatch(manageParticipantStream(model));
+        }
+      } else {
+        if (participant.isEnabledStream) {
+          await disableRemoteStream(findedEndoint, participant.streamId);
+          const model = convertParticitantModel({
+            id: participant.id,
+            isEnabledStream: false,
+          });
+          dispatch(manageParticipantStream(model));
         }
       }
     }
