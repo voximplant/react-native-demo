@@ -46,7 +46,7 @@ const ConferenceHeader = ({toggleModalAudioDevices}: IProps) => {
           <SelectAudioIcon style={styles.buttonIcon} />
         )}
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>{'Conf... 00:59'}</Text>
+      <Text style={styles.headerTitle}>{''}</Text>
       <TouchableOpacity onPress={toggleCameraMode} style={styles.buttonWrapper}>
         <SwitchCameraIcon style={styles.buttonIcon} />
       </TouchableOpacity>

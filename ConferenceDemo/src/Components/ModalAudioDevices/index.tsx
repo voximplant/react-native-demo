@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {View, Text, Modal} from 'react-native';
+import {View, Text, Modal, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 
 import AudioDeviceElement from '../AudioDeviceElement';
@@ -12,6 +12,7 @@ import {HardwareService} from '../../Core/Services/HardwareService';
 import {RootReducer} from '../../Core/Store';
 import {availableDevices} from '../../Utils/constants';
 
+import SwipeIndicator from '../../Assets/Icons/swipeIndicator.svg';
 import styles from './styles';
 
 interface IProps {
@@ -40,6 +41,11 @@ const ModalAudioDevices = ({modalVisible, setModalVisible}: IProps) => {
         setModalVisible(!modalVisible);
       }}>
       <View style={styles.wrapperContent}>
+        <TouchableOpacity
+          style={styles.swipeWrapper}
+          onPress={() => setModalVisible(!modalVisible)}>
+          <SwipeIndicator style={styles.swipeIcon} />
+        </TouchableOpacity>
         <Text style={styles.headerText}>Audio Devices</Text>
         {Object.keys(availableDevices).map(key => {
           const available = listAudioDevices?.indexOf(key) !== -1;
