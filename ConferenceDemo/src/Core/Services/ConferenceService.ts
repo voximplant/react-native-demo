@@ -20,7 +20,7 @@ import {
   endpointAdded,
   endpointRemoved,
   setError,
-  removeAllParticipants,
+  resetCallState,
   endpointVoiceActivityStarted,
   endpointVoiceActivityStopped,
   endpointMuted,
@@ -93,6 +93,7 @@ export const ConferenceService = () => {
   };
 
   const hangUp = () => {
+    dispatch(resetCallState());
     currentConference.current?.hangup();
   };
 
@@ -158,7 +159,7 @@ export const ConferenceService = () => {
     });
     currentConference.current?.on(Voximplant.CallEvents.Disconnected, () => {
       dispatch(changeCallState('Disconnected'));
-      dispatch(removeAllParticipants());
+      dispatch(resetCallState());
       afterConferenceAction();
       currentConference.current = null;
     });

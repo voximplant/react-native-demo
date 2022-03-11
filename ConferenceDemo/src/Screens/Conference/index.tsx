@@ -53,7 +53,6 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   useEffect(() => {
     getAudioDevices();
     getActiveDevice();
-    startConference(conference, isSendVideo);
     subscribeDeviceChangedEvent();
     startConference(conference, isSendVideo);
     return () => unsubscribeFromDeviceChangedEvent();

@@ -37,9 +37,12 @@ export const AuthService = () => {
     return result.displayName;
   };
 
-  const loginWithToken = async (): Promise<string> => {
+  const loginWithToken = async (): Promise<string | undefined> => {
     const username = await getStorageItem(STORAGE.USER_NAME);
     const token = await getStorageItem(STORAGE.ACCESS_TOKEN);
+    if (!username || !token) {
+      return;
+    }
     const clientState = await getClientState();
     if (clientState === Voximplant.ClientState.LOGGED_IN && username) {
       return username?.split('@')[0];

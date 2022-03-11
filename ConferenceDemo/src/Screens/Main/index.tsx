@@ -34,7 +34,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
     (state: RootReducer) => state.conferenceReducer.isSendVideo,
   );
 
-  const [conference, setConference] = useState('myconf1');
+  const [conference, setConference] = useState('');
 
   const toggleVideo = () => {
     dispatch(toggleSendVideo());

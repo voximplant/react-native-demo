@@ -29,7 +29,9 @@ export const loginWithToken = () => async (dispatch: AppDispatch | any) => {
   dispatch(toggleLoading());
   try {
     const result = await AuthService().loginWithToken();
-    dispatch(loginSuccess(result));
+    if (result) {
+      dispatch(loginSuccess(result));
+    }
   } catch (error) {
     //@ts-ignore
     if (error?.code === 701) {
