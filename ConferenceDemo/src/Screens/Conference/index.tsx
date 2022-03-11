@@ -36,8 +36,12 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
   const {startConference, hangUp, muteAudio, sendLocalVideo, streamManager} =
     ConferenceService();
-  const {getAudioDevices, getActiveDevice, subscribeDeviceChangedEvent} =
-    HardwareService();
+  const {
+    getAudioDevices,
+    getActiveDevice,
+    subscribeDeviceChangedEvent,
+    unsubscribeFromDeviceChangedEvent,
+  } = HardwareService();
 
   const {isMuted, callState, participants, isSendVideo} = useSelector(
     (state: RootReducer) => state.conferenceReducer,
@@ -52,6 +56,7 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
     startConference(conference, isSendVideo);
     subscribeDeviceChangedEvent();
     startConference(conference, isSendVideo);
+    return () => unsubscribeFromDeviceChangedEvent();
   }, []);
 
   useEffect(() => {
@@ -59,10 +64,6 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
       navigation.navigate('Main');
     }
   }, [callState]);
-
-  const endConference = () => {
-    hangUp();
-  };
 
   const toggleMuteAudio = () => {
     dispatch(toggleMute());

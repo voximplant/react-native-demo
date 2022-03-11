@@ -41,7 +41,7 @@ export const ConferenceService = () => {
     subscribeForegroundServiceEvent,
   } = ForegroundService();
 
-  const {unsubscribeFromDeviceChangedEvent, CameraManager} = HardwareService();
+  const {unsubscribeFromDeviceChangedEvent} = HardwareService();
 
   const currentConference = useRef<Voximplant.Call>();
 
@@ -51,7 +51,6 @@ export const ConferenceService = () => {
       await startForegroundService();
       subscribeForegroundServiceEvent(hangUp);
     }
-    CameraManager.setCameraResolution(1280, 720);
     const callSettings = {
       enableSimulcast: true,
       video: {
