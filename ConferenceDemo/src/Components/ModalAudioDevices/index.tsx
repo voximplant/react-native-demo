@@ -8,7 +8,7 @@ import {useSelector} from 'react-redux';
 
 import AudioDeviceElement from '../AudioDeviceElement';
 
-import {ConferenceService} from '../../Core/Services/ConferenceService';
+import {HardwareService} from '../../Core/Services/HardwareService';
 import {RootReducer} from '../../Core/Store';
 import {availableDevices} from '../../Utils/constants';
 
@@ -24,7 +24,7 @@ const ModalAudioDevices = ({modalVisible, setModalVisible}: IProps) => {
     (state: RootReducer) => state.conferenceReducer,
   );
 
-  const {selectAudioDevice} = ConferenceService();
+  const {selectAudioDevice} = HardwareService();
 
   const selectNewDevice = async (device: string) => {
     selectAudioDevice(device);

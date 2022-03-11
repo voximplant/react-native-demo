@@ -107,6 +107,16 @@ const conferenceReducer = (
     case conferenceActions.SET_LIST_AUDIO_DEVICES: {
       return {...state, listAudioDevices: payload};
     }
+    case conferenceActions.MANAGE_PARTICIPANT_STREAM: {
+      return {
+        ...state,
+        participants: state.participants.map((el: IParticipant) =>
+          el.id === payload.id
+            ? {...el, hasEnabledStream: payload.hasEnabledStream}
+            : el,
+        ),
+      };
+    }
     default:
       return state;
   }

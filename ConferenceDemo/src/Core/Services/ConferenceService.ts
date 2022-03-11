@@ -5,11 +5,11 @@
 import {useRef} from 'react';
 //@ts-ignore
 import {Voximplant} from 'react-native-voximplant';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {availableDevices} from '../../Utils/constants';
+import {IParticipant} from '../../Utils/types';
 import {useUtils} from '../../Utils/useUtils';
-import {RootReducer, store} from '../Store';
+import {RootReducer} from '../Store';
 
 import {
   changeCallState,
@@ -22,27 +22,17 @@ import {
   endpointVoiceActivityStarted,
   endpointVoiceActivityStopped,
   endpointMuted,
-  setListDevices,
-  setSelectedDevice,
+  manageParticipantStream,
 } from '../Store/conference/actions';
 
 export const ConferenceService = () => {
   const Client = Voximplant.getInstance();
-  const CameraManager = Voximplant.Hardware.CameraManager.getInstance();
 
-  const cameraType = Voximplant.Hardware.CameraType;
-
-  const {
-    loginReducer: {user},
-  }: RootReducer = store.getState();
-
+  const user = useSelector((state: RootReducer) => state.loginReducer.user);
   const dispatch = useDispatch();
   const {convertParticitantModel} = useUtils();
 
   const currentConference = useRef<Voximplant.Call>();
-  const AudioDeviceManager = useRef(
-    Voximplant.Hardware.AudioDeviceManager.getInstance(),
-  );
 
   const startConference = async (conference: string, localVideo: boolean) => {
     const callSettings = {
@@ -62,7 +52,80 @@ export const ConferenceService = () => {
     });
     dispatch(endpointAdded(model));
     subscribeToConferenceEvents();
-    subscribeDeviceChangedEvent();
+  };
+
+  const disableRemoteStream = async (
+    endpoint: Voximplant.Endpoint,
+    streamId: string,
+  ) => {
+    await endpoint.stopReceiving(streamId);
+  };
+
+  const enableRemoteStream = async (
+    endpoint: Voximplant.Endpoint,
+    streamId: string,
+  ) => {
+    await endpoint.startReceiving(streamId);
+  };
+
+  const unsubscribeFromConferenceEvents = () => {
+    currentConference.current?.off();
+  };
+
+  const unsubscribeFromEndpointEvents = (endpoint: Voximplant.Endpoint) => {
+    endpoint?.off();
+  };
+
+  const hangUp = () => {
+    currentConference.current?.hangup();
+  };
+
+  const muteAudio = (isMuted: boolean) => {
+    currentConference.current?.sendAudio(isMuted);
+    currentConference.current?.sendMessage(JSON.stringify({muted: !isMuted}));
+  };
+
+  const sendLocalVideo = async (isSendVideo: boolean) => {
+    await currentConference.current.sendVideo(isSendVideo);
+  };
+
+  const streamManager = async (
+    count: number,
+    participant: IParticipant,
+    index: number,
+  ) => {
+    const endpoints = currentConference.current?.getEndpoints();
+    const foundEndoint = endpoints?.find(
+      (endpoint: Voximplant.Endpoint) => endpoint.id === participant.id,
+    );
+    if (
+      !foundEndoint ||
+      !participant.streamId ||
+      currentConference.current.callId === participant.id
+    ) {
+      return;
+    }
+    if (count >= 6) {
+      if (index <= 5) {
+        if (!participant.hasEnabledStream) {
+          await enableRemoteStream(foundEndoint, participant.streamId);
+          const model = convertParticitantModel({
+            id: participant.id,
+            hasEnabledStream: true,
+          });
+          dispatch(manageParticipantStream(model));
+        }
+      } else {
+        if (participant.hasEnabledStream) {
+          await disableRemoteStream(foundEndoint, participant.streamId);
+          const model = convertParticitantModel({
+            id: participant.id,
+            hasEnabledStream: false,
+          });
+          dispatch(manageParticipantStream(model));
+        }
+      }
+    }
   };
 
   const subscribeToConferenceEvents = () => {
@@ -170,64 +233,11 @@ export const ConferenceService = () => {
     });
   };
 
-  const unsubscribeFromConferenceEvents = () => {
-    currentConference.current?.off();
-  };
-
-  const unsubscribeFromEndpointEvents = (endpoint: Voximplant.Endpoint) => {
-    endpoint?.off();
-  };
-
-  const endConference = () => {
-    hangUp();
-  };
-
-  const hangUp = () => {
-    currentConference.current?.hangup();
-  };
-
-  const muteAudio = (isMuted: boolean) => {
-    currentConference.current?.sendAudio(isMuted);
-    currentConference.current?.sendMessage(JSON.stringify({muted: !isMuted}));
-  };
-
-  const sendLocalVideo = async (isSendVideo: boolean) => {
-    await currentConference.current.sendVideo(isSendVideo);
-  };
-
-  const selectAudioDevice = async (device: string) => {
-    await AudioDeviceManager.current?.selectAudioDevice(device);
-  };
-
-  const getActiveDevice = async () => {
-    const device = await AudioDeviceManager.current?.getActiveDevice();
-    dispatch(setSelectedDevice(availableDevices[device]));
-  };
-
-  const getAudioDevices = async () => {
-    const list = await AudioDeviceManager.current?.getAudioDevices();
-    dispatch(setListDevices(list));
-  };
-
-  const subscribeDeviceChangedEvent = () => {
-    AudioDeviceManager.current?.on(
-      Voximplant.Hardware.AudioDeviceEvents.DeviceChanged,
-      (event: any) => {
-        dispatch(setSelectedDevice(availableDevices[event.currentDevice]));
-      },
-    );
-  };
-
   return {
     startConference,
-    endConference,
+    hangUp,
     muteAudio,
     sendLocalVideo,
-    CameraManager,
-    cameraType,
-    AudioDeviceManager,
-    selectAudioDevice,
-    getAudioDevices,
-    getActiveDevice,
+    streamManager,
   };
 };

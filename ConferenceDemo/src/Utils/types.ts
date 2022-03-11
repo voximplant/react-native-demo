@@ -66,6 +66,7 @@ export type IParticipant = {
   streamId?: string;
   isActiveVoice?: boolean;
   isMuted?: boolean;
+  hasEnabledStream?: boolean;
 };
 
 export interface IAvailableDeivces {

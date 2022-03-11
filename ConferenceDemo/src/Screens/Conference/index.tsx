@@ -19,6 +19,7 @@ import {ConferenceService} from '../../Core/Services/ConferenceService';
 import {RootReducer} from '../../Core/Store';
 import {toggleSendVideo, toggleMute} from '../../Core/Store/conference/actions';
 import {useUtils} from '../../Utils/useUtils';
+import {HardwareService} from '../../Core/Services/HardwareService';
 
 import PhoneIcon from '../../Assets/Icons/Phone.svg';
 import MicrophoneIcon from '../../Assets/Icons/Microphone.svg';
@@ -30,17 +31,17 @@ import styles from './styles';
 const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   const {conference} = route.params;
   const dispatch = useDispatch();
-  const {isAndroid, isIOS, checkAndroidCameraPermission} = useUtils();
+  const {isAndroid, isIOS, checkAndroidCameraPermission, dynamicComputeStyles} =
+    useUtils();
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
+  const {startConference, hangUp, muteAudio, sendLocalVideo, streamManager} =
+    ConferenceService();
   const {
-    startConference,
-    endConference,
-    muteAudio,
-    sendLocalVideo,
     getAudioDevices,
     getActiveDevice,
-  } = ConferenceService();
-  const {dynamicComputeStyles} = useUtils();
+    subscribeDeviceChangedEvent,
+    unsubscribeFromDeviceChangedEvent,
+  } = HardwareService();
 
   const {isMuted, callState, participants, isSendVideo} = useSelector(
     (state: RootReducer) => state.conferenceReducer,
@@ -50,9 +51,11 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    startConference(conference, isSendVideo);
     getAudioDevices();
     getActiveDevice();
+    startConference(conference, isSendVideo);
+    subscribeDeviceChangedEvent();
+    return () => unsubscribeFromDeviceChangedEvent();
   }, []);
 
   useEffect(() => {
@@ -108,6 +111,7 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
             index === 4 && participantsCount === 5
               ? {marginLeft: containerWidth / 4}
               : {};
+          streamManager(participantsCount, el, index);
           return (
             index <= 5 && (
               <ParticipantCard
@@ -138,7 +142,7 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
           />
           <ControlButton
             Icon={PhoneIcon}
-            onPress={endConference}
+            onPress={hangUp}
             styleFromProps={{
               wrapper: styles.controlButtonWrapperHangup,
             }}
