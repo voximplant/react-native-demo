@@ -95,11 +95,11 @@ export const ConferenceService = () => {
     index: number,
   ) => {
     const endpoints = currentConference.current?.getEndpoints();
-    const findedEndoint = endpoints?.find(
+    const foundEndoint = endpoints?.find(
       (endpoint: Voximplant.Endpoint) => endpoint.id === participant.id,
     );
     if (
-      !findedEndoint ||
+      !foundEndoint ||
       !participant.streamId ||
       currentConference.current.callId === participant.id
     ) {
@@ -107,20 +107,20 @@ export const ConferenceService = () => {
     }
     if (count >= 6) {
       if (index <= 5) {
-        if (!participant.isEnabledStream) {
-          await enableRemoteStream(findedEndoint, participant.streamId);
+        if (!participant.hasEnabledStream) {
+          await enableRemoteStream(foundEndoint, participant.streamId);
           const model = convertParticitantModel({
             id: participant.id,
-            isEnabledStream: true,
+            hasEnabledStream: true,
           });
           dispatch(manageParticipantStream(model));
         }
       } else {
-        if (participant.isEnabledStream) {
-          await disableRemoteStream(findedEndoint, participant.streamId);
+        if (participant.hasEnabledStream) {
+          await disableRemoteStream(foundEndoint, participant.streamId);
           const model = convertParticitantModel({
             id: participant.id,
-            isEnabledStream: false,
+            hasEnabledStream: false,
           });
           dispatch(manageParticipantStream(model));
         }

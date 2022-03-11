@@ -14,38 +14,43 @@ import {setListDevices, setSelectedDevice} from '../Store/conference/actions';
 export const HardwareService = () => {
   const dispatch = useDispatch();
 
-  const AudioDeviceManager = useRef(
-    Voximplant.Hardware.AudioDeviceManager.getInstance(),
-  );
+  const AudioDeviceManager =
+    Voximplant.Hardware.AudioDeviceManager.getInstance();
   const CameraManager = Voximplant.Hardware.CameraManager.getInstance();
 
   const cameraType = Voximplant.Hardware.CameraType;
 
   const selectAudioDevice = async (device: string) => {
-    await AudioDeviceManager.current?.selectAudioDevice(device);
+    await AudioDeviceManager.selectAudioDevice(device);
   };
 
   const getActiveDevice = async () => {
-    const device = await AudioDeviceManager.current?.getActiveDevice();
+    const device = await AudioDeviceManager.getActiveDevice();
     dispatch(setSelectedDevice(availableDevices[device]));
   };
 
   const getAudioDevices = async () => {
-    const list = await AudioDeviceManager.current?.getAudioDevices();
+    const list = await AudioDeviceManager.getAudioDevices();
     dispatch(setListDevices(list));
   };
 
   const subscribeDeviceChangedEvent = () => {
-    AudioDeviceManager.current?.on(
+    AudioDeviceManager.on(
       Voximplant.Hardware.AudioDeviceEvents.DeviceChanged,
       (event: any) => {
         dispatch(setSelectedDevice(availableDevices[event.currentDevice]));
       },
     );
+    AudioDeviceManager.on(
+      Voximplant.Hardware.AudioDeviceEvents.DeviceListChanged,
+      (event: any) => {
+        dispatch(setListDevices(event.newDeviceList));
+      },
+    );
   };
 
   const unsubscribeFromDeviceChangedEvent = () => {
-    AudioDeviceManager.current?.off();
+    AudioDeviceManager.off();
   };
 
   return {

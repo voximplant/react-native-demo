@@ -39,7 +39,6 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   const {
     getAudioDevices,
     getActiveDevice,
-    CameraManager,
     subscribeDeviceChangedEvent,
     unsubscribeFromDeviceChangedEvent,
   } = HardwareService();
@@ -54,7 +53,6 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   useEffect(() => {
     getAudioDevices();
     getActiveDevice();
-    CameraManager.setCameraResolution(720, 480);
     startConference(conference, isSendVideo);
     subscribeDeviceChangedEvent();
     return () => unsubscribeFromDeviceChangedEvent();
