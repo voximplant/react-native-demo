@@ -55,13 +55,12 @@ const ConferenceHeader = ({
       return `${+min < 10 ? `0${min}` : min}:${sec}`;
     }
     if (seconds >= 3600) {
-      // TODO: refactoring this block
       let hours = (seconds / 3600).toString().split('.')[0];
-      let min = (seconds - +hours * 60).toString().split('.')[0];
+      let min = ((seconds - +hours * 3600) / 60).toString().split('.')[0];
       let sec =
-        seconds - (+hours * 60 + +min) * 60 < 10
-          ? `0${seconds - (+hours * 60 + +min) * 60}`
-          : seconds - (+hours * 60 + +min) * 60;
+        seconds - (+hours * 3600 + +min * 60) < 10
+          ? `0${seconds - (+hours * 3600 + +min * 60)}`
+          : seconds - (+hours * 3600 + +min * 60);
       return `${+hours < 10 ? `0${hours}` : hours}:${
         +min < 10 ? `0${min}` : min
       }:${sec}`;
@@ -74,7 +73,7 @@ const ConferenceHeader = ({
       if (duration === time || duration === 0) {
         return;
       }
-      setTime(duration * 1);
+      setTime(duration);
     }, 300);
 
     return () => {
