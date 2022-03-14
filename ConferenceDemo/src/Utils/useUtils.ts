@@ -137,6 +137,31 @@ export const useUtils = () => {
     }
   };
 
+  const formattedConferenceDuration = (seconds: number | null) => {
+    if (seconds === null) {
+      return;
+    }
+    if (seconds < 60) {
+      return `00:${seconds < 10 ? `0${seconds}` : seconds}`;
+    }
+    if (seconds >= 60 && seconds < 3600) {
+      let min = (seconds / 60).toString().split('.')[0];
+      let sec = seconds % 60 < 10 ? `0${seconds % 60}` : seconds % 60;
+      return `${+min < 10 ? `0${min}` : min}:${sec}`;
+    }
+    if (seconds >= 3600) {
+      let hours = (seconds / 3600).toString().split('.')[0];
+      let min = ((seconds - +hours * 3600) / 60).toString().split('.')[0];
+      let sec =
+        seconds - (+hours * 3600 + +min * 60) < 10
+          ? `0${seconds - (+hours * 3600 + +min * 60)}`
+          : seconds - (+hours * 3600 + +min * 60);
+      return `${+hours < 10 ? `0${hours}` : hours}:${
+        +min < 10 ? `0${min}` : min
+      }:${sec}`;
+    }
+  };
+
   return {
     isIOS,
     isAndroid,
@@ -146,5 +171,6 @@ export const useUtils = () => {
     checkAndroidCameraPermission,
     convertParticitantModel,
     dynamicComputeStyles,
+    formattedConferenceDuration,
   };
 };
