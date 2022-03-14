@@ -15,11 +15,14 @@ export default StyleSheet.create({
     backgroundColor: COLORS.BLACK,
   },
   headerTitle: {
+    width: 80,
+    height: 20,
     lineHeight: 20,
     fontSize: 16,
     fontWeight: '500',
     alignSelf: 'center',
     color: COLORS.WHITE,
+    textAlign: 'center',
   },
   buttonWrapper: {
     maxWidth: 30,

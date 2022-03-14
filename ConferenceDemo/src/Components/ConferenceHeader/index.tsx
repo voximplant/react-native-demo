@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 
@@ -15,11 +15,18 @@ import styles from './styles';
 
 interface IProps {
   toggleModalAudioDevices: () => void;
+  getConferenceDuration: () => any;
 }
 
-const ConferenceHeader = ({toggleModalAudioDevices}: IProps) => {
+const ConferenceHeader = ({
+  toggleModalAudioDevices,
+  getConferenceDuration,
+}: IProps) => {
   const {CameraManager, cameraType} = HardwareService();
   const [cameraState, setCameraState] = useState(cameraType.FRONT);
+  const [time, setTime] = useState<number | null>(null);
+  let intervalRef = useRef<any>(null);
+
   const SelectedDeviceIcon = useSelector(
     (state: RootReducer) =>
       state.conferenceReducer.selectedAudioDevice?.IconWhite,
@@ -35,6 +42,47 @@ const ConferenceHeader = ({toggleModalAudioDevices}: IProps) => {
     }
   };
 
+  const formattedConferenceDuration = (seconds: number | null) => {
+    if (seconds === null) {
+      return;
+    }
+    if (seconds < 60) {
+      return `00:${seconds < 10 ? `0${seconds}` : seconds}`;
+    }
+    if (seconds >= 60 && seconds < 3600) {
+      let min = (seconds / 60).toString().split('.')[0];
+      let sec = seconds % 60 < 10 ? `0${seconds % 60}` : seconds % 60;
+      return `${+min < 10 ? `0${min}` : min}:${sec}`;
+    }
+    if (seconds >= 3600) {
+      // TODO: refactoring this block
+      let hours = (seconds / 3600).toString().split('.')[0];
+      let min = (seconds - +hours * 60).toString().split('.')[0];
+      let sec =
+        seconds - (+hours * 60 + +min) * 60 < 10
+          ? `0${seconds - (+hours * 60 + +min) * 60}`
+          : seconds - (+hours * 60 + +min) * 60;
+      return `${+hours < 10 ? `0${hours}` : hours}:${
+        +min < 10 ? `0${min}` : min
+      }:${sec}`;
+    }
+  };
+
+  useEffect(() => {
+    intervalRef.current = setInterval(async () => {
+      const duration = await getConferenceDuration();
+      if (duration === time || duration === 0) {
+        return;
+      }
+      setTime(duration * 1);
+    }, 300);
+
+    return () => {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    };
+  }, []);
+
   return (
     <View style={styles.headerWrapper}>
       <TouchableOpacity
@@ -46,7 +94,9 @@ const ConferenceHeader = ({toggleModalAudioDevices}: IProps) => {
           <SelectAudioIcon style={styles.buttonIcon} />
         )}
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>{''}</Text>
+      <Text style={styles.headerTitle}>
+        {formattedConferenceDuration(time)}
+      </Text>
       <TouchableOpacity onPress={toggleCameraMode} style={styles.buttonWrapper}>
         <SwitchCameraIcon style={styles.buttonIcon} />
       </TouchableOpacity>

@@ -106,6 +106,10 @@ export const ConferenceService = () => {
     await currentConference.current.sendVideo(isSendVideo);
   };
 
+  const getConferenceDuration = async () => {
+    return currentConference.current?.getDuration();
+  };
+
   const streamManager = async (
     count: number,
     participant: IParticipant,
@@ -264,5 +268,6 @@ export const ConferenceService = () => {
     muteAudio,
     sendLocalVideo,
     streamManager,
+    getConferenceDuration,
   };
 };
