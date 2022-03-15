@@ -33,6 +33,8 @@ const CALL_STATES = {
 };
 
 export default class CallScreen extends React.Component {
+    foregroundService = VIForegroundService.getInstance();
+
     constructor(props) {
         super(props);
         const params = props.route.params;
@@ -252,7 +254,7 @@ export default class CallScreen extends React.Component {
         CallManager.getInstance().removeCall(this.call);
         if (Platform.OS === 'android' && Platform.Version >= 26 && this.callState === CALL_STATES.CONNECTED) {
             (async () => {
-                await VIForegroundService.stopService();
+                await this.foregroundService.stopService();
             })();
         }
         this.callState = CALL_STATES.DISCONNECTED;
@@ -279,8 +281,8 @@ export default class CallScreen extends React.Component {
                 icon: 'ic_vox_notification',
             };
             (async() => {
-                await VIForegroundService.createNotificationChannel(channelConfig);
-                await VIForegroundService.startService(notificationConfig);
+                await this.foregroundService.createNotificationChannel(channelConfig);
+                await this.foregroundService.startService(notificationConfig);
             })();
         }
     };
