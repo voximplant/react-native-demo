@@ -93,8 +93,8 @@ export const ConferenceService = () => {
   };
 
   const hangUp = () => {
-    dispatch(resetCallState());
     currentConference.current?.hangup();
+    dispatch(resetCallState());
   };
 
   const muteAudio = (isMuted: boolean) => {
@@ -103,7 +103,11 @@ export const ConferenceService = () => {
   };
 
   const sendLocalVideo = async (isSendVideo: boolean) => {
-    await currentConference.current.sendVideo(isSendVideo);
+    await currentConference.current?.sendVideo(isSendVideo);
+  };
+
+  const getConferenceDuration = async (): Promise<number> => {
+    return currentConference.current?.getDuration();
   };
 
   const streamManager = async (
@@ -118,7 +122,7 @@ export const ConferenceService = () => {
     if (
       !foundEndoint ||
       !participant.streamId ||
-      currentConference.current.callId === participant.id
+      currentConference.current?.callId === participant.id
     ) {
       return;
     }
@@ -264,5 +268,6 @@ export const ConferenceService = () => {
     muteAudio,
     sendLocalVideo,
     streamManager,
+    getConferenceDuration,
   };
 };

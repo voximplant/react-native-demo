@@ -34,8 +34,14 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   const {isAndroid, isIOS, checkAndroidCameraPermission, dynamicComputeStyles} =
     useUtils();
   const navigation = useNavigation<ScreenNavigationProp<'Main'>>();
-  const {startConference, hangUp, muteAudio, sendLocalVideo, streamManager} =
-    ConferenceService();
+  const {
+    startConference,
+    hangUp,
+    muteAudio,
+    sendLocalVideo,
+    streamManager,
+    getConferenceDuration,
+  } = ConferenceService();
   const {
     getAudioDevices,
     getActiveDevice,
@@ -91,7 +97,10 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar barStyle={'light-content'} backgroundColor={COLORS.BLACK} />
-      <ConferenceHeader toggleModalAudioDevices={toggleModalAudioDevices} />
+      <ConferenceHeader
+        toggleModalAudioDevices={toggleModalAudioDevices}
+        getConferenceDuration={getConferenceDuration}
+      />
       <View
         style={styles.videoContainer}
         onLayout={({nativeEvent}) => {

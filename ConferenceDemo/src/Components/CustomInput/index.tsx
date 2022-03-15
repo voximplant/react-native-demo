@@ -37,7 +37,7 @@ const CustomInput = ({
       <View
         style={[
           styles.inputWrapperWithSuffix,
-          !!validationText && {borderColor: 'red'},
+          !!validationText && styles.inputWrapperWithError,
         ]}>
         <TextInput
           value={value}

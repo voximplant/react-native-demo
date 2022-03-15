@@ -28,6 +28,9 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.PURPLE,
   },
+  inputWrapperWithError: {
+    borderColor: 'red',
+  },
   input: {
     paddingLeft: 10,
     lineHeight: 20,
