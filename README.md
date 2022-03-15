@@ -11,6 +11,11 @@ Demo application with a simple UI for audio and video calls.
 
 The demo application is written using functional components.
 
+## [ConferenceDemo](ConferenceDemo)
+The demo demonstrates conference call functionality of the Voximplant React Native SDK.
+
+The demo application is written using functional components and TypeScript.
+
 ## Have a question
 - contact us via `support@voximplant.com`
 - create an issue

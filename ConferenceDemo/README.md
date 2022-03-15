@@ -1,6 +1,6 @@
 # React Native Conference Demo Application
 
-The demo application that uses Voximplant React Native SDL and [Voximplant cloud platform](http://voximplant.com) for making conference calls.
+The demo application that uses Voximplant React Native SDK and [Voximplant cloud platform](http://voximplant.com) for making conference calls.
 
 
 ## Features
