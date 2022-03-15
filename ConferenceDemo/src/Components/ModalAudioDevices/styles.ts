@@ -17,7 +17,7 @@ export default StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     ...Platform.select({
-      // TODO: change styles for ios below 10
+      // TODO: think about styles IPhone with touch button
       ios: {
         marginBottom: 24,
       },

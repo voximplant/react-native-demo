@@ -43,21 +43,18 @@ export const AuthService = () => {
     if (!username || !token) {
       return;
     }
-    const clientState = await getClientState();
-    if (clientState === Voximplant.ClientState.LOGGED_IN && username) {
-      return username?.split('@')[0];
-    }
-    if (clientState === Voximplant.ClientState.DISCONNECTED) {
-      await connectToVox();
-    }
-    const result = await client.loginWithToken(
+    // Connection to the Voximplant Cloud is stayed alive on reloading of the app's
+    // JavaScript code. Calling "disconnect" API here makes the SDK and app states
+    // synchronized.
+    await client.disconnect();
+    await connectToVox();
+    let result = await client.loginWithToken(
       `${username?.toLowerCase()}.voximplant.com`,
       token,
     );
     await setStorageItems(result);
-    return result.displayName;
+    return result?.displayName;
   };
-
   const refreshToken = async (): Promise<string> => {
     const username = await getStorageItem(STORAGE.USER_NAME);
     const rToken = await getStorageItem(STORAGE.REFRESH_TOKEN);
