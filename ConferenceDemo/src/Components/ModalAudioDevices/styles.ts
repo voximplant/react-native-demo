@@ -17,7 +17,7 @@ export default StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     ...Platform.select({
-      // TODO: think about styles IPhone with tiuch button
+      // TODO: change styles for ios below 10
       ios: {
         marginBottom: 24,
       },
