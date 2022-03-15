@@ -21,7 +21,7 @@ export default StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignSelf: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
   settingsText: {
     color: COLORS.BLACK,
@@ -32,6 +32,6 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   startConferenceButtonWrapper: {
-    width: 180,
+    width: 160,
   },
 });

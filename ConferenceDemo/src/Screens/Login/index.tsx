@@ -31,23 +31,27 @@ const LoginScreen = () => {
     dispatch(loginWithPass(userName, password));
   };
 
-  useEffect(() => {
-    if (error?.other) {
-      showAllert(error.other);
-    }
-    getLastLoggedInUser();
-  }, [error]);
-
-  useEffect(() => {
-    dispatch(clearErrors());
-  }, [userName, password]);
-
   const getLastLoggedInUser = async () => {
     const name = await StorageService().getStorageItem(STORAGE.USER_NAME);
     if (name) {
       setUserName(name);
     }
   };
+
+  useEffect(() => {
+    getLastLoggedInUser();
+  }, []);
+
+  useEffect(() => {
+    if (error?.other) {
+      showAllert(error.other);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    dispatch(clearErrors());
+  }, [userName, password]);
+
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>

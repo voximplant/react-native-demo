@@ -30,9 +30,6 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
     checkAndroidMicrophonePermission,
     checkAndroidCameraPermission,
   } = useUtils();
-  const sendVideo = useSelector(
-    (state: RootReducer) => state.conferenceReducer.isSendVideo,
-  );
 
   const [conference, setConference] = useState('');
   const [validationText, setValidationText] = useState('');
@@ -54,7 +51,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
     if (isAndroid) {
       try {
         resultAudio = await checkAndroidMicrophonePermission();
-        if (sendVideo) {
+        if (withVideo) {
           resultVideo = await checkAndroidCameraPermission();
           !resultVideo && dispatch(toggleSendVideo());
         }

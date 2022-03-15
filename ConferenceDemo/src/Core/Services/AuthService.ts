@@ -44,16 +44,25 @@ export const AuthService = () => {
       return;
     }
     const clientState = await getClientState();
-    if (clientState === Voximplant.ClientState.LOGGED_IN && username) {
-      return username?.split('@')[0];
-    }
     if (clientState === Voximplant.ClientState.DISCONNECTED) {
       await connectToVox();
     }
-    const result = await client.loginWithToken(
-      `${username?.toLowerCase()}.voximplant.com`,
-      token,
-    );
+    let result;
+    // This case for signIn after hot reload Js code in debug mode //
+    if (clientState === Voximplant.ClientState.LOGGED_IN) {
+      await client.disconnect();
+      await connectToVox();
+      result = await client.loginWithToken(
+        `${username?.toLowerCase()}.voximplant.com`,
+        token,
+      );
+      // ========================================================== //
+    } else {
+      result = await client.loginWithToken(
+        `${username?.toLowerCase()}.voximplant.com`,
+        token,
+      );
+    }
     await setStorageItems(result);
     return result.displayName;
   };
