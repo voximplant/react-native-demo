@@ -31,7 +31,6 @@ export const StorageService = () => {
   };
 
   const clearStorageItems = async () => {
-    // await removeStorageItem(STORAGE.USER_NAME);
     await removeStorageItem(STORAGE.ACCESS_TOKEN);
     await removeStorageItem(STORAGE.REFRESH_TOKEN);
   };

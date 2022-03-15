@@ -40,7 +40,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
 
   const startConference = async (withVideo?: boolean) => {
     if (!conference) {
-      setValidationText('Name can not be empty');
+      setValidationText('Name cannot be empty');
       return;
     }
     if (withVideo) {
