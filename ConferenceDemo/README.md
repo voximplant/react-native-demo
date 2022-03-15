@@ -100,7 +100,9 @@ Log in using:
 * password
 
 ### Join a conference call
-<img src="./screenshots/MainScreen.png" width=400>
+<kbd>
+  <img src="./screenshots/MainScreen.png" width=400>
+</kbd>
 
 Enter a Voximplant conference name to the input field and press "Join conference" button to make a call.
 
