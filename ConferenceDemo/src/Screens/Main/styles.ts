@@ -18,10 +18,10 @@ export default StyleSheet.create({
     backgroundColor: COLORS.WHITE,
   },
   settingsWrapper: {
-    marginTop: 10,
     width: '100%',
     flexDirection: 'row',
     alignSelf: 'center',
+    justifyContent: 'space-between',
   },
   settingsText: {
     color: COLORS.BLACK,
@@ -30,5 +30,8 @@ export default StyleSheet.create({
     lineHeight: 20,
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  startConferenceButtonWrapper: {
+    width: 180,
   },
 });
