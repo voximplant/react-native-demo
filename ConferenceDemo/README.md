@@ -91,7 +91,9 @@ You can set up it manually using our [Getting started](https://voximplant.com/do
 ## Usage
 
 ### User login
-<img src="./screenshots/LoginScreen.png" width=400>
+<kbd>
+  <img src="./screenshots/LoginScreen.png" width=400>
+</kbd>
 
 Log in using:
 * Voximplant user name in the format `user@app.account`
@@ -100,7 +102,7 @@ Log in using:
 ### Join a conference call
 <img src="./screenshots/MainScreen.png" width=400>
 
-Enter a Voximplant conference name to the input field and press "Start conference" button to make a call.
+Enter a Voximplant conference name to the input field and press "Join conference" button to make a call.
 
 ### Conference call controls
 <table>
