@@ -106,7 +106,7 @@ export const ConferenceService = () => {
     await currentConference.current?.sendVideo(isSendVideo);
   };
 
-  const getConferenceDuration = async () => {
+  const getConferenceDuration = async (): Promise<number> => {
     return currentConference.current?.getDuration();
   };
 

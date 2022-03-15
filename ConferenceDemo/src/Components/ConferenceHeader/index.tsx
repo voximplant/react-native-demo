@@ -16,7 +16,7 @@ import styles from './styles';
 
 interface IProps {
   toggleModalAudioDevices: () => void;
-  getConferenceDuration: () => any;
+  getConferenceDuration: () => Promise<number>;
 }
 
 const ConferenceHeader = ({
