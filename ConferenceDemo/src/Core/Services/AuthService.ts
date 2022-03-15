@@ -18,11 +18,13 @@ export const AuthService = () => {
     await client.connect();
   };
 
+  const getClientState = async () => await client.getClientState();
+
   const loginWithPassword = async (
     username: string,
     password: string,
   ): Promise<string> => {
-    let clientState = await client.getClientState();
+    const clientState = await getClientState();
     if (clientState === Voximplant.ClientState.DISCONNECTED) {
       await connectToVox();
     }
@@ -35,24 +37,27 @@ export const AuthService = () => {
     return result.displayName;
   };
 
-  const loginWithToken = async (): Promise<string> => {
-    let username = await getStorageItem(STORAGE.USER_NAME);
-    let token = await getStorageItem(STORAGE.ACCESS_TOKEN);
-    let clientState = await client.getClientState();
-    if (clientState === Voximplant.ClientState.DISCONNECTED) {
-      await connectToVox();
+  const loginWithToken = async (): Promise<string | undefined> => {
+    const username = await getStorageItem(STORAGE.USER_NAME);
+    const token = await getStorageItem(STORAGE.ACCESS_TOKEN);
+    if (!username || !token) {
+      return;
     }
-    const result = await client.loginWithToken(
+    // Connection to the Voximplant Cloud is stayed alive on reloading of the app's
+    // JavaScript code. Calling "disconnect" API here makes the SDK and app states
+    // synchronized.
+    await client.disconnect();
+    await connectToVox();
+    let result = await client.loginWithToken(
       `${username?.toLowerCase()}.voximplant.com`,
       token,
     );
     await setStorageItems(result);
-    return result.displayName;
+    return result?.displayName;
   };
-
   const refreshToken = async (): Promise<string> => {
-    let username = await getStorageItem(STORAGE.USER_NAME);
-    let rToken = await getStorageItem(STORAGE.REFRESH_TOKEN);
+    const username = await getStorageItem(STORAGE.USER_NAME);
+    const rToken = await getStorageItem(STORAGE.REFRESH_TOKEN);
     const result = await client.tokenRefresh(
       `${username?.toLowerCase()}.voximplant.com`,
       rToken,
@@ -71,5 +76,6 @@ export const AuthService = () => {
     loginWithToken,
     logOut,
     refreshToken,
+    getClientState,
   };
 };

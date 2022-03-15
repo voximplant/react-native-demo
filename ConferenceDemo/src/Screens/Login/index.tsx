@@ -13,8 +13,9 @@ import CustomInput from '../../Components/CustomInput';
 import {RootReducer} from '../../Core/Store';
 import {clearErrors} from '../../Core/Store/global/actions';
 import {loginWithPass} from '../../Core/Store/login/actions';
-import {COLORS} from '../../Utils/constants';
+import {COLORS, STORAGE} from '../../Utils/constants';
 import {useUtils} from '../../Utils/useUtils';
+import {StorageService} from '../../Core/Services/StorageService';
 
 import styles from './styles';
 
@@ -30,6 +31,17 @@ const LoginScreen = () => {
     dispatch(loginWithPass(userName, password));
   };
 
+  const getLastLoggedInUser = async () => {
+    const name = await StorageService().getStorageItem(STORAGE.USER_NAME);
+    if (name) {
+      setUserName(name);
+    }
+  };
+
+  useEffect(() => {
+    getLastLoggedInUser();
+  }, []);
+
   useEffect(() => {
     if (error?.other) {
       showAllert(error.other);
@@ -39,6 +51,7 @@ const LoginScreen = () => {
   useEffect(() => {
     dispatch(clearErrors());
   }, [userName, password]);
+
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>

@@ -74,8 +74,8 @@ const conferenceReducer = (
     case conferenceActions.SET_ERROR: {
       return {...state, error: payload};
     }
-    case conferenceActions.REMOVE_ALL_PARTICIPANTS: {
-      return {...state, participants: []};
+    case conferenceActions.RESET_CALL_STATE: {
+      return {...state, participants: [], isMuted: false, isSendVideo: false};
     }
     case conferenceActions.ENDPOINT_VOICE_ACTIVITY_STARTED: {
       return {

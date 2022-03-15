@@ -10,6 +10,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {IParticipant} from '../../Utils/types';
 import {useUtils} from '../../Utils/useUtils';
 import {RootReducer} from '../Store';
+//@ts-ignore
+import ForegroundService from './ForegroundService';
 
 import {
   changeCallState,
@@ -18,23 +20,37 @@ import {
   endpointAdded,
   endpointRemoved,
   setError,
-  removeAllParticipants,
+  resetCallState,
   endpointVoiceActivityStarted,
   endpointVoiceActivityStopped,
   endpointMuted,
   manageParticipantStream,
 } from '../Store/conference/actions';
+import {HardwareService} from './HardwareService';
 
 export const ConferenceService = () => {
   const Client = Voximplant.getInstance();
 
   const user = useSelector((state: RootReducer) => state.loginReducer.user);
   const dispatch = useDispatch();
-  const {convertParticitantModel} = useUtils();
+  const {convertParticitantModel, isAndroid} = useUtils();
+  const {
+    createForegroundConfig,
+    startForegroundService,
+    stopForegroudService,
+    subscribeForegroundServiceEvent,
+  } = ForegroundService();
+
+  const {unsubscribeFromDeviceChangedEvent} = HardwareService();
 
   const currentConference = useRef<Voximplant.Call>();
 
   const startConference = async (conference: string, localVideo: boolean) => {
+    if (isAndroid) {
+      await createForegroundConfig();
+      await startForegroundService();
+      subscribeForegroundServiceEvent(hangUp);
+    }
     const callSettings = {
       enableSimulcast: true,
       video: {
@@ -77,6 +93,7 @@ export const ConferenceService = () => {
   };
 
   const hangUp = () => {
+    dispatch(resetCallState());
     currentConference.current?.hangup();
   };
 
@@ -128,14 +145,22 @@ export const ConferenceService = () => {
     }
   };
 
+  const afterConferenceAction = () => {
+    unsubscribeFromConferenceEvents();
+    unsubscribeFromDeviceChangedEvent();
+    if (isAndroid) {
+      stopForegroudService();
+    }
+  };
+
   const subscribeToConferenceEvents = () => {
     currentConference.current?.on(Voximplant.CallEvents.Connected, () => {
       dispatch(changeCallState('Connected'));
     });
     currentConference.current?.on(Voximplant.CallEvents.Disconnected, () => {
       dispatch(changeCallState('Disconnected'));
-      dispatch(removeAllParticipants());
-      unsubscribeFromConferenceEvents();
+      dispatch(resetCallState());
+      afterConferenceAction();
       currentConference.current = null;
     });
     currentConference.current?.on(
@@ -143,7 +168,7 @@ export const ConferenceService = () => {
       (callEvent: any) => {
         dispatch(changeCallState('Failed'));
         dispatch(setError(callEvent.reason));
-        unsubscribeFromConferenceEvents();
+        afterConferenceAction();
       },
     );
     currentConference.current?.on(

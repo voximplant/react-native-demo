@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Switch, Text, StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
@@ -30,23 +30,28 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
     checkAndroidMicrophonePermission,
     checkAndroidCameraPermission,
   } = useUtils();
-  const sendVideo = useSelector(
-    (state: RootReducer) => state.conferenceReducer.isSendVideo,
-  );
 
-  const [conference, setConference] = useState('myconf1');
+  const [conference, setConference] = useState('');
+  const [validationText, setValidationText] = useState('');
 
-  const toggleVideo = () => {
-    dispatch(toggleSendVideo());
-  };
+  useEffect(() => {
+    setValidationText('');
+  }, [conference]);
 
-  const startConference = async () => {
+  const startConference = async (withVideo?: boolean) => {
+    if (!conference) {
+      setValidationText('Name cannot be empty');
+      return;
+    }
+    if (withVideo) {
+      dispatch(toggleSendVideo());
+    }
     let resultAudio;
     let resultVideo;
     if (isAndroid) {
       try {
         resultAudio = await checkAndroidMicrophonePermission();
-        if (sendVideo) {
+        if (withVideo) {
           resultVideo = await checkAndroidCameraPermission();
           !resultVideo && dispatch(toggleSendVideo());
         }
@@ -68,18 +73,22 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
         <CustomInput
           title={'Conference name'}
           value={conference}
-          placeholder={'.....'}
+          placeholder={'Type conference name here'}
           setValue={setConference}
+          validationText={validationText}
         />
         <View style={styles.settingsWrapper}>
-          <Text style={styles.settingsText}>Send local video:</Text>
-          <Switch
-            trackColor={{false: '#767577', true: '#54FF00'}}
-            onValueChange={toggleVideo}
-            value={sendVideo}
+          <CustomButton
+            title={'Join with audio'}
+            onPress={() => startConference()}
+            styleFromProps={{wrapper: styles.startConferenceButtonWrapper}}
+          />
+          <CustomButton
+            title={'Join with video'}
+            onPress={() => startConference(true)}
+            styleFromProps={{wrapper: styles.startConferenceButtonWrapper}}
           />
         </View>
-        <CustomButton title={'Start conference'} onPress={startConference} />
       </View>
     </SafeAreaView>
   );

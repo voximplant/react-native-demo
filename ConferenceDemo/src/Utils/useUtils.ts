@@ -6,7 +6,7 @@ import {Alert, PermissionsAndroid, Platform} from 'react-native';
 
 import {IAuthError, IParticipant} from './types';
 
-type convertedErrorType = {
+export type convertedErrorType = {
   other: string;
   login: string;
   password: string;

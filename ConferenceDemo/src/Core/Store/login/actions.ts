@@ -4,7 +4,7 @@
 
 import {AppDispatch} from '..';
 import {IReduxAction} from '../../../Utils/types';
-import {useUtils} from '../../../Utils/useUtils';
+import {convertedErrorType, useUtils} from '../../../Utils/useUtils';
 import {AuthService} from '../../Services/AuthService';
 import {resetState, toggleLoading} from '../global/actions';
 import {loginActions} from './actionTypes';
@@ -29,7 +29,9 @@ export const loginWithToken = () => async (dispatch: AppDispatch | any) => {
   dispatch(toggleLoading());
   try {
     const result = await AuthService().loginWithToken();
-    dispatch(loginSuccess(result));
+    if (result) {
+      dispatch(loginSuccess(result));
+    }
   } catch (error) {
     //@ts-ignore
     if (error?.code === 701) {
@@ -68,7 +70,7 @@ export const loginSuccess = (payload: string): IReduxAction => ({
   payload,
 });
 
-export const loginFailure = (payload: any): IReduxAction => ({
+export const loginFailure = (payload: convertedErrorType): IReduxAction => ({
   type: loginActions.LOGIN_FAILURE,
   payload,
 });
