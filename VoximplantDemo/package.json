@@ -27,7 +27,7 @@
     "react-native-screens": "3.4.0",
     "react-native-vector-icons": "8.1.0",
     "react-native-voip-push-notification": "3.3.0",
-    "react-native-voximplant": "1.27.1",
+    "react-native-voximplant": "1.29.0",
     "uuid": "8.3.2"
   },
   "devDependencies": {
