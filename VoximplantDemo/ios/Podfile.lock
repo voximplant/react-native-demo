@@ -213,9 +213,9 @@ PODS:
     - React-Core
   - react-native-safe-area-context (3.2.0):
     - React-Core
-  - react-native-voximplant (1.27.1):
+  - react-native-voximplant (1.29.1):
     - React
-    - VoxImplantSDK (= 2.44.0)
+    - VoxImplantSDK (= 2.46.3)
   - React-perflogger (0.66.3)
   - React-RCTActionSheet (0.66.3):
     - React-Core/RCTActionSheetHeaders (= 0.66.3)
@@ -325,9 +325,9 @@ PODS:
     - React-Core
   - RNVoipPushNotification (3.3.0):
     - React-Core
-  - VoxImplantSDK (2.44.0):
-    - VoxImplantSDK/Core (= 2.44.0)
-  - VoxImplantSDK/Core (2.44.0):
+  - VoxImplantSDK (2.46.3):
+    - VoxImplantSDK/Core (= 2.46.3)
+  - VoxImplantSDK/Core (2.46.3):
     - VoxImplantWebRTC (= 93.0.0)
   - VoxImplantWebRTC (93.0.0)
   - Yoga (1.14.0)
@@ -488,7 +488,7 @@ SPEC CHECKSUMS:
   React-logger: e522e76fa3e9ec3e7d7115b49485cc065cf4ae06
   react-native-get-random-values: 237bffb1c7e05fb142092681531810a29ba53015
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
-  react-native-voximplant: 27ab71bdb3fb57a368c513a4d7f670e232c65090
+  react-native-voximplant: 52a2c5f43b27a4e32f2d8c7bd42d5aaf6c28992f
   React-perflogger: 73732888d37d4f5065198727b167846743232882
   React-RCTActionSheet: 96c6d774fa89b1f7c59fc460adc3245ba2d7fd79
   React-RCTAnimation: 8940cfd3a8640bd6f6372150dbdb83a79bcbae6c
@@ -509,7 +509,7 @@ SPEC CHECKSUMS:
   RNScreens: 21b73c94c9117e1110a79ee0ee80c93ccefed8ce
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   RNVoipPushNotification: 14bb5a389588ea1cbee4706a55df99950687fd6d
-  VoxImplantSDK: fb162b8e8e7c6f9cede7012d552bc448228f4799
+  VoxImplantSDK: 396999b476ff23c4b0dcebf1d52edbd133546114
   VoxImplantWebRTC: 8ddd8a63d0c20afa604fec22a2552c32b0371974
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
 

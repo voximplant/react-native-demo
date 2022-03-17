@@ -274,7 +274,7 @@ PODS:
     - glog
   - react-native-safe-area-context (3.3.2):
     - React-Core
-  - react-native-voximplant (1.29.0):
+  - react-native-voximplant (1.29.1):
     - React
     - VoxImplantSDK (= 2.46.3)
   - React-perflogger (0.67.2)
@@ -578,7 +578,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 595f76eba2176ebd8817a1fffd47b84fbdab9383
   React-logger: 23de8ea0f44fa00ee77e96060273225607fd4d78
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
-  react-native-voximplant: bcaaad8b63cf14e9d3e1a0bdd14cff607972e242
+  react-native-voximplant: 52a2c5f43b27a4e32f2d8c7bd42d5aaf6c28992f
   React-perflogger: 3c9bb7372493e49036f07a82c44c8cf65cbe88db
   React-RCTActionSheet: 052606483045a408693aa7e864410b4a052f541a
   React-RCTAnimation: 08d4cac13222bb1348c687a0158dfd3b577cdb63

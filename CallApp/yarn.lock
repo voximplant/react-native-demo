@@ -5631,10 +5631,10 @@ react-native-screens@^3.1.0:
   resolved "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.1.0.tgz"
   integrity sha512-2nCwfminzGfM61Py4PID5hJVV4zGhbYD6TIv16Xj6M0MMNWr9esqIlI94NymY7B12SToXMb5duKU/IR5iBCykg==
 
-react-native-voximplant@^1.24.0:
-  version "1.24.0"
-  resolved "https://registry.npmjs.org/react-native-voximplant/-/react-native-voximplant-1.24.0.tgz"
-  integrity sha512-GVyf4wzne/W0V30tr/CMjKC/wQA42SG5qVuEMw/uWEJJGb0aQ8WeUtw3q8cOcwV+jRZeISN9jS3vGnpwLXXRog==
+react-native-voximplant@^1.29.1:
+  version "1.29.1"
+  resolved "https://registry.yarnpkg.com/react-native-voximplant/-/react-native-voximplant-1.29.1.tgz#28e716e493bbd1f8294306b780dde89ddbc87ab1"
+  integrity sha512-ov9grcDn+u31uI6azXeEa4NDOqg01KsIp0pPBXpKh7V5m1NPZDqLjEyioqRv+q3QEvz/K3YbX3yKqKs33xgBRw==
 
 react-native@0.63.4:
   version "0.63.4"
