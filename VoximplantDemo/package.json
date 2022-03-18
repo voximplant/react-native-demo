@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.15.14",
+    "@react-native-async-storage/async-storage": "1.15.14",
     "@react-native-community/masked-view": "0.1.11",
     "@react-navigation/native": "5.9.4",
     "@react-navigation/stack": "5.14.5",
@@ -32,15 +32,27 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@babel/runtime": "^7.12.5",
-    "@react-native-community/eslint-config": "^2.0.0",
-    "babel-jest": "^26.6.3",
+    "@babel/runtime": "7.12.5",
+    "@react-native-community/eslint-config": "2.0.0",
+    "babel-jest": "26.6.3",
     "eslint": "7.14.0",
-    "jest": "^26.6.3",
-    "metro-react-native-babel-preset": "^0.66.2",
+    "jest": "26.6.3",
+    "metro-react-native-babel-preset": "0.66.2",
     "react-test-renderer": "17.0.2"
   },
   "jest": {
     "preset": "react-native"
+  },
+  "resolutions": {
+    "@babel/runtime": "7.17.0",
+    "@babel/compat-data": "7.17.0",
+    "@babel/generator": "7.17.3",
+    "@babel/helper-module-transforms": "7.16.7",
+    "@babel/parser": "7.17.3",
+    "@babel/helper-compilation-targets": "7.16.7",
+    "@babel/plugin-transform-modules-commonjs": "7.16.8",
+    "@babel/helper-member-expression-to-functions": "7.16.7",
+    "@babel/helper-simple-access": "7.16.0",
+    "@babel/plugin-transform-destructuring": "7.16.7"
   }
 }
