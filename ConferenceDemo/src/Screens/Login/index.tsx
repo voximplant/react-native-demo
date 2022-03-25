@@ -3,12 +3,13 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {StatusBar, View} from 'react-native';
+import {StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 
 import CustomButton from '../../Components/CustomButton';
 import CustomInput from '../../Components/CustomInput';
+import AvoidKeyboardView from '../../Components/AvoidKeyboardView';
 
 import {RootReducer} from '../../Core/Store';
 import {clearErrors} from '../../Core/Store/global/actions';
@@ -52,10 +53,9 @@ const LoginScreen = () => {
     dispatch(clearErrors());
   }, [userName, password]);
 
-
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.contentWrapper}>
+      <AvoidKeyboardView styleFromProps={styles.contentWrapper}>
         <StatusBar
           barStyle={'light-content'}
           backgroundColor={COLORS.PRIMARY}
@@ -80,7 +80,7 @@ const LoginScreen = () => {
           setValue={setPassword}
         />
         <CustomButton title={'Login'} onPress={login} />
-      </View>
+      </AvoidKeyboardView>
     </SafeAreaView>
   );
 };
