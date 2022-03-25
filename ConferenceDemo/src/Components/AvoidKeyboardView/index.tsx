@@ -15,14 +15,14 @@ const AvoidKeyboardView = ({children}: any) => {
       setKeyboardIsShow(true);
       Animated.timing(animatedValue, {
         toValue: 1,
-        duration: 1000,
+        duration: 500,
         useNativeDriver: true,
       }).start();
     });
     Keyboard.addListener('keyboardWillHide', () => {
       Animated.timing(animatedValue, {
         toValue: 0,
-        duration: 0,
+        duration: 500,
         useNativeDriver: true,
       }).start();
       setKeyboardIsShow(false);
