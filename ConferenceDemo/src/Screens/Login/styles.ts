@@ -20,10 +20,17 @@ export default StyleSheet.create({
   usernameInput: {
     width: '60%',
   },
+  passwordInput: {
+    width: '100%',
+  },
   errorText: {
     color: 'red',
     fontSize: 16,
     lineHeight: 20,
     alignSelf: 'center',
+  },
+  baseWrapperStyle: {
+    marginHorizontal: 16,
+    minWidth: '100%',
   },
 });

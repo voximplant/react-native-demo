@@ -6,7 +6,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Keyboard, Animated, TouchableWithoutFeedback} from 'react-native';
 import styles from './styles';
 
-const AvoidKeyboardView = ({styleFromProps, children}: any) => {
+const AvoidKeyboardView = ({children}: any) => {
   const [keyboardIsShow, setKeyboardIsShow] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
@@ -40,11 +40,10 @@ const AvoidKeyboardView = ({styleFromProps, children}: any) => {
 
   return (
     <TouchableWithoutFeedback
-      style={[styles.contentWrapper, styleFromProps]}
+      style={[styles.contentWrapper]}
       onPress={() => Keyboard.dismiss()}>
       <Animated.View
         style={[
-          styles.contentWrapper,
           {
             transform: [
               {
@@ -52,7 +51,7 @@ const AvoidKeyboardView = ({styleFromProps, children}: any) => {
               },
             ],
           },
-          styleFromProps,
+          styles.avoidViewWrapper,
         ]}>
         {children}
       </Animated.View>

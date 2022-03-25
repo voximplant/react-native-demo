@@ -4,11 +4,13 @@
 
 import {StyleSheet} from 'react-native';
 
-import {COLORS} from '../../Utils/constants';
-
 export default StyleSheet.create({
   contentWrapper: {
     flex: 1,
-    backgroundColor: COLORS.WHITE,
+  },
+  avoidViewWrapper: {
+    alignSelf: 'center',
+    minHeight: 400,
+    alignContent: 'center',
   },
 });

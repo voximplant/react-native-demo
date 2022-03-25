@@ -3,7 +3,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -55,32 +55,45 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <AvoidKeyboardView styleFromProps={styles.contentWrapper}>
+      <View style={styles.contentWrapper}>
         <StatusBar
           barStyle={'light-content'}
           backgroundColor={COLORS.PRIMARY}
         />
-        <CustomInput
-          title={'Login'}
-          value={userName}
-          isLogin
-          validationText={error?.login}
-          setValue={setUserName}
-          placeholder={'user@app.account'}
-          styleFromProps={{
-            input: styles.usernameInput,
-          }}
-        />
-        <CustomInput
-          title={'Password'}
-          value={password}
-          isPassword
-          validationText={error?.password}
-          placeholder={'password'}
-          setValue={setPassword}
-        />
-        <CustomButton title={'Login'} onPress={login} />
-      </AvoidKeyboardView>
+        <AvoidKeyboardView>
+          <CustomInput
+            title={'Login'}
+            value={userName}
+            isLogin
+            validationText={error?.login}
+            setValue={setUserName}
+            placeholder={'user@app.account'}
+            styleFromProps={{
+              input: styles.usernameInput,
+              mainWrapper: styles.baseWrapperStyle,
+            }}
+          />
+          <CustomInput
+            title={'Password'}
+            value={password}
+            isPassword
+            validationText={error?.password}
+            placeholder={'password'}
+            setValue={setPassword}
+            styleFromProps={{
+              input: styles.passwordInput,
+              mainWrapper: styles.baseWrapperStyle,
+            }}
+          />
+          <CustomButton
+            title={'Login'}
+            onPress={login}
+            styleFromProps={{
+              wrapper: styles.baseWrapperStyle,
+            }}
+          />
+        </AvoidKeyboardView>
+      </View>
     </SafeAreaView>
   );
 };

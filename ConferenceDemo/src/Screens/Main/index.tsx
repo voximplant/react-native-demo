@@ -67,13 +67,10 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <AvoidKeyboardView stylesFromProps={styles.container}>
-        <StatusBar
-          barStyle={'light-content'}
-          backgroundColor={COLORS.PRIMARY}
-        />
-        <MainHeader />
-        <View style={styles.contentWrapper}>
+      <StatusBar barStyle={'light-content'} backgroundColor={COLORS.PRIMARY} />
+      <MainHeader />
+      <View style={styles.contentWrapper}>
+        <AvoidKeyboardView>
           <CustomInput
             title={'Conference name'}
             value={conference}
@@ -93,8 +90,8 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
               styleFromProps={{wrapper: styles.startConferenceButtonWrapper}}
             />
           </View>
-        </View>
-      </AvoidKeyboardView>
+        </AvoidKeyboardView>
+      </View>
     </SafeAreaView>
   );
 };

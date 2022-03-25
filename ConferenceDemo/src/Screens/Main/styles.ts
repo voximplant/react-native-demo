@@ -21,7 +21,6 @@ export default StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignSelf: 'center',
-    justifyContent: 'space-around',
   },
   settingsText: {
     color: COLORS.BLACK,
@@ -33,5 +32,6 @@ export default StyleSheet.create({
   },
   startConferenceButtonWrapper: {
     width: 160,
+    marginHorizontal: 10,
   },
 });
