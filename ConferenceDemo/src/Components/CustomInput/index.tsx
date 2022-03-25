@@ -8,6 +8,8 @@ import {Text, View, TextInput} from 'react-native';
 import styles from './styles';
 
 interface IProps {
+  inputRef?: any;
+  inputRefFocus?: any;
   title: string;
   value: string;
   setValue: (value: string) => void;
@@ -30,6 +32,8 @@ const CustomInput = ({
   validationText,
   styleFromProps,
   placeholder,
+  inputRef,
+  inputRefFocus,
 }: IProps) => {
   return (
     <View style={[styles.inputWrapper, styleFromProps?.mainWrapper]}>
@@ -40,6 +44,7 @@ const CustomInput = ({
           !!validationText && styles.inputWrapperWithError,
         ]}>
         <TextInput
+          ref={inputRef}
           value={value}
           autoCapitalize={'none'}
           autoCorrect={false}
@@ -48,6 +53,8 @@ const CustomInput = ({
           placeholder={placeholder}
           placeholderTextColor="gray"
           onChangeText={text => setValue(text)}
+          onSubmitEditing={() => inputRefFocus && inputRefFocus.current.focus()}
+          blurOnSubmit={false}
         />
         {isLogin && <Text style={styles.suffixText}>.voximplant.com</Text>}
       </View>

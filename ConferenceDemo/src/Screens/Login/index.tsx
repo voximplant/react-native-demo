@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {StatusBar, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
@@ -27,6 +27,7 @@ const LoginScreen = () => {
   const error = useSelector((store: RootReducer) => store.loginReducer.error);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const secondInputRef = useRef();
 
   const login = () => {
     dispatch(loginWithPass(userName, password));
@@ -62,6 +63,7 @@ const LoginScreen = () => {
         />
         <AvoidKeyboardView>
           <CustomInput
+            inputRefFocus={secondInputRef}
             title={'Login'}
             value={userName}
             isLogin
@@ -74,6 +76,7 @@ const LoginScreen = () => {
             }}
           />
           <CustomInput
+            inputRef={secondInputRef}
             title={'Password'}
             value={password}
             isPassword
