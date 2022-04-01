@@ -3,11 +3,13 @@
  */
 
 import React from 'react';
-import {Text, View, TextInput} from 'react-native';
+import {Text, View, TextInput, Keyboard} from 'react-native';
 
 import styles from './styles';
 
 interface IProps {
+  inputRef?: any;
+  inputRefFocus?: any;
   title: string;
   value: string;
   setValue: (value: string) => void;
@@ -30,6 +32,8 @@ const CustomInput = ({
   validationText,
   styleFromProps,
   placeholder,
+  inputRef,
+  inputRefFocus,
 }: IProps) => {
   return (
     <View style={[styles.inputWrapper, styleFromProps?.mainWrapper]}>
@@ -40,14 +44,20 @@ const CustomInput = ({
           !!validationText && styles.inputWrapperWithError,
         ]}>
         <TextInput
+          ref={inputRef}
           value={value}
           autoCapitalize={'none'}
           autoCorrect={false}
           secureTextEntry={isPassword}
           style={[styles.input, styleFromProps?.input]}
           placeholder={placeholder}
+          returnKeyType={inputRefFocus ? 'next' : 'done'}
           placeholderTextColor="gray"
           onChangeText={text => setValue(text)}
+          onSubmitEditing={() =>
+            inputRefFocus ? inputRefFocus.current.focus() : Keyboard.dismiss()
+          }
+          blurOnSubmit={false}
         />
         {isLogin && <Text style={styles.suffixText}>.voximplant.com</Text>}
       </View>

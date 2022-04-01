@@ -18,12 +18,23 @@ export default StyleSheet.create({
     backgroundColor: COLORS.WHITE,
   },
   usernameInput: {
-    width: '60%',
+    width: '58%',
+    lineHeight: 24,
+    fontSize: 20,
+  },
+  passwordInput: {
+    width: '100%',
+    lineHeight: 24,
+    fontSize: 20,
   },
   errorText: {
     color: 'red',
     fontSize: 16,
     lineHeight: 20,
     alignSelf: 'center',
+  },
+  baseWrapperStyle: {
+    marginHorizontal: 16,
+    minWidth: '100%',
   },
 });

@@ -3,13 +3,14 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {View, Switch, Text, StatusBar} from 'react-native';
+import {View, StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import CustomInput from '../../Components/CustomInput';
 import CustomButton from '../../Components/CustomButton';
 import MainHeader from '../../Components/MainHeader';
+import AdaptiveKeyboardView from '../../Components/AdaptiveKeyboardView';
 
 import {IScreenProps} from '../../Utils/types';
 import {COLORS} from '../../Utils/constants';
@@ -20,7 +21,6 @@ import {
 } from '../../Core/Store/conference/actions';
 
 import styles from './styles';
-import {RootReducer} from '../../Core/Store';
 
 const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
   const dispatch = useDispatch();
@@ -70,25 +70,27 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
       <StatusBar barStyle={'light-content'} backgroundColor={COLORS.PRIMARY} />
       <MainHeader />
       <View style={styles.contentWrapper}>
-        <CustomInput
-          title={'Conference name'}
-          value={conference}
-          placeholder={'Type conference name here'}
-          setValue={setConference}
-          validationText={validationText}
-        />
-        <View style={styles.settingsWrapper}>
-          <CustomButton
-            title={'Join with audio'}
-            onPress={() => startConference()}
-            styleFromProps={{wrapper: styles.startConferenceButtonWrapper}}
+        <AdaptiveKeyboardView>
+          <CustomInput
+            title={'Conference name'}
+            value={conference}
+            placeholder={'Type conference name here'}
+            setValue={setConference}
+            validationText={validationText}
           />
-          <CustomButton
-            title={'Join with video'}
-            onPress={() => startConference(true)}
-            styleFromProps={{wrapper: styles.startConferenceButtonWrapper}}
-          />
-        </View>
+          <View style={styles.settingsWrapper}>
+            <CustomButton
+              title={'Join with audio'}
+              onPress={() => startConference()}
+              styleFromProps={{wrapper: styles.startConferenceButtonWrapper}}
+            />
+            <CustomButton
+              title={'Join with video'}
+              onPress={() => startConference(true)}
+              styleFromProps={{wrapper: styles.startConferenceButtonWrapper}}
+            />
+          </View>
+        </AdaptiveKeyboardView>
       </View>
     </SafeAreaView>
   );

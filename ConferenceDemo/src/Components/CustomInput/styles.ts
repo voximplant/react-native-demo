@@ -23,7 +23,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: 48,
+    height: 58,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: COLORS.PURPLE,
@@ -33,9 +33,10 @@ export default StyleSheet.create({
   },
   input: {
     paddingLeft: 10,
-    lineHeight: 20,
-    fontSize: 16,
+    lineHeight: 24,
+    fontSize: 20,
     width: '100%',
+    height: 50,
     color: COLORS.BLACK,
   },
   errorText: {
@@ -45,8 +46,8 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
   },
   suffixText: {
-    lineHeight: 20,
-    fontSize: 16,
+    lineHeight: 24,
+    fontSize: 20,
     paddingRight: 10,
   },
 });

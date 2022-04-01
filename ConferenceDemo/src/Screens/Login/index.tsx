@@ -2,13 +2,14 @@
  * Copyright (c) 2011-2022, Zingaya, Inc. All rights reserved.
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {StatusBar, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 
 import CustomButton from '../../Components/CustomButton';
 import CustomInput from '../../Components/CustomInput';
+import AdaptiveKeyboardView from '../../Components/AdaptiveKeyboardView';
 
 import {RootReducer} from '../../Core/Store';
 import {clearErrors} from '../../Core/Store/global/actions';
@@ -26,6 +27,7 @@ const LoginScreen = () => {
   const error = useSelector((store: RootReducer) => store.loginReducer.error);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const secondInputRef = useRef();
 
   const login = () => {
     dispatch(loginWithPass(userName, password));
@@ -52,7 +54,6 @@ const LoginScreen = () => {
     dispatch(clearErrors());
   }, [userName, password]);
 
-
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.contentWrapper}>
@@ -60,26 +61,41 @@ const LoginScreen = () => {
           barStyle={'light-content'}
           backgroundColor={COLORS.PRIMARY}
         />
-        <CustomInput
-          title={'Login'}
-          value={userName}
-          isLogin
-          validationText={error?.login}
-          setValue={setUserName}
-          placeholder={'user@app.account'}
-          styleFromProps={{
-            input: styles.usernameInput,
-          }}
-        />
-        <CustomInput
-          title={'Password'}
-          value={password}
-          isPassword
-          validationText={error?.password}
-          placeholder={'password'}
-          setValue={setPassword}
-        />
-        <CustomButton title={'Login'} onPress={login} />
+        <AdaptiveKeyboardView>
+          <CustomInput
+            inputRefFocus={secondInputRef}
+            title={'Login'}
+            value={userName}
+            isLogin
+            validationText={error?.login}
+            setValue={setUserName}
+            placeholder={'user@app.account'}
+            styleFromProps={{
+              input: styles.usernameInput,
+              mainWrapper: styles.baseWrapperStyle,
+            }}
+          />
+          <CustomInput
+            inputRef={secondInputRef}
+            title={'Password'}
+            value={password}
+            isPassword
+            validationText={error?.password}
+            placeholder={'password'}
+            setValue={setPassword}
+            styleFromProps={{
+              input: styles.passwordInput,
+              mainWrapper: styles.baseWrapperStyle,
+            }}
+          />
+          <CustomButton
+            title={'Login'}
+            onPress={login}
+            styleFromProps={{
+              wrapper: styles.baseWrapperStyle,
+            }}
+          />
+        </AdaptiveKeyboardView>
       </View>
     </SafeAreaView>
   );
