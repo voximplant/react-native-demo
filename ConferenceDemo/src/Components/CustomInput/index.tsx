@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {Text, View, TextInput} from 'react-native';
+import {Text, View, TextInput, Keyboard} from 'react-native';
 
 import styles from './styles';
 
@@ -51,9 +51,12 @@ const CustomInput = ({
           secureTextEntry={isPassword}
           style={[styles.input, styleFromProps?.input]}
           placeholder={placeholder}
+          returnKeyType={inputRefFocus ? 'next' : 'done'}
           placeholderTextColor="gray"
           onChangeText={text => setValue(text)}
-          onSubmitEditing={() => inputRefFocus && inputRefFocus.current.focus()}
+          onSubmitEditing={() =>
+            inputRefFocus ? inputRefFocus.current.focus() : Keyboard.dismiss()
+          }
           blurOnSubmit={false}
         />
         {isLogin && <Text style={styles.suffixText}>.voximplant.com</Text>}
