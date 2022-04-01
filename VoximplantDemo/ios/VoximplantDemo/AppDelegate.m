@@ -7,7 +7,7 @@
 #import <PushKit/PushKit.h>
 #import "RNVoipPushNotificationManager.h"
 #import "RNCallKeep.h"
-#import "VIClientModule.h"
+#import "RNVIClientModule.h"
 
 
 @implementation AppDelegate
@@ -60,7 +60,7 @@ didReceiveIncomingPushWithPayload:(PKPushPayload *)payload
   [RNVoipPushNotificationManager didReceiveIncomingPushWithPayload:payload forType:(NSString *)type];
 
 
-  NSString *uuid = [VIClientModule uuidForPushNotification:payload.dictionaryPayload].UUIDString;
+  NSString *uuid = [RNVIClientModule uuidForPushNotification:payload.dictionaryPayload].UUIDString;
 
   if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
     NSLog(@"AppDelegate: didReceiveIncomingPush: application is in active state");

@@ -24,7 +24,6 @@ import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
 import CallManager from '../manager/CallManager';
 import styles from '../styles/Styles';
-import VIForegroundService from '@voximplant/react-native-foreground-service';
 
 const CALL_STATES = {
     DISCONNECTED: 'disconnected',
@@ -32,9 +31,8 @@ const CALL_STATES = {
     CONNECTED: 'connected',
 };
 
+let VIForegroundService;
 export default class CallScreen extends React.Component {
-    foregroundService = VIForegroundService.getInstance();
-
     constructor(props) {
         super(props);
         const params = props.route.params;
@@ -57,12 +55,18 @@ export default class CallScreen extends React.Component {
             audioDeviceSelectionVisible: false,
             audioDevices: [],
             audioDeviceIcon: 'hearing',
+            foregroundService: null,
         };
 
         this.call = CallManager.getInstance().getCallById(this.callId);
 
         console.log('CallScreen: ctr: callid: ' + this.callId + ', isVideoCall: ' + this.isVideoCall
             + ', isIncoming:  ' + this.isIncoming + ', callState: ' + this.callState);
+
+        if (Platform.OS === 'android') {
+            VIForegroundService = require('@voximplant/react-native-foreground-service');
+            this.setState({ foregroundService: VIForegroundService.getInstance()});
+        }
     }
 
     componentDidMount() {
