@@ -24,14 +24,13 @@ import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
 import CallManager from '../manager/CallManager';
 import styles from '../styles/Styles';
+import ForegroundService from '../manager/ForegroundService';
 
 const CALL_STATES = {
     DISCONNECTED: 'disconnected',
     CONNECTING: 'connecting',
     CONNECTED: 'connected',
 };
-
-let VIForegroundService;
 export default class CallScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -55,7 +54,6 @@ export default class CallScreen extends React.Component {
             audioDeviceSelectionVisible: false,
             audioDevices: [],
             audioDeviceIcon: 'hearing',
-            foregroundService: null,
         };
 
         this.call = CallManager.getInstance().getCallById(this.callId);
@@ -63,10 +61,6 @@ export default class CallScreen extends React.Component {
         console.log('CallScreen: ctr: callid: ' + this.callId + ', isVideoCall: ' + this.isVideoCall
             + ', isIncoming:  ' + this.isIncoming + ', callState: ' + this.callState);
 
-        if (Platform.OS === 'android') {
-            VIForegroundService = require('@voximplant/react-native-foreground-service');
-            this.setState({ foregroundService: VIForegroundService.getInstance()});
-        }
     }
 
     componentDidMount() {
@@ -258,7 +252,7 @@ export default class CallScreen extends React.Component {
         CallManager.getInstance().removeCall(this.call);
         if (Platform.OS === 'android' && Platform.Version >= 26 && this.callState === CALL_STATES.CONNECTED) {
             (async () => {
-                await this.foregroundService.stopService();
+                ForegroundService.getInstance().stopService();
             })();
         }
         this.callState = CALL_STATES.DISCONNECTED;
@@ -271,22 +265,9 @@ export default class CallScreen extends React.Component {
         // this.call.sendInfo('rn/info', 'test info');
         this.callState = CALL_STATES.CONNECTED;
         if (Platform.OS === 'android' && Platform.Version >= 26) {
-            const channelConfig = {
-                id: 'ForegroundServiceChannel',
-                name: 'In progress calls',
-                description: 'Notify the call is in progress',
-                enableVibration: false,
-            };
-            const notificationConfig = {
-                channelId: 'ForegroundServiceChannel',
-                id: 3456,
-                title: 'Voximplant',
-                text: 'Call in progress',
-                icon: 'ic_vox_notification',
-            };
             (async() => {
-                await this.foregroundService.createNotificationChannel(channelConfig);
-                await this.foregroundService.startService(notificationConfig);
+                ForegroundService.getInstance().createNotificationChannel();
+                ForegroundService.getInstance().startService();
             })();
         }
     };
