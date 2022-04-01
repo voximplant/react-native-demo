@@ -10,7 +10,7 @@ import {useDispatch} from 'react-redux';
 import CustomInput from '../../Components/CustomInput';
 import CustomButton from '../../Components/CustomButton';
 import MainHeader from '../../Components/MainHeader';
-import AvoidKeyboardView from '../../Components/AvoidKeyboardView';
+import AdaptiveKeyboardView from '../../Components/AdaptiveKeyboardView';
 
 import {IScreenProps} from '../../Utils/types';
 import {COLORS} from '../../Utils/constants';
@@ -70,7 +70,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
       <StatusBar barStyle={'light-content'} backgroundColor={COLORS.PRIMARY} />
       <MainHeader />
       <View style={styles.contentWrapper}>
-        <AvoidKeyboardView>
+        <AdaptiveKeyboardView>
           <CustomInput
             title={'Conference name'}
             value={conference}
@@ -90,7 +90,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
               styleFromProps={{wrapper: styles.startConferenceButtonWrapper}}
             />
           </View>
-        </AvoidKeyboardView>
+        </AdaptiveKeyboardView>
       </View>
     </SafeAreaView>
   );

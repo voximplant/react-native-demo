@@ -6,7 +6,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Keyboard, Animated, TouchableWithoutFeedback} from 'react-native';
 import styles from './styles';
 
-const AvoidKeyboardView = ({children}: any) => {
+const AdaptiveKeyboardView = ({children}: any) => {
   const [keyboardIsShow, setKeyboardIsShow] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
@@ -59,4 +59,4 @@ const AvoidKeyboardView = ({children}: any) => {
   );
 };
 
-export default AvoidKeyboardView;
+export default AdaptiveKeyboardView;

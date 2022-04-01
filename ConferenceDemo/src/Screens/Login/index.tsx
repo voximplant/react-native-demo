@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import CustomButton from '../../Components/CustomButton';
 import CustomInput from '../../Components/CustomInput';
-import AvoidKeyboardView from '../../Components/AvoidKeyboardView';
+import AdaptiveKeyboardView from '../../Components/AdaptiveKeyboardView';
 
 import {RootReducer} from '../../Core/Store';
 import {clearErrors} from '../../Core/Store/global/actions';
@@ -61,7 +61,7 @@ const LoginScreen = () => {
           barStyle={'light-content'}
           backgroundColor={COLORS.PRIMARY}
         />
-        <AvoidKeyboardView>
+        <AdaptiveKeyboardView>
           <CustomInput
             inputRefFocus={secondInputRef}
             title={'Login'}
@@ -95,7 +95,7 @@ const LoginScreen = () => {
               wrapper: styles.baseWrapperStyle,
             }}
           />
-        </AvoidKeyboardView>
+        </AdaptiveKeyboardView>
       </View>
     </SafeAreaView>
   );
