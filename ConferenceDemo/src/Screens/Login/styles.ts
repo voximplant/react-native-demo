@@ -19,13 +19,13 @@ export default StyleSheet.create({
   },
   usernameInput: {
     width: '58%',
-    lineHeight: 24,
-    fontSize: 20,
+    lineHeight: 22,
+    fontSize: 18,
   },
   passwordInput: {
     width: '100%',
-    lineHeight: 24,
-    fontSize: 20,
+    lineHeight: 22,
+    fontSize: 18,
   },
   errorText: {
     color: 'red',

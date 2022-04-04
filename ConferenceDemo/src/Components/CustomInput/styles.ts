@@ -18,6 +18,7 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: COLORS.BLACK,
   },
   inputWrapperWithSuffix: {
     flexDirection: 'row',
@@ -33,8 +34,8 @@ export default StyleSheet.create({
   },
   input: {
     paddingLeft: 10,
-    lineHeight: 24,
-    fontSize: 20,
+    lineHeight: 22,
+    fontSize: 18,
     width: '100%',
     height: 50,
     color: COLORS.BLACK,
@@ -46,8 +47,9 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
   },
   suffixText: {
-    lineHeight: 24,
-    fontSize: 20,
+    lineHeight: 22,
+    fontSize: 18,
     paddingRight: 10,
+    color: COLORS.BLACK,
   },
 });

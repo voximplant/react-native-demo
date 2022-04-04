@@ -12,5 +12,6 @@ export default StyleSheet.create({
     alignSelf: 'center',
     minHeight: 400,
     alignContent: 'center',
+    marginTop: 150,
   },
 });
