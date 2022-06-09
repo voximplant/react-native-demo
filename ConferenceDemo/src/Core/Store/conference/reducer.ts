@@ -84,6 +84,7 @@ const conferenceReducer = (
         selectedAudioDevice: null,
         listAudioDevices: [],
         error: '',
+        ...payload,
       };
     }
     case conferenceActions.ENDPOINT_VOICE_ACTIVITY_STARTED: {
