@@ -54,5 +54,8 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "resolutions": {
+    "@babel/runtime": "7.17.0"
   }
 }
