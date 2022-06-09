@@ -19,8 +19,9 @@ export default StyleSheet.create({
   },
   usernameInput: {
     width: '58%',
-    lineHeight: 24,
-    fontSize: 20,
+    lineHeight: 22,
+    fontSize: 18,
+    paddingVertical: 10,
   },
   passwordInput: {
     width: '100%',

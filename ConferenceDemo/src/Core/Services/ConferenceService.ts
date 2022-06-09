@@ -162,7 +162,6 @@ export const ConferenceService = () => {
       dispatch(changeCallState('Connected'));
     });
     currentConference.current?.on(Voximplant.CallEvents.Disconnected, () => {
-      dispatch(changeCallState('Disconnected'));
       dispatch(resetCallState());
       afterConferenceAction();
       currentConference.current = null;
@@ -170,6 +169,7 @@ export const ConferenceService = () => {
     currentConference.current?.on(
       Voximplant.CallEvents.Failed,
       (callEvent: any) => {
+        dispatch(resetCallState());
         dispatch(changeCallState('Failed'));
         dispatch(setError(callEvent.reason));
         afterConferenceAction();
