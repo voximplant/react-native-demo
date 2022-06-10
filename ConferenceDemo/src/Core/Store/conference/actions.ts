@@ -47,8 +47,9 @@ export const endpointRemoved = (payload: IParticipant): IReduxAction => ({
   payload,
 });
 
-export const resetCallState = (): IReduxAction => ({
+export const resetCallState = (payload?: object): IReduxAction => ({
   type: conferenceActions.RESET_CALL_STATE,
+  payload,
 });
 
 export const endpointVoiceActivityStarted = (

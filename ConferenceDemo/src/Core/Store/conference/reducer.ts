@@ -75,7 +75,17 @@ const conferenceReducer = (
       return {...state, error: payload};
     }
     case conferenceActions.RESET_CALL_STATE: {
-      return {...state, participants: [], isMuted: false, isSendVideo: false};
+      return {
+        ...state,
+        participants: [],
+        isMuted: false,
+        isSendVideo: false,
+        callState: 'Disconnected',
+        selectedAudioDevice: null,
+        listAudioDevices: [],
+        error: '',
+        ...payload,
+      };
     }
     case conferenceActions.ENDPOINT_VOICE_ACTIVITY_STARTED: {
       return {

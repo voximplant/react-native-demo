@@ -12,6 +12,7 @@ import {useUtils} from '../../Utils/useUtils';
 import {RootReducer} from '../Store';
 //@ts-ignore
 import ForegroundService from './ForegroundService';
+import {HardwareService} from './HardwareService';
 
 import {
   changeCallState,
@@ -19,14 +20,12 @@ import {
   videoStreamRemoved,
   endpointAdded,
   endpointRemoved,
-  setError,
   resetCallState,
   endpointVoiceActivityStarted,
   endpointVoiceActivityStopped,
   endpointMuted,
   manageParticipantStream,
 } from '../Store/conference/actions';
-import {HardwareService} from './HardwareService';
 
 export const ConferenceService = () => {
   const Client = Voximplant.getInstance();
@@ -162,7 +161,6 @@ export const ConferenceService = () => {
       dispatch(changeCallState('Connected'));
     });
     currentConference.current?.on(Voximplant.CallEvents.Disconnected, () => {
-      dispatch(changeCallState('Disconnected'));
       dispatch(resetCallState());
       afterConferenceAction();
       currentConference.current = null;
@@ -170,8 +168,12 @@ export const ConferenceService = () => {
     currentConference.current?.on(
       Voximplant.CallEvents.Failed,
       (callEvent: any) => {
-        dispatch(changeCallState('Failed'));
-        dispatch(setError(callEvent.reason));
+        dispatch(
+          resetCallState({
+            callState: 'Failed',
+            error: callEvent.reason,
+          }),
+        );
         afterConferenceAction();
       },
     );

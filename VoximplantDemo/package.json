@@ -14,7 +14,7 @@
     "@react-native-community/masked-view": "0.1.11",
     "@react-navigation/native": "5.9.4",
     "@react-navigation/stack": "5.14.5",
-    "@voximplant/react-native-foreground-service": "3.0.1",
+    "@voximplant/react-native-foreground-service": "3.0.2",
     "react": "17.0.2",
     "react-native": "0.66.3",
     "react-native-callkeep": "4.2.0",

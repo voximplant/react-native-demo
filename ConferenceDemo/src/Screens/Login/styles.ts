@@ -21,6 +21,7 @@ export default StyleSheet.create({
     width: '58%',
     lineHeight: 24,
     fontSize: 20,
+    paddingVertical: 10,
   },
   passwordInput: {
     width: '100%',
