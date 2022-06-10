@@ -18,6 +18,7 @@ import {useUtils} from '../../Utils/useUtils';
 import {
   changeCallState,
   toggleSendVideo,
+  setError,
 } from '../../Core/Store/conference/actions';
 import {clearErrors} from '../../Core/Store/global/actions';
 import {RootReducer} from '../../Core/Store';
@@ -37,16 +38,14 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
   } = useUtils();
 
   const [conference, setConference] = useState('');
-  const [validationText, setValidationText] = useState('');
 
   useEffect(() => {
-    validationText && setValidationText('');
     error && dispatch(clearErrors());
   }, [conference]);
 
   const startConference = async (withVideo?: boolean) => {
     if (!conference) {
-      setValidationText('Name cannot be empty');
+      dispatch(setError('Room cannot be empty'));
       return;
     }
     if (withVideo) {
@@ -82,7 +81,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
             value={conference}
             placeholder={'Type conference name here'}
             setValue={setConference}
-            validationText={validationText || error}
+            validationText={error}
           />
           <View style={styles.settingsWrapper}>
             <CustomButton
