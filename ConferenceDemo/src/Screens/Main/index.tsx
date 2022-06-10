@@ -5,7 +5,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import CustomInput from '../../Components/CustomInput';
 import CustomButton from '../../Components/CustomButton';
@@ -19,11 +19,16 @@ import {
   changeCallState,
   toggleSendVideo,
 } from '../../Core/Store/conference/actions';
+import {clearErrors} from '../../Core/Store/global/actions';
+import {RootReducer} from '../../Core/Store';
 
 import styles from './styles';
 
 const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
   const dispatch = useDispatch();
+  const error = useSelector(
+    (store: RootReducer) => store.conferenceReducer.error,
+  );
   const {
     isIOS,
     isAndroid,
@@ -35,7 +40,8 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
   const [validationText, setValidationText] = useState('');
 
   useEffect(() => {
-    setValidationText('');
+    validationText && setValidationText('');
+    error && dispatch(clearErrors());
   }, [conference]);
 
   const startConference = async (withVideo?: boolean) => {
@@ -55,7 +61,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
           resultVideo = await checkAndroidCameraPermission();
           !resultVideo && dispatch(toggleSendVideo());
         }
-      } catch (error) {
+      } catch (_) {
         console.warn('Something was wrong with android permissions...');
       }
     }
@@ -76,7 +82,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
             value={conference}
             placeholder={'Type conference name here'}
             setValue={setConference}
-            validationText={validationText}
+            validationText={validationText || error}
           />
           <View style={styles.settingsWrapper}>
             <CustomButton

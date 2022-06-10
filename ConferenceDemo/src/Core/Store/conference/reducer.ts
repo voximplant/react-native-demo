@@ -7,6 +7,7 @@ import {
   IParticipant,
   IReduxAction,
 } from '../../../Utils/types';
+import {globalActions} from '../global/actionTypes';
 import {conferenceActions} from './actionTypes';
 
 export interface IConferenceReducer {
@@ -35,6 +36,9 @@ const conferenceReducer = (
 ): IConferenceReducer => {
   const {type, payload} = action;
   switch (type) {
+    case globalActions.CLEAR_ERRORS: {
+      return {...state, error: ''};
+    }
     case conferenceActions.TOGGLE_MUTE: {
       return {...state, isMuted: !state.isMuted};
     }
