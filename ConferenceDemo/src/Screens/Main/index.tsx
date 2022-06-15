@@ -5,7 +5,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import CustomInput from '../../Components/CustomInput';
 import CustomButton from '../../Components/CustomButton';
@@ -18,12 +18,18 @@ import {useUtils} from '../../Utils/useUtils';
 import {
   changeCallState,
   toggleSendVideo,
+  setError,
 } from '../../Core/Store/conference/actions';
+import {clearErrors} from '../../Core/Store/global/actions';
+import {RootReducer} from '../../Core/Store';
 
 import styles from './styles';
 
 const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
   const dispatch = useDispatch();
+  const error = useSelector(
+    (store: RootReducer) => store.conferenceReducer.error,
+  );
   const {
     isIOS,
     isAndroid,
@@ -32,15 +38,14 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
   } = useUtils();
 
   const [conference, setConference] = useState('');
-  const [validationText, setValidationText] = useState('');
 
   useEffect(() => {
-    setValidationText('');
+    error && dispatch(clearErrors());
   }, [conference]);
 
   const startConference = async (withVideo?: boolean) => {
     if (!conference) {
-      setValidationText('Name cannot be empty');
+      dispatch(setError('Room cannot be empty'));
       return;
     }
     if (withVideo) {
@@ -55,7 +60,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
           resultVideo = await checkAndroidCameraPermission();
           !resultVideo && dispatch(toggleSendVideo());
         }
-      } catch (error) {
+      } catch (_) {
         console.warn('Something was wrong with android permissions...');
       }
     }
@@ -76,7 +81,7 @@ const MainScreen = ({navigation}: IScreenProps<'Main'>) => {
             value={conference}
             placeholder={'Type conference name here'}
             setValue={setConference}
-            validationText={validationText}
+            validationText={error}
           />
           <View style={styles.settingsWrapper}>
             <CustomButton
