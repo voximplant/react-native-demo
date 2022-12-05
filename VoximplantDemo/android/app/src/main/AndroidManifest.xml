@@ -2,6 +2,7 @@
   package="com.voximplantdemo">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
       android:name=".MainApplication"
@@ -22,5 +23,6 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+        <service android:name="com.voximplant.foregroundservice.VIForegroundService" android:exported="false"> </service>
     </application>
 </manifest>

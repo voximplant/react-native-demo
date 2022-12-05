@@ -16,6 +16,7 @@
     "@react-native-firebase/messaging": "^16.4.6",
     "@react-navigation/native": "^6.0.16",
     "@react-navigation/native-stack": "^6.9.4",
+    "@voximplant/react-native-foreground-service": "^3.0.2",
     "react": "18.1.0",
     "react-native": "0.70.6",
     "react-native-callkeep": "^4.3.3",

@@ -290,7 +290,7 @@ export default class CallScreen extends React.Component {
       this.callState === CALL_STATES.CONNECTED
     ) {
       (async () => {
-        ForegroundService.getInstance().stopService();
+        await ForegroundService.getInstance().stopService();
       })();
     }
     this.callState = CALL_STATES.DISCONNECTED;
@@ -304,8 +304,8 @@ export default class CallScreen extends React.Component {
     this.callState = CALL_STATES.CONNECTED;
     if (Platform.OS === 'android' && Platform.Version >= 26) {
       (async () => {
-        ForegroundService.getInstance().createNotificationChannel();
-        ForegroundService.getInstance().startService();
+        await ForegroundService.getInstance().createNotificationChannel();
+        await ForegroundService.getInstance().startService();
       })();
     }
   };
