@@ -29,7 +29,7 @@ export const AuthService = () => {
       await connectToVox();
     }
     const result = await client.login(
-      `${username.toLowerCase()}.voximplant.com`,
+      `${username}.voximplant.com`,
       password,
     );
     await setStorageItem(STORAGE.USER_NAME, username);
@@ -49,7 +49,7 @@ export const AuthService = () => {
     await client.disconnect();
     await connectToVox();
     let result = await client.loginWithToken(
-      `${username?.toLowerCase()}.voximplant.com`,
+      `${username}.voximplant.com`,
       token,
     );
     await setStorageItems(result);
@@ -59,7 +59,7 @@ export const AuthService = () => {
     const username = await getStorageItem(STORAGE.USER_NAME);
     const rToken = await getStorageItem(STORAGE.REFRESH_TOKEN);
     const result = await client.tokenRefresh(
-      `${username?.toLowerCase()}.voximplant.com`,
+      `${username}.voximplant.com`,
       rToken,
     );
     await setStorageItems(result);
