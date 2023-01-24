@@ -46,6 +46,7 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
     getAudioDevices,
     getActiveDevice,
     subscribeDeviceChangedEvent,
+    useOrientationListenerForCamera,
     unsubscribeFromDeviceChangedEvent,
   } = HardwareService();
 
@@ -60,6 +61,7 @@ const ConferenceScreen = ({route}: IScreenProps<'Conference'>) => {
     getAudioDevices();
     getActiveDevice();
     subscribeDeviceChangedEvent();
+    useOrientationListenerForCamera();
     startConference(conference, isSendVideo);
     return () => unsubscribeFromDeviceChangedEvent();
   }, []);

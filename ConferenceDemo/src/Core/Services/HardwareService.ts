@@ -53,6 +53,10 @@ export const HardwareService = () => {
     AudioDeviceManager.off();
   };
 
+  const useOrientationListenerForCamera = () => {
+    CameraManager.useOrientationEventListener(true);
+  }
+
   return {
     CameraManager,
     cameraType,
@@ -61,5 +65,6 @@ export const HardwareService = () => {
     getActiveDevice,
     subscribeDeviceChangedEvent,
     unsubscribeFromDeviceChangedEvent,
+    useOrientationListenerForCamera,
   };
 };
