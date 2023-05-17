@@ -25,6 +25,7 @@ import COLOR from '../styles/Color';
 import CallManager from '../manager/CallManager';
 import styles from '../styles/Styles';
 import ForegroundService from '../manager/ForegroundService';
+import DeviceInfo from 'react-native-device-info';
 
 const CALL_STATES = {
   DISCONNECTED: 'disconnected',
@@ -90,10 +91,11 @@ export default class CallScreen extends React.Component {
       this.call.answer(callSettings);
       this.setupListeners();
     } else {
-      if (Platform.OS === 'ios') {
-        callSettings.setupCallKit = true;
-      }
       (async () => {
+        let iosSimulator = await DeviceInfo.isEmulator();
+        if (Platform.OS === 'ios' && !iosSimulator) {
+          callSettings.setupCallKit = true;
+        }
         this.call = await Voximplant.getInstance().call(
           this.callTo,
           callSettings,

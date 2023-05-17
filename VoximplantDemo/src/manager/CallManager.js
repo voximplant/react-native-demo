@@ -11,6 +11,7 @@ import {Voximplant} from 'react-native-voximplant';
 import * as RootNavigation from '../routes/routes';
 import CallKitManager from './CallKitManager';
 import uuid from 'react-native-uuid';
+import DeviceInfo from 'react-native-device-info';
 
 // Voximplant SDK supports multiple calls at the same time, however
 // this demo app demonstrates only one active call at the moment,
@@ -25,7 +26,11 @@ export default class CallManager {
     this.client = Voximplant.getInstance();
     this.currentAppState = AppState.currentState;
     if (Platform.OS === 'ios') {
-      this.callKitManager = CallKitManager.getInstance();
+      DeviceInfo.isEmulator().then(isSimulator => {
+        if (!isSimulator) {
+          this.callKitManager = CallKitManager.getInstance();
+        }
+      });
     }
   }
 
@@ -52,7 +57,7 @@ export default class CallManager {
       this.call.off(Voximplant.CallEvents.Connected, this._callConnected);
       this.call.off(Voximplant.CallEvents.Disconnected, this._callDisconnected);
       this.call = null;
-      if (Platform.OS === 'ios') {
+      if (Platform.OS === 'ios' && this.callKitManager) {
         this.callKitManager.endCall();
       }
     } else if (this.call) {
@@ -68,13 +73,15 @@ export default class CallManager {
   }
 
   startOutgoingCallViaCallKit(isVideo, number) {
-    this.call.callKitUUID = uuid.v4();
-    this.callKitManager.startOutgoingCall(
-      isVideo,
-      number,
-      this.call.callId,
-      this.call.callKitUUID,
-    );
+    if (this.callKitManager) {
+      this.call.callKitUUID = uuid.v4();
+      this.callKitManager.startOutgoingCall(
+        isVideo,
+        number,
+        this.call.callId,
+        this.call.callKitUUID,
+      );
+    }
     this.call.on(Voximplant.CallEvents.Connected, this._callConnected);
     this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
   }
@@ -115,7 +122,7 @@ export default class CallManager {
     console.log(`CallManager: _incomingCall: callId: ${event.call.callId}`);
     this.addCall(event.call);
     this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === 'ios' && this.callKitManager) {
       if (this.currentAppState === 'active') {
         console.log(
           'CallManager: _incomingCall: report incoming call to CallKit',
@@ -141,7 +148,9 @@ export default class CallManager {
 
   _callConnected = event => {
     this.call.off(Voximplant.CallEvents.Connected, this._callConnected);
-    this.callKitManager.reportOutgoingCallConnected();
+    if (this.callKitManager) {
+      this.callKitManager.reportOutgoingCallConnected();
+    }
   };
 
   _callDisconnected = event => {
