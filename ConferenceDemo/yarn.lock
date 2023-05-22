@@ -7295,10 +7295,10 @@ react-native-svg@13.9.0:
     css-select "^5.1.0"
     css-tree "^1.1.3"
 
-react-native-voximplant@1.36.0:
-  version "1.36.0"
-  resolved "https://registry.yarnpkg.com/react-native-voximplant/-/react-native-voximplant-1.36.0.tgz#6fca8bf1a868a44105fc278c87a9d28a2f33dfbb"
-  integrity sha512-Kx4TjtH9811Zejal4dbQmPsCkuxVm+gSn4cuYB81akKP1cP19KVovqSNBhcdMAntXrguM7jo14ny2EWzSdmMdA==
+react-native-voximplant@1.37.0:
+  version "1.37.0"
+  resolved "https://registry.yarnpkg.com/react-native-voximplant/-/react-native-voximplant-1.37.0.tgz#4f6e13f80fd8920355cbb73f17fdb0ba90a0b339"
+  integrity sha512-SSDrm7sk81KJ7hnS/owOrIh/dNO8qQuXfoMszimsPbpRcdKEuJTN8sbLFzF83UUy7Ewv/gnrXAU3Q09xmcmROg==
 
 react-native@0.71.8:
   version "0.71.8"
