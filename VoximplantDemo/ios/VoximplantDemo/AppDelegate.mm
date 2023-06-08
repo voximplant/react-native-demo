@@ -153,18 +153,20 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   [RNVoipPushNotificationManager addCompletionHandler:uuid completionHandler:completion];
 
   [RNVoipPushNotificationManager didReceiveIncomingPushWithPayload:payload forType:(NSString *)type];
-  [RNCallKeep reportNewIncomingCall:uuid
-                             handle:callerName
-                         handleType:@"generic"
-                           hasVideo:false
-                localizedCallerName:callerName
-                    supportsHolding:false
-                       supportsDTMF:false
-                   supportsGrouping:false
-                 supportsUngrouping:false
-                        fromPushKit:true
-                            payload:nil
-              withCompletionHandler:nil];
+  if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
+    [RNCallKeep reportNewIncomingCall:uuid
+                               handle:callerName
+                           handleType:@"generic"
+                             hasVideo:false
+                  localizedCallerName:callerName
+                      supportsHolding:false
+                         supportsDTMF:false
+                     supportsGrouping:false
+                   supportsUngrouping:false
+                          fromPushKit:true
+                              payload:nil
+                withCompletionHandler:nil];
+  }
   // --- You don't need to call it if you stored `completion()` and will call it on the js side.
   completion();
 }

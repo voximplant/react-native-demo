@@ -57,6 +57,9 @@ export default class CallKitManager {
   }
 
   showIncomingCall(isVideoCall, displayName, callId, callKitUUID) {
+    console.log(
+      `CallKitManager: _onRNCallKeepDidReceiveStartCallAction callId: ${callId}, callKitUUID: ${callKitUUID}`,
+    );
     this.callKitUuid = callKitUUID;
     this.withVideo = isVideoCall;
     this.callId = callId;
@@ -94,12 +97,16 @@ export default class CallKitManager {
   }
 
   _onRNCallKeepDidReceiveStartCallAction = event => {
-    console.log('CallKitManager: _onRNCallKeepDidReceiveStartCallAction');
+    console.log(
+      `CallKitManager: _onRNCallKeepDidReceiveStartCallAction ${JSON.stringify(
+        event,
+      )}`,
+    );
   };
 
   _onRNCallKeepPerformAnswerCallAction = event => {
     console.log(
-      'CallKitManager: _onRNCallKeepPerformAnswerCallAction' + this.callId,
+      `CallKitManager: _onRNCallKeepPerformAnswerCallAction ${event}`,
     );
     Voximplant.Hardware.AudioDeviceManager.getInstance().callKitConfigureAudioSession();
     RootNavigation.navigate('Call', {
@@ -110,7 +117,11 @@ export default class CallKitManager {
   };
 
   _onRNCallKeepPerformEndCallAction = event => {
-    console.log('CallKitManager: _onRNCallKeepPerformEndCallAction');
+    console.log(
+      `CallKitManager: _onRNCallKeepPerformEndCallAction ${JSON.stringify(
+        event,
+      )}`,
+    );
     CallManager.getInstance().endCall();
     this.callKitUuid = null;
     Voximplant.Hardware.AudioDeviceManager.getInstance().callKitStopAudio();
@@ -122,8 +133,18 @@ export default class CallKitManager {
     Voximplant.Hardware.AudioDeviceManager.getInstance().callKitStartAudio();
   };
 
-  _onRNCallKeepDidDisplayIncomingCall = event => {
-    console.log('CallKitManager: _onRNCallKeepDidDisplayIncomingCall');
+  _onRNCallKeepDidDisplayIncomingCall = ({
+    error,
+    callUUID,
+    handle,
+    localizedCallerName,
+    hasVideo,
+    fromPushKit,
+    payload,
+  }) => {
+    console.log(
+      `CallKitManager: _onRNCallKeepDidDisplayIncomingCall ${callUUID}`,
+    );
   };
 
   _onRNCallKeepDidPerformSetMutedCallAction = (muted, callUUID) => {
