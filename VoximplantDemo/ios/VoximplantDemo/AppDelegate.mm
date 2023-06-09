@@ -148,16 +148,21 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion {
   NSString *uuid = [RNVIClientModule uuidForPushNotification:payload.dictionaryPayload].UUIDString;
   NSString *callerName = [[payload.dictionaryPayload valueForKey:@"voximplant"] valueForKey:@"display_name"];
+  BOOL hasVideo = [[payload.dictionaryPayload valueForKey:@"voximplant"] valueForKey:@"video"];
 
   // --- this is optional, only required if you want to call `completion()` on the js side
   [RNVoipPushNotificationManager addCompletionHandler:uuid completionHandler:completion];
 
   [RNVoipPushNotificationManager didReceiveIncomingPushWithPayload:payload forType:(NSString *)type];
-  if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
+  
+  
+  CXCallObserver *callObserver = [[CXCallObserver alloc] init];
+  BOOL hasNoActiveCalls = callObserver.calls.count == 0;
+  if (hasNoActiveCalls) {
     [RNCallKeep reportNewIncomingCall:uuid
                                handle:callerName
                            handleType:@"generic"
-                             hasVideo:false
+                             hasVideo:hasVideo
                   localizedCallerName:callerName
                       supportsHolding:false
                          supportsDTMF:false

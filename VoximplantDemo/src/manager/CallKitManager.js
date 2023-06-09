@@ -11,9 +11,9 @@ import CallManager from './CallManager';
 
 export default class CallKitManager {
   static myInstance = null;
-  callKitUuid = undefined;
+  // Voximplant call id and CallKit callUUID map, where CallKit callUUID is the key
+  callsMap = {};
   withVideo = false;
-  callId = undefined;
 
   static getInstance() {
     if (this.myInstance === null) {
@@ -21,8 +21,7 @@ export default class CallKitManager {
     }
     return this.myInstance;
   }
-
-  constructor() {
+  init() {
     const options = {
       ios: {
         appName: 'VoximplantDemo',
@@ -57,14 +56,14 @@ export default class CallKitManager {
   }
 
   showIncomingCall(isVideoCall, displayName, callId, callKitUUID) {
+    let callUUID = callKitUUID.toUpperCase();
     console.log(
-      `CallKitManager: _onRNCallKeepDidReceiveStartCallAction callId: ${callId}, callKitUUID: ${callKitUUID}`,
+      `CallKitManager: showIncomingCall callId: ${callId}, callKitUUID: ${callUUID}`,
     );
-    this.callKitUuid = callKitUUID;
+    this.callsMap[callUUID] = callId;
     this.withVideo = isVideoCall;
-    this.callId = callId;
     RNCallKeep.displayIncomingCall(
-      this.callKitUuid,
+      callUUID,
       displayName,
       displayName,
       'generic',
@@ -73,11 +72,11 @@ export default class CallKitManager {
   }
 
   startOutgoingCall(isVideoCall, displayName, callId, callKitUUID) {
-    this.callKitUuid = callKitUUID;
+    let callUUID = callKitUUID.toUpperCase();
+    this.callsMap[callUUID] = callId;
     this.withVideo = isVideoCall;
-    this.callId = callId;
     RNCallKeep.startCall(
-      this.callKitUuid,
+      callUUID,
       displayName,
       displayName,
       'generic',
@@ -85,14 +84,17 @@ export default class CallKitManager {
     );
   }
 
-  reportOutgoingCallConnected() {
-    RNCallKeep.reportConnectedOutgoingCallWithUUID(this.callKitUuid);
+  reportOutgoingCallConnected(callKitUUID) {
+    let callUUID = callKitUUID.toUpperCase();
+    RNCallKeep.reportConnectedOutgoingCallWithUUID(callUUID);
   }
 
-  endCall() {
-    if (this.callKitUuid) {
-      RNCallKeep.endCall(this.callKitUuid);
-      this.callKitUuid = null;
+  endCall(callKitUUID) {
+    let callUUID = callKitUUID.toUpperCase();
+    console.log(`CallKitManager: endCall: ${callUUID}`);
+    if (callUUID) {
+      delete this.callsMap[callUUID];
+      RNCallKeep.endCall(callUUID);
     }
   }
 
@@ -104,26 +106,27 @@ export default class CallKitManager {
     );
   };
 
-  _onRNCallKeepPerformAnswerCallAction = event => {
+  _onRNCallKeepPerformAnswerCallAction = ({callUUID}) => {
+    let callUUID_ = callUUID.toUpperCase();
     console.log(
-      `CallKitManager: _onRNCallKeepPerformAnswerCallAction ${event}`,
+      `CallKitManager: _onRNCallKeepPerformAnswerCallAction ${callUUID_}`,
     );
     Voximplant.Hardware.AudioDeviceManager.getInstance().callKitConfigureAudioSession();
+    let callId = this.callsMap[callUUID_];
     RootNavigation.navigate('Call', {
-      callId: this.callId,
+      callId: callId,
       isVideo: this.withVideo,
       isIncoming: true,
     });
   };
 
-  _onRNCallKeepPerformEndCallAction = event => {
+  _onRNCallKeepPerformEndCallAction = ({callUUID}) => {
+    let callUUID_ = callUUID.toUpperCase();
     console.log(
-      `CallKitManager: _onRNCallKeepPerformEndCallAction ${JSON.stringify(
-        event,
-      )}`,
+      `CallKitManager: _onRNCallKeepPerformEndCallAction ${callUUID_}`,
     );
-    CallManager.getInstance().endCall();
-    this.callKitUuid = null;
+    CallManager.getInstance().endCall(callUUID_);
+    delete this.callsMap[callUUID_];
     Voximplant.Hardware.AudioDeviceManager.getInstance().callKitStopAudio();
     Voximplant.Hardware.AudioDeviceManager.getInstance().callKitReleaseAudioSession();
   };
@@ -145,6 +148,11 @@ export default class CallKitManager {
     console.log(
       `CallKitManager: _onRNCallKeepDidDisplayIncomingCall ${callUUID}`,
     );
+    let callUUID_ = callUUID.toUpperCase();
+    if (!this.callsMap[callUUID_]) {
+      this.callsMap[callUUID_] = '';
+      this.withVideo = hasVideo;
+    }
   };
 
   _onRNCallKeepDidPerformSetMutedCallAction = (muted, callUUID) => {

@@ -35,6 +35,13 @@ export default class CallManager {
   }
 
   init() {
+    if (Platform.OS === 'ios') {
+      DeviceInfo.isEmulator().then(isSimulator => {
+        if (!isSimulator) {
+          this.callKitManager.init();
+        }
+      });
+    }
     this.client.on(Voximplant.ClientEvents.IncomingCall, this._incomingCall);
     AppState.addEventListener('change', this._handleAppStateChange);
   }
@@ -56,10 +63,10 @@ export default class CallManager {
     if (this.call && this.call.callId === call.callId) {
       this.call.off(Voximplant.CallEvents.Connected, this._callConnected);
       this.call.off(Voximplant.CallEvents.Disconnected, this._callDisconnected);
-      this.call = null;
       if (Platform.OS === 'ios' && this.callKitManager) {
-        this.callKitManager.endCall();
+        this.callKitManager.endCall(call.callKitUUID);
       }
+      this.call = null;
     } else if (this.call) {
       console.warn('CallManager: removeCall: call id mismatch');
     }
@@ -86,9 +93,9 @@ export default class CallManager {
     this.call.on(Voximplant.CallEvents.Disconnected, this._callDisconnected);
   }
 
-  endCall() {
+  endCall(callKitUUID) {
     console.log('CallManager: endCall');
-    if (this.call !== null && this.call !== undefined) {
+    if (this.call && this.call.callKitUUID === callKitUUID) {
       this.call.hangup();
     }
   }
@@ -125,7 +132,7 @@ export default class CallManager {
     if (Platform.OS === 'ios' && this.callKitManager) {
       if (this.currentAppState === 'active') {
         console.log(
-          'CallManager: _incomingCall: report incoming call to CallKit',
+          `CallManager: _incomingCall: report incoming call to CallKit ${event.call.callKitUUID}`,
         );
         this.callKitManager.showIncomingCall(
           event.video,
@@ -137,9 +144,8 @@ export default class CallManager {
         console.log(
           'CallManager: _incomingCall: application is in the background, incoming call is already reported in AppDelegate',
         );
-        this.callKitManager.callKitUuid = event.call.callKitUUID;
-        this.callKitManager.callId = event.call.callId;
-        this.callKitManager.withVideo = event.video;
+        this.callKitManager.callsMap[event.call.callKitUUID] =
+          event.call.callId;
       }
     } else {
       this._showIncomingScreenOrNotification(event);
@@ -149,7 +155,7 @@ export default class CallManager {
   _callConnected = event => {
     this.call.off(Voximplant.CallEvents.Connected, this._callConnected);
     if (this.callKitManager) {
-      this.callKitManager.reportOutgoingCallConnected();
+      this.callKitManager.reportOutgoingCallConnected(event.call.callKitUUID);
     }
   };
 
