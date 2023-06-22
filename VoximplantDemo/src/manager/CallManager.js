@@ -144,8 +144,10 @@ export default class CallManager {
         console.log(
           'CallManager: _incomingCall: application is in the background, incoming call is already reported in AppDelegate',
         );
-        this.callKitManager.callsMap[event.call.callKitUUID] =
-          event.call.callId;
+        this.callKitManager.updateCall(
+          event.call.callKitUUID,
+          event.call.callId,
+        );
       }
     } else {
       this._showIncomingScreenOrNotification(event);

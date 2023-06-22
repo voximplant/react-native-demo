@@ -14,6 +14,12 @@ export default class CallKitManager {
   // Voximplant call id and CallKit callUUID map, where CallKit callUUID is the key
   callsMap = {};
   withVideo = false;
+  // array of pending transactions
+  // pendingTransaction = {
+  //   action: 'answer'|'reject'
+  //   callKitUUID: string,
+  // }
+  pendingTransactions = [];
 
   static getInstance() {
     if (this.myInstance === null) {
@@ -28,6 +34,13 @@ export default class CallKitManager {
       },
     };
     RNCallKeep.setup(options);
+
+    RNCallKeep.removeEventListener('didReceiveStartCallAction');
+    RNCallKeep.removeEventListener('answerCall');
+    RNCallKeep.removeEventListener('endCall');
+    RNCallKeep.removeEventListener('didActivateAudioSession');
+    RNCallKeep.removeEventListener('didDisplayIncomingCall');
+    RNCallKeep.removeEventListener('didPerformSetMutedCallAction');
 
     RNCallKeep.addEventListener(
       'didReceiveStartCallAction',
@@ -98,6 +111,28 @@ export default class CallKitManager {
     }
   }
 
+  updateCall(callKitUUID, callId) {
+    this.callsMap[callKitUUID] = callId;
+    let i;
+    for (i = 0; i < this.pendingTransactions.length; i++) {
+      let pendingTransaction = this.pendingTransactions[i];
+      if (pendingTransaction.callKitUUID === callKitUUID) {
+        this.pendingTransactions.splice(i, 1);
+        if (pendingTransaction.action === 'answer') {
+          RootNavigation.navigate('Call', {
+            callId: callId,
+            isVideo: this.withVideo,
+            isIncoming: true,
+          });
+        }
+        if (pendingTransaction.action === 'reject') {
+          CallManager.getInstance().endCall(callKitUUID);
+          delete this.callsMap[callKitUUID];
+        }
+      }
+    }
+  }
+
   _onRNCallKeepDidReceiveStartCallAction = event => {
     console.log(
       `CallKitManager: _onRNCallKeepDidReceiveStartCallAction ${JSON.stringify(
@@ -113,11 +148,18 @@ export default class CallKitManager {
     );
     Voximplant.Hardware.AudioDeviceManager.getInstance().callKitConfigureAudioSession();
     let callId = this.callsMap[callUUID_];
-    RootNavigation.navigate('Call', {
-      callId: callId,
-      isVideo: this.withVideo,
-      isIncoming: true,
-    });
+    if (callId) {
+      RootNavigation.navigate('Call', {
+        callId: callId,
+        isVideo: this.withVideo,
+        isIncoming: true,
+      });
+    } else {
+      this.pendingTransactions.push({
+        action: 'answer',
+        callKitUUID: callUUID_,
+      });
+    }
   };
 
   _onRNCallKeepPerformEndCallAction = ({callUUID}) => {
@@ -125,8 +167,16 @@ export default class CallKitManager {
     console.log(
       `CallKitManager: _onRNCallKeepPerformEndCallAction ${callUUID_}`,
     );
-    CallManager.getInstance().endCall(callUUID_);
-    delete this.callsMap[callUUID_];
+    let callId = this.callsMap[callUUID_];
+    if (callId) {
+      CallManager.getInstance().endCall(callUUID_);
+      delete this.callsMap[callUUID_];
+    } else {
+      this.pendingTransactions.push({
+        action: 'reject',
+        callKitUUID: callUUID_,
+      });
+    }
     Voximplant.Hardware.AudioDeviceManager.getInstance().callKitStopAudio();
     Voximplant.Hardware.AudioDeviceManager.getInstance().callKitReleaseAudioSession();
   };
