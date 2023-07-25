@@ -19,6 +19,7 @@ const CallScreen = ({route}) => {
   const callId = useRef(route.params.callId);
   const [localVideoStreamId, setLocalVideoStreamId] = useState('');
   const [remoteVideoStreamId, setRemoteVideoStreamId] = useState('');
+  const [muteStatus, setMuteStatus] = useState(false);
   const voximplant = Voximplant.getInstance();
 
   useEffect(() => {
@@ -113,6 +114,12 @@ const CallScreen = ({route}) => {
     call.hangup();
   }, []);
 
+  const mute = useCallback(() => {
+    let call = calls.get(callId.current);
+    call.sendAudio(muteStatus);
+    setMuteStatus(!muteStatus);
+  }, [muteStatus]);
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -132,6 +139,11 @@ const CallScreen = ({route}) => {
         </View>
         <View style={styles.callControlsVideo}>
           <Text style={styles.callConnectingLabel}>{callState}</Text>
+          <TouchableOpacity onPress={() => mute()} style={styles.button}>
+            <Text style={styles.textButton}>
+              {muteStatus ? 'UNMUTE' : 'MUTE'}
+            </Text>
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => endCall()} style={styles.button}>
             <Text style={styles.textButton}>END CALL</Text>
           </TouchableOpacity>

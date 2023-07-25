@@ -187,9 +187,9 @@ PODS:
   - React-jsinspector (0.63.4)
   - react-native-safe-area-context (3.2.0):
     - React-Core
-  - react-native-voximplant (1.29.1):
+  - react-native-voximplant (1.40.0-beta):
     - React
-    - VoxImplantSDK (= 2.46.3)
+    - VoxImplantSDK (= 2.50.0-beta)
   - React-RCTActionSheet (0.63.4):
     - React-Core/RCTActionSheetHeaders (= 0.63.4)
   - React-RCTAnimation (0.63.4):
@@ -285,11 +285,9 @@ PODS:
     - Yoga
   - RNScreens (3.1.0):
     - React-Core
-  - VoxImplantSDK (2.46.3):
-    - VoxImplantSDK/Core (= 2.46.3)
-  - VoxImplantSDK/Core (2.46.3):
-    - VoxImplantWebRTC (= 93.0.0)
-  - VoxImplantWebRTC (93.0.0)
+  - VoxImplantSDK (2.50.0-beta):
+    - VoxImplantWebRTC (= 106.0.0)
+  - VoxImplantWebRTC (106.0.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -418,7 +416,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
-  react-native-voximplant: 52a2c5f43b27a4e32f2d8c7bd42d5aaf6c28992f
+  react-native-voximplant: 6105621222ca2cc49d57dd0aa964697e5ea85f31
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
   React-RCTBlob: a97d378b527740cc667e03ebfa183a75231ab0f0
@@ -433,10 +431,10 @@ SPEC CHECKSUMS:
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: 70f662b5232dd5d19ccff581e919a54ea73df51c
   RNScreens: 3ba2198ca3179f77f6158425fc31ba3c90a0d49f
-  VoxImplantSDK: 396999b476ff23c4b0dcebf1d52edbd133546114
-  VoxImplantWebRTC: 8ddd8a63d0c20afa604fec22a2552c32b0371974
+  VoxImplantSDK: 052d2a05c671238c7eb11ec6c7459946f11744b4
+  VoxImplantWebRTC: 4f48ade6bfe18fb9748288503ec91796e90e4987
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
 
-PODFILE CHECKSUM: b68e2ad982fdc4ebeedd5a0a7e03a5a9d8844d7d
+PODFILE CHECKSUM: 5ae413a0491ecd4037b7234dd1a2be0ba0fd21ad
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.12.0
