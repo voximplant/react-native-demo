@@ -310,9 +310,9 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - react-native-voximplant (1.37.0):
+  - react-native-voximplant (1.40.2):
     - React
-    - VoxImplantSDK (= 2.47.0)
+    - VoxImplantSDK (= 2.50.0)
   - React-perflogger (0.70.6)
   - React-RCTActionSheet (0.70.6):
     - React-Core/RCTActionSheetHeaders (= 0.70.6)
@@ -390,10 +390,10 @@ PODS:
     - React-RCTImage
   - RNVoipPushNotification (3.3.0):
     - React-Core
-  - SocketRocket (0.6.0)
-  - VoxImplantSDK (2.47.0):
-    - VoxImplantWebRTC (= 93.0.1)
-  - VoxImplantWebRTC (93.0.1)
+  - SocketRocket (0.6.1)
+  - VoxImplantSDK (2.50.0):
+    - VoxImplantWebRTC (= 106.0.1)
+  - VoxImplantWebRTC (106.0.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -610,7 +610,7 @@ SPEC CHECKSUMS:
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
-  react-native-voximplant: 95c0890e84609ac316c01681cf43cde6302cb4f7
+  react-native-voximplant: 5e1d9005d6e0c334a13bb553c031ef11acbdc26d
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595
   React-RCTActionSheet: 7316773acabb374642b926c19aef1c115df5c466
   React-RCTAnimation: 5341e288375451297057391227f691d9b2326c3d
@@ -628,12 +628,12 @@ SPEC CHECKSUMS:
   RNDeviceInfo: 475a4c447168d0ad4c807e48ef5e0963a0f4eb1b
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNVoipPushNotification: 14bb5a389588ea1cbee4706a55df99950687fd6d
-  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  VoxImplantSDK: c3699644460b6122bfcf9d4463ea2e4403ee7a4d
-  VoxImplantWebRTC: 881e9c756c374ccf0693a40d5874bb5cac668c91
+  SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
+  VoxImplantSDK: 7ff484315bb557b2471e28ad4d3f007119ad7070
+  VoxImplantWebRTC: db29562c228542d16240401e5fc897441c014ba6
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: 4c3ac7ae3b198acaae9d5c84f422b88b70d4ddf5
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2
