@@ -16,6 +16,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
+import {Dropdown} from 'react-native-element-dropdown';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginManager from '../manager/LoginManager';
@@ -23,6 +24,7 @@ import COLOR_SCHEME from '../styles/ColorScheme';
 import COLOR from '../styles/Color';
 import styles from '../styles/Styles';
 import CallManager from '../manager/CallManager';
+import {Voximplant} from 'react-native-voximplant';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -32,7 +34,21 @@ export default class LoginScreen extends React.Component {
       username: '',
       isModalOpen: false,
       modalText: '',
+      node: null,
     };
+
+    this.data = [
+      {label: 'Node 1', value: Voximplant.ConnectionNode.NODE_1},
+      {label: 'Node 2', value: Voximplant.ConnectionNode.NODE_2},
+      {label: 'Node 3', value: Voximplant.ConnectionNode.NODE_3},
+      {label: 'Node 4', value: Voximplant.ConnectionNode.NODE_4},
+      {label: 'Node 5', value: Voximplant.ConnectionNode.NODE_5},
+      {label: 'Node 6', value: Voximplant.ConnectionNode.NODE_6},
+      {label: 'Node 7', value: Voximplant.ConnectionNode.NODE_7},
+      {label: 'Node 8', value: Voximplant.ConnectionNode.NODE_8},
+      {label: 'Node 9', value: Voximplant.ConnectionNode.NODE_9},
+      {label: 'Node 10', value: Voximplant.ConnectionNode.NODE_10},
+    ];
   }
 
   componentDidMount() {
@@ -96,16 +112,14 @@ export default class LoginScreen extends React.Component {
   }
 
   loginClicked() {
+    if (this.state.node === null) {
+      console.error('Connection node is required');
+      return;
+    }
     LoginManager.getInstance().loginWithPassword(
       this.state.username + '.voximplant.com',
       this.password,
-    );
-  }
-
-  loginWithOneTimeKeyClicked() {
-    LoginManager.getInstance().loginWithOneTimeKey(
-      this.state.username + '.voximplant.com',
-      this.password,
+      this.state.node,
     );
   }
 
@@ -150,6 +164,19 @@ export default class LoginScreen extends React.Component {
                   this.password = text;
                 }}
                 blurOnSubmit={true}
+              />
+              <Dropdown
+                style={[styles.dropdown]}
+                data={this.data}
+                labelField="label"
+                valueField="value"
+                placeholder="Connection node"
+                placeholderStyle={styles.dropdownPlaceholder}
+                selectedTextStyle={styles.dropdownSelectedText}
+                itemTextStyle={styles.dropdownItemText}
+                onChange={item => {
+                  this.setState({node: item.value});
+                }}
               />
               <TouchableOpacity
                 onPress={() => this.loginClicked()}
