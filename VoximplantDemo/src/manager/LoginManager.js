@@ -45,13 +45,13 @@ export default class LoginManager {
     );
   }
 
-  async loginWithPassword(user, password) {
+  async loginWithPassword(user, password, node) {
     this.username = user;
     this.password = password;
     try {
       let state = await this.client.getClientState();
       if (state === Voximplant.ClientState.DISCONNECTED) {
-        await this.client.connect();
+        await this.client.connect({node: node});
       }
       if (
         state === Voximplant.ClientState.CONNECTING ||
