@@ -26,7 +26,7 @@
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.2.0",
     "react-native-voip-push-notification": "^3.3.0",
-    "react-native-voximplant": "1.40.1",
+    "react-native-voximplant": "1.41.0",
     "react-native-device-info": "10.6.0",
     "react-native-element-dropdown": "2.10.4"
   },
