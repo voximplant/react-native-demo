@@ -3,9 +3,10 @@ import {
   type LoginParams,
   type SDKService
 } from '@/services/sdk'
-import type { PersistedStoreApi } from '@/utils'
+import { type PersistedStoreApi } from '@/utils'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import type { LoginTokens } from '@voximplant/react-native-core'
+import { type LoginTokens } from '@voximplant/react-native-core'
+import type { WritableDraft } from 'immer'
 import { createStore } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
@@ -40,15 +41,18 @@ type Actions = {
 export type AuthStoreState = State & Actions
 export type AuthStore = PersistedStoreApi<AuthStoreState, PersistedState>
 
-const setAuthenticated = (
-  set: (fn: (s: State) => void) => void,
-  tokens: LoginTokens
-) => {
-  set((s) => {
+type Reducer = (s: WritableDraft<State>) => void
+
+const reducers = {
+  setAuthenticated: (tokens: LoginTokens) => (s) => {
     s.tokens = tokens
     s.status = AuthStatus.AUTHENTICATED
-  })
-}
+  },
+  setUnauthenticated: () => (s) => {
+    s.tokens = null
+    s.status = AuthStatus.UNAUTHENTICATED
+  }
+} satisfies Record<string, (...args: never[]) => Reducer>
 
 type CreateAuthStoreParams = {
   sdkService: SDKService
@@ -77,7 +81,7 @@ export const createAuthStore = ({
             throw new Error('Login failed')
           }
 
-          setAuthenticated(set, result.loginTokens)
+          set(reducers.setAuthenticated(result.loginTokens))
         },
 
         otkLogin: async (params) => {
@@ -87,20 +91,22 @@ export const createAuthStore = ({
             throw new Error('Login failed')
           }
 
-          setAuthenticated(set, result.loginTokens)
+          set(reducers.setAuthenticated(result.loginTokens))
         },
 
         restore: async () => {
-          const { tokens, data } = get()
+          const { tokens, data, status } = get()
+
+          if (status === AuthStatus.RESTORING) {
+            return
+          }
 
           set((s) => {
             s.status = AuthStatus.RESTORING
           })
 
           if (!tokens || !data.username || !data.node) {
-            set((s) => {
-              s.status = AuthStatus.UNAUTHENTICATED
-            })
+            set(reducers.setUnauthenticated())
             return
           }
 
@@ -116,21 +122,15 @@ export const createAuthStore = ({
               throw new Error('Restore failed')
             }
 
-            setAuthenticated(set, result)
+            set(reducers.setAuthenticated(result))
           } catch (err) {
-            set((s) => {
-              s.tokens = null
-              s.status = AuthStatus.UNAUTHENTICATED
-            })
+            set(reducers.setUnauthenticated())
           }
         },
 
         logout: async () => {
           await sdkService.disconnect({ silent: true })
-          set((s) => {
-            s.tokens = null
-            s.status = AuthStatus.UNAUTHENTICATED
-          })
+          set(reducers.setUnauthenticated())
         }
       })),
       {

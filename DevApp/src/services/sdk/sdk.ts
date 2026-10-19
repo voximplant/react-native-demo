@@ -1,11 +1,13 @@
 import { logger } from '@/utils'
 import type {
+  ClientDisconnectReason,
   ConnectionNode,
   LoginResult,
   LoginTokens
 } from '@voximplant/react-native-core'
 import {
   Client,
+  ClientEvent,
   ClientState,
   Core,
   LoginTokenExpiredError
@@ -53,6 +55,19 @@ class SDKService {
 
   get callManager(): CallManagerService {
     return CallManagerService.instance
+  }
+
+  onClientDisconnected(
+    callback: (reason: ClientDisconnectReason) => void,
+    options?: { signal?: AbortSignal }
+  ): void {
+    this.client.addEventListener(
+      ClientEvent.Disconnected,
+      (event) => {
+        callback(event.payload.reason)
+      },
+      options
+    )
   }
 
   async connect(node: ConnectionNode, gateway?: string): Promise<void> {

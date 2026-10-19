@@ -16,7 +16,7 @@ import { SettingsLayout } from '@/features/settings/layouts'
 import { MainLayout } from '@/layouts'
 import type { MainStackParamList } from '@/navigation'
 import { useThemeTokens } from '@/providers/theme'
-import { ResetHomeButton, LogoutButton } from '@/shared/components'
+import { LogoutButton, ResetHomeButton } from '@/shared/components'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { SettingsNavigator } from './SettingsNavigator'
 
