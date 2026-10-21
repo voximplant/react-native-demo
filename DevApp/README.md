@@ -58,7 +58,8 @@ Point these files at the SDK repository on your machine, and update them again w
     ```json
     "dependencies": {
       "@voximplant/react-native-core": "link:<sdk-root>/packages/core",
-      "@voximplant/react-native-calls": "link:<sdk-root>/packages/calls"
+      "@voximplant/react-native-calls": "link:<sdk-root>/packages/calls",
+      "@voximplant/react-native-shared": "link:<sdk-root>/packages/shared"
     }
     ```
 
@@ -70,12 +71,14 @@ Point these files at the SDK repository on your machine, and update them again w
     const config = {
       watchFolders: [
         path.resolve(SDK_ROOT_PATH, 'packages', 'core'),
-        path.resolve(SDK_ROOT_PATH, 'packages', 'calls')
+        path.resolve(SDK_ROOT_PATH, 'packages', 'calls'),
+        path.resolve(SDK_ROOT_PATH, 'packages', 'shared')
       ],
       resolver: {
         extraNodeModules: [
           path.resolve(SDK_ROOT_PATH, 'packages', 'core'),
-          path.resolve(SDK_ROOT_PATH, 'packages', 'calls')
+          path.resolve(SDK_ROOT_PATH, 'packages', 'calls'),
+          path.resolve(SDK_ROOT_PATH, 'packages', 'shared')
         ]
       }
     }
