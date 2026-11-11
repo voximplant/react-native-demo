@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   video: { height: 280 },
   fab: {
     position: 'absolute',
-    bottom: SPACING.content,
+    bottom: 0,
     right: SPACING.content
   }
 })

@@ -1,25 +1,21 @@
 import { LoginScreen } from '@/features/login'
 import { AuthLayout } from '@/layouts'
-import type { AuthStackParamList } from '@/navigation'
-import { useThemeTokens } from '@/providers/theme'
+import {
+  useStackNavigatorScreenOptions,
+  type AuthStackParamList
+} from '@/navigation'
 import { ThemeToggle } from '@/shared/components'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>()
 
 export const AuthNavigator = () => {
-  const theme = useThemeTokens()
+  const screenOptions = useStackNavigatorScreenOptions()
 
   return (
     <AuthStack.Navigator
       screenOptions={{
-        headerShown: true,
-        headerTitle: '',
-        headerShadowVisible: false,
-        headerStyle: {
-          backgroundColor: theme.colors.background
-        },
-        headerTintColor: theme.colors.text,
+        ...screenOptions,
         headerRight: () => <ThemeToggle />
       }}
     >
