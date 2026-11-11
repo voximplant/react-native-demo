@@ -4,6 +4,5 @@ module.exports = {
       automaticPodsInstallation: true
     }
   },
-  dependencies: {
-  }
+  dependencies: {}
 }
