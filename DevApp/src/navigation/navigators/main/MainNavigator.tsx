@@ -14,8 +14,10 @@ import {
 import { SettingsButton } from '@/features/settings'
 import { SettingsLayout } from '@/features/settings/layouts'
 import { MainLayout } from '@/layouts'
-import type { MainStackParamList } from '@/navigation'
-import { useThemeTokens } from '@/providers/theme'
+import {
+  useStackNavigatorScreenOptions,
+  type MainStackParamList
+} from '@/navigation'
 import { LogoutButton, ResetHomeButton } from '@/shared/components'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { SettingsNavigator } from './SettingsNavigator'
@@ -23,17 +25,13 @@ import { SettingsNavigator } from './SettingsNavigator'
 const MainStack = createNativeStackNavigator<MainStackParamList>()
 
 export const MainNavigator = () => {
-  const theme = useThemeTokens()
   usePendingIncomingCallHandler()
+  const screenOptions = useStackNavigatorScreenOptions()
 
   return (
     <MainStack.Navigator
       screenOptions={{
-        headerShown: true,
-        headerTitle: '',
-        headerShadowVisible: false,
-        headerStyle: { backgroundColor: theme.colors.background },
-        headerTintColor: theme.colors.text,
+        ...screenOptions,
         headerLeft: () => <LogoutButton />,
         headerRight: () => <SettingsButton />
       }}
